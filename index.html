@@ -272,6 +272,45 @@ kbd { font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--li
 .lin-verdict.good { color: var(--ok); }
 .lin-verdict.bad { color: var(--warn); }
 
+/* teaching review */
+.review-bar { display: flex; align-items: center; gap: 8px 10px; flex-wrap: wrap; margin: 0 0 10px; padding: 9px 10px 9px 14px; border-radius: 14px;
+  background: color-mix(in srgb, #7A5CC0 10%, var(--surface)); border: 1px solid color-mix(in srgb, #7A5CC0 40%, var(--line)); }
+.rb-who { display: grid; flex: 1 1 220px; min-width: 0; line-height: 1.3; }
+.rb-who strong { font-size: 14.5px; overflow-wrap: anywhere; }
+.rb-who span { font-size: 12.5px; color: var(--ink-2); }
+.rb-seg { flex: 0 0 auto; min-width: 180px; }
+.review-bar .mini[aria-pressed="true"] { background: #FFF1DC; border-color: #E4A13E; color: #7A4A0B; }
+.review-card.active { border-color: color-mix(in srgb, #7A5CC0 45%, var(--line)); box-shadow: 0 0 0 3px color-mix(in srgb, #7A5CC0 10%, transparent); }
+.rv-intro, .rv-meta { margin: 0 0 10px; color: var(--ink-2); font-size: 14px; }
+.rv-meta { font-weight: 700; color: var(--ink); }
+.rv-fields { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 10px; }
+.rv-in, .rv-link { flex: 1 1 200px; min-width: 0; border: 1.5px solid var(--line); border-radius: 10px; padding: 8px 11px; background: var(--surface-2); font-size: 14.5px; }
+.rv-in:focus, .rv-link:focus, .rv-fbin:focus, .rv-cm textarea:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 20%, transparent); }
+.rv-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 4px 0 10px; }
+.glass.small { min-height: 40px; padding: 8px 16px; font-size: 15px; }
+.glass:disabled { opacity: 0.5; cursor: default; transform: none; }
+.rv-linkrow { display: flex; gap: 8px; align-items: center; margin: 0 0 10px; }
+.rv-link { font-family: var(--font-mono); font-size: 12px; color: var(--ink-2); }
+.rv-len { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.rv-warn { margin: 0 0 8px; font-size: 12.5px; color: var(--muted); }
+.rv-open > summary { cursor: pointer; font-weight: 700; font-size: 14px; color: var(--ink-2); margin-bottom: 8px; }
+.rv-h { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 14px 0 6px; }
+.rv-list, .rv-cms { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.rv-ch { display: flex; gap: 8px; align-items: baseline; padding: 7px 10px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line-2); font-size: 14px; }
+.rv-kind { flex: none; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 6px; padding: 1px 6px; color: #fff; }
+.k-added .rv-kind { background: #2F8A4E; } .k-removed .rv-kind { background: #C8382F; } .k-changed .rv-kind { background: #C77A12; }
+.rv-cm { padding: 8px 10px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line-2); display: grid; gap: 6px; }
+.rv-cm p { margin: 0; font-size: 14px; }
+.rv-cm-h { display: flex; align-items: center; gap: 8px; }
+.rv-pin { flex: none; width: 22px; height: 22px; border-radius: 50%; background: #E0603F; color: #fff; font-weight: 700; font-size: 12.5px; display: grid; place-items: center; }
+.rv-on { flex: 1; font-size: 12.5px; color: var(--muted); }
+.rv-cm textarea, .rv-fbin { width: 100%; border: 1.5px solid var(--line); border-radius: 9px; padding: 7px 10px; background: var(--surface); font-size: 14px; resize: vertical; }
+.rv-fbin { margin-bottom: 8px; }
+.rv-notes { margin: 12px 0 6px; font-size: 13.5px; color: var(--ink-2); }
+.rv-notes > summary { cursor: pointer; font-weight: 700; }
+.rv-notes p { margin: 6px 0; }
+.rv-fb { margin: 0 0 10px; padding: 10px 14px; border-left: 3px solid #7A5CC0; background: var(--surface-2); border-radius: 0 10px 10px 0; font-size: 14.5px; white-space: pre-wrap; }
+
 /* PVD prompt + repair options */
 .ask, .rep-q { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; border-radius: 10px; padding: 8px 10px; background: var(--surface-2); border: 1px solid var(--line-2); }
 .ask.need, .rep-q.need { background: var(--warn-bg); border-color: color-mix(in srgb, #E4A13E 55%, transparent); }
@@ -427,6 +466,7 @@ details.card[open] > summary::after { content: "–"; }
 
   <main class="layout">
     <section class="chart-card" aria-label="Fundus chart">
+      <div class="review-bar" id="reviewBar" hidden></div>
       <div class="chart-tools">
         <button type="button" class="tool" id="undo" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span class="lbl">Undo</span></button>
         <button type="button" class="tool" id="redo" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg><span class="lbl">Redo</span></button>
@@ -469,6 +509,11 @@ details.card[open] > summary::after { content: "–"; }
         <div class="live" id="live" aria-live="polite"></div>
         <label class="claude-opt" id="claudeOpt" hidden><input type="checkbox" id="claudeToggle" checked> Ask Claude when R/D doesn’t recognize the phrasing</label>
       </div>
+
+      <section class="card review-card" id="reviewCard" aria-labelledby="revH">
+        <div class="card-head"><h2 id="revH">Teaching review</h2><span class="count" id="revCount"></span></div>
+        <div id="review"></div>
+      </section>
 
       <div class="card">
         <div class="card-head"><h2>On the chart</h2><span class="count" id="count"></span></div>
@@ -545,6 +590,10 @@ details.card[open] > summary::after { content: "–"; }
             <li>Drag tears, holes, lattice and the rest from the palette onto the fundus — or tap one, then tap the spot. Drag lattice, giant tears and dialyses along the fundus to set their extent.</li>
             <li>Drag anything to move it, drag a span’s end to resize it, and drag it off the chart to remove it. <kbd>Esc</kbd> cancels; <kbd>Delete</kbd> removes the selected item.</li>
           </ul></div>
+          <div><h3>Teaching review</h3><ul>
+            <li>Residents: <strong>Send for review</strong> copies a link that carries the drawing. Fellows and attendings open it, correct the drawing with any tool, pin numbered comments with <strong>+ Comment</strong>, add feedback, then <strong>Send back to resident</strong>.</li>
+            <li>The returned link marks every change — added, removed, moved — with the original border dashed underneath; switch between <strong>Corrected</strong> and <strong>Original</strong>, then keep either.</li>
+          </ul></div>
           <div><h3>Editing</h3><ul>
             <li><code>undo</code> · <code>redo</code> · <code>clear</code> · <code>remove the tear at 12</code> · <code>remove the drusen</code> · <code>move the nevus to 5</code> · <code>right eye</code> / <code>OS</code></li>
             <li><code>where is the break?</code> or <code>tear?</code> shows the Lincoff zone</li>
@@ -571,6 +620,7 @@ details.card[open] > summary::after { content: "–"; }
             <li>R/D runs entirely in your browser. Drawings, notes and settings are saved only in this browser on this device. Nothing you draw or type is uploaded, and there are no accounts, analytics, trackers or cookies.</li>
             <li>Dictation uses your browser’s speech recognition. Where the browser can recognise speech on the device (recent Chrome on a computer), R/D asks it to, so the audio stays here. Otherwise the browser may send the audio to its own speech service (Google for Chrome, Apple for Safari) to be transcribed — so don’t dictate patient names or other identifiers.</li>
             <li>The site’s host sees ordinary page requests, as for any website. The fonts and icons are served from this site, not from third parties.</li>
+            <li>Teaching-review links carry the drawing, comments and names inside the link itself, after the “#”, which browsers do not send to the web server. Anyone who has the link can open it, so share it only through channels your institution allows, and keep patient identifiers out of labels and comments.</li>
           </ul></div>
           <div><h3>Use it like an app</h3><ul>
             <li>After the first visit R/D works offline. On iPhone or iPad: Share → <strong>Add to Home Screen</strong>. On Android or in Chrome: the menu → <strong>Install app</strong>.</li>
@@ -1750,8 +1800,8 @@ function applyActions(scene0, actions) {
       }
       case 'lincoff': scene.lincoff = !!a.on; break;
       case 'meta': {
-        if (PVD_TEXT[a.pvd]) scene.pvd = a.pvd;
-        if (LENS_TEXT[a.lens]) scene.lens = a.lens;
+        if (Object.prototype.hasOwnProperty.call(PVD_TEXT, a.pvd)) scene.pvd = a.pvd;
+        if (Object.prototype.hasOwnProperty.call(LENS_TEXT, a.lens)) scene.lens = a.lens;
         if (a.pvd === null) delete scene.pvd;
         if (a.lens === null) delete scene.lens;
         break;
@@ -2832,7 +2882,7 @@ function sanitizeActions(list) {
         break;
       }
       case 'extend': if (H(a.to)) out.push({ op: 'extend', to: H(a.to) }); break;
-      case 'meta': { const o = { op: 'meta' }; if (PVD_TEXT[a.pvd]) o.pvd = a.pvd; if (LENS_TEXT[a.lens]) o.lens = a.lens; if (o.pvd || o.lens) out.push(o); break; }
+      case 'meta': { const o = { op: 'meta' }; if (Object.prototype.hasOwnProperty.call(PVD_TEXT, a.pvd)) o.pvd = a.pvd; if (Object.prototype.hasOwnProperty.call(LENS_TEXT, a.lens)) o.lens = a.lens; if (o.pvd || o.lens) out.push(o); break; }
       case 'remove': if (a.last) out.push({ op: 'remove', last: true }); else if (OK_TYPES.has(a.type)) out.push({ op: 'remove', type: a.type, key: a.type === 'cat' && CAT[a.key] ? a.key : undefined, hour: H(a.hour) || undefined }); break;
       case 'move': if (H(a.to)) out.push({ op: 'move', type: OK_TYPES.has(a.type) ? a.type : null, key: a.type === 'cat' && CAT[a.key] ? a.key : undefined, from: H(a.from), to: H(a.to), quad: QUAD_NAMES[a.quad] && a.quad !== 'all' ? a.quad : undefined }); break;
       case 'add': {
@@ -2887,6 +2937,159 @@ function sanitizeActions(list) {
   return out;
 }
 
+/* ------------------------------------------------------------------ *
+ * Teaching review. A resident's drawing travels inside a link; a fellow
+ * or attending corrects it with the normal tools and pins comments; the
+ * link goes back with both versions. Everything here is pure: where a
+ * finding sits on the chart, what changed between two drawings, and a
+ * strict clean-up of anything that arrives in a link (it comes from
+ * someone else, so nothing in it is trusted).
+ * ------------------------------------------------------------------ */
+/* a point on the chart that stands for a finding (for change markers and comments) */
+function findingAnchor(f, scene) {
+  const at = (r, h) => polar(r, hourToAngle(h));
+  switch (f.type) {
+    case 'hst': case 'hole': case 'oph': case 'tuft': case 'pav': return at(radiusFor(f), f.hour);
+    case 'lat': return at(f.r != null ? f.r : f.radial === 'post' ? G.R_EQ - 12 : G.LATTICE_R, midHour(f.start, f.end));
+    case 'grt': case 'dia': return at(G.R_ORA - 22, midHour(f.start, f.end));
+    case 'rd': return f.total || f.ring ? at(G.R_ORA - 40, 12) : f.island && spanHours(f.start, f.end) >= 12 ? [0, -70] : at(G.R_ORA - 40, midHour(f.start, f.end));
+    case 'chd': return at(G.R_EQ + 34, f.total ? 6 : midHour(f.start, f.end));
+    case 'pvr': return Array.isArray(f.pts) && f.pts.length ? f.pts[0].slice(0, 2) : f.hours && f.hours.length ? at(G.R_EQ - 34, f.hours[0]) : at(G.R_EQ - 34, 6);
+    case 'vh': return at(f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12, f.hour);
+    case 'laser': case 'cryo': {
+      const t = f.target != null && scene ? scene.findings.find(x => x.id === f.target) : null;
+      if (t) { const p = findingAnchor(t, scene); return [p[0] + 16, p[1] + 16]; }
+      if (f.hour != null) return at(f.r != null ? f.r : G.TEAR_R, f.hour);
+      if (f.start != null) return at(G.R_ORA - 50, midHour(f.start, f.end));
+      return at(G.R_ORA - 50, 12);
+    }
+    case 'buckle': return at(G.R_ORA - 26, f.encircling || f.start == null ? 3 : midHour(f.start, f.end));
+    case 'cat': { const P = catPlace(f, scene ? scene.eye : 'OS'); return P ? [P.x, P.y] : null; }
+  }
+  return null;
+}
+/* what changed from drawing a (the resident's) to drawing b (the corrected one) */
+const DIFF_SKIP = new Set(['id', 'seed']);
+function sameFinding(x, y) {
+  const norm = (f) => { const o = {}; for (const k of Object.keys(f).sort()) if (!DIFF_SKIP.has(k) && f[k] !== undefined && f[k] !== null && f[k] !== false) o[k] = f[k]; return JSON.stringify(o); };
+  return norm(x) === norm(y);
+}
+function diffScenes(a, b) {
+  const out = [];
+  const A = new Map(a.findings.map(f => [f.id, f])), B = new Map(b.findings.map(f => [f.id, f]));
+  if (a.eye !== b.eye) out.push({ kind: 'changed', what: 'eye', text: `Eye changed from ${a.eye} to ${b.eye}` });
+  for (const [id, f] of B) {
+    const o = A.get(id);
+    if (!o) { out.push({ kind: 'added', id, type: f.type, text: findingTitle(f, b.eye), at: findingAnchor(f, b) }); continue; }
+    if (sameFinding(o, f)) continue;
+    const t0 = findingTitle(o, a.eye), t1 = findingTitle(f, b.eye);
+    const parts = [];
+    if (t0 !== t1) parts.push(`${t0} → ${t1}`);
+    if (f.type === 'rd') {
+      const m0 = o.total ? 'macula off' : macText(o.macula, o.fovea), m1 = f.total ? 'macula off' : macText(f.macula, f.fovea);
+      if (m0 !== m1) parts.push(`${m0 || 'macular status not recorded'} → ${m1 || 'macular status not recorded'}`);
+      if (!!o.path !== !!f.path) parts.push(f.path ? 'border redrawn by hand' : 'standard outline');
+      else if (o.path && f.path && JSON.stringify(o.path) !== JSON.stringify(f.path) && t0 === t1 && m0 === m1) parts.push('border reshaped');
+      if ((o.depth || 'normal') !== (f.depth || 'normal')) parts.push(`${o.depth || 'standard'} → ${f.depth || 'standard'}`);
+      if (!!o.chronic !== !!f.chronic) parts.push(f.chronic ? 'marked chronic' : 'no longer chronic');
+    }
+    if (!parts.length) {
+      const p0 = findingAnchor(o, a), p1 = findingAnchor(f, b);
+      parts.push(p0 && p1 && Math.hypot(p0[0] - p1[0], p0[1] - p1[1]) > 6 ? `${t1} moved` : `${t1} adjusted`);
+    }
+    out.push({ kind: 'changed', id, type: f.type, text: parts.join('; '), at: findingAnchor(f, b), from: findingAnchor(o, a) });
+  }
+  for (const [id, f] of A) if (!B.has(id)) out.push({ kind: 'removed', id, type: f.type, text: findingTitle(f, a.eye), at: findingAnchor(f, a) });
+  const meta = (k, T) => { if ((a[k] || null) !== (b[k] || null)) out.push({ kind: 'changed', what: k, text: `${k === 'pvd' ? 'PVD' : 'Lens'}: ${T[a[k]] || 'not recorded'} → ${T[b[k]] || 'not recorded'}` }); };
+  meta('pvd', PVD_TEXT); meta('lens', LENS_TEXT);
+  return out;
+}
+
+/* strict clean-up of a drawing that arrived from someone else */
+const ENUMS = {
+  radial: ['post', 'ora'], depth: ['normal', 'bullous', 'shallow'], macula: ['on', 'thr', 'off'], fovea: ['on', 'thr', 'split', 'off'],
+  cause: ['exudative', 'combined', 'schisis'], grade: ['A', 'B', 'C'], loc: ['P', 'A'], density: ['dense', 'mild', 'moderate'],
+  arc: ['s', 'i'], around: ['breaks'],
+};
+const BOOLS = ['total', 'chronic', 'ring', 'island', 'aroundFovea', 'rolled', 'cuff', 'pigmented', 'holes', 'tear', 'encircling', 'kissing', 'hem', 'fresh', 'full', 'located', 'multi'];
+const own = (o, k) => typeof k === 'string' && Object.prototype.hasOwnProperty.call(o, k);
+const numIn = (v, lo, hi) => (typeof v === 'number' && isFinite(v) && v >= lo && v <= hi) ? v : null;
+const pt2 = (q) => Array.isArray(q) && q.length >= 2 && numIn(q[0], -900, 900) != null && numIn(q[1], -900, 900) != null ? [Math.round(q[0] * 10) / 10, Math.round(q[1] * 10) / 10] : null;
+function sanitizeFinding(f) {
+  if (!f || typeof f !== 'object' || !OK_TYPES.has(f.type)) return null;
+  const g = { type: f.type };
+  const id = numIn(f.id, 1, 1e6); if (id == null) return null; g.id = Math.round(id);
+  const seed = numIn(f.seed, 0, 4294967295); if (seed != null) g.seed = Math.round(seed);
+  for (const k of ['hour', 'start', 'end']) { const h = numIn(f[k], 0.0001, 12.9999); if (h != null) g[k] = normHour(h); }
+  const r = numIn(f.r, 0, 400); if (r != null) g.r = r;
+  const size = numIn(f.size, 0.5, 2); if (size != null) g.size = size;
+  const ext = f.extent; if (typeof ext === 'number') { const e = numIn(ext, 0, 12); if (e != null) g.extent = e; } else if (own(EXTENT_R, ext)) g.extent = ext;
+  const count = numIn(f.count, 1, 12); if (count != null) g.count = Math.round(count);
+  const tgt = numIn(f.target, 1, 1e6); if (tgt != null) g.target = Math.round(tgt);
+  for (const [k, vals] of Object.entries(ENUMS)) if (vals.includes(f[k])) g[k] = f[k];
+  for (const k of BOOLS) if (f[k] === true) g[k] = true;
+  if (Array.isArray(f.hours)) g.hours = f.hours.slice(0, 24).map(h => numIn(h, 0.0001, 12.9999)).filter(h => h != null).map(normHour);
+  if (Array.isArray(f.pts) && f.type === 'pvr') g.pts = f.pts.slice(0, 12).map(pt2).filter(Boolean);
+  if (f.type === 'cat') {
+    if (!own(CAT, f.key)) return null;
+    g.key = f.key;
+    if (SITES.includes(f.site)) g.site = f.site;
+    if (own(QUAD_NAMES, f.quad)) g.quad = f.quad;
+    const at = pt2(f.at); if (at) g.at = at;
+  }
+  if (f.type === 'rd' && f.path && typeof f.path === 'object' && Array.isArray(f.path.pts)) {
+    let pts = f.path.pts.slice(0, 3000).map(pt2).filter(Boolean);
+    // a real traced outline has some length; very long ones are thinned so they stay quick to draw
+    if (pts.length > 300) pts = resamplePath(pts, pathLength(pts) / 280).map(round1);
+    if (pts.length >= 3 && pathLength(pts) >= 40) {
+      g.path = { pts, closed: f.path.closed === true };
+      if (g.path.closed) g.path.inside = f.path.inside !== false; else g.path.dir = f.path.dir === -1 ? -1 : 1;
+    }
+  }
+  // what each kind of finding needs in order to be drawn
+  if (['hst', 'hole', 'oph', 'tuft', 'pav', 'vh'].includes(g.type) && g.hour == null) return null;
+  if (['lat', 'grt', 'dia'].includes(g.type) && (g.start == null || g.end == null)) return null;
+  if (g.type === 'rd' && !g.total && !g.path && (g.start == null || g.end == null)) return null;
+  if (g.type === 'rd' && g.path && (g.start == null || g.end == null)) { const d = rdFromPath(g.path); g.start = d.start; g.end = d.end; }
+  if (g.type === 'chd' && !g.total && (g.start == null || g.end == null)) { g.total = true; g.start = 12; g.end = 12; }
+  return g;
+}
+function sanitizeScene(s) {
+  if (!s || typeof s !== 'object') return null;
+  const out = emptyScene(s.eye === 'OD' ? 'OD' : 'OS');
+  const seen = new Set();
+  for (const f of (Array.isArray(s.findings) ? s.findings.slice(0, 400) : [])) {
+    const g = sanitizeFinding(f);
+    if (g && !seen.has(g.id)) { seen.add(g.id); out.findings.push(g); }
+  }
+  for (const f of out.findings) if (f.target != null && !seen.has(f.target)) delete f.target;
+  out.findings = out.findings.filter(f => !((f.type === 'laser' || f.type === 'cryo') && f.target == null && f.hour == null && f.start == null && !f.around));
+  if (own(PVD_TEXT, s.pvd)) out.pvd = s.pvd;
+  if (own(LENS_TEXT, s.lens)) out.lens = s.lens;
+  out.lincoff = s.lincoff === true;
+  out.nextId = Math.max(1, ...out.findings.map(f => f.id + 1));
+  return out;
+}
+const clip = (v, n) => typeof v === 'string' ? v.replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, n) : '';
+function sanitizeReview(r) {
+  if (!r || typeof r !== 'object' || r.v !== 1) return null;
+  const o = sanitizeScene(r.o);
+  if (!o) return null;
+  const out = { v: 1, st: r.st === 'reviewed' ? 'reviewed' : 'submitted', o, case: clip(r.case, 80), author: clip(r.author, 80), reviewer: clip(r.reviewer, 80), fb: clip(r.fb, 4000) };
+  const t = numIn(r.t, 1.5e12, 4e12); if (t != null) out.t = t;
+  const rt = numIn(r.rt, 1.5e12, 4e12); if (rt != null) out.rt = rt;
+  if (out.st === 'reviewed') { const c = sanitizeScene(r.c); if (!c) return null; out.c = c; }
+  out.cm = (Array.isArray(r.cm) ? r.cm.slice(0, 60) : []).map(c => {
+    if (!c || typeof c !== 'object') return null;
+    const at = pt2(c.at); const text = clip(c.text, 1000);
+    if (!at) return null;
+    const m = { at, text };
+    const fid = numIn(c.f, 1, 1e6); if (fid != null) m.f = Math.round(fid);
+    return m;
+  }).filter(Boolean);
+  return out;
+}
+
 const API = {
   G, TAU, DEG, mod, normHour, hourToAngle, angleToHour, spanHours, hourDist, inSpan, midHour, hourHeight, fmtHour, fmtSpan, polar,
   temporalHour, nasalHour, discCenter, quadrant, normalize, tokenize, parse, describeAction, findingTitle, LABEL, macText,
@@ -2895,7 +3098,7 @@ const API = {
   lincoff, lincoffTriangle, clinicalNote, sanitizeActions, EXTENT_R,
   CATALOG, CAT, GROUPS, catPlace, catLocText, catName, POSTERIOR_SITES, SITE_TEXT, SITES, QUAD_NAMES, stage1,
   prepareStroke, pathOptions, pickPathSide, rdFromPath, pathShape, pathField, pathAgrees, PVD_TEXT, LENS_TEXT, repairOptions, REPAIR_REFS, PROCS,
-  DISC_RECIPES, QUAD_RECIPES, siteAt,
+  DISC_RECIPES, QUAD_RECIPES, siteAt, findingAnchor, diffScenes, sanitizeScene, sanitizeReview,
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = API;
 else root.RD = API;
@@ -3632,6 +3835,63 @@ function drawHighlight(ctx, scene, id, scale) {
   ctx.restore();
 }
 
+/* --------------------------- teaching review ----------------------------- */
+/* corrections over the chart: the resident's detachment border as a dashed ghost, a ring on every
+   change (green added, red removed, amber changed, with an arrow when something moved) and numbered
+   comment pins. Drawn in chart coordinates, in the reviewer's colours rather than the fundus code. */
+const REV = { added: '#2F8A4E', removed: '#C8382F', changed: '#C77A12', ghost: 'rgba(104,78,160,0.9)', pin: '#E0603F' };
+function drawReview(ctx, rv) {
+  if (rv.ghost) {
+    const g = geometryFor(rv.ghost);
+    if (g) {
+      ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 4.5; for (const b of g.borders) ctx.stroke(pathFromPolyline(b.pts));
+      ctx.setLineDash([7, 5]); ctx.strokeStyle = REV.ghost; ctx.lineWidth = 2.2; for (const b of g.borders) ctx.stroke(pathFromPolyline(b.pts));
+      ctx.restore();
+    }
+  }
+  for (const d of rv.diff || []) {
+    if (!d.at) continue;
+    const col = REV[d.kind] || REV.changed;
+    const [x, y] = d.at;
+    ctx.save();
+    if (d.kind === 'changed' && d.from && Math.hypot(d.from[0] - x, d.from[1] - y) > 8) {
+      const [fx, fy] = d.from, a = Math.atan2(y - fy, x - fx), len = Math.hypot(x - fx, y - fy);
+      const ex = x - Math.cos(a) * 19, ey = y - Math.sin(a) * 19;
+      ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(fx + Math.cos(a) * 6, fy + Math.sin(a) * 6); ctx.lineTo(ex, ey); ctx.stroke(); ctx.setLineDash([]);
+      if (len > 26) { ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(ex - Math.cos(a - 0.45) * 8, ey - Math.sin(a - 0.45) * 8); ctx.lineTo(ex - Math.cos(a + 0.45) * 8, ey - Math.sin(a + 0.45) * 8); ctx.closePath(); ctx.fill(); }
+      ctx.beginPath(); ctx.arc(fx, fy, 4, 0, TAU); ctx.strokeStyle = col; ctx.lineWidth = 1.4; ctx.stroke();
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(x, y, 18, 0, TAU); ctx.stroke();
+    ctx.strokeStyle = col; ctx.lineWidth = 2.4;
+    if (d.kind === 'removed') ctx.setLineDash([5, 3.5]);
+    ctx.beginPath(); ctx.arc(x, y, 18, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+    // badge: + added, − removed, ✎ changed
+    const bx = x + 13, by = y - 13;
+    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(bx, by, 7.5, 0, TAU); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.8; ctx.lineCap = 'round'; ctx.beginPath();
+    if (d.kind === 'added') { ctx.moveTo(bx - 3.6, by); ctx.lineTo(bx + 3.6, by); ctx.moveTo(bx, by - 3.6); ctx.lineTo(bx, by + 3.6); }
+    else if (d.kind === 'removed') { ctx.moveTo(bx - 3.6, by); ctx.lineTo(bx + 3.6, by); }
+    else { ctx.moveTo(bx - 3, by + 3); ctx.lineTo(bx + 3, by - 3); }
+    ctx.stroke();
+    ctx.restore();
+  }
+  for (const p of rv.pins || []) {
+    const [x, y] = p.at;
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.25)'; ctx.shadowBlur = 4; ctx.shadowOffsetY = 1;
+    ctx.fillStyle = REV.pin;
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 6, y - 12); ctx.lineTo(x + 6, y - 12); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y - 22, 12, 0, TAU); ctx.fill();
+    ctx.shadowColor = 'transparent';
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.6; ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.font = '700 13px ' + FONT_UI; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(String(p.n), x, y - 21.5);
+    ctx.restore();
+  }
+}
+
 /* --------------------------------- main -------------------------------- */
 let geoLast = { scene: null, geo: null };
 const geoCache = new Map();          // a few recent outlines: flipping between previews reuses them
@@ -3755,6 +4015,7 @@ function render(canvas, scene, opts) {
   for (const f of F) if (f.type === 'vh') drawVH(ctx, f);
   drawMacula(ctx, geo);
   if (scene.lincoff) drawLincoff(ctx, scene);
+  if (opts.review) drawReview(ctx, opts.review);
   if (opts.highlight) drawHighlight(ctx, scene, opts.highlight);
   // eye badge
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -5354,6 +5615,16 @@ let isExample = false;
 if (!scene || !Array.isArray(scene.findings) || scene.v !== 2) { scene = exampleScene(prefs.eye); isExample = true; }
 let undoStack = [], redoStack = [];
 let previewScene = null, previewText = null, highlight = null;
+// a teaching review in progress (resident's original, comments, who/what), kept apart from your own drawing
+let review = null, commentArm = false, lastLink = null, draftCase = '';
+(function restoreReview() {
+  const saved = store.get('rdraw.review.v1');
+  if (!saved || typeof saved !== 'object' || !saved.o) return;
+  const r = RD.sanitizeReview(Object.assign({}, saved, { v: 1, st: 'reviewed', c: saved.c || saved.o }));
+  if (!r) return;
+  review = { st: saved.st === 'reviewed' ? 'reviewed' : 'submitted', role: saved.role === 'resident' ? 'resident' : 'reviewer', o: r.o, cm: r.cm, fb: r.fb, case: r.case, author: r.author, reviewer: r.reviewer, t: r.t, rt: r.rt, view: 'changes', stash: saved.stash ? RD.sanitizeScene(saved.stash) : null };
+  scene = r.c; isExample = false;
+})();
 let hand = null;
 let sample = null, downloads = null;
 const canvas = $('#chart');
@@ -5364,7 +5635,11 @@ function exampleScene(eye) {
   for (const c of ['fovea splitting RRD from 10 to 5 with a horseshoe tear at 12', 'lattice from 7 to 8']) s = RD.applyActions(s, RD.parse(c, { eye }).actions).scene;
   return s;
 }
-function save() { if (!isExample) store.set('rdraw.scene.v2', scene); store.set('rdraw.prefs', prefs); }
+function save() {
+  if (review) store.set('rdraw.review.v1', { v: 1, st: review.st, role: review.role, o: review.o, c: scene, cm: review.cm, fb: review.fb, case: review.case, author: review.author, reviewer: review.reviewer, t: review.t, rt: review.rt, stash: review.stash });
+  else if (!isExample) store.set('rdraw.scene.v2', scene);
+  store.set('rdraw.prefs', prefs);
+}
 function commit(next) {
   undoStack.push(scene); if (undoStack.length > 120) undoStack.shift();
   redoStack = [];
@@ -5383,12 +5658,15 @@ function draw() {
   raf = requestAnimationFrame(() => {
     const w = canvas.clientWidth || 600;
     const textScale = Math.max(1, Math.min(1.9, 560 / w));
-    try { R.render(canvas, previewScene || scene, { preview: !!previewScene, previewText, highlight, textScale, view }); }
+    const showOriginal = !previewScene && review && review.view === 'original';
+    const shown = previewScene || (showOriginal ? review.o : scene);
+    const label = previewScene ? previewText : showOriginal ? (review.role === 'resident' ? 'YOUR ORIGINAL' : 'RESIDENT’S ORIGINAL') : null;
+    try { R.render(canvas, shown, { preview: !!previewScene || showOriginal, previewText: label, highlight, textScale, view, review: reviewOverlay(showOriginal) }); }
     catch (e) { console.error(e); }
     if (hand) hand.drawInk();
   });
 }
-function renderAll() { draw(); renderFindings(); renderNote(); renderLincoff(); renderRepair(); renderEye(); renderTools(); renderKey(); if (hand) hand.sync(); }
+function renderAll() { draw(); renderFindings(); renderNote(); renderLincoff(); renderRepair(); renderEye(); renderTools(); renderKey(); renderReviewBar(); renderReview(); if (hand) hand.sync(); }
 
 function renderEye() {
   document.querySelectorAll('.eye-switch button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.eye === scene.eye)));
@@ -5738,6 +6016,7 @@ async function interpretWithClaude(text) {
 
 async function run(text, heard) {
   clearTimeout(previewTimer);
+  if (review && review.view === 'original') review.view = 'changes';
   text = (text || '').trim();
   if (!text) return;
   let parsed = RD.parse(text, { eye: scene.eye });
@@ -5854,7 +6133,7 @@ async function exportPNG() {
   const ds = date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
   const S = 820, dpr = 2;
   const main = document.createElement('canvas');
-  R.render(main, scene, { dpr, caption: `R/D · ${scene.eye} · ${ds}` });
+  R.render(main, scene, { dpr, caption: review ? `R/D · ${scene.eye}${review.case ? ' · ' + review.case : ''} · reviewed${review.reviewer ? ' by ' + review.reviewer : ''} · ${ds}` : `R/D · ${scene.eye} · ${ds}`, review: reviewOverlay(false) });
   const items = keyItems(scene);
   const pole = R.hasPosterior(scene);
   const side = items.length || pole;
@@ -5907,6 +6186,218 @@ async function exportPNG() {
 }
 function roundRectPath(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
 function fitText(g, t, w) { if (g.measureText(t).width <= w) return t; while (t.length > 3 && g.measureText(t + '…').width > w) t = t.slice(0, -1); return t + '…'; }
+
+/* ---------------------------- teaching review ---------------------------- */
+/* A resident sends a drawing to a fellow or attending inside a link — after the #, so it never reaches the
+   web server. The reviewer corrects it with the normal tools (every change is tracked against the original),
+   pins numbered comments, and sends a link back. Nothing is uploaded anywhere. */
+const PUBLIC_URL = 'https://anthonyjohnob.github.io/r-d/';
+function b64uEnc(bytes) { let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+function b64uDec(str) { str = str.replace(/-/g, '+').replace(/_/g, '/'); while (str.length % 4) str += '='; const bin = atob(str); const out = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i); return out; }
+async function packReview(obj) {
+  const bytes = new TextEncoder().encode(JSON.stringify(obj));
+  if (typeof CompressionStream === 'function') {
+    try { const buf = await new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer(); return 'z' + b64uEnc(new Uint8Array(buf)); }
+    catch (e) { /* send it uncompressed */ }
+  }
+  return 'j' + b64uEnc(bytes);
+}
+async function unpackReview(code) {
+  try {
+    if (!/^[zj][A-Za-z0-9_-]+$/.test(code) || code.length > 500000) return null;
+    const bytes = b64uDec(code.slice(1));
+    let text;
+    if (code[0] === 'z') {
+      if (typeof DecompressionStream !== 'function') return null;
+      const reader = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw')).getReader();
+      const parts = []; let n = 0;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        n += value.length;
+        if (n > 4e6) { reader.cancel(); return null; }      // refuse anything that inflates absurdly
+        parts.push(value);
+      }
+      const all = new Uint8Array(n); let o = 0; for (const p of parts) { all.set(p, o); o += p.length; }
+      text = new TextDecoder().decode(all);
+    } else text = new TextDecoder().decode(bytes);
+    return RD.sanitizeReview(JSON.parse(text));
+  } catch (e) { return null; }
+}
+function shareBase() { return document.querySelector('link[rel="manifest"]') && /^https?:$/.test(location.protocol) ? location.origin + location.pathname : PUBLIC_URL; }
+async function makeLink(obj) { return shareBase() + '#r=' + await packReview(obj); }
+async function deliverLink(url, who) {
+  lastLink = url; renderReview();
+  if (navigator.share && window.matchMedia && matchMedia('(pointer: coarse)').matches) {
+    try { await navigator.share({ title: 'R/D drawing for review', url }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  try { await navigator.clipboard.writeText(url); toast(`Link copied — paste it into a message to ${who}`); }
+  catch (e) { toast(`Copy the link below and send it to ${who}`); }
+}
+async function loadFromHash() {
+  const m = /^#r=([A-Za-z0-9_-]+)$/.exec(location.hash || '');
+  if (!m) return;
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
+  const r = await unpackReview(m[1]);
+  if (!r) { toast('That review link is damaged or incomplete — ask for it to be sent again.'); return; }
+  enterReview(r);
+}
+function enterReview(r) {
+  const stash = review ? review.stash : (isExample ? null : RD.clone(scene));
+  review = { st: r.st, role: r.st === 'reviewed' ? 'resident' : 'reviewer', o: r.o, cm: r.cm || [], fb: r.fb || '', case: r.case || '', author: r.author || '',
+    reviewer: r.reviewer || (r.st === 'reviewed' ? '' : (prefs.myName || '')), t: r.t, rt: r.rt, view: 'changes', stash };
+  scene = RD.clone(r.st === 'reviewed' ? r.c : r.o);
+  undoStack = []; redoStack = []; previewScene = null; previewText = null; highlight = null; isExample = false;
+  prefs.eye = scene.eye; lastLink = null; commentArm = false; view = 'fundus';
+  save(); renderAll();
+  toast(review.role === 'reviewer' ? 'Reviewing — your corrections are tracked against the original' : 'Review opened — corrections are marked on the chart');
+  const card = $('#reviewCard'); if (card && card.scrollIntoView && window.innerWidth < 980) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function exitReview(keep) {
+  if (!review) return;
+  const next = keep === 'corrected' ? RD.clone(scene) : keep === 'original' ? RD.clone(review.o) : (review.stash || RD.emptyScene(prefs.eye));
+  review = null; commentArm = false; lastLink = null;
+  try { localStorage.removeItem('rdraw.review.v1'); } catch (e) { /* storage unavailable */ }
+  scene = next; undoStack = []; redoStack = []; previewScene = null; previewText = null; isExample = false; prefs.eye = scene.eye;
+  save(); renderAll();
+}
+function reviewOverlay(showOriginal) {
+  if (!review || view !== 'fundus') return null;
+  const pins = review.cm.map((c, i) => ({ n: i + 1, at: c.at }));
+  if (showOriginal) return { pins };
+  let diff = RD.diffScenes(review.o, scene);
+  const ghost = diff.some(d => d.type === 'rd') && RD.rdsOf(review.o).length ? review.o : null;
+  // the dashed ghost already shows how the detachment changed; a ring on it would only crowd the breaks
+  if (ghost) diff = diff.filter(d => !(d.type === 'rd' && d.kind === 'changed'));
+  return { diff, pins, ghost };
+}
+function fmtWhen(t) { return t ? new Date(t).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : ''; }
+function linkField(url) {
+  const i = el('input', { type: 'text', class: 'rv-link', readonly: true, value: url, 'aria-label': 'Review link' });
+  i.addEventListener('focus', () => i.select());
+  return el('div', { class: 'rv-linkrow' }, [i, el('span', { class: 'rv-len', text: `${Math.round(url.length / 100) / 10}k characters` })]);
+}
+function openLinkBox() {
+  const inp = el('input', { type: 'text', class: 'rv-in', placeholder: 'Paste a review link', 'aria-label': 'Paste a review link', spellcheck: 'false', autocomplete: 'off' });
+  const go = async () => {
+    const m = /#r=([A-Za-z0-9_-]+)/.exec(inp.value.trim());
+    if (!m) { toast('That isn’t an R/D review link.'); return; }
+    const r = await unpackReview(m[1]);
+    if (!r) { toast('That review link is damaged or incomplete.'); return; }
+    enterReview(r);
+  };
+  inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); go(); } });
+  return el('details', { class: 'rv-open' }, [el('summary', { text: 'Received a review link?' }), el('div', { class: 'rv-fields' }, [inp, el('button', { type: 'button', class: 'btn-line', text: 'Open', onclick: go })])]);
+}
+const KIND_TEXT = { added: 'Added', removed: 'Removed', changed: 'Changed' };
+function renderReviewBar() {
+  const bar = $('#reviewBar');
+  if (!bar) return;
+  bar.hidden = !review;
+  bar.replaceChildren();
+  if (!review) return;
+  const isRev = review.role === 'reviewer';
+  const who = isRev ? `Reviewing${review.case ? ' “' + review.case + '”' : ''}${review.author ? ' from ' + review.author : ''}` : `Review${review.reviewer ? ' by ' + review.reviewer : ''}${review.case ? ' · “' + review.case + '”' : ''}`;
+  bar.append(el('div', { class: 'rb-who' }, [el('strong', { text: who }), el('span', { text: commentArm ? 'Tap the chart where the comment belongs' : isRev ? 'Your corrections are tracked against the original' : 'Corrections are marked on the chart' })]));
+  const seg = el('div', { class: 'seg rb-seg', role: 'group', 'aria-label': 'Which drawing to show' });
+  for (const [v, t] of [['changes', 'Corrected'], ['original', isRev ? 'Original' : 'Mine']]) seg.append(el('button', { type: 'button', 'aria-pressed': String(review.view === v), text: t, onclick: () => { review.view = v; commentArm = false; renderAll(); } }));
+  bar.append(seg);
+  if (isRev) bar.append(el('button', { type: 'button', class: 'mini', 'aria-pressed': String(commentArm), text: commentArm ? 'Cancel comment' : '+ Comment', onclick: () => { commentArm = !commentArm; review.view = 'changes'; if (view !== 'fundus') setView('fundus'); renderAll(); } }));
+}
+let exitConfirm = 0;
+function renderReview() {
+  const box = $('#review');
+  if (!box) return;
+  box.replaceChildren();
+  $('#reviewCard').classList.toggle('active', !!review);
+  if (!review) {
+    $('#revH').textContent = 'Teaching review';
+    $('#revCount').textContent = '';
+    box.append(el('p', { class: 'rv-intro', text: 'Send this drawing to a fellow or attending. They correct it with the same tools and add comments, and the link they send back shows every change. The drawing travels inside the link — nothing is uploaded.' }));
+    const name = el('input', { type: 'text', class: 'rv-in', placeholder: 'Your name or initials (optional)', value: prefs.myName || '', maxlength: '80', 'aria-label': 'Your name or initials' });
+    name.addEventListener('input', () => { prefs.myName = name.value; save(); });
+    const label = el('input', { type: 'text', class: 'rv-in', placeholder: 'Case label, e.g. “Case 3” — no patient identifiers', value: draftCase, maxlength: '80', 'aria-label': 'Case label' });
+    label.addEventListener('input', () => { draftCase = label.value; });
+    box.append(el('div', { class: 'rv-fields' }, [name, label]));
+    box.append(el('div', { class: 'rv-actions' }, [el('button', { type: 'button', class: 'glass small', disabled: !scene.findings.length, text: 'Send for review', title: scene.findings.length ? 'Copy a link to this drawing' : 'Draw something first', onclick: async () => {
+      deliverLink(await makeLink({ v: 1, st: 'submitted', o: RD.sanitizeScene(scene), case: label.value.trim(), author: name.value.trim(), t: Date.now() }), 'your reviewer');
+    } })]));
+    if (lastLink) box.append(linkField(lastLink));
+    box.append(el('p', { class: 'rv-warn', text: 'Don’t put patient names, record numbers or dates of birth in the case label or comments.' }));
+    box.append(openLinkBox());
+    return;
+  }
+  const isRev = review.role === 'reviewer';
+  const diff = RD.diffScenes(review.o, scene);
+  $('#revH').textContent = isRev ? 'Reviewing a drawing' : 'Review of your drawing';
+  $('#revCount').textContent = `${diff.length} change${diff.length === 1 ? '' : 's'} · ${review.cm.length} comment${review.cm.length === 1 ? '' : 's'}`;
+  const meta = isRev ? [review.case && `“${review.case}”`, review.author && `from ${review.author}`, review.t && `sent ${fmtWhen(review.t)}`] : [review.case && `“${review.case}”`, review.reviewer && `reviewed by ${review.reviewer}`, review.rt && fmtWhen(review.rt)];
+  if (meta.some(Boolean)) box.append(el('p', { class: 'rv-meta', text: meta.filter(Boolean).join(' · ') }));
+  if (isRev) box.append(el('p', { class: 'rv-intro', text: 'Correct the drawing with any tool — dictation, the findings list or drawing by hand. Every change is listed here and marked on the chart; switch to “Original” to see what was sent.' }));
+  else if (review.fb) box.append(el('blockquote', { class: 'rv-fb', text: review.fb }));
+
+  // changes
+  box.append(el('h3', { class: 'rv-h', text: 'Changes' }));
+  const ul = el('ul', { class: 'rv-list' });
+  for (const d of diff) {
+    const li = el('li', { class: 'rv-ch k-' + d.kind }, [el('span', { class: 'rv-kind', text: KIND_TEXT[d.kind] }), el('span', { text: d.text })]);
+    if (d.id && d.kind !== 'removed') {
+      li.addEventListener('mouseenter', () => { highlight = d.id; draw(); });
+      li.addEventListener('mouseleave', () => { highlight = null; draw(); });
+    }
+    ul.append(li);
+  }
+  if (!diff.length) ul.append(el('li', { class: 'empty', text: isRev ? 'No changes yet.' : 'No changes — the reviewer kept your drawing as it was.' }));
+  box.append(ul);
+
+  // comments
+  box.append(el('h3', { class: 'rv-h', text: 'Comments' }));
+  const cl = el('ol', { class: 'rv-cms' });
+  review.cm.forEach((c, i) => {
+    const on = c.f != null ? scene.findings.find(f => f.id === c.f) || review.o.findings.find(f => f.id === c.f) : null;
+    const head = el('div', { class: 'rv-cm-h' }, [el('span', { class: 'rv-pin', text: String(i + 1) }), el('span', { class: 'rv-on', text: on ? RD.findingTitle(on, scene.eye) : 'On the chart' })]);
+    if (isRev) {
+      const ta = el('textarea', { rows: '2', placeholder: 'Comment for the resident', maxlength: '1000', 'aria-label': `Comment ${i + 1}` });
+      ta.value = c.text || '';
+      ta.addEventListener('input', () => { c.text = ta.value; save(); });
+      head.append(el('button', { type: 'button', class: 'del', title: 'Delete comment', 'aria-label': `Delete comment ${i + 1}`, text: '×', onclick: () => { review.cm.splice(i, 1); save(); renderAll(); } }));
+      cl.append(el('li', { class: 'rv-cm' }, [head, ta]));
+    } else cl.append(el('li', { class: 'rv-cm' }, [head, el('p', { text: c.text || '(no text)' })]));
+  });
+  if (!review.cm.length) cl.append(el('li', { class: 'empty', text: isRev ? 'Tap “+ Comment”, then tap the chart where it belongs.' : 'No comments.' }));
+  box.append(cl);
+  if (isRev) box.append(el('button', { type: 'button', class: 'btn-line', text: commentArm ? 'Tap the chart where the comment belongs…' : '+ Add a comment on the chart', onclick: () => { commentArm = !commentArm; review.view = 'changes'; if (view !== 'fundus') setView('fundus'); renderAll(); } }));
+
+  // the two notes side by side
+  box.append(el('details', { class: 'rv-notes' }, [el('summary', { text: 'Clinical note: original and corrected' }),
+    el('p', {}, [el('strong', { text: isRev ? 'Original: ' : 'Yours: ' }), RD.clinicalNote(review.o)]),
+    el('p', {}, [el('strong', { text: 'Corrected: ' }), RD.clinicalNote(scene)])]));
+
+  if (isRev) {
+    const fb = el('textarea', { class: 'rv-fbin', rows: '3', placeholder: 'Overall feedback for the resident (optional)', maxlength: '4000', 'aria-label': 'Overall feedback' });
+    fb.value = review.fb || '';
+    fb.addEventListener('input', () => { review.fb = fb.value; save(); });
+    const nm = el('input', { type: 'text', class: 'rv-in', placeholder: 'Your name, shown to the resident (optional)', value: review.reviewer || '', maxlength: '80', 'aria-label': 'Your name' });
+    nm.addEventListener('input', () => { review.reviewer = nm.value; prefs.myName = nm.value; save(); });
+    box.append(el('h3', { class: 'rv-h', text: 'Feedback' }), fb, el('div', { class: 'rv-fields' }, [nm]));
+    const exit = el('button', { type: 'button', class: 'btn-line', text: exitConfirm > Date.now() ? 'Exit without sending? Click again' : 'Exit review', onclick: () => {
+      if (exitConfirm > Date.now()) { exitConfirm = 0; exitReview(); toast('Review closed — your own drawing is back'); return; }
+      exitConfirm = Date.now() + 4000; renderReview(); setTimeout(() => { if (exitConfirm && exitConfirm <= Date.now()) { exitConfirm = 0; renderReview(); } }, 4100);
+    } });
+    box.append(el('div', { class: 'rv-actions' }, [el('button', { type: 'button', class: 'glass small', text: 'Send back to resident', onclick: async () => {
+      const cm = review.cm.filter(c => (c.text || '').trim());
+      deliverLink(await makeLink({ v: 1, st: 'reviewed', o: review.o, c: RD.sanitizeScene(scene), cm, fb: (review.fb || '').trim(), case: review.case, author: review.author, reviewer: (review.reviewer || '').trim(), t: review.t, rt: Date.now() }), 'the resident');
+      if (cm.length < review.cm.length) toast('Comments without text were left out of the link');
+    } }), exit]));
+    if (lastLink) box.append(linkField(lastLink));
+  } else {
+    box.append(el('div', { class: 'rv-actions' }, [
+      el('button', { type: 'button', class: 'glass small', text: 'Keep the corrected drawing', onclick: () => { exitReview('corrected'); toast('The corrected drawing is now yours to keep editing'); } }),
+      el('button', { type: 'button', class: 'btn-line', text: 'Keep my original', onclick: () => { exitReview('original'); toast('Your original drawing is back'); } }),
+    ]));
+  }
+  box.append(el('p', { class: 'rv-warn', text: 'Links carry the drawing itself. Don’t include patient identifiers in labels or comments.' }));
+}
 
 /* ------------------------------ helpers ------------------------------- */
 let toastTimer = 0;
@@ -6073,11 +6564,26 @@ if (window.claude && typeof window.claude.use === 'function') {
 // compile the pathology phrase matcher while the page is idle, so the first command is instant
 (window.requestIdleCallback || ((fn) => setTimeout(fn, 300)))(() => { try { RD.parse('warm up', { eye: scene.eye }); } catch (e) { /* ignore */ } });
 
+// placing a review comment: the next tap on the chart drops a numbered pin
+canvas.addEventListener('pointerdown', (e) => {
+  if (!commentArm || !review || view !== 'fundus') return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  const r = canvas.getBoundingClientRect(), G = RD.G;
+  const p = [((e.clientX - r.left) / r.width) * G.SIZE - G.SIZE / 2, ((e.clientY - r.top) / r.height) * G.SIZE - G.SIZE / 2];
+  let near = null, bd = 34;
+  for (const f of scene.findings) { const a = RD.findingAnchor(f, scene); if (!a) continue; const d = Math.hypot(a[0] - p[0], a[1] - p[1]); if (d < bd) { bd = d; near = f; } }
+  const c = { at: [Math.round(p[0]), Math.round(p[1])], text: '' };
+  if (near) c.f = near.id;
+  review.cm.push(c); commentArm = false;
+  save(); renderAll();
+  const tas = document.querySelectorAll('#review .rv-cm textarea'); if (tas.length) tas[tas.length - 1].focus();
+}, { capture: true });
+
 // drawing by hand on the chart (hand.js)
 if (window.RDHand) {
   hand = window.RDHand({
     el, iconFor, toast,
-    getScene: () => scene, getView: () => view, commit,
+    getScene: () => scene, getView: () => (review && review.view === 'original' ? 'original' : view), commit,
     setPreview(s, text) { previewScene = s || null; previewText = s ? (text || null) : null; draw(); },
     setHighlight(id) { highlight = id; draw(); },
     libSearch: (q) => libSearch(q, ''),
@@ -6091,6 +6597,8 @@ if (window.RDHand) {
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
 window.addEventListener('resize', draw);
 renderAll();
+loadFromHash();
+window.addEventListener('hashchange', loadFromHash);
 })();
 
 </script>
