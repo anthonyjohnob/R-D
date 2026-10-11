@@ -18,7 +18,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="R/D — retinal detachment drawing">
 <meta property="og:description" content="Draw retinal detachments by voice, text or hand in the standard colour code, with Lincoff break analysis and evidence-based repair options. Free, works offline, and nothing you draw is uploaded.">
-<meta property="og:image" content="https://anthonyjohnob.github.io/r-d/og.png">
+<meta property="og:image" content="https://anthonyjohnob.github.io/R-D/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -6191,7 +6191,7 @@ function fitText(g, t, w) { if (g.measureText(t).width <= w) return t; while (t.
 /* A resident sends a drawing to a fellow or attending inside a link — after the #, so it never reaches the
    web server. The reviewer corrects it with the normal tools (every change is tracked against the original),
    pins numbered comments, and sends a link back. Nothing is uploaded anywhere. */
-const PUBLIC_URL = 'https://anthonyjohnob.github.io/r-d/';
+const PUBLIC_URL = 'https://anthonyjohnob.github.io/R-D/';
 function b64uEnc(bytes) { let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
 function b64uDec(str) { str = str.replace(/-/g, '+').replace(/_/g, '/'); while (str.length % 4) str += '='; const bin = atob(str); const out = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i); return out; }
 async function packReview(obj) {

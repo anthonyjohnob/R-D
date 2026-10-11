@@ -1,6 +1,6 @@
 # R/D — retinal detachment drawing
 
-**Live site: https://anthonyjohnob.github.io/r-d/**
+**Live site: https://anthonyjohnob.github.io/R-D/**
 
 Draw retinal detachments by voice, text or hand in the standard fundus colour code, with macular status,
 Lincoff break analysis, a PubMed-referenced pathology library, an auto-written clinical note, and a summary
