@@ -1,0 +1,1128 @@
+[
+ {
+  "id": "intraretinal_hemorrhage_flame",
+  "name": "Flame / splinter intraretinal hemorrhage",
+  "synonyms": ["flame hemorrhage", "flame haemorrhage", "flame-shaped hemorrhage", "flame shaped heme", "splinter hemorrhage", "splinter haemorrhage", "nerve fiber layer hemorrhage", "nfl hemorrhage", "superficial retinal hemorrhage", "flame heme", "frame hemorrhage", "flame hem"],
+  "group": "vascular",
+  "definition": "A superficial intraretinal hemorrhage in the retinal nerve fibre layer whose feathered, elongated (flame or splinter) shape follows the radial course of the nerve fibres.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Peripapillary and along the arcades where the nerve fibre layer is thickest; splinter hemorrhages may sit on the disc margin; oriented radially toward the disc."},
+  "shape": "cluster",
+  "typical_size": "1/8–1/2 disc diameter long each",
+  "drawing": {"fill": "red", "outline": "none", "pattern": "short_lines", "pattern_color": "red",
+              "description": "Solid red short feathered strokes oriented along the nerve-fibre direction (radial to the disc); draw one stroke per hemorrhage or a cluster for many."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "2041375", "doi": "10.1055/s-2008-1045938", "title": "[Purtscher disease. Range of variation of clinical manifestations in 11 patients and pathogenetic considerations].", "year": "1991"},
+   {"pmid": "41676172", "doi": "10.21037/acr-2025-90", "title": "Dengue fever case report: a red flag for retinal vein occlusion.", "year": "2026"}
+  ]
+ },
+ {
+  "id": "intraretinal_hemorrhage_dot_blot",
+  "name": "Dot-blot intraretinal hemorrhage",
+  "synonyms": ["dot blot hemorrhage", "dot and blot hemorrhages", "dot-blot haemorrhage", "dot hemorrhage", "blot hemorrhage", "deep retinal hemorrhage", "intraretinal hemorrhage", "irh", "dbh", "h/ma", "hemorrhages and microaneurysms", "dot blot heme", "dot plot hemorrhage"],
+  "group": "vascular",
+  "definition": "A round, sharply bordered intraretinal hemorrhage in the deeper (inner nuclear/outer plexiform) retinal layers whose compact shape reflects the vertically oriented tissue in those layers.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior pole and midperiphery; in diabetic retinopathy most frequent temporal to the macula; counted per quadrant for severity grading (4-2-1 rule)."},
+  "shape": "cluster",
+  "typical_size": "dots 1/16–1/8 DD; blots 1/8–1/2 DD",
+  "drawing": {"fill": "red", "outline": "none", "pattern": "dots", "pattern_color": "red",
+              "description": "Solid red round dots (dot hemorrhages) and slightly larger irregular red blots placed in the quadrant where seen."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "2062513", "doi": "", "title": "Grading diabetic retinopathy from stereoscopic color fundus photographs--an extension of the modified Airlie House classification. ETDRS report number 10. Early Treatment Diabetic Retinopathy Study Research Group.", "year": "1991"},
+   {"pmid": "21841544", "doi": "10.1097/HJH.0b013e3283496655", "title": "Similarities and differences in early retinal phenotypes in hypertension and diabetes.", "year": "2011"},
+   {"pmid": "33270751", "doi": "10.1371/journal.pone.0243346", "title": "Retinal changes in COVID-19 hospitalized cases.", "year": "2020"}
+  ]
+ },
+ {
+  "id": "preretinal_hemorrhage",
+  "name": "Preretinal (subhyaloid / sub-ILM) hemorrhage",
+  "synonyms": ["preretinal hemorrhage", "pre-retinal haemorrhage", "subhyaloid hemorrhage", "sub hyaloid hemorrhage", "premacular hemorrhage", "sub-ilm hemorrhage", "sub ilm hemorrhage", "sub-internal limiting membrane hemorrhage", "boat-shaped hemorrhage", "boat shaped hemorrhage", "keel-shaped hemorrhage", "valsalva retinopathy", "terson hemorrhage", "double ring sign", "prh", "pre retinal heme"],
+  "group": "vascular",
+  "definition": "Blood trapped between the internal limiting membrane or posterior hyaloid and the retina, typically forming a dense, sharply demarcated boat-shaped pool with a flat upper fluid level that obscures underlying retinal vessels.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Premacular or along the arcades/disc in PDR, Valsalva retinopathy, Terson syndrome or ruptured macroaneurysm; blood settles inferiorly giving a horizontal meniscus."},
+  "shape": "patch",
+  "typical_size": "1–4 disc diameters",
+  "drawing": {"fill": "red", "outline": "red", "pattern": "solid", "pattern_color": null,
+              "description": "Solid red patch with a straight horizontal superior border (fluid level) and rounded inferior border drawn over the vessels; a sub-ILM bleed may be shown with an inner red ring (double-ring sign). If blood has broken into the vitreous gel, add vitreous blood as green outline filled red."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "42592306", "doi": "10.7759/cureus.112587", "title": "Heart-Shaped Subhyaloid Haemorrhage in Valsalva Retinopathy With Successful Delayed Minimally Invasive Management.", "year": "2026"},
+   {"pmid": "39754142", "doi": "10.1186/s12886-024-03842-7", "title": "Multifaceted approach to evacuating multi-level premacular hemorrhage in a case of suspected Valsalva retinopathy - a case report.", "year": "2025"},
+   {"pmid": "40881462", "doi": "10.1177/24741264251364824", "title": "Outcomes of Nd:YAG Laser Posterior Membranotomy in the Treatment of Macular Preretinal Hemorrhage: A Systematic Review and Meta-Analysis.", "year": "2025"}
+  ]
+ },
+ {
+  "id": "subretinal_hemorrhage",
+  "name": "Subretinal / submacular hemorrhage",
+  "synonyms": ["subretinal hemorrhage", "subretinal haemorrhage", "submacular hemorrhage", "submacular haemorrhage", "smh", "srh", "sub retinal heme", "subretinal blood", "sub-rpe hemorrhage", "subretinal bleed", "massive submacular hemorrhage"],
+  "group": "vascular",
+  "definition": "Blood beneath the neurosensory retina (or beneath the RPE), appearing dark red to grey-green with retinal vessels passing intact over its surface, most often from neovascular AMD, polypoidal choroidal vasculopathy or a ruptured macroaneurysm.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Centred on the macula in nAMD/PCV; around the source lesion for macroaneurysm or choroidal rupture; may extend beyond the arcades."},
+  "shape": "patch",
+  "typical_size": "1/2 DD to beyond the arcades",
+  "drawing": {"fill": "red", "outline": "red", "pattern": "solid", "pattern_color": null,
+              "description": "Solid red irregular patch drawn beneath (not over) the retinal vessels, which are drawn crossing it; label 'SRH' or 'sub-RPE' to distinguish depth from intraretinal blood."},
+  "color_source": "Retinal diagram (Dr Sabin Sahu, SlideShare teaching deck) https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044",
+  "pubmed": [
+   {"pmid": "26212151", "doi": "10.1016/j.survophthal.2015.04.004", "title": "Submacular hemorrhage in neovascular age-related macular degeneration: A synthesis of the literature.", "year": "2015"},
+   {"pmid": "39480559", "doi": "10.1007/s00417-024-06671-y", "title": "Submacular hemorrhage: My personal journey to the goal.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "roth_spot",
+  "name": "Roth spot (white-centred hemorrhage)",
+  "synonyms": ["roth spot", "roth spots", "roth's spot", "roths spot", "rot spot", "wroth spot", "white-centred hemorrhage", "white centered hemorrhage", "white-centred haemorrhage", "white centred retinal haemorrhage", "litten sign"],
+  "group": "vascular",
+  "definition": "An intraretinal hemorrhage with a pale white or yellow-white centre (fibrin-platelet plug), a non-specific sign seen in endocarditis, leukaemia, anaemia and other systemic disorders.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior pole and peripapillary retina, usually multiple and bilateral."},
+  "shape": "point",
+  "typical_size": "1/4–1/2 disc diameter",
+  "drawing": {"fill": "white", "outline": "red", "pattern": "ring", "pattern_color": "red",
+              "description": "Red round or flame-shaped hemorrhage drawn as a thick red ring with the central white core left unfilled."},
+  "color_source": "inferred: CMS L33567 App A red = retinal hemorrhage; white centre left uncoloured",
+  "pubmed": [
+   {"pmid": "10211348", "doi": "10.1136/pgmj.74.876.581", "title": "White-centred retinal haemorrhages (Roth spots).", "year": "1998"},
+   {"pmid": "22696623", "doi": "10.1136/bcr.01.2011.3734", "title": "Roth spots in pernicious anaemia.", "year": "2011"}
+  ]
+ },
+ {
+  "id": "microaneurysm",
+  "name": "Microaneurysm",
+  "synonyms": ["microaneurysm", "microaneurysms", "micro aneurysm", "ma", "mas", "micro-aneurysms", "capillary microaneurysm", "red dot", "red dots", "micro aneurism"],
+  "group": "vascular",
+  "definition": "A focal saccular dilation of a retinal capillary wall (from pericyte loss and endothelial proliferation) seen as a tiny, sharply defined red dot; the earliest clinical sign of diabetic retinopathy.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Diffuse around the posterior pole, often temporal to the fovea and at the edges of capillary non-perfusion; ring of exudate may surround a leaking cluster."},
+  "shape": "cluster",
+  "typical_size": "pinpoint, <125 µm (smaller than vein width at disc margin)",
+  "drawing": {"fill": "red", "outline": "none", "pattern": "dots", "pattern_color": "red",
+              "description": "Very small solid red dots (smaller than dot hemorrhages) stippled over the involved area."},
+  "color_source": "Retinal diagram (Dr Sabin Sahu, SlideShare teaching deck) https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044",
+  "pubmed": [
+   {"pmid": "36984436", "doi": "10.3390/medicina59030435", "title": "Role of Microaneurysms in the Pathogenesis and Therapy of Diabetic Macular Edema: A Descriptive Review.", "year": "2023"},
+   {"pmid": "2062513", "doi": "", "title": "Grading diabetic retinopathy from stereoscopic color fundus photographs--an extension of the modified Airlie House classification. ETDRS report number 10. Early Treatment Diabetic Retinopathy Study Research Group.", "year": "1991"}
+  ]
+ },
+ {
+  "id": "hard_exudates",
+  "name": "Hard exudates (lipid exudate)",
+  "synonyms": ["hard exudate", "hard exudates", "he", "lipid exudate", "lipid exudates", "intraretinal lipid", "yellow exudate", "exudates", "plaque-like hard exudate", "subfoveal lipid plaque", "hard exudation", "hard ex"],
+  "group": "vascular",
+  "definition": "Well-demarcated, waxy yellow deposits of lipid and lipoprotein in the outer plexiform layer from chronic leakage of abnormal retinal vessels, ranging from punctate specks to confluent plaques.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Macula and posterior pole, more frequent temporal to the fovea in diabetic retinopathy; often at the edge of thickened retina; plaque-like subfoveal deposits risk subfoveal fibrosis."},
+  "shape": "cluster",
+  "typical_size": "pinpoint specks to plaques >1 DD",
+  "drawing": {"fill": "yellow", "outline": "none", "pattern": "dots", "pattern_color": "yellow",
+              "description": "Solid yellow dots and irregular yellow plaques at the exact position seen; confluent exudate drawn as a solid yellow patch."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "42248421", "doi": "10.1016/j.survophthal.2026.06.005", "title": "Corticosteroids for the treatment of diabetic macular edema with massive hard exudates: An evidence-based update.", "year": "2026"},
+   {"pmid": "38337501", "doi": "10.3390/jcm13030807", "title": "Programmatically Localizing Diabetic Retinopathy Features in 45-Degree Retinal Photographs Using Anatomical Colocation.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "circinate_exudate_ring",
+  "name": "Circinate ring of hard exudates",
+  "synonyms": ["circinate ring", "circinate exudate", "circinate exudates", "circinate retinopathy", "ring of exudates", "exudate ring", "circinate pattern", "circinate lipid", "sirsinate ring"],
+  "group": "vascular",
+  "definition": "A partial or complete ring of hard exudates surrounding a focal leaking source (microaneurysm cluster, telangiectasia or macroaneurysm), marking the border between oedematous and normal retina.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Posterior pole/macula, centred on the leaking lesion; may straddle the fovea."},
+  "shape": "ring",
+  "typical_size": "1–3 disc diameters across",
+  "drawing": {"fill": "none", "outline": "yellow", "pattern": "dots", "pattern_color": "yellow",
+              "description": "Ring of yellow dots/plaques encircling the source lesion; draw the central microaneurysms or aneurysm in red inside the ring."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "32541440", "doi": "10.1097/ICB.0000000000001011", "title": "TWO-YEAR RESULTS OF INTRAVITREAL INJECTIONS OF AFLIBERCEPT IN COATS DISEASE: A CASE REPORT.", "year": "2022"},
+   {"pmid": "36984436", "doi": "10.3390/medicina59030435", "title": "Role of Microaneurysms in the Pathogenesis and Therapy of Diabetic Macular Edema: A Descriptive Review.", "year": "2023"}
+  ]
+ },
+ {
+  "id": "macular_star",
+  "name": "Macular star (star figure exudate)",
+  "synonyms": ["macular star", "star figure", "macular star figure", "stellate exudate", "star-shaped exudate", "hemi-star", "partial macular star", "neuroretinitis star", "macula star", "macular start"],
+  "group": "vascular",
+  "definition": "Hard exudates arranged radially in Henle's fibre layer around the fovea, forming a complete or partial star, classically with optic disc oedema in neuroretinitis or with severe hypertensive retinopathy.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Centred on the fovea; a partial (nasal) hemi-star is common; may appear 1–2 weeks after disc oedema."},
+  "shape": "patch",
+  "typical_size": "1–2 disc diameters radius around the fovea",
+  "drawing": {"fill": "none", "outline": "none", "pattern": "radial_lines", "pattern_color": "yellow",
+              "description": "Yellow dotted spokes radiating from the fovea (complete or partial star); draw associated disc oedema separately."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "39537838", "doi": "10.1038/s41433-024-03466-7", "title": "Neuroretinitis: a comprehensive review on aetiologies, clinical manifestations, and treatment options.", "year": "2024"},
+   {"pmid": "31528758", "doi": "10.1016/j.joco.2019.03.005", "title": "Update on Bartonella neuroretinitis.", "year": "2019"}
+  ]
+ },
+ {
+  "id": "cotton_wool_spot",
+  "name": "Cotton-wool spot",
+  "synonyms": ["cotton wool spot", "cotton-wool spot", "cotton wool spots", "cws", "soft exudate", "soft exudates", "nerve fiber layer infarct", "nfl infarct", "retinal microinfarct", "cytoid body", "cotton will spot", "cotton wall spot"],
+  "group": "vascular",
+  "definition": "A fluffy, white, ill-defined superficial retinal opacity caused by accumulation of axoplasmic debris in the nerve fibre layer after interruption of axoplasmic transport by focal arteriolar occlusion (ischaemia).",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Within about 3 DD of the disc in the territory of the radial peripapillary capillaries and along the arcades; overlies vessels."},
+  "shape": "patch",
+  "typical_size": "1/10–1/3 disc diameter",
+  "drawing": {"fill": "white", "outline": "yellow", "pattern": "none", "pattern_color": null,
+              "description": "Small fluffy cloud with a soft yellow outline and white centre, drawn over the vessel; keep separate from solid yellow hard exudate dots. (Some charts use green for cotton-wool spots.)"},
+  "color_source": "Retinal diagram (Dr Sabin Sahu, SlideShare teaching deck) https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044",
+  "pubmed": [
+   {"pmid": "66930", "doi": "10.1136/bjo.61.3.177", "title": "The role of axoplasmic transport in the pathogenesis of retinal cotton-wool spots.", "year": "1977"},
+   {"pmid": "15854064", "doi": "10.1111/j.1475-1313.2005.00288.x", "title": "Systemic associations of retinal microvascular signs: a review of recent population-based studies.", "year": "2005"}
+  ]
+ },
+ {
+  "id": "macular_edema_thickening",
+  "name": "Macular edema / retinal thickening",
+  "synonyms": ["macular edema", "macular oedema", "me", "dme", "diabetic macular edema", "csme", "clinically significant macular edema", "center involving dme", "ci-dme", "retinal thickening", "retinal edema", "intraretinal edema", "macular thickening", "focal edema", "diffuse macular edema", "macula edema"],
+  "group": "macula_posterior_pole",
+  "definition": "Biomicroscopically visible thickening of the macular retina from intraretinal fluid accumulation, graded by its distance from the foveal centre (centre-involving or not) and often accompanied by hard exudates.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Within the arcades; note whether it involves the centre, lies within 500 µm of the centre, or covers ≥1 disc area within 1 DD of the centre."},
+  "shape": "patch",
+  "typical_size": "1/2–3 disc diameters",
+  "drawing": {"fill": "none", "outline": "yellow", "pattern": "parallel_hatch", "pattern_color": "yellow",
+              "description": "Outline the thickened area in yellow and hatch it yellow; draw any hard exudates as solid yellow dots at its margin."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "13129861", "doi": "10.1016/S0161-6420(03)00475-5", "title": "Proposed international clinical diabetic retinopathy and diabetic macular edema disease severity scales.", "year": "2003"},
+   {"pmid": "2062513", "doi": "", "title": "Grading diabetic retinopathy from stereoscopic color fundus photographs--an extension of the modified Airlie House classification. ETDRS report number 10. Early Treatment Diabetic Retinopathy Study Research Group.", "year": "1991"}
+  ]
+ },
+ {
+  "id": "cystoid_macular_edema",
+  "name": "Cystoid macular edema",
+  "synonyms": ["cme", "cystoid macular edema", "cystoid macular oedema", "petaloid edema", "irvine-gass", "irvine gass syndrome", "pseudophakic cme", "macular cysts", "cystic macular edema", "cystoid edema", "systoid macular edema"],
+  "group": "macula_posterior_pole",
+  "definition": "Macular oedema in which fluid collects in perifoveal intraretinal cystic spaces arranged radially, giving a honeycomb or petaloid appearance with loss of the foveal reflex.",
+  "location": {"zone": "fovea", "typical_clock": null, "notes": "Centred on the fovea; causes include post-cataract surgery (Irvine-Gass), uveitis, diabetes and vein occlusion."},
+  "shape": "patch",
+  "typical_size": "1/2–1 disc diameter",
+  "drawing": {"fill": "none", "outline": "yellow", "pattern": "ring", "pattern_color": "yellow",
+              "description": "Yellow petaloid rosette of small loculi drawn around the fovea."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "12759847", "doi": "", "title": "Pseudophakic cystoid macular edema.", "year": "2002"},
+   {"pmid": "28351047", "doi": "10.1159/000455280", "title": "Postsurgical Cystoid Macular Edema.", "year": "2017"}
+  ]
+ },
+ {
+  "id": "neovascularization_elsewhere_flat",
+  "name": "Neovascularization elsewhere (NVE) – flat",
+  "synonyms": ["nve", "flat nve", "neovascularization elsewhere", "neovascularisation elsewhere", "flat neovascularization", "flat nv", "retinal neovascularization", "new vessels elsewhere", "preretinal neovascularization", "nv elsewhere", "n v e", "envy"],
+  "group": "vascular",
+  "definition": "New retinal vessels arising from retinal veins more than 1 disc diameter from the disc that lie flat on the retinal surface, not yet elevated into the vitreous, typically at the border of perfused and non-perfused retina.",
+  "location": {"zone": "arcades", "typical_clock": null, "notes": "Along the major arcades and midperiphery adjacent to capillary non-perfusion; size recorded in disc areas (≥1/2 DA is high-risk in PDR)."},
+  "shape": "patch",
+  "typical_size": "<1/4 to several disc areas",
+  "drawing": {"fill": "purple", "outline": "purple", "pattern": "solid", "pattern_color": null,
+              "description": "Fine net or fan of purple lines (or a solid purple patch for dense tufts) arising from the parent vein at the location seen."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "32612851", "doi": "10.1186/s40942-020-00230-3", "title": "Optical coherence tomography features of neovascularization in proliferative diabetic retinopathy: a systematic review.", "year": "2020"},
+   {"pmid": "32474692", "doi": "10.1007/s00417-020-04773-x", "title": "Wide-field optical coherence tomography angiography for the detection of proliferative diabetic retinopathy.", "year": "2020"}
+  ]
+ },
+ {
+  "id": "neovascularization_elsewhere_elevated",
+  "name": "Neovascularization elsewhere (NVE) – elevated",
+  "synonyms": ["elevated nve", "elevated neovascularization", "elevated nv", "forward nve", "nve into vitreous", "fibrovascular frond", "frond", "neovascular frond", "elevated new vessels", "raised neovascularization"],
+  "group": "vascular",
+  "definition": "Retinal new vessels that have grown forward along the posterior hyaloid into the vitreous cavity, often with accompanying fibrous tissue, bleeding into the vitreous when the hyaloid contracts.",
+  "location": {"zone": "arcades", "typical_clock": null, "notes": "Arcades/midperiphery at sites of vitreoretinal adhesion; often associated with preretinal or vitreous hemorrhage."},
+  "shape": "patch",
+  "typical_size": "1/4 to several disc areas",
+  "drawing": {"fill": "orange", "outline": "orange", "pattern": "solid", "pattern_color": null,
+              "description": "Orange net or frond drawn at the site; add a green outline if fibrous tissue/vitreous attachment is present."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "32612851", "doi": "10.1186/s40942-020-00230-3", "title": "Optical coherence tomography features of neovascularization in proliferative diabetic retinopathy: a systematic review.", "year": "2020"},
+   {"pmid": "2062513", "doi": "", "title": "Grading diabetic retinopathy from stereoscopic color fundus photographs--an extension of the modified Airlie House classification. ETDRS report number 10. Early Treatment Diabetic Retinopathy Study Research Group.", "year": "1991"}
+  ]
+ },
+ {
+  "id": "neovascularization_of_disc",
+  "name": "Neovascularization of the disc (NVD)",
+  "synonyms": ["nvd", "neovascularization of the disc", "neovascularisation of the disc", "disc neovascularization", "new vessels on disc", "new vessels disc", "nv disc", "n v d", "disc nv", "nvd within 1 dd"],
+  "group": "vascular",
+  "definition": "New vessels on the optic disc or within 1 disc diameter of its margin, an ischaemic proliferative sign (diabetes, ischaemic CRVO, ocular ischaemia) whose size is graded against standard photographs.",
+  "location": {"zone": "disc", "typical_clock": null, "notes": "On the disc surface or within 1 DD of the margin; ≥1/4–1/3 disc area defines high-risk PDR."},
+  "shape": "disc_change",
+  "typical_size": "1/4 to >1 disc area",
+  "drawing": {"fill": "purple", "outline": "purple", "pattern": "solid", "pattern_color": null,
+              "description": "Fine purple vascular loops/net drawn over the disc circle; switch to orange if the vessels are elevated into the vitreous."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "32474692", "doi": "10.1007/s00417-020-04773-x", "title": "Wide-field optical coherence tomography angiography for the detection of proliferative diabetic retinopathy.", "year": "2020"},
+   {"pmid": "22495331", "doi": "10.1097/IAE.0b013e318246912c", "title": "Ocular neovascularization associated with central and hemicentral retinal vein occlusion.", "year": "2012"}
+  ]
+ },
+ {
+  "id": "irma",
+  "name": "Intraretinal microvascular abnormalities (IRMA)",
+  "synonyms": ["irma", "intraretinal microvascular abnormality", "intraretinal microvascular abnormalities", "i r m a", "erma", "shunt vessels", "intraretinal shunt", "dilated capillaries", "irma's"],
+  "group": "vascular",
+  "definition": "Tortuous, dilated intraretinal vessel segments (shunts or early intraretinal new vessels) adjacent to areas of capillary non-perfusion that do not breach the internal limiting membrane, a marker of severe non-proliferative diabetic retinopathy.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior pole and midperiphery bordering non-perfused retina; graded per quadrant."},
+  "shape": "vessel_segment",
+  "typical_size": "<1/4 disc diameter segments",
+  "drawing": {"fill": "none", "outline": "red", "pattern": "wavy_lines", "pattern_color": "red",
+              "description": "Short, irregular, kinked red lines lying within the retina (not raised), drawn between arteriole and venule in the quadrant seen."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "2062513", "doi": "", "title": "Grading diabetic retinopathy from stereoscopic color fundus photographs--an extension of the modified Airlie House classification. ETDRS report number 10. Early Treatment Diabetic Retinopathy Study Research Group.", "year": "1991"},
+   {"pmid": "42824207", "doi": "10.1016/j.xops.2026.101356", "title": "Deep Learning Assessment of Intraretinal Microvascular Abnormalities in Diabetic Retinopathy on Swept-Source OCT Angiography.", "year": "2026"}
+  ]
+ },
+ {
+  "id": "venous_beading",
+  "name": "Venous beading",
+  "synonyms": ["venous beading", "vb", "beaded veins", "venous beading 2 quadrants", "sausage-shaped veins", "venous sausaging", "venous caliber abnormality", "venous loop", "venous reduplication", "venus beading"],
+  "group": "vascular",
+  "definition": "Localized alternating dilation and constriction of a retinal vein giving a string-of-beads appearance, a sign of severe retinal ischaemia in diabetic retinopathy.",
+  "location": {"zone": "arcades", "typical_clock": null, "notes": "Mainly between the first and third venous bifurcations; graded by number of quadrants (≥2 quadrants = severe NPDR by 4-2-1 rule)."},
+  "shape": "vessel_segment",
+  "typical_size": "1–2 disc diameter segment of vein",
+  "drawing": {"fill": "blue", "outline": "blue", "pattern": "none", "pattern_color": null,
+              "description": "Redraw the affected vein segment in blue with a beaded (alternating wide/narrow) contour."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "38337501", "doi": "10.3390/jcm13030807", "title": "Programmatically Localizing Diabetic Retinopathy Features in 45-Degree Retinal Photographs Using Anatomical Colocation.", "year": "2024"},
+   {"pmid": "2062513", "doi": "", "title": "Grading diabetic retinopathy from stereoscopic color fundus photographs--an extension of the modified Airlie House classification. ETDRS report number 10. Early Treatment Diabetic Retinopathy Study Research Group.", "year": "1991"}
+  ]
+ },
+ {
+  "id": "branch_retinal_vein_occlusion",
+  "name": "Branch retinal vein occlusion (BRVO)",
+  "synonyms": ["brvo", "branch retinal vein occlusion", "branch vein occlusion", "bvo", "major brvo", "macular brvo", "branch rvo", "b r v o", "branch retinal vein thrombosis"],
+  "group": "vascular",
+  "definition": "Occlusion of a branch retinal vein, usually at an arteriovenous crossing, producing a sectoral, apex-to-crossing wedge of flame and dot-blot hemorrhages, dilated tortuous vein, cotton-wool spots and macular oedema in the drained territory.",
+  "location": {"zone": "arcades", "typical_clock": "superotemporal", "notes": "Wedge with apex at the occluding AV crossing, fanning toward the periphery; superotemporal most common, then inferotemporal; macular branch occlusions are limited to the macula."},
+  "shape": "sector_region",
+  "typical_size": "1–3 clock hours (one quadrant or less)",
+  "drawing": {"fill": "none", "outline": "blue", "pattern": "short_lines", "pattern_color": "red",
+              "description": "Draw the affected vein dilated and tortuous in blue, fill its territory with red flame/blot hemorrhages, mark the occlusion site at the AV crossing in brown, and add yellow for oedema/exudate and cotton-wool spots."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "25574785", "doi": "10.1097/IAE.0000000000000418", "title": "Fundus changes in branch retinal vein occlusion.", "year": "2015"},
+   {"pmid": "39857689", "doi": "10.3390/biomedicines13010105", "title": "The Diagnosis and Treatment of Branch Retinal Vein Occlusions: An Update.", "year": "2025"}
+  ]
+ },
+ {
+  "id": "hemiretinal_vein_occlusion",
+  "name": "Hemiretinal (hemicentral) vein occlusion",
+  "synonyms": ["hrvo", "hemiretinal vein occlusion", "hemi-retinal vein occlusion", "hemicentral retinal vein occlusion", "hcrvo", "hemi crvo", "hemi-crvo", "hemispheric vein occlusion"],
+  "group": "vascular",
+  "definition": "Occlusion of one of the two trunks of a dual-trunked central retinal vein at or near the disc, causing CRVO-type hemorrhages confined to the superior or inferior half of the retina.",
+  "location": {"zone": "any", "typical_clock": "superior or inferior half", "notes": "Respects the horizontal raphe; occlusion site at or behind the disc rather than at an AV crossing."},
+  "shape": "sector_region",
+  "typical_size": "6 clock hours (one hemisphere)",
+  "drawing": {"fill": "none", "outline": "blue", "pattern": "short_lines", "pattern_color": "red",
+              "description": "Red hemorrhages throughout one hemifundus up to the periphery with the corresponding dilated blue vein trunk; mark the occlusion at the disc in brown."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "21878854", "doi": "10.1097/IAE.0b013e31821801f5", "title": "Hemicentral retinal vein occlusion: natural history of visual outcome.", "year": "2012"},
+   {"pmid": "22495331", "doi": "10.1097/IAE.0b013e318246912c", "title": "Ocular neovascularization associated with central and hemicentral retinal vein occlusion.", "year": "2012"}
+  ]
+ },
+ {
+  "id": "central_retinal_vein_occlusion",
+  "name": "Central retinal vein occlusion (CRVO)",
+  "synonyms": ["crvo", "central retinal vein occlusion", "central vein occlusion", "cvo", "ischemic crvo", "non-ischemic crvo", "nonischemic crvo", "venous stasis retinopathy", "blood and thunder fundus", "c r v o", "central retinal vein thrombosis"],
+  "group": "vascular",
+  "definition": "Occlusion of the central retinal vein at or behind the lamina cribrosa producing dilated tortuous veins and hemorrhages in all four quadrants, with disc oedema, cotton-wool spots and macular oedema, classified as non-ischaemic or ischaemic.",
+  "location": {"zone": "any", "typical_clock": "all four quadrants", "notes": "Hemorrhages extend from disc to periphery; peripheral hemorrhage severity relates to anterior-segment neovascular risk."},
+  "shape": "sector_region",
+  "typical_size": "all 12 clock hours",
+  "drawing": {"fill": "none", "outline": "blue", "pattern": "short_lines", "pattern_color": "red",
+              "description": "All veins drawn dilated and tortuous in blue, red flame/blot hemorrhages in every quadrant, yellow cotton-wool spots/oedema, swollen disc margin, occlusion marked brown at the disc."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "25084156", "doi": "10.1097/IAE.0000000000000256", "title": "Fundus changes in central retinal vein occlusion.", "year": "2015"},
+   {"pmid": "20723991", "doi": "10.1016/j.ophtha.2010.04.019", "title": "Natural history of visual outcome in central retinal vein occlusion.", "year": "2010"}
+  ]
+ },
+ {
+  "id": "branch_retinal_artery_occlusion",
+  "name": "Branch retinal artery occlusion (BRAO)",
+  "synonyms": ["brao", "branch retinal artery occlusion", "branch artery occlusion", "branch retinal arteriolar occlusion", "b r a o", "branch rao", "sectoral retinal infarct", "brao with embolus"],
+  "group": "vascular",
+  "definition": "Occlusion of a branch retinal artery, usually embolic at a bifurcation, causing acute opaque whitening (inner retinal infarction) of the retina in the territory supplied distal to the block.",
+  "location": {"zone": "arcades", "typical_clock": "temporal", "notes": "Wedge of whitening distal to the occlusion, usually temporal arcade branches; embolus often visible at the proximal bifurcation; whitening resolves over weeks leaving attenuated, sometimes sheathed arterioles."},
+  "shape": "sector_region",
+  "typical_size": "1–3 clock hours / one sector of the posterior pole",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null,
+              "description": "Shade the whitened retinal sector yellow (intraretinal oedema) along the course of the affected red arteriole and mark the occluded segment or embolus in brown."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "26274038", "doi": "10.1097/IAE.0000000000000585", "title": "FUNDUS CHANGES IN BRANCH RETINAL ARTERIOLAR OCCLUSION.", "year": "2015"},
+   {"pmid": "19376586", "doi": "10.1016/j.ophtha.2009.01.015", "title": "Branch retinal artery occlusion: natural history of visual outcome.", "year": "2009"}
+  ]
+ },
+ {
+  "id": "central_retinal_artery_occlusion",
+  "name": "Central retinal artery occlusion (CRAO)",
+  "synonyms": ["crao", "central retinal artery occlusion", "central artery occlusion", "cao", "arteritic crao", "non-arteritic crao", "eye stroke", "retinal stroke", "c r a o", "box-carring", "boxcarring", "cattle trucking"],
+  "group": "vascular",
+  "definition": "Occlusion of the central retinal artery producing diffuse whitening of the posterior-pole inner retina with a cherry-red spot at the fovea, attenuated arterioles and sometimes segmented (box-car) blood columns.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Whitening most marked in the posterior pole where the ganglion cell layer is thickest; a patent cilioretinal artery spares a tongue of retina between disc and fovea."},
+  "shape": "patch",
+  "typical_size": "whole posterior pole within the arcades",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null,
+              "description": "Shade the posterior pole yellow (ischaemic oedema), leave a red dot at the fovea (cherry-red spot), draw arteries thin in red with interrupted segments, and mark the occlusion at the disc in brown; leave any cilioretinal-spared tongue unshaded."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "30451166", "doi": "10.4103/ijo.IJO_1446_18", "title": "Central retinal artery occlusion.", "year": "2018"},
+   {"pmid": "17522782", "doi": "10.1007/s10792-007-9084-3", "title": "Central retinal artery occlusion in an ANCA negative Churg-Strauss syndrome patient.", "year": "2007"}
+  ]
+ },
+ {
+  "id": "cilioretinal_artery_occlusion",
+  "name": "Cilioretinal artery occlusion",
+  "synonyms": ["clrao", "cilioretinal artery occlusion", "cilioretinal occlusion", "cilio-retinal artery occlusion", "cilioretinal infarct", "silio retinal artery occlusion"],
+  "group": "vascular",
+  "definition": "Occlusion of a cilioretinal artery (arising from the posterior ciliary circulation at the disc margin) producing a tongue-shaped zone of retinal whitening between the temporal disc and the fovea, isolated or with CRVO or arteritic disease.",
+  "location": {"zone": "peripapillary", "typical_clock": "temporal to disc", "notes": "Papillomacular bundle region from the temporal disc margin toward the fovea."},
+  "shape": "patch",
+  "typical_size": "1/2–2 disc diameters long",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null,
+              "description": "Yellow tongue-shaped area of whitening from the temporal disc edge toward the fovea along the cilioretinal vessel (drawn red); mark the vessel origin in brown."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "19376586", "doi": "10.1016/j.ophtha.2009.01.015", "title": "Branch retinal artery occlusion: natural history of visual outcome.", "year": "2009"},
+   {"pmid": "18398361", "doi": "10.1097/IAE.0b013e31815ec29b", "title": "Central retinal vein occlusion associated with cilioretinal artery occlusion.", "year": "2008"}
+  ]
+ },
+ {
+  "id": "cherry_red_spot",
+  "name": "Cherry-red spot",
+  "synonyms": ["cherry red spot", "cherry-red spot", "cherry red macula", "crs", "foveal cherry red spot", "cherry spot", "sherry red spot"],
+  "group": "vascular",
+  "definition": "Relative red appearance of the foveola, where the retina is thin and the choroid shows through, contrasted against surrounding opaque whitened (ischaemic or storage-laden) perifoveal retina.",
+  "location": {"zone": "fovea", "typical_clock": null, "notes": "Exactly at the foveola; seen in acute CRAO, ocular ischaemic syndrome and lysosomal storage diseases."},
+  "shape": "point",
+  "typical_size": "about 1/3 disc diameter",
+  "drawing": {"fill": "red", "outline": "yellow", "pattern": "ring", "pattern_color": "yellow",
+              "description": "Solid red dot at the fovea surrounded by a yellow ring/area representing the whitened perifoveal retina."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "29156466", "doi": "10.1055/s-0043-120094", "title": "[Retinal Artery Occlusions].", "year": "2017"},
+   {"pmid": "17522782", "doi": "10.1007/s10792-007-9084-3", "title": "Central retinal artery occlusion in an ANCA negative Churg-Strauss syndrome patient.", "year": "2007"}
+  ]
+ },
+ {
+  "id": "retinal_ischemic_whitening",
+  "name": "Retinal whitening (inner retinal infarct)",
+  "synonyms": ["retinal whitening", "ischemic whitening", "retinal infarct", "retinal infarction", "ischemic retinal edema", "inner retinal whitening", "retinal opacification", "pale retina", "retinal pallor", "white retina"],
+  "group": "vascular",
+  "definition": "Opaque white swelling of the inner retina from acute arteriolar ischaemia (intracellular oedema), obscuring the choroidal background and outlining the territory of an occluded artery.",
+  "location": {"zone": "any", "typical_clock": null, "notes": "Distributed along the territory of the occluded arteriole (sector, cilioretinal tongue or whole posterior pole)."},
+  "shape": "patch",
+  "typical_size": "variable; 1/2 DD to whole posterior pole",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null,
+              "description": "Solid yellow shading of the whitened area following the affected arteriole's territory."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "21620994", "doi": "10.1016/j.preteyeres.2011.05.001", "title": "Acute retinal arterial occlusive disorders.", "year": "2011"},
+   {"pmid": "29156466", "doi": "10.1055/s-0043-120094", "title": "[Retinal Artery Occlusions].", "year": "2017"}
+  ]
+ },
+ {
+  "id": "retinal_embolus",
+  "name": "Retinal arterial embolus (Hollenhorst plaque)",
+  "synonyms": ["hollenhorst plaque", "hollenhorst", "hollen horst plaque", "hollenhurst plaque", "retinal embolus", "retinal emboli", "cholesterol embolus", "cholesterol emboli", "calcific embolus", "platelet fibrin embolus", "fibrin-platelet embolus", "refractile plaque", "embolus at bifurcation"],
+  "group": "vascular",
+  "definition": "Intra-arterial embolic material lodged in a retinal arteriole, classically at a bifurcation: refractile yellow cholesterol (Hollenhorst) plaques, chalky white calcific emboli, or dull grey-white elongated platelet-fibrin emboli.",
+  "location": {"zone": "arcades", "typical_clock": null, "notes": "At arteriolar bifurcations or where the vessel narrows, on the disc or along the arcades; may or may not cause distal occlusion."},
+  "shape": "point",
+  "typical_size": "<1/10 disc diameter (vessel width)",
+  "drawing": {"fill": "brown", "outline": "brown", "pattern": "solid", "pattern_color": null,
+              "description": "Small brown oval drawn inside the red arteriole at the bifurcation where it lodges; annotate type (cholesterol/calcific/platelet-fibrin) and add yellow whitening distally if occlusive."},
+  "color_source": "inferred: CMS L33567 App A brown = vascular occlusion (intra-arterial embolic material)",
+  "pubmed": [
+   {"pmid": "18301027", "doi": "10.1097/IAE.0b013e31814b1d6e", "title": "Restoration of retinal blood flow via translumenal Nd:YAG embolysis/embolectomy (TYL/E) for central and branch retinal artery occlusion.", "year": "2008"},
+   {"pmid": "31837921", "doi": "10.1016/j.jstrokecerebrovasdis.2019.104446", "title": "Prevalence of Retinal Emboli and Acute Retinal Artery Occlusion in Acute Ischemic Stroke.", "year": "2019"}
+  ]
+ },
+ {
+  "id": "retinal_arterial_macroaneurysm",
+  "name": "Retinal arterial macroaneurysm (RAM)",
+  "synonyms": ["ram", "retinal arterial macroaneurysm", "retinal artery macroaneurysm", "macroaneurysm", "macro aneurysm", "ruptured macroaneurysm", "arterial macroaneurysm", "r a m", "macro-aneurysm"],
+  "group": "vascular",
+  "definition": "An acquired focal fusiform or saccular dilation of a retinal arteriole, usually within its first three bifurcations in elderly hypertensive patients, which may leak (circinate exudate, oedema) or rupture causing multilevel (sub-, intra-, pre-retinal and vitreous) hemorrhage.",
+  "location": {"zone": "arcades", "typical_clock": "superotemporal", "notes": "On a major arcade arteriole, most often the temporal arcades; hemorrhage centred on the aneurysm may hide it."},
+  "shape": "point",
+  "typical_size": "1/8–1/4 disc diameter aneurysm; hemorrhage up to several DD",
+  "drawing": {"fill": "red", "outline": "red", "pattern": "ring", "pattern_color": "yellow",
+              "description": "Solid red round dilation drawn on the red arteriole, surrounded by a yellow circinate ring if exudative; add red multilayer hemorrhage around it if ruptured."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "25000868", "doi": "10.1016/j.optom.2013.08.002", "title": "Ruptured retinal arterial macroaneurysm: diagnosis and management.", "year": "2013"},
+   {"pmid": "25349052", "doi": "10.1111/cxo.12215", "title": "Multi-layered haemorrhage secondary to retinal arterial macroaneurysm: a case report and review.", "year": "2014"}
+  ]
+ },
+ {
+  "id": "vascular_sheathing",
+  "name": "Retinal vascular sheathing",
+  "synonyms": ["vascular sheathing", "vessel sheathing", "perivascular sheathing", "venous sheathing", "arteriolar sheathing", "periphlebitis sheathing", "sheathed vessels", "sheathed vessel", "perivenous sheathing", "white sheathing"],
+  "group": "vascular",
+  "definition": "White perivascular cuffing or wall opacification running parallel to a retinal vessel, from active or burnt-out vasculitis or following vascular occlusion, with the blood column still visible centrally.",
+  "location": {"zone": "any", "typical_clock": null, "notes": "Segmental along veins (periphlebitis) or arteries; midperiphery common in vasculitis; follows former occlusions."},
+  "shape": "vessel_segment",
+  "typical_size": "1–several disc diameters of vessel length",
+  "drawing": {"fill": "none", "outline": "black", "pattern": "none", "pattern_color": null,
+              "description": "Two thin black lines bordering the affected red/blue vessel segment."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "41231527", "doi": "10.1080/09273948.2025.2566981", "title": "Complexities in the Terminology Used for Describing, Diagnosing, and Classifying Retinal Vasculitis: A Scoping Review from the International Uveitis Study Group (IUSG) Retinal Vasculitis Study (ReViSe)-Report 6.", "year": "2025"},
+   {"pmid": "26274038", "doi": "10.1097/IAE.0000000000000585", "title": "FUNDUS CHANGES IN BRANCH RETINAL ARTERIOLAR OCCLUSION.", "year": "2015"}
+  ]
+ },
+ {
+  "id": "sclerotic_white_vessels",
+  "name": "Sclerotic (white thread-like / ghost) vessels",
+  "synonyms": ["ghost vessels", "ghost vessel", "white thread-like arterioles", "white threadlike vessels", "sclerosed vessels", "sclerotic vessels", "silver wiring", "silver-wire arterioles", "occluded white vessels", "completely sheathed vessels"],
+  "group": "vascular",
+  "definition": "Retinal vessels converted to white cords with no visible blood column after chronic occlusion, marking severe non-perfusion (e.g., ischaemic PDR, old BRVO/BRAO, sickle retinopathy).",
+  "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Within non-perfused retina in the midperiphery/periphery or distal to old branch occlusions."},
+  "shape": "vessel_segment",
+  "typical_size": "1–several disc diameters of vessel length",
+  "drawing": {"fill": "black", "outline": "black", "pattern": "solid", "pattern_color": null,
+              "description": "Redraw the occluded vessel segment as a solid black line."},
+  "color_source": "Indirect ophthalmoscopy and fundus drawing (Dr Sonali Raj Singh, SlideShare teaching deck) https://www.slideshare.net/slideshow/indirect-ophthalmoscopy-and-fundus-drawing/238698487",
+  "pubmed": [
+   {"pmid": "42328870", "doi": "10.1097/IAE.0000000000004912", "title": "Severe retinal non-perfusion is associated with fewer retinal lesions on ultra-wide field fundus photography in proliferative diabetic retinopathy.", "year": "2026"}
+  ]
+ },
+ {
+  "id": "retinal_vasculitis_active",
+  "name": "Active retinal vasculitis / periphlebitis",
+  "synonyms": ["retinal vasculitis", "active vasculitis", "periphlebitis", "retinal periphlebitis", "perivascular exudate", "perivascular infiltrate", "frosted branch angiitis", "frosted branch", "candle wax drippings", "taches de bougie", "vasculitis"],
+  "group": "vascular",
+  "definition": "Inflammation of retinal vessel walls seen as fluffy white-yellow perivascular cuffs or exudates along veins and/or arteries, ranging from segmental periphlebitis to diffuse frosted-branch angiitis.",
+  "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Segmental in the midperiphery or diffuse from posterior pole to periphery; may be accompanied by hemorrhages and occlusion."},
+  "shape": "vessel_segment",
+  "typical_size": "1 disc diameter to whole vascular tree",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "stipple", "pattern_color": "yellow",
+              "description": "Fluffy yellow stippled cuffs along the involved vessel segments; switch to black edging once inactive/sheathed."},
+  "color_source": "inferred: CMS L33567 App A yellow = chorioretinal/intraretinal exudate (perivascular inflammatory exudate)",
+  "pubmed": [
+   {"pmid": "36441990", "doi": "10.1080/09273948.2022.2148112", "title": "Frosted Branch Angiitis; Case Series and Literature Review.", "year": "2022"},
+   {"pmid": "41231527", "doi": "10.1080/09273948.2025.2566981", "title": "Complexities in the Terminology Used for Describing, Diagnosing, and Classifying Retinal Vasculitis: A Scoping Review from the International Uveitis Study Group (IUSG) Retinal Vasculitis Study (ReViSe)-Report 6.", "year": "2025"}
+  ]
+ },
+ {
+  "id": "arteriovenous_nicking",
+  "name": "Arteriovenous nicking",
+  "synonyms": ["av nicking", "a-v nicking", "arteriovenous nicking", "av nipping", "arteriovenous nipping", "gunn sign", "salus sign", "venous banking", "av crossing changes", "nicking"],
+  "group": "vascular",
+  "definition": "Apparent narrowing, tapering or deflection of a retinal vein where a thickened arteriole crosses it, a sign of chronic hypertensive/arteriosclerotic retinopathy and the usual site of branch vein occlusion.",
+  "location": {"zone": "arcades", "typical_clock": null, "notes": "At arteriovenous crossings along the arcades and posterior pole."},
+  "shape": "vessel_segment",
+  "typical_size": "crossing point, <1/4 disc diameter",
+  "drawing": {"fill": "none", "outline": "blue", "pattern": "none", "pattern_color": null,
+              "description": "Draw the red arteriole crossing the blue vein with a gap/taper of the blue vein on each side of the crossing."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "15854064", "doi": "10.1111/j.1475-1313.2005.00288.x", "title": "Systemic associations of retinal microvascular signs: a review of recent population-based studies.", "year": "2005"},
+   {"pmid": "36196693", "doi": "10.26355/eurrev_202209_29742", "title": "A literature review of hypertensive retinopathy: systemic correlations and new technologies.", "year": "2022"}
+  ]
+ },
+ {
+  "id": "coats_telangiectasia",
+  "name": "Coats disease / retinal telangiectasia",
+  "synonyms": ["coats disease", "coats' disease", "coats", "retinal telangiectasia", "retinal telangiectasis", "leber miliary aneurysms", "lightbulb aneurysms", "light bulb aneurysms", "exudative retinopathy", "mactel type 1", "macular telangiectasia type 1", "aneurysmal telangiectasia", "coat's disease", "coats telangiectasia"],
+  "group": "vascular",
+  "definition": "An idiopathic, usually unilateral retinal vasculopathy of young males with telangiectatic and aneurysmal ('light-bulb') retinal vessels and massive intraretinal and subretinal yellow lipid exudation that may progress to exudative retinal detachment.",
+  "location": {"zone": "periphery", "typical_clock": "temporal", "notes": "Telangiectasia most often in the temporal/inferotemporal periphery; exudate migrates to the macula; type 1 MacTel is a macular variant."},
+  "shape": "sector_region",
+  "typical_size": "1 to >6 clock hours",
+  "drawing": {"fill": "yellow", "outline": "red", "pattern": "dots", "pattern_color": "red",
+              "description": "Red tortuous telangiectatic vessels with red bulb-shaped aneurysms drawn in the affected sector, surrounded by solid yellow exudate; any exudative detachment drawn blue."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "42664491", "doi": "10.1177/00368504261484841", "title": "Coats disease: A narrative review of clinical spectrum, imaging features, and contemporary management.", "year": "2026"},
+   {"pmid": "40094375", "doi": "10.1080/08820538.2024.2447965", "title": "Coats' Disease: A Comprehensive Review of Its Pathophysiology, Diagnosis, and Advances in Treatment.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "macular_telangiectasia_type2",
+  "name": "Macular telangiectasia type 2 (MacTel)",
+  "synonyms": ["mactel", "mac tel", "mactel 2", "mactel type 2", "macular telangiectasia", "macular telangiectasia type 2", "idiopathic juxtafoveal telangiectasia", "parafoveal telangiectasia", "ijft", "right-angle venules", "right angle veins", "mac-tel"],
+  "group": "vascular",
+  "definition": "A bilateral neurodegenerative macular disease with secondary telangiectatic parafoveal capillaries, initially temporal to the fovea, causing loss of retinal transparency (greying), crystalline deposits, right-angled venules, pigment plaques and sometimes subretinal neovascularization.",
+  "location": {"zone": "macula", "typical_clock": "temporal parafovea", "notes": "Juxtafoveal, starting temporal to the fovea and later encircling it."},
+  "shape": "patch",
+  "typical_size": "about 1 disc diameter (parafoveal)",
+  "drawing": {"fill": "none", "outline": "red", "pattern": "short_lines", "pattern_color": "red",
+              "description": "Fine red telangiectatic capillary strokes in the temporal parafovea, blue right-angled venule diving into the retina, brown for pigment plaques; any neovascular membrane purple."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "42660510", "doi": "10.1055/a-2937-4106", "title": "Macular Telangiectasia Type 2: Current and Emerging Diagnostic Imaging Modalities.", "year": "2026"},
+   {"pmid": "42601045", "doi": "10.1055/a-2936-8879", "title": "[Macular Telangiectasia Type 2 (MacTel) - Therapeutic Options and New Developments].", "year": "2026"}
+  ]
+ },
+ {
+  "id": "sickle_sea_fan",
+  "name": "Sickle-cell sea-fan neovascularization",
+  "synonyms": ["sea fan", "sea-fan", "seafan", "sea fan neovascularization", "sea fans", "proliferative sickle retinopathy", "psr", "goldberg stage 3", "sickle neovascularization", "autoinfarcted sea fan", "see fan"],
+  "group": "vascular",
+  "definition": "A fan-shaped tuft of preretinal neovascularization arising at arteriovenous anastomoses on the border of perfused and non-perfused peripheral retina in sickle haemoglobinopathy (Goldberg stage 3), the first sign of proliferative sickle retinopathy.",
+  "location": {"zone": "periphery", "typical_clock": "superotemporal", "notes": "At the posterior border of peripheral non-perfusion, between equator and ora; temporal quadrants most often; non-perfused retina lies anterior (peripheral) to it."},
+  "shape": "patch",
+  "typical_size": "1/4–2 disc diameters",
+  "drawing": {"fill": "orange", "outline": "orange", "pattern": "radial_lines", "pattern_color": "orange",
+              "description": "Orange fan-shaped frond opening toward the periphery at the perfusion border (purple if flat); autoinfarcted fans drawn as white/grey fibrous tuft with green outline."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "39041108", "doi": "10.1002/ajh.27439", "title": "Advances in sickle cell retinopathy screening techniques, tests, and practices: A systematic review.", "year": "2024"},
+   {"pmid": "39114266", "doi": "10.2147/IMCRJ.S467510", "title": "Case Reports of Severe Paediatric Sickle Cell Retinopathy: Disease Manifestations, Progression and Treatments.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "sickle_salmon_patch",
+  "name": "Salmon-patch hemorrhage (sickle)",
+  "synonyms": ["salmon patch", "salmon patches", "salmon-patch hemorrhage", "salmon patch hemorrhage", "salmon colored hemorrhage", "sickle intraretinal hemorrhage", "dehemoglobinized hemorrhage", "salmon patch maculopathy", "salman patch"],
+  "group": "vascular",
+  "definition": "An oval intraretinal (often sub-ILM) hemorrhage in sickle-cell disease, initially red then salmon-orange as it dehemoglobinizes, arising from rupture of an occluded peripheral arteriole.",
+  "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Midperipheral retina adjacent to an arteriole; rarely foveal (salmon-patch maculopathy); resolves leaving a schisis cavity with iridescent spots."},
+  "shape": "patch",
+  "typical_size": "1/4–1 disc diameter",
+  "drawing": {"fill": "red", "outline": "red", "pattern": "solid", "pattern_color": null,
+              "description": "Solid red oval next to the parent arteriole; annotate 'salmon patch'."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "35243132", "doi": "10.1016/j.ajoc.2022.101329", "title": "Salmon patch-associated vitreous hemorrhage in non-proliferative sickle cell retinopathy masquerading as infectious uveitis.", "year": "2022"},
+   {"pmid": "39526298", "doi": "10.1016/j.ajoc.2024.102203", "title": "Salmon patch maculopathy: An amblyogenic complication of pediatric sickle cell retinopathy.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "sickle_black_sunburst",
+  "name": "Black sunburst (sickle)",
+  "synonyms": ["black sunburst", "black sun burst", "black sunbursts", "sunburst lesion", "sickle pigmented lesion", "chorioretinal pigment scar sickle", "black sunbirst"],
+  "group": "vascular",
+  "definition": "A round, spiculated, black pigmented chorioretinal lesion from RPE hyperplasia and migration following a deeper (subretinal) sickle hemorrhage, characteristic of non-proliferative sickle retinopathy.",
+  "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Equatorial and midperipheral retina, often adjacent to vessels."},
+  "shape": "patch",
+  "typical_size": "1/2–2 disc diameters",
+  "drawing": {"fill": "brown", "outline": "brown", "pattern": "radial_lines", "pattern_color": "brown",
+              "description": "Brown patch with spiculated radial edges (RPE pigment seen through attached retina)."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "41909637", "doi": "10.1093/jscdis/yoag009", "title": "Prevalence of ocular complications of sickle cell disease in children seen at a tertiary health facility in Southern Ghana.", "year": "2026"},
+   {"pmid": "38899256", "doi": "10.7759/cureus.60653", "title": "A Case of Sickle Cell Retinopathy With Retinal Artery Occlusion in African-Japanese Patients.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "sickle_iridescent_spots",
+  "name": "Iridescent spots (sickle)",
+  "synonyms": ["iridescent spots", "iridescent spot", "refractile deposits", "schisis cavity sickle", "glistening spots", "iridescent deposits"],
+  "group": "vascular",
+  "definition": "Small glistening refractile (haemosiderin-laden macrophage) deposits within a small inner retinal schisis cavity left by a resorbed salmon-patch hemorrhage in sickle-cell disease.",
+  "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Midperiphery at the site of previous salmon-patch hemorrhages."},
+  "shape": "cluster",
+  "typical_size": "<1/4 disc diameter",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "stipple", "pattern_color": "yellow",
+              "description": "Small cluster of yellow glistening specks inside a faint outlined cavity."},
+  "color_source": "inferred: CMS L33567 App A yellow = intraretinal deposit/exudate",
+  "pubmed": [
+   {"pmid": "41909637", "doi": "10.1093/jscdis/yoag009", "title": "Prevalence of ocular complications of sickle cell disease in children seen at a tertiary health facility in Southern Ghana.", "year": "2026"}
+  ]
+ },
+ {
+  "id": "rop_demarcation_line_ridge",
+  "name": "ROP demarcation line / ridge (stage 1–2)",
+  "synonyms": ["rop ridge", "rop stage 1", "rop stage 2", "demarcation line rop", "rop demarcation line", "stage 1 rop", "stage 2 rop", "ridge", "retinopathy of prematurity ridge", "vascular avascular junction", "popcorn", "rop", "r o p"],
+  "group": "vascular",
+  "definition": "In retinopathy of prematurity, a thin flat white line (stage 1) or a raised, thickened ridge with height and width (stage 2) separating vascularised posterior retina from avascular peripheral retina, recorded by zone and by extent in clock hours.",
+  "location": {"zone": "periphery", "typical_clock": "temporal", "notes": "Circumferential at the vascular-avascular junction in zone I, II or III (zone circles centred on the disc); usually most prominent temporally; avascular retina lies peripheral to it."},
+  "shape": "band_circumferential",
+  "typical_size": "1–12 clock hours",
+  "drawing": {"fill": "none", "outline": "red", "pattern": "parallel_hatch", "pattern_color": "red",
+              "description": "Circumferential line along the vascular-avascular junction spanning the involved clock hours: thin single line for stage 1, thicker hatched band for stage 2; mark plus disease on the posterior-pole vessels in text."},
+  "color_source": "inferred: no published colour convention; CMS L33567 App A red = attached retina/retinal vessels (ridge is the leading edge of vascularised retina)",
+  "pubmed": [
+   {"pmid": "34247850", "doi": "10.1016/j.ophtha.2021.05.031", "title": "International Classification of Retinopathy of Prematurity, Third Edition.", "year": "2021"}
+  ]
+ },
+ {
+  "id": "rop_extraretinal_fibrovascular_proliferation",
+  "name": "ROP stage 3 extraretinal fibrovascular proliferation",
+  "synonyms": ["rop stage 3", "stage 3 rop", "extraretinal fibrovascular proliferation", "efp", "extraretinal neovascularization", "rop neovascularization", "ridge with nv", "flat stage 3", "a-rop", "aggressive rop"],
+  "group": "vascular",
+  "definition": "Extraretinal neovascular and fibrous tissue growing from the posterior surface of the ROP ridge into the vitreous (stage 3), graded by extent in clock hours and zone.",
+  "location": {"zone": "periphery", "typical_clock": "temporal", "notes": "On the posterior aspect of the ridge; flat, ill-defined neovascular networks may occur posteriorly in aggressive ROP."},
+  "shape": "band_circumferential",
+  "typical_size": "1–12 clock hours",
+  "drawing": {"fill": "orange", "outline": "orange", "pattern": "none", "pattern_color": null,
+              "description": "Orange band drawn on the posterior side of the ridge over the involved clock hours (purple if flat neovascularization)."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "34247850", "doi": "10.1016/j.ophtha.2021.05.031", "title": "International Classification of Retinopathy of Prematurity, Third Edition.", "year": "2021"}
+  ]
+ },
+ {
+  "id": "purtscher_retinopathy",
+  "name": "Purtscher / Purtscher-like retinopathy (Purtscher flecken)",
+  "synonyms": ["purtscher retinopathy", "purtscher's retinopathy", "purtscher-like retinopathy", "purtscher flecken", "purtscher flecks", "pertcher retinopathy", "traumatic angiopathy"],
+  "group": "vascular",
+  "definition": "A microembolic occlusive retinopathy after trauma, pancreatitis or other systemic insults, with multiple polygonal yellow-white areas of inner retinal whitening (Purtscher flecken) between arterioles, cotton-wool spots and intraretinal hemorrhages around the disc.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Peripapillary and posterior pole, often bilateral; flecken spare a clear zone adjacent to arterioles."},
+  "shape": "patch",
+  "typical_size": "flecken 1/4–1 DD each; area several DD",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null,
+              "description": "Polygonal yellow patches between the arterioles around the disc, plus cotton-wool spots and red hemorrhages as seen."},
+  "color_source": "inferred: CMS L33567 App A yellow = intraretinal edema (ischaemic whitening)",
+  "pubmed": [
+   {"pmid": "2041375", "doi": "10.1055/s-2008-1045938", "title": "[Purtscher disease. Range of variation of clinical manifestations in 11 patients and pathogenetic considerations].", "year": "1991"},
+   {"pmid": "39959587", "doi": "10.4103/meajo.meajo_170_23", "title": "Bilateral Combined Central Retinal Artery and Vein Occlusion in a Child with Purtscher Retinopathy: A Case Report and Review of the Literature.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "ocular_ischemic_syndrome_hemorrhages",
+  "name": "Ocular ischaemic syndrome (midperipheral hemorrhages)",
+  "synonyms": ["ocular ischemic syndrome", "ocular ischaemic syndrome", "ois", "venous stasis retinopathy carotid", "midperipheral hemorrhages", "mid-peripheral blot hemorrhages", "carotid retinopathy", "o i s"],
+  "group": "vascular",
+  "definition": "Chronic ocular hypoperfusion from severe carotid obstruction producing narrowed arteries, dilated non-tortuous veins and blot hemorrhages and microaneurysms concentrated in the midperiphery, with possible disc/retinal neovascularization.",
+  "location": {"zone": "midperiphery", "typical_clock": "360 degrees", "notes": "Hemorrhages in a ring in the midperiphery rather than the posterior pole (distinguishes from diabetic retinopathy/CRVO)."},
+  "shape": "band_circumferential",
+  "typical_size": "up to 12 clock hours",
+  "drawing": {"fill": "red", "outline": "none", "pattern": "dots", "pattern_color": "red",
+              "description": "Red blot hemorrhages scattered in a band around the midperiphery; narrow red arteries and dilated blue veins; NVD/NVE in purple/orange."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "22847215", "doi": "10.12659/msm.883260", "title": "Ocular ischemic syndrome - a systematic review.", "year": "2012"},
+   {"pmid": "2488440", "doi": "", "title": "The ocular ischemic syndrome.", "year": "1989"}
+  ]
+ },
+ {
+  "id": "drusen_hard",
+  "name": "Hard (small) drusen",
+  "synonyms": ["hard drusen", "small drusen", "drupelets", "druse", "drusen", "small hard drusen", "medium drusen", "macular drusen", "peripheral drusen", "drusen hard", "droosen"],
+  "group": "macula_posterior_pole",
+  "definition": "Small (<63 µm), discrete, sharply bordered yellow deposits between the RPE and Bruch's membrane; medium drusen measure 63–125 µm and define early AMD.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Within 2 DD of the fovea for AMD grading; hard drusen also common in the periphery with ageing."},
+  "shape": "cluster",
+  "typical_size": "<63 µm (small) to 125 µm (medium)",
+  "drawing": {"fill": "none", "outline": "none", "pattern": "stipple", "pattern_color": "yellow",
+              "description": "Fine yellow stipple over the involved area."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "23332590", "doi": "10.1016/j.ophtha.2012.10.036", "title": "Clinical classification of age-related macular degeneration.", "year": "2013"},
+   {"pmid": "23933169", "doi": "10.1016/j.preteyeres.2013.07.003", "title": "Aging is not a disease: distinguishing age-related macular degeneration from aging.", "year": "2013"}
+  ]
+ },
+ {
+  "id": "drusen_soft",
+  "name": "Soft (large) drusen",
+  "synonyms": ["soft drusen", "large drusen", "confluent drusen", "soft confluent drusen", "drusenoid", "intermediate amd", "large soft drusen", "drusen soft", "soft droosen"],
+  "group": "macula_posterior_pole",
+  "definition": "Large (≥125 µm), pale yellow sub-RPE deposits with indistinct borders that may coalesce (confluent drusen or drusenoid PED), defining intermediate AMD and a high risk of late AMD.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Within the macula (2 DD of the fovea), often clustered around the fovea."},
+  "shape": "cluster",
+  "typical_size": "≥125 µm each (about the width of a major vein at the disc margin)",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "dots", "pattern_color": "yellow",
+              "description": "Larger yellow round dots with soft edges; merge into a yellow outlined patch when confluent."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "23332590", "doi": "10.1016/j.ophtha.2012.10.036", "title": "Clinical classification of age-related macular degeneration.", "year": "2013"}
+  ]
+ },
+ {
+  "id": "geographic_atrophy",
+  "name": "Geographic atrophy (GA)",
+  "synonyms": ["geographic atrophy", "ga", "atrophic amd", "dry amd atrophy", "rpe atrophy", "macular atrophy", "central areolar atrophy", "cga", "late dry amd", "complete rpe and outer retinal atrophy", "geographical atrophy"],
+  "group": "macula_posterior_pole",
+  "definition": "Sharply demarcated, round or lobulated areas of RPE, photoreceptor and choriocapillaris loss through which large choroidal vessels are visible, representing late (atrophic) AMD.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Parafoveal first (often foveal-sparing horseshoe), later involving the fovea; multifocal lesions coalesce."},
+  "shape": "patch",
+  "typical_size": "1/4 to several disc areas",
+  "drawing": {"fill": "none", "outline": "black", "pattern": "cross_hatch", "pattern_color": "red",
+              "description": "Outline each atrophic area in black and cross-hatch in red (chorioretinal atrophy of attached retina); add brown flecks for marginal pigment."},
+  "color_source": "inferred: CMS L33567 App A paving-stone (chorioretinal atrophy of attached retina) = black outline cross-hatched red",
+  "pubmed": [
+   {"pmid": "23332590", "doi": "10.1016/j.ophtha.2012.10.036", "title": "Clinical classification of age-related macular degeneration.", "year": "2013"},
+   {"pmid": "40058064", "doi": "10.1016/j.jfo.2025.104473", "title": "[Diagnostic approach and treatment paradigm in atrophic age related macular degeneration: Recommendations of the France Macula Federation].", "year": "2025"}
+  ]
+ },
+ {
+  "id": "choroidal_neovascularization",
+  "name": "Choroidal / macular neovascularization (CNV/MNV)",
+  "synonyms": ["cnv", "cnvm", "mnv", "choroidal neovascularization", "choroidal neovascular membrane", "macular neovascularization", "wet amd", "neovascular amd", "nvamd", "namd", "exudative amd", "subretinal neovascular membrane", "srnvm", "myopic cnv", "c n v", "see and v"],
+  "group": "macula_posterior_pole",
+  "definition": "Neovascular tissue growing from the choroid beneath or through the RPE (type 1, 2) or from the retinal circulation (type 3), seen as a grey-green or yellow-grey subretinal lesion with associated subretinal fluid, hemorrhage, exudate or PED.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Subfoveal, juxtafoveal or extrafoveal; also peripapillary, along angioid streaks, lacquer cracks or choroidal ruptures."},
+  "shape": "patch",
+  "typical_size": "1/4 to several disc diameters",
+  "drawing": {"fill": "purple", "outline": "purple", "pattern": "solid", "pattern_color": null,
+              "description": "Purple patch at the membrane location with surrounding blue for subretinal fluid, red for hemorrhage and yellow for exudate."},
+  "color_source": "inferred: CMS L33567 App A purple = flat neovascularization (CNV lies beneath the retina, not elevated into vitreous)",
+  "pubmed": [
+   {"pmid": "31864668", "doi": "10.1016/j.ophtha.2019.11.004", "title": "Consensus Nomenclature for Reporting Neovascular Age-Related Macular Degeneration Data: Consensus on Neovascular Age-Related Macular Degeneration Nomenclature Study Group.", "year": "2019"}
+  ]
+ },
+ {
+  "id": "disciform_scar",
+  "name": "Disciform scar (subretinal fibrosis)",
+  "synonyms": ["disciform scar", "disciform", "subretinal fibrosis", "macular scar", "fibrovascular scar", "end-stage amd scar", "sr fibrosis", "subretinal gliosis", "fibrotic scar", "junius-kuhnt", "dis form scar"],
+  "group": "macula_posterior_pole",
+  "definition": "End-stage fibrous (fibroglial) replacement of a macular neovascular lesion, appearing as an elevated white-yellow subretinal plaque with variable pigmentation and overlying retinal atrophy.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Subfoveal or centred on the former neovascular lesion."},
+  "shape": "patch",
+  "typical_size": "1 to several disc diameters",
+  "drawing": {"fill": "yellow", "outline": "brown", "pattern": "dots", "pattern_color": "brown",
+              "description": "Yellow (subretinal fibrosis) patch with brown pigment clumps at the margin/within."},
+  "color_source": "Indirect ophthalmoscopy and fundus drawing (Dr Sonali Raj Singh, SlideShare teaching deck) https://www.slideshare.net/slideshow/indirect-ophthalmoscopy-and-fundus-drawing/238698487",
+  "pubmed": [
+   {"pmid": "41043515", "doi": "10.1016/j.survophthal.2025.09.019", "title": "Fibrogliosis in neovascular age-related macular degeneration: A new mechanistic perspective.", "year": "2025"}
+  ]
+ },
+ {
+  "id": "pigment_epithelial_detachment",
+  "name": "Pigment epithelial detachment (PED)",
+  "synonyms": ["ped", "pigment epithelial detachment", "rpe detachment", "retinal pigment epithelial detachment", "serous ped", "fibrovascular ped", "drusenoid ped", "hemorrhagic ped", "vascularized ped", "p e d"],
+  "group": "macula_posterior_pole",
+  "definition": "Separation of the RPE from Bruch's membrane by fluid, blood, drusenoid material or fibrovascular tissue, seen as a sharply outlined, dome-shaped orange-yellow elevation.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Macula (nAMD, PCV, CSC); may be multiple or peripapillary."},
+  "shape": "dome",
+  "typical_size": "1/2 to several disc diameters",
+  "drawing": {"fill": "brown", "outline": "brown", "pattern": "solid", "pattern_color": null,
+              "description": "Brown round/oval dome with a crisp outline; red notch or fill if hemorrhagic, purple adjacent if vascularized."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "42633835", "doi": "10.1016/j.preteyeres.2026.101512", "title": "Retinal pigment epithelial detachment: Molecular mechanisms, multimodal imaging classification, and clinical management across the spectrum of macular disease.", "year": "2026"}
+  ]
+ },
+ {
+  "id": "rpe_tear",
+  "name": "RPE tear (rip)",
+  "synonyms": ["rpe tear", "rpe rip", "retinal pigment epithelium tear", "pigment epithelial tear", "rpe tear grade", "rip of rpe", "r p e tear"],
+  "group": "macula_posterior_pole",
+  "definition": "A rupture of the RPE at the edge of a PED, with retraction and scrolling of the torn RPE into a hyperpigmented ridge beside a sharply defined crescent of bare Bruch's membrane.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "At the margin of a vascularized PED, spontaneously or after anti-VEGF; graded by size and foveal involvement."},
+  "shape": "patch",
+  "typical_size": "1/2 to several disc areas",
+  "drawing": {"fill": "none", "outline": "brown", "pattern": "none", "pattern_color": null,
+              "description": "Crescent outline in brown with the bare area left unfilled and a thick brown line for the scrolled, pigmented RPE edge."},
+  "color_source": "inferred: CMS L33567 App A brown = RPE pigmentation seen through attached retina",
+  "pubmed": [
+   {"pmid": "33346626", "doi": "10.1097/IAE.0000000000003083", "title": "MANAGEMENT OF RETINAL PIGMENT EPITHELIUM TEAR DURING ANTI-VASCULAR ENDOTHELIAL GROWTH FACTOR THERAPY.", "year": "2021"},
+   {"pmid": "37824816", "doi": "10.1097/IAE.0000000000003922", "title": "ASSOCIATION BETWEEN RETINAL PIGMENT EPITHELIUM TEAR AND ANTI-VASCULAR ENDOTHELIAL GROWTH FACTOR THERAPY: A Systematic Review and Meta-Analysis.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "csc_serous_detachment",
+  "name": "Central serous chorioretinopathy (serous macular detachment)",
+  "synonyms": ["csc", "cscr", "csr", "central serous", "central serous chorioretinopathy", "central serous retinopathy", "serous macular detachment", "neurosensory detachment", "nsd", "subretinal fluid macula", "srf", "serous retinal detachment", "bullous csc", "chronic csc", "central serious"],
+  "group": "macula_posterior_pole",
+  "definition": "A pachychoroid disorder in which choroidal hyperpermeability and RPE dysfunction cause a well-circumscribed, round serous detachment of the neurosensory macula, often with a small PED or yellow subretinal precipitates.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Round/oval detachment centred on or near the fovea; chronic cases leave gravitational descending tracts inferiorly."},
+  "shape": "dome",
+  "typical_size": "1–3 disc diameters",
+  "drawing": {"fill": "blue", "outline": "blue", "pattern": "none", "pattern_color": null,
+              "description": "Blue outlined (and lightly shaded) round area of detached macula; small brown dome for any PED; inferior gravitational tract as a blue/brown band."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "26026923", "doi": "10.1016/j.preteyeres.2015.05.003", "title": "Central serous chorioretinopathy: Recent findings and new physiopathology hypothesis.", "year": "2015"},
+   {"pmid": "39095470", "doi": "10.1038/s41433-024-03253-4", "title": "Pachychoroid disease: review and update.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "polypoidal_choroidal_vasculopathy",
+  "name": "Polypoidal choroidal vasculopathy (polyps)",
+  "synonyms": ["pcv", "polypoidal choroidal vasculopathy", "polyps", "polypoidal lesion", "aneurysmal type 1 neovascularization", "orange-red nodules", "orange nodules", "polypoidal", "p c v", "poly poidal"],
+  "group": "macula_posterior_pole",
+  "definition": "A subtype of type 1 macular neovascularization with aneurysmal polypoidal dilations of a branching vascular network beneath the RPE, seen as orange-red subretinal nodules with serosanguineous PEDs and hemorrhage.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Macula or peripapillary region."},
+  "shape": "cluster",
+  "typical_size": "polyps 1/8–1/2 DD; lesion up to several DD",
+  "drawing": {"fill": "orange", "outline": "orange", "pattern": "dots", "pattern_color": "orange",
+              "description": "Orange round nodules at polyp positions, with brown PEDs, red subretinal hemorrhage and blue subretinal fluid as present."},
+  "color_source": "inferred: CMS L33567 App A orange = elevated neovascularization (polyps are elevated aneurysmal neovascular lesions)",
+  "pubmed": [
+   {"pmid": "29276655", "doi": "10.1007/s40135-017-0137-0", "title": "Polypoidal Choroidal Vasculopathy.", "year": "2017"}
+  ]
+ },
+ {
+  "id": "vitelliform_lesion",
+  "name": "Vitelliform lesion (adult-onset foveomacular vitelliform)",
+  "synonyms": ["vitelliform lesion", "vitelliform", "aofvd", "adult onset foveomacular vitelliform dystrophy", "adult vitelliform", "vitelliform deposit", "egg yolk lesion", "best disease lesion", "pseudohypopyon macula", "vitelli form"],
+  "group": "macula_posterior_pole",
+  "definition": "A round, yellow, slightly elevated subretinal deposit of lipofuscin-laden material between the neurosensory retina and RPE at or near the fovea, often with central pigment.",
+  "location": {"zone": "fovea", "typical_clock": null, "notes": "Foveal or perifoveal, usually bilateral and asymmetric."},
+  "shape": "dome",
+  "typical_size": "1/3–1 disc diameter",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "solid", "pattern_color": null,
+              "description": "Solid yellow round dome at the fovea; brown central dot for pigment."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "24843302", "doi": "10.1016/j.sjopt.2014.02.001", "title": "Multimodal imaging of adult-onset foveomacular vitelliform dystrophy.", "year": "2014"}
+  ]
+ },
+ {
+  "id": "epiretinal_membrane",
+  "name": "Epiretinal membrane (ERM)",
+  "synonyms": ["erm", "epiretinal membrane", "epi retinal membrane", "macular pucker", "cellophane maculopathy", "cellophane reflex", "premacular fibrosis", "preretinal membrane", "surface wrinkling retinopathy", "epiretinal gliosis", "e r m", "macula pucker"],
+  "group": "macula_posterior_pole",
+  "definition": "A fibrocellular preretinal membrane on the inner retinal surface that produces a glistening cellophane reflex and, when it contracts, radiating retinal striae, vessel tortuosity and macular distortion (pucker).",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Over the macula, often eccentric; striae radiate toward its contraction centre."},
+  "shape": "patch",
+  "typical_size": "1–3 disc diameters",
+  "drawing": {"fill": "none", "outline": "green", "pattern": "wavy_lines", "pattern_color": "green",
+              "description": "Green outline of the membrane with green wavy striae radiating from its centre; draw dragged vessels accordingly."},
+  "color_source": "Retinal diagram (Dr Sabin Sahu, SlideShare teaching deck) https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044",
+  "pubmed": [
+   {"pmid": "37636571", "doi": "10.3389/fmed.2023.1121270", "title": "Pathophysiology and clinical aspects of epiretinal membrane - review.", "year": "2023"},
+   {"pmid": "16935588", "doi": "10.1016/j.ajo.2006.04.019", "title": "Stiffness of retinal and choroidal tissue: a surface wrinkling analysis of epiretinal membranes and choroidal folds.", "year": "2006"}
+  ]
+ },
+ {
+  "id": "vitreomacular_traction",
+  "name": "Vitreomacular traction (VMT)",
+  "synonyms": ["vmt", "vitreomacular traction", "vitreo macular traction", "vitreomacular adhesion", "vma", "vitreofoveal traction", "anomalous pvd macula", "focal vmt", "broad vmt", "vitreomacular traction syndrome"],
+  "group": "macula_posterior_pole",
+  "definition": "Anomalous posterior vitreous detachment with persistent vitreous attachment to the macula that distorts the fovea (pseudocysts, schisis, elevation), classified as focal (≤1500 µm) or broad (>1500 µm).",
+  "location": {"zone": "fovea", "typical_clock": null, "notes": "Perifoveal vitreous separated with residual foveal attachment; confirmed on OCT but taut hyaloid may be seen biomicroscopically."},
+  "shape": "patch",
+  "typical_size": "focal ≤1500 µm (~1 DD); broad >1500 µm",
+  "drawing": {"fill": "none", "outline": "green", "pattern": "none", "pattern_color": null,
+              "description": "Green line/outline of the posterior hyaloid converging onto the fovea at the attachment site; yellow for associated foveal cysts."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "24053995", "doi": "10.1016/j.ophtha.2013.07.042", "title": "The International Vitreomacular Traction Study Group classification of vitreomacular adhesion, traction, and macular hole.", "year": "2013"}
+  ]
+ },
+ {
+  "id": "impending_macular_hole_stage1",
+  "name": "Impending macular hole (Gass stage 1)",
+  "synonyms": ["impending macular hole", "stage 1 macular hole", "stage 1a", "stage 1b", "foveal yellow spot", "yellow ring fovea", "foveal detachment", "impending hole", "pre-hole"],
+  "group": "macula_posterior_pole",
+  "definition": "Loss of the foveal depression with a yellow foveolar spot (stage 1A) or yellow ring (stage 1B) from vitreofoveal traction before a full-thickness defect forms.",
+  "location": {"zone": "fovea", "typical_clock": null, "notes": "Exactly at the foveola."},
+  "shape": "point",
+  "typical_size": "100–300 µm spot/ring",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "ring", "pattern_color": "yellow",
+              "description": "Small yellow dot (1A) or yellow ring (1B) at the fovea."},
+  "color_source": "inferred: CMS L33567 App A yellow = intraretinal edema/deposit (yellow foveal spot)",
+  "pubmed": [
+   {"pmid": "8750985", "doi": "", "title": "[Age-dependent idiopathic macular foramen. Current concepts of the pathogenesis, diagnosis, and treatment].", "year": "1995"},
+   {"pmid": "28300548", "doi": "10.1016/j.survophthal.2017.03.003", "title": "New insights into the pathoanatomy of macular holes based on features of optical coherence tomography.", "year": "2017"}
+  ]
+ },
+ {
+  "id": "full_thickness_macular_hole",
+  "name": "Full-thickness macular hole (FTMH)",
+  "synonyms": ["macular hole", "ftmh", "full thickness macular hole", "full-thickness macular hole", "mh", "stage 2 macular hole", "stage 3 macular hole", "stage 4 macular hole", "idiopathic macular hole", "traumatic macular hole", "macula hole", "macular whole", "operculum"],
+  "group": "macula_posterior_pole",
+  "definition": "A round foveal defect interrupting all neural retinal layers from the internal limiting membrane to the RPE, often with a cuff of subretinal fluid, yellow deposits in its base and an overlying operculum.",
+  "location": {"zone": "fovea", "typical_clock": null, "notes": "Centred on the foveola; small ≤250 µm, medium 250–400 µm, large >400 µm (OCT minimum width)."},
+  "shape": "point",
+  "typical_size": "1/6–1/2 disc diameter",
+  "drawing": {"fill": "red", "outline": "blue", "pattern": "solid", "pattern_color": null,
+              "description": "Round red hole with blue outline at the fovea (full-thickness break); surrounding cuff of subretinal fluid as a thin blue ring; operculum as a small green oval anterior to it."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "24053995", "doi": "10.1016/j.ophtha.2013.07.042", "title": "The International Vitreomacular Traction Study Group classification of vitreomacular adhesion, traction, and macular hole.", "year": "2013"},
+   {"pmid": "28300548", "doi": "10.1016/j.survophthal.2017.03.003", "title": "New insights into the pathoanatomy of macular holes based on features of optical coherence tomography.", "year": "2017"}
+  ]
+ },
+ {
+  "id": "lamellar_macular_hole",
+  "name": "Lamellar macular hole (LMH)",
+  "synonyms": ["lamellar hole", "lamellar macular hole", "lmh", "partial thickness macular hole", "partial-thickness macular hole", "lamellar defect", "epiretinal proliferation", "lamella hole"],
+  "group": "macula_posterior_pole",
+  "definition": "A partial-thickness foveal defect with irregular foveal contour, a cavity with undermined edges and apparent loss of foveal tissue but an intact outer retina.",
+  "location": {"zone": "fovea", "typical_clock": null, "notes": "Foveal; often with lumpy yellow epiretinal proliferation; diagnosis confirmed on OCT."},
+  "shape": "point",
+  "typical_size": "about 1/4 disc diameter",
+  "drawing": {"fill": "none", "outline": "blue", "pattern": "cross_hatch", "pattern_color": "red",
+              "description": "Small round blue outline at the fovea cross-hatched in red (partial-thickness break)."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "32107208", "doi": "10.1136/bjophthalmol-2019-315432", "title": "Optical coherence tomography-based consensus definition for lamellar macular hole.", "year": "2020"},
+   {"pmid": "37214763", "doi": "10.1016/j.xops.2023.100305", "title": "Quantitative Analyses of Retinal Traction Force and Metamorphopsia in Lamellar Macular Hole and Related Diseases.", "year": "2023"}
+  ]
+ },
+ {
+  "id": "macular_pseudohole",
+  "name": "Macular pseudohole",
+  "synonyms": ["pseudohole", "macular pseudohole", "pseudo hole", "pseudo-hole", "mph", "erm pseudohole", "erm foveoschisis"],
+  "group": "macula_posterior_pole",
+  "definition": "A foveal-sparing epiretinal membrane that steepens the foveal pit so that it mimics a hole biomicroscopically, with no loss of foveal tissue.",
+  "location": {"zone": "fovea", "typical_clock": null, "notes": "ERM encircles the fovea with a central opening."},
+  "shape": "point",
+  "typical_size": "1/4–1/2 disc diameter central opening",
+  "drawing": {"fill": "red", "outline": "green", "pattern": "ring", "pattern_color": "green",
+              "description": "Intact red fovea surrounded by a green ring (contracted ERM edge)."},
+  "color_source": "inferred: ERM green per teaching code; intact fovea red per CMS L33567 App A attached retina",
+  "pubmed": [
+   {"pmid": "32107208", "doi": "10.1136/bjophthalmol-2019-315432", "title": "Optical coherence tomography-based consensus definition for lamellar macular hole.", "year": "2020"}
+  ]
+ },
+ {
+  "id": "angioid_streaks",
+  "name": "Angioid streaks",
+  "synonyms": ["angioid streaks", "angioid streak", "bruch membrane breaks", "pseudoxanthoma elasticum streaks", "pxe", "peau d'orange", "angioid", "andioid streaks"],
+  "group": "macula_posterior_pole",
+  "definition": "Irregular, jagged, red-brown to grey linear breaks in a calcified, brittle Bruch's membrane radiating from a peripapillary ring, associated with pseudoxanthoma elasticum, Paget disease and haemoglobinopathies and prone to CNV.",
+  "location": {"zone": "peripapillary", "typical_clock": null, "notes": "Concentric ring around the disc with spokes radiating outward, tapering toward the periphery; may cross the macula."},
+  "shape": "line",
+  "typical_size": "1–5 disc diameters long, narrower than veins",
+  "drawing": {"fill": "none", "outline": "brown", "pattern": "radial_lines", "pattern_color": "brown",
+              "description": "Brown jagged lines radiating from a brown peripapillary ring; add purple for any associated CNV."},
+  "color_source": "inferred: CMS L33567 App A brown = choroidal/RPE pigmentation seen through attached retina",
+  "pubmed": [
+   {"pmid": "39257074", "doi": "10.4103/IJO.IJO_812_24", "title": "Comprehensive review of angioid streaks.", "year": "2024"},
+   {"pmid": "40972795", "doi": "10.1016/j.survophthal.2025.09.012", "title": "Angioid streaks-related choroidal neovascularization: Clinical features, multimodal imaging-based differential diagnosis, and optimized treatment strategies.", "year": "2025"}
+  ]
+ },
+ {
+  "id": "lacquer_cracks",
+  "name": "Lacquer cracks",
+  "synonyms": ["lacquer cracks", "lacquer crack", "lacquer-crack lesions", "bruch membrane breaks myopia", "myopic lacquer cracks", "lacker cracks", "laquer cracks"],
+  "group": "macula_posterior_pole",
+  "definition": "Fine, yellowish-white, irregular linear breaks in Bruch's membrane in the posterior pole of pathologically myopic eyes, a 'plus' lesion predisposing to myopic CNV and subretinal hemorrhage.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Posterior pole/macula within a staphyloma, often horizontal or branching; acute cracks may show small subretinal hemorrhage."},
+  "shape": "line",
+  "typical_size": "1/2–2 disc diameters long",
+  "drawing": {"fill": "none", "outline": "yellow", "pattern": "none", "pattern_color": null,
+              "description": "Thin yellow branching lines at the macula; small red dot for any associated hemorrhage."},
+  "color_source": "inferred: no published convention; yellow line chosen for yellow-white Bruch's membrane breaks (cf. CMS L33567 App A yellow = chorioretinal lesion), distinct from brown angioid streaks",
+  "pubmed": [
+   {"pmid": "25634530", "doi": "10.1016/j.ajo.2015.01.022", "title": "International photographic classification and grading system for myopic maculopathy.", "year": "2015"},
+   {"pmid": "41869414", "doi": "10.1016/j.xops.2026.101116", "title": "Insights on Acute and Chronic Lacquer Cracks as Imaged with Visible Light OCT.", "year": "2026"}
+  ]
+ },
+ {
+  "id": "posterior_staphyloma",
+  "name": "Posterior staphyloma",
+  "synonyms": ["posterior staphyloma", "staphyloma", "myopic staphyloma", "macular staphyloma", "peripapillary staphyloma", "wide macular staphyloma", "posterior pole ectasia", "staffyloma"],
+  "group": "macula_posterior_pole",
+  "definition": "An outpouching of a circumscribed region of the posterior globe with a radius of curvature smaller than the surrounding eye wall, the hallmark of pathologic myopia.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Wide macular, narrow macular, peripapillary, nasal or inferior types; its edge is seen as a curvilinear vessel bend/pigmented line."},
+  "shape": "patch",
+  "typical_size": "several disc diameters (often whole posterior pole)",
+  "drawing": {"fill": "none", "outline": "brown", "pattern": "none", "pattern_color": null,
+              "description": "Brown curved outline tracing the staphyloma edge around the posterior pole."},
+  "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+  "pubmed": [
+   {"pmid": "30537538", "doi": "10.1016/j.preteyeres.2018.12.001", "title": "Posterior staphyloma in pathologic myopia.", "year": "2018"},
+   {"pmid": "38105912", "doi": "10.2147/OPTH.S405202", "title": "Understanding Posterior Staphyloma in Pathologic Myopia: Current Overview, New Input, and Perspectives.", "year": "2023"}
+  ]
+ },
+ {
+  "id": "myopic_chorioretinal_atrophy",
+  "name": "Myopic chorioretinal atrophy (diffuse / patchy / macular)",
+  "synonyms": ["myopic degeneration", "myopic maculopathy", "pathologic myopia", "myopic atrophy", "diffuse chorioretinal atrophy", "patchy chorioretinal atrophy", "macular atrophy myopic", "myopic macular degeneration", "mmd", "meta-pm category 2", "meta-pm category 3", "chorioretinal atrophy", "tessellated fundus"],
+  "group": "macula_posterior_pole",
+  "definition": "Degenerative chorioretinal atrophy of pathologic myopia, from ill-defined yellowish diffuse atrophy to sharply demarcated grey-white patchy atrophy exposing sclera and macular atrophy, graded in META-PM categories 2–4.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Peripapillary and macular, within the staphyloma."},
+  "shape": "patch",
+  "typical_size": "1/2 to several disc diameters",
+  "drawing": {"fill": "none", "outline": "black", "pattern": "cross_hatch", "pattern_color": "red",
+              "description": "Black outline cross-hatched red for patchy/macular atrophy (dashed outline for diffuse atrophy); brown for marginal pigment."},
+  "color_source": "inferred: CMS L33567 App A paving-stone (chorioretinal atrophy of attached retina) = black outline cross-hatched red",
+  "pubmed": [
+   {"pmid": "25634530", "doi": "10.1016/j.ajo.2015.01.022", "title": "International photographic classification and grading system for myopic maculopathy.", "year": "2015"}
+  ]
+ },
+ {
+  "id": "fuchs_spot",
+  "name": "Fuchs spot",
+  "synonyms": ["fuchs spot", "fuchs' spot", "foerster-fuchs spot", "forster fuchs spot", "pigmented macular scar myopia", "fuchs fleck", "fuks spot"],
+  "group": "macula_posterior_pole",
+  "definition": "A round, dark pigmented macular lesion representing RPE hyperplasia over a regressed myopic choroidal neovascular membrane, a 'plus' lesion of pathologic myopia.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Foveal or juxtafoveal in highly myopic eyes."},
+  "shape": "point",
+  "typical_size": "1/4–1 disc diameter",
+  "drawing": {"fill": "brown", "outline": "brown", "pattern": "solid", "pattern_color": null,
+              "description": "Solid brown round spot at the macula."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "25634530", "doi": "10.1016/j.ajo.2015.01.022", "title": "International photographic classification and grading system for myopic maculopathy.", "year": "2015"}
+  ]
+ },
+ {
+  "id": "bulls_eye_maculopathy",
+  "name": "Bull's-eye maculopathy",
+  "synonyms": ["bull's eye maculopathy", "bulls eye maculopathy", "bull's-eye maculopathy", "bullseye", "bulls eye", "hydroxychloroquine retinopathy", "plaquenil toxicity", "chloroquine maculopathy", "hcq toxicity", "target maculopathy"],
+  "group": "macula_posterior_pole",
+  "definition": "A ring of parafoveal RPE depigmentation sparing the central fovea, giving a target appearance, classically in advanced hydroxychloroquine/chloroquine toxicity and some cone dystrophies.",
+  "location": {"zone": "macula", "typical_clock": null, "notes": "Annulus around the fovea (pericentral pattern in Asian patients may lie near the arcades)."},
+  "shape": "ring",
+  "typical_size": "ring 1–3 disc diameters across",
+  "drawing": {"fill": "none", "outline": "brown", "pattern": "ring", "pattern_color": "brown",
+              "description": "Brown annulus around a spared red foveal centre."},
+  "color_source": "inferred: CMS L33567 App A brown = RPE pigment change seen through attached retina",
+  "pubmed": [
+   {"pmid": "39626654", "doi": "10.1111/ceo.14461", "title": "Mimickers of hydroxychloroquine retinal toxicity.", "year": "2024"},
+   {"pmid": "39371107", "doi": "10.1007/s40135-024-00321-6", "title": "Target in Sight: A Comprehensive Review of Hydroxychloroquine-Induced Bull's Eye Maculopathy.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "choroidal_folds",
+  "name": "Choroidal (chorioretinal) folds",
+  "synonyms": ["choroidal folds", "chorioretinal folds", "choroidal striae", "retinal folds posterior pole", "hypotony folds", "choroidal folding", "chorodial folds"],
+  "group": "macula_posterior_pole",
+  "definition": "Alternating light and dark parallel undulations of the inner choroid, Bruch's membrane and RPE across the posterior pole, caused by hypotony, orbital mass, scleritis, hyperopia or idiopathically.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Usually horizontal or oblique lines across the macula, sometimes concentric around the disc."},
+  "shape": "patch",
+  "typical_size": "posterior pole, folds ~1/4 DD apart",
+  "drawing": {"fill": "none", "outline": "none", "pattern": "parallel_hatch", "pattern_color": "brown",
+              "description": "Brown parallel lines across the involved posterior pole following the fold orientation."},
+  "color_source": "inferred: CMS L33567 App A brown = choroidal/RPE change seen through attached retina",
+  "pubmed": [
+   {"pmid": "19065910", "doi": "", "title": "[Choroidal folds].", "year": "2008"},
+   {"pmid": "16935588", "doi": "10.1016/j.ajo.2006.04.019", "title": "Stiffness of retinal and choroidal tissue: a surface wrinkling analysis of epiretinal membranes and choroidal folds.", "year": "2006"}
+  ]
+ },
+ {
+  "id": "choroidal_rupture",
+  "name": "Traumatic choroidal rupture",
+  "synonyms": ["choroidal rupture", "choroidal tear", "bruch membrane rupture", "traumatic choroidal rupture", "indirect choroidal rupture", "choroid rupture", "corodial rupture"],
+  "group": "macula_posterior_pole",
+  "definition": "A traumatic break in the choroid, Bruch's membrane and RPE, typically an arc-shaped yellow-white streak concentric to the disc in the posterior pole, often initially hidden by subretinal hemorrhage and later complicated by CNV.",
+  "location": {"zone": "posterior_pole", "typical_clock": "temporal to disc", "notes": "Crescentic, concentric to the optic disc, frequently submacular."},
+  "shape": "line",
+  "typical_size": "1–4 disc diameters long",
+  "drawing": {"fill": "yellow", "outline": "brown", "pattern": "none", "pattern_color": null,
+              "description": "Yellow crescent concentric to the disc with brown pigmented margins; red subretinal blood if acute; purple if CNV develops."},
+  "color_source": "inferred: no published convention; yellow for exposed sclera/atrophy with brown RPE pigment margins (CMS L33567 App A brown)",
+  "pubmed": [
+   {"pmid": "42765884", "doi": "10.1097/IAE.0000000000005013", "title": "Post-Traumatic Choroidal Rupture: Characteristics, Management and Outcomes.", "year": "2026"}
+  ]
+ },
+ {
+  "id": "commotio_retinae",
+  "name": "Commotio retinae (Berlin oedema)",
+  "synonyms": ["commotio retinae", "commotio", "berlin edema", "berlin's edema", "berlin oedema", "traumatic retinal whitening", "retinal concussion", "commotion retina"],
+  "group": "macula_posterior_pole",
+  "definition": "Transient grey-white opacification of the outer retina after blunt trauma due to photoreceptor outer-segment disruption, at the macula (Berlin oedema) or periphery at the site of impact or contrecoup.",
+  "location": {"zone": "any", "typical_clock": null, "notes": "Posterior pole (Berlin) or peripheral at the impact site; may be accompanied by choroidal rupture or hemorrhage."},
+  "shape": "patch",
+  "typical_size": "1 to several disc diameters",
+  "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "stipple", "pattern_color": "yellow",
+              "description": "Yellow stippled area of whitening; a red foveal dot if a pseudo-cherry-red spot is present."},
+  "color_source": "CMS L33567 App A",
+  "pubmed": [
+   {"pmid": "42201198", "doi": "10.3390/pediatric18030065", "title": "Severe Macular Commotio Retinae Following a Fall from a Horse in a Pediatric Patient.", "year": "2026"},
+   {"pmid": "39690301", "doi": "10.1038/s41433-024-03542-y", "title": "Commotio Retinae.", "year": "2024"}
+  ]
+ },
+ {
+  "id": "elschnig_spots_siegrist_streaks",
+  "name": "Elschnig spots / Siegrist streaks (hypertensive choroidopathy)",
+  "synonyms": ["elschnig spots", "elschnig spot", "elschnig's spots", "siegrist streaks", "siegrist streak", "hypertensive choroidopathy", "choroidal infarcts", "amalric sign", "elshnig spots", "malignant hypertension fundus"],
+  "group": "vascular",
+  "definition": "Signs of choroidal ischaemia in malignant hypertension: Elschnig spots are multifocal yellowish RPE lesions over infarcted choriocapillaris lobules that later become pigmented with a pale halo, and Siegrist streaks are linear hyperpigmented lines along sclerosed choroidal arteries.",
+  "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior pole and midperiphery; often with serous retinal detachment and hypertensive retinopathy signs."},
+  "shape": "cluster",
+  "typical_size": "spots 1/8–1/2 DD; streaks 1–3 DD long",
+  "drawing": {"fill": "yellow", "outline": "brown", "pattern": "dots", "pattern_color": "brown",
+              "description": "Acute: yellow spots; healed: brown dots with a pale yellow halo; Siegrist streaks as short brown lines along choroidal vessel courses; any serous detachment in blue."},
+  "color_source": "inferred: CMS L33567 App A yellow = chorioretinal lesion (acute) and brown = RPE/choroidal pigmentation (healed)",
+  "pubmed": [
+   {"pmid": "34416787", "doi": "10.1055/a-1402-7592", "title": "Ischemic Choroidal Diseases.", "year": "2021"},
+   {"pmid": "31875682", "doi": "10.1177/1120672119896286", "title": "Hypertensive choroidopathy in atypical hemolytic-uremic syndrome.", "year": "2019"}
+  ]
+ }
+]

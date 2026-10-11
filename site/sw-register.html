@@ -1,0 +1,6 @@
+<script>
+// offline support: register the service worker when served from a web address (not when opened as a file)
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+}
+</script>

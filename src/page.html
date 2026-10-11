@@ -1,0 +1,198 @@
+<title>R/D</title>
+<meta name="description" content="Retinal drawing by voice, text or hand in the standard fundus colour code: detachments with macular status and Lincoff break analysis, evidence-based repair options, a 226-entry PubMed-sourced pathology library and an auto-written clinical note.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/*@@CSS@@*/
+</style>
+
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <!--@@LOGO@@-->
+      <p class="tag">Retinal detachment mapping, spoken, typed or drawn</p>
+    </div>
+    <div class="eye-switch" role="radiogroup" aria-label="Eye being drawn">
+      <button type="button" role="radio" data-eye="OD" aria-checked="false">OD <span>right eye</span></button>
+      <button type="button" role="radio" data-eye="OS" aria-checked="true">OS <span>left eye</span></button>
+    </div>
+  </header>
+
+  <p class="intended" id="intended"><strong>For education and documentation by eye-care professionals.</strong> Not medical advice: R/D does not diagnose, treat or replace your examination and judgement, and it is not for patients making decisions about their own care.</p>
+
+  <main class="layout">
+    <section class="chart-card" aria-label="Fundus chart">
+      <div class="review-bar" id="reviewBar" hidden></div>
+      <div class="chart-tools">
+        <button type="button" class="tool" id="undo" title="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span class="lbl">Undo</span></button>
+        <button type="button" class="tool" id="redo" title="Redo (Ctrl+Shift+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg><span class="lbl">Redo</span></button>
+        <button type="button" class="tool" id="clear" title="Clear the chart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 14H6L5 6"/></svg><span class="lbl">Clear</span></button>
+        <span class="tools-gap"></span>
+        <button type="button" class="tool" id="handBtn" aria-pressed="false" title="Draw on the chart with a finger, stylus or mouse: trace a detachment’s border, then drag findings onto the fundus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20c3-1 4.5-3.5 7-3.5 2 0 2 2 4 2s3.5-1.5 4.5-3"/><path d="m14.5 4.5 3 3L9 16l-4 1 1-4Z"/></svg><span class="lbl">Draw by hand</span></button>
+        <button type="button" class="tool" id="lincoffBtn" aria-pressed="false" title="Show where Lincoff’s rules place the primary break"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="lbl">Find the break</span></button>
+        <button type="button" class="tool" id="export" title="Save the chart as a PNG image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span class="lbl">Save PNG</span></button>
+      </div>
+      <div class="view-row">
+        <div class="view-switch" role="radiogroup" aria-label="Chart view">
+          <button type="button" role="radio" data-view="fundus" aria-checked="true">Fundus</button>
+          <button type="button" role="radio" data-view="pole" aria-checked="false">Posterior pole <span class="dot" id="poleDot" hidden title="Findings in the posterior pole"></span></button>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <div class="stage" id="stage">
+          <canvas id="chart" width="820" height="820" role="img" aria-label="Fundus chart"></canvas>
+          <canvas id="ink" aria-hidden="true"></canvas>
+          <div class="ink-hint" id="inkHint" hidden><span class="t"></span><button type="button" hidden>Cancel</button></div>
+          <button type="button" class="pal-fab" id="palFab" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add findings</button>
+          <div class="palette" id="palette" role="dialog" aria-label="Add findings to the drawing" hidden></div>
+        </div>
+      </div>
+      <div class="example-flag" id="exampleFlag" hidden>This is an example drawing. <button type="button" id="startBlank">Start blank</button></div>
+      <p class="chart-foot" id="chartFoot">Clock hours as seen on the chart, 12 = superior. Inner dashed circle: equator · middle: ora serrata · outer band: pars plana.</p>
+    </section>
+
+    <section class="console">
+      <div class="card command">
+        <label for="cmd">Describe what you see</label>
+        <div class="cmd-box">
+          <textarea id="cmd" rows="2" spellcheck="false" autocomplete="off" placeholder="e.g. fovea-splitting RRD from 10 to 5, HST at 12, lattice 7 to 8"></textarea>
+        </div>
+        <div class="cmd-actions">
+          <button type="button" class="glass" id="mic" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg><span id="micLabel">Dictate</span></button>
+          <button type="button" class="glass" id="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span>Draw</span></button>
+          <span class="hint"><kbd>Enter</kbd> draws · <kbd>Shift</kbd>+<kbd>Enter</kbd> new line</span>
+        </div>
+        <div class="live" id="live" aria-live="polite"></div>
+        <label class="claude-opt" id="claudeOpt" hidden><input type="checkbox" id="claudeToggle" checked> Ask Claude when R/D doesn’t recognize the phrasing</label>
+      </div>
+
+      <section class="card review-card" id="reviewCard" aria-labelledby="revH">
+        <div class="card-head"><h2 id="revH">Teaching review</h2><span class="count" id="revCount"></span></div>
+        <div id="review"></div>
+      </section>
+
+      <div class="card">
+        <div class="card-head"><h2>On the chart</h2><span class="count" id="count"></span></div>
+        <ul id="findings"></ul>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2>Clinical note</h2></div>
+        <p id="note"></p>
+        <button type="button" class="btn-line" id="copy">Copy note</button>
+      </div>
+
+      <div class="card" id="lincoffCard">
+        <div class="card-head"><h2>Where is the primary break?</h2></div>
+        <div id="lincoff"></div>
+      </div>
+
+      <section class="card" id="repairCard" aria-labelledby="repH">
+        <div class="card-head"><h2 id="repH">Repair options: what the evidence says</h2><span class="count">education</span></div>
+        <div id="repair"></div>
+      </section>
+
+      <section class="card library" aria-labelledby="libH">
+        <div class="card-head"><h2 id="libH">Pathology library</h2><span class="count" id="libCount"></span></div>
+        <p class="lib-intro" id="libIntro"></p>
+        <div class="lib-tools">
+          <input type="search" id="libSearch" placeholder="Search — CNV, sea fan, papilledema, BRVO…" aria-label="Search the pathology library" autocomplete="off" spellcheck="false">
+          <select id="libGroup" aria-label="Filter by group"></select>
+        </div>
+        <ul id="libList"></ul>
+        <button type="button" class="btn-line" id="libMore" hidden>Show more</button>
+      </section>
+
+      <section class="card" aria-labelledby="keyH">
+        <div class="card-head"><h2 id="keyH">Key</h2></div>
+        <div class="key" id="key"></div>
+        <details class="code-std">
+          <summary>Standard fundus colour code</summary>
+          <div class="legend-grid" id="legend"></div>
+          <p class="code-note">From CMS LCD L33567, Appendix A; library entries outside that table follow the published teaching conventions cited with each entry, and inferred codes are marked as such.</p>
+        </details>
+      </section>
+
+      <details class="card">
+        <summary><h2>What you can say</h2></summary>
+        <div class="guide">
+          <div><h3>Detachments</h3><ul>
+            <li><code>RRD from 10 to 2</code> · <code>RD between 9 and 3</code> · <code>superotemporal RD</code></li>
+            <li><code>macula on</code> · <code>macula threatened</code> · <code>macula off fovea on</code> · <code>fovea splitting</code> · <code>macula off</code></li>
+            <li><code>bullous</code> · <code>shallow</code> · <code>chronic</code> (adds a demarcation line) · <code>total RD</code> · <code>subtotal RD sparing 5 to 7</code></li>
+            <li><code>extends to the arcades</code> · <code>posterior to the equator</code> · <code>extend it to 6</code></li>
+          </ul></div>
+          <div><h3>Breaks and degenerations</h3><ul>
+            <li><code>HST at 12</code> · <code>tears at 11, 12 and 1</code> · <code>small tear at 10:30</code> · <code>posterior tear at 2</code></li>
+            <li><code>giant retinal tear from 10 to 2</code> · <code>dialysis from 4 to 6</code> · <code>operculated hole at 11</code> · <code>atrophic hole at 7</code></li>
+            <li><code>lattice from 7 to 9</code> · <code>pigmented lattice with holes at 6</code> · <code>paving stone at 6</code> · <code>tuft at 3</code></li>
+          </ul></div>
+          <div><h3>Complications and treatment</h3><ul>
+            <li><code>PVR C</code> · <code>PVR grade CP 3</code> · <code>star fold at 5</code> · <code>vitreous hemorrhage inferiorly</code> · <code>choroidal detachment</code></li>
+            <li><code>laser around the tear</code> · <code>laser from 3 to 6</code> · <code>cryo around the break</code> · <code>encircling buckle</code> · <code>segmental buckle 10 to 2</code></li>
+          </ul></div>
+          <div><h3>Any finding in the pathology library</h3><ul>
+            <li><code>cotton-wool spots at 1 and 2</code> · <code>3 flame hemorrhages superotemporal to the disc</code> · <code>drusen in the macula</code></li>
+            <li><code>BRVO superotemporal</code> · <code>CRVO</code> · <code>CNV involving the fovea</code> · <code>macular hole</code> · <code>ERM</code> · <code>disc hemorrhage at 7</code></li>
+            <li><code>choroidal nevus at 8 in the mid-periphery</code> · <code>PRP</code> · <code>silicone oil</code> · <code>gas bubble</code> · <code>exudative RD from 4 to 8</code></li>
+            <li>Places: <code>at the fovea</code> · <code>parafoveal</code> · <code>in the macula</code> · <code>posterior pole</code> · <code>along the superior arcade</code> · <code>on the disc</code> · <code>peripapillary</code> · <code>mid-periphery</code> · <code>at the equator</code> · <code>at the ora</code> · <code>pars plana</code> · <code>in the vitreous</code></li>
+          </ul></div>
+          <div><h3>Vitreous and lens (for the repair options)</h3><ul>
+            <li><code>complete PVD</code> · <code>partial PVD</code> · <code>Weiss ring</code> · <code>no PVD</code> · <code>attached hyaloid</code></li>
+            <li><code>phakic</code> · <code>pseudophakic</code> · <code>PCIOL</code> · <code>s/p cataract surgery</code> · <code>aphakic</code> · <code>NS cataract</code></li>
+          </ul></div>
+          <div><h3>Drawing by hand</h3><ul>
+            <li>Turn on <strong>Draw by hand</strong>, trace the detachment’s posterior border from the ora round to the ora, then swipe toward the detached side (or tap it). Clock hours and macular status are read from your drawing.</li>
+            <li>Drag tears, holes, lattice and the rest from the palette onto the fundus — or tap one, then tap the spot. Drag lattice, giant tears and dialyses along the fundus to set their extent.</li>
+            <li>Drag anything to move it, drag a span’s end to resize it, and drag it off the chart to remove it. <kbd>Esc</kbd> cancels; <kbd>Delete</kbd> removes the selected item.</li>
+          </ul></div>
+          <div><h3>Teaching review</h3><ul>
+            <li>Residents: <strong>Send for review</strong> copies a link that carries the drawing. Fellows and attendings open it, correct the drawing with any tool, pin numbered comments with <strong>+ Comment</strong>, add feedback, then <strong>Send back to resident</strong>.</li>
+            <li>The returned link marks every change — added, removed, moved — with the original border dashed underneath; switch between <strong>Corrected</strong> and <strong>Original</strong>, then keep either.</li>
+          </ul></div>
+          <div><h3>Editing</h3><ul>
+            <li><code>undo</code> · <code>redo</code> · <code>clear</code> · <code>remove the tear at 12</code> · <code>remove the drusen</code> · <code>move the nevus to 5</code> · <code>right eye</code> / <code>OS</code></li>
+            <li><code>where is the break?</code> or <code>tear?</code> shows the Lincoff zone</li>
+          </ul></div>
+        </div>
+      </details>
+
+      <details class="card">
+        <summary><h2>Clinical basis</h2></summary>
+        <ol class="refs">
+          <li>Lincoff H, Gieser R. Finding the retinal hole. <i>Arch Ophthalmol</i> 1971;85:565–9. <a href="https://doi.org/10.1001/archopht.1971.00990050567007" target="_blank" rel="noopener">doi:10.1001/archopht.1971.00990050567007</a> — break-location rules 1–4.</li>
+          <li>Machemer R, et al. An updated classification of retinal detachment with proliferative vitreoretinopathy. <i>Am J Ophthalmol</i> 1991;112:159–65. <a href="https://doi.org/10.1016/s0002-9394(14)76695-4" target="_blank" rel="noopener">doi:10.1016/s0002-9394(14)76695-4</a> — PVR grades A–C, anterior/posterior, clock-hour extent.</li>
+          <li>Lee R, et al. Long-term visual outcomes and the timing of surgical repair of fovea-splitting RRD. <i>Retina</i> 2022;42:244–9. <a href="https://doi.org/10.1097/IAE.0000000000003293" target="_blank" rel="noopener">doi:10.1097/IAE.0000000000003293</a> — fovea-on, fovea-splitting and fovea-off as separate categories.</li>
+          <li>Berrocal MH, et al. Management of giant retinal tear detachments. <i>J Ophthalmic Vis Res</i> 2017;12:93–7. <a href="https://doi.org/10.4103/2008-322X.200158" target="_blank" rel="noopener">doi:10.4103/2008-322X.200158</a> — giant tear: full-thickness, circumferential, 90° (3 clock hours) or more.</li>
+          <li>Jayanna S, Shanmugam PM. It is time for more colors! <i>Indian J Ophthalmol</i> 2022;70:3698–700. <a href="https://doi.org/10.4103/ijo.IJO_1004_22" target="_blank" rel="noopener">doi:10.4103/ijo.IJO_1004_22</a> — colour coding beyond the classic table (preretinal lesions in green).</li>
+          <li>Pathology library — every entry links its own PubMed sources; all references were checked against PubMed records.</li>
+          <li>CMS Local Coverage Determination L33567, Appendix A — fundus drawing colour code and chart landmarks (equator, ora serrata, ciliary processes). <a href="https://downloads.cms.gov/medicare-coverage-database/lcd_attachments/33567_6/APPENDIXA.pdf" target="_blank" rel="noopener">downloads.cms.gov</a></li>
+        </ol>
+      </details>
+<!--@@SITE_EXTRA@@-->
+      <p class="foot">R/D is a drawing, documentation and education aid for eye-care professionals; it is not medical advice and does not diagnose or treat. Lincoff zones are probabilities from a 1971 series and do not replace a full indented examination. Repair options summarise published trials and cohorts for education and are not a treatment recommendation for any patient. Library definitions summarise the cited literature and are not diagnostic criteria.</p>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<span class="sr" id="srStatus" aria-live="polite"></span>
+
+<script>
+/*@@CATALOG@@*/
+</script>
+<script>
+/*@@CORE@@*/
+</script>
+<script>
+/*@@RENDER@@*/
+</script>
+<script>
+/*@@RENDERCAT@@*/
+</script>
+<script>
+/*@@HAND@@*/
+</script>
+<script>
+/*@@APP@@*/
+</script>

@@ -1,0 +1,19 @@
+# build output and local working files
+dist/
+out/
+fonts/
+R-D.html
+/*.png
+__pycache__/
+node_modules/
+# scratch: keep the browser checks, not their screenshots
+scratch/*
+!scratch/hand_e2e.py
+!scratch/hand_e2e2.py
+!scratch/hand_e2e3.py
+!scratch/review_e2e.py
+!scratch/site_test.py
+!scratch/rtest.py
+!scratch/e2e.py
+!scratch/e2e2.py
+!scratch/e2e3.py

@@ -1,0 +1,2376 @@
+[
+ {
+  "id": "horseshoe_tear",
+  "name": "Horseshoe (flap) retinal tear",
+  "synonyms": [
+   "horseshoe tear",
+   "horse shoe tear",
+   "horseshoe",
+   "hst",
+   "flap tear",
+   "u tear",
+   "u-shaped tear",
+   "u shaped tear",
+   "tractional tear",
+   "retinal tear",
+   "tear with flap",
+   "flap retinal tear",
+   "arrowhead tear",
+   "horseshoe retinal tear"
+  ],
+  "group": "breaks",
+  "definition": "A full-thickness retinal break with a flap of retina still attached to vitreous at its anterior margin, produced by vitreoretinal traction (usually during posterior vitreous detachment) at the posterior border of the vitreous base or at a focal vitreoretinal adhesion.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "superotemporal",
+   "notes": "Most occur in the equatorial zone at the posterior border of the vitreous base (juxtabasal), between equator and ora; autopsy series show all quadrants, clinically superior/temporal quadrants predominate; frequently at margins of lattice or cystic tufts."
+  },
+  "shape": "patch",
+  "typical_size": "1/4–2 disc diameters (occasionally ≥1 clock hour)",
+  "drawing": {
+   "fill": "red",
+   "outline": "blue",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw a U/horseshoe-shaped area filled red with a blue outline, rounded apex pointing posteriorly (toward the disc) and open horns pointing anteriorly toward the ora; draw the anterior flap as a curved blue line at the base. Add surrounding blue if subretinal fluid is present."
+  },
+  "color_source": "CMS L33567 App A (full-thickness break: blue outline filled red); Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (rolled flap edges as curved blue lines)",
+  "pubmed": [
+   {
+    "pmid": "1160919",
+    "doi": "",
+    "title": "Tears of the peripheral retina; pathogenesis, incidence and classification in autopsy eyes.",
+    "year": "1975"
+   },
+   {
+    "pmid": "7177568",
+    "doi": "10.1016/s0161-6420(82)34684-9",
+    "title": "The natural history of asymptomatic retinal breaks.",
+    "year": "1982"
+   },
+   {
+    "pmid": "7182970",
+    "doi": "",
+    "title": "Retinal breaks without detachment: natural history, management and long term follow-up.",
+    "year": "1982"
+   },
+   {
+    "pmid": "4853316",
+    "doi": "10.1001/archopht.1974.01010010191001",
+    "title": "Natural history of retinal breaks without detachment.",
+    "year": "1974"
+   }
+  ]
+ },
+ {
+  "id": "operculated_hole",
+  "name": "Operculated retinal hole (round hole with free operculum)",
+  "synonyms": [
+   "operculated hole",
+   "operculated tear",
+   "operculum",
+   "free operculum",
+   "hole with operculum",
+   "round hole with operculum",
+   "pulled out operculum",
+   "operculated break",
+   "opercular tear",
+   "oper hole"
+  ],
+  "group": "breaks",
+  "definition": "A round full-thickness retinal break whose plug of retina (operculum) has been completely avulsed by vitreous traction and floats free in the vitreous above the hole, relieving traction on the hole margin.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Between equator and ora; operculum lies in the detached vitreous just anterior to (in front of) the hole; extrabasal holes may arise from avulsed cystic tufts."
+  },
+  "shape": "point",
+  "typical_size": "1/8–1/2 disc diameter (operculum of similar size)",
+  "drawing": {
+   "fill": "red",
+   "outline": "blue",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw a small round red-filled circle with a blue outline; draw the free operculum as a small green-filled shape just beside the hole (displaced slightly toward the centre of the chart to indicate it floats in the vitreous)."
+  },
+  "color_source": "CMS L33567 App A (full-thickness break); Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (retinal operculum drawn green)",
+  "pubmed": [
+   {
+    "pmid": "7182970",
+    "doi": "",
+    "title": "Retinal breaks without detachment: natural history, management and long term follow-up.",
+    "year": "1982"
+   },
+   {
+    "pmid": "1160919",
+    "doi": "",
+    "title": "Tears of the peripheral retina; pathogenesis, incidence and classification in autopsy eyes.",
+    "year": "1975"
+   },
+   {
+    "pmid": "4853316",
+    "doi": "10.1001/archopht.1974.01010010191001",
+    "title": "Natural history of retinal breaks without detachment.",
+    "year": "1974"
+   }
+  ]
+ },
+ {
+  "id": "atrophic_round_hole",
+  "name": "Atrophic round hole",
+  "synonyms": [
+   "atrophic hole",
+   "round hole",
+   "atrophic round hole",
+   "trophic hole",
+   "atrophic retinal hole",
+   "retinal hole",
+   "round atrophic hole",
+   "hole in lattice",
+   "small round hole",
+   "arh"
+  ],
+  "group": "breaks",
+  "definition": "A small round full-thickness retinal break of trophic (atrophic) origin without a flap or operculum, most often arising within lattice degeneration and not caused by acute vitreous traction.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Between equator and ora, frequently within or at the edge of lattice degeneration; primary (non-lattice) holes are usually single, within the vitreous base zone, in elderly eyes."
+  },
+  "shape": "point",
+  "typical_size": "<1/4 disc diameter (often 1/10–1/4 DD)",
+  "drawing": {
+   "fill": "red",
+   "outline": "blue",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw a small round circle filled red with a blue outline; if inside lattice, place it within the lattice band. Surround with a blue ring if a cuff of subretinal fluid is present."
+  },
+  "color_source": "CMS L33567 App A (full-thickness break: blue outline filled red)",
+  "pubmed": [
+   {
+    "pmid": "717500",
+    "doi": "10.1016/0002-9394(78)90239-8",
+    "title": "Retinal holes.",
+    "year": "1978"
+   },
+   {
+    "pmid": "2780007",
+    "doi": "10.1016/s0161-6420(89)32713-8",
+    "title": "Long-term natural history of lattice degeneration of the retina.",
+    "year": "1989"
+   },
+   {
+    "pmid": "11470709",
+    "doi": "10.1016/s0161-6420(01)00652-2",
+    "title": "Subclinical retinal detachment resulting from asymptomatic retinal breaks: prognosis for progression and regression.",
+    "year": "2001"
+   }
+  ]
+ },
+ {
+  "id": "giant_retinal_tear",
+  "name": "Giant retinal tear",
+  "synonyms": [
+   "giant retinal tear",
+   "grt",
+   "giant tear",
+   "giant break",
+   "90 degree tear",
+   "large circumferential tear",
+   "giant retinal break"
+  ],
+  "group": "breaks",
+  "definition": "A full-thickness neurosensory retinal break extending circumferentially for 90° (3 clock hours) or more in the presence of a posteriorly detached vitreous.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "temporal (any quadrant)",
+   "notes": "Circumferential, at or just posterior to the posterior border of the vitreous base (between ora and equator); the posterior retinal flap may fold over (invert) when detached. Associated with high myopia, trauma, Stickler syndrome."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "≥3 clock hours (90°), up to 360°",
+  "drawing": {
+   "fill": "red",
+   "outline": "blue",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw a circumferential crescent filled red with a blue outline spanning ≥3 clock hours between equator and ora; draw the posterior flap edge as a curved blue line (folded/inverted edge drawn as a double blue line). Detached retina posterior to it is filled blue."
+  },
+  "color_source": "CMS L33567 App A (full-thickness break); note: Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology alternatively cross-lines the open area in red, but CMS reserves red cross-hatch for partial-thickness breaks",
+  "pubmed": [
+   {
+    "pmid": "22336825",
+    "doi": "10.1002/14651858.CD006909.pub3",
+    "title": "Interventions for prevention of giant retinal tear in the fellow eye.",
+    "year": "2012"
+   },
+   {
+    "pmid": "31840810",
+    "doi": "10.1002/14651858.CD012646.pub2",
+    "title": "Pars plana vitrectomy combined with scleral buckle versus pars plana vitrectomy for giant retinal tear.",
+    "year": "2019"
+   },
+   {
+    "pmid": "28299011",
+    "doi": "10.4103/2008-322X.200158",
+    "title": "Management of Giant Retinal Tear Detachments.",
+    "year": "2017"
+   }
+  ]
+ },
+ {
+  "id": "retinal_dialysis",
+  "name": "Retinal dialysis (oral disinsertion)",
+  "synonyms": [
+   "dialysis",
+   "retinal dialysis",
+   "oral dialysis",
+   "disinsertion",
+   "retinal disinsertion",
+   "ora dialysis",
+   "dialysis at the ora",
+   "traumatic dialysis",
+   "inferotemporal dialysis"
+  ],
+  "group": "breaks",
+  "definition": "A circumferential full-thickness break at the ora serrata in which the retina is disinserted from the non-pigmented epithelium of the pars plana, with vitreous typically remaining attached to the posterior edge of the break.",
+  "location": {
+   "zone": "ora",
+   "typical_clock": "inferotemporal",
+   "notes": "Located exactly at the ora serrata; inferotemporal most common (spontaneous/young patients); superonasal classically after blunt trauma; may be multiple or bilateral."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "usually <3 clock hours (<90°); occasionally larger",
+  "drawing": {
+   "fill": "red",
+   "outline": "blue",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw a thin circumferential band filled red with a blue outline whose anterior edge lies on the ora serrata circle; if retina adjacent to the ora is detached, also draw the black scalloped line over the ora circle and fill the detachment blue."
+  },
+  "color_source": "CMS L33567 App A (full-thickness break; black scalloped ora line for adjacent detached retina)",
+  "pubmed": [
+   {
+    "pmid": "24767228",
+    "doi": "10.1016/j.jcjo.2013.12.013",
+    "title": "Characteristics of rhegmatogenous retinal detachments secondary to retinal dialyses.",
+    "year": "2014"
+   },
+   {
+    "pmid": "7257070",
+    "doi": "",
+    "title": "Retinal dialysis: a statistical and genetic study to determine pathogenic factors.",
+    "year": "1980"
+   },
+   {
+    "pmid": "37008705",
+    "doi": "10.1177/24741264211024127",
+    "title": "Clinical Characteristics and Management Outcomes of Rhegmatogenous Retinal Detachments Due to Retinal Dialysis.",
+    "year": "2021"
+   },
+   {
+    "pmid": "3772033",
+    "doi": "",
+    "title": "[Retinal detachment caused by a tear at the ora serrata].",
+    "year": "1986"
+   }
+  ]
+ },
+ {
+  "id": "vitreous_base_avulsion",
+  "name": "Avulsion of the vitreous base",
+  "synonyms": [
+   "vitreous base avulsion",
+   "avulsed vitreous base",
+   "avulsion of vitreous base",
+   "bucket handle",
+   "bucket-handle",
+   "bucket handle avulsion",
+   "vitreous base detachment"
+  ],
+  "group": "breaks",
+  "definition": "Traumatic tearing of the vitreous base away from its insertion, producing a ribbon ('bucket handle') of non-pigmented ciliary epithelium and/or peripheral retina suspended in the vitreous; pathognomonic of blunt ocular trauma and often associated with dialysis.",
+  "location": {
+   "zone": "ora",
+   "typical_clock": "superonasal",
+   "notes": "Straddles the ora serrata / pars plana; strip hangs into the anterior vitreous; frequently accompanies traumatic dialysis or large oral tears (temporal or superonasal)."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "1–3 clock hours",
+  "drawing": {
+   "fill": "green",
+   "outline": "green",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw a curved green ribbon parallel to and straddling the ora/pars plana circles to represent the avulsed vitreous base in the vitreous; draw any accompanying dialysis or tear beneath it with break colours (blue outline, red fill)."
+  },
+  "color_source": "inferred: CMS green = opacities in media (suspended tissue in vitreous)",
+  "pubmed": [
+   {
+    "pmid": "8694096",
+    "doi": "10.1016/s0002-9394(14)72019-7",
+    "title": "Retinal detachments by squash ball accidents.",
+    "year": "1996"
+   },
+   {
+    "pmid": "3772033",
+    "doi": "",
+    "title": "[Retinal detachment caused by a tear at the ora serrata].",
+    "year": "1986"
+   }
+  ]
+ },
+ {
+  "id": "pars_plana_tear",
+  "name": "Tear of the pars plana non-pigmented epithelium",
+  "synonyms": [
+   "pars plana tear",
+   "pars plana break",
+   "tear in pars plana",
+   "nonpigmented epithelium tear",
+   "ciliary epithelium tear",
+   "pars plana ciliaris tear",
+   "npe tear",
+   "pars plicata tear"
+  ],
+  "group": "breaks",
+  "definition": "A traumatic break limited to the non-pigmented epithelium of the pars plana ciliaris anterior to the ora, which can cause a shallow rhegmatogenous retinal detachment despite no retinal break being present.",
+  "location": {
+   "zone": "pars_plana",
+   "typical_clock": "superonasal",
+   "notes": "In the band between ora and ciliary processes; requires scleral depression to see; associated with closed-globe contusion; detachment may present months later."
+  },
+  "shape": "patch",
+  "typical_size": "small, a fraction of a clock hour",
+  "drawing": {
+   "fill": "red",
+   "outline": "blue",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw a small red-filled, blue-outlined break inside the pars plana band (between the ora and outer ciliary-process circles); fill any associated detached retina blue."
+  },
+  "color_source": "inferred: CMS full-thickness break rule (blue outline filled red) applied to the pars plana epithelium",
+  "pubmed": [
+   {
+    "pmid": "9869457",
+    "doi": "10.1097/00006982-199811000-00002",
+    "title": "Retinal detachments due to traumatic tears in the pars plana ciliaris.",
+    "year": "1998"
+   }
+  ]
+ },
+ {
+  "id": "full_thickness_macular_hole",
+  "name": "Full-thickness macular hole",
+  "synonyms": [
+   "macular hole",
+   "full thickness macular hole",
+   "full-thickness macular hole",
+   "ftmh",
+   "mh",
+   "idiopathic macular hole",
+   "stage 2 macular hole",
+   "stage 3 macular hole",
+   "stage 4 macular hole",
+   "foveal hole"
+  ],
+  "group": "breaks",
+  "definition": "A foveal lesion with interruption of all neural retinal layers from the internal limiting membrane to the retinal pigment epithelium, seen ophthalmoscopically as a round red punched-out defect often with a grey cuff of subretinal fluid and sometimes an overlying (pseudo)operculum.",
+  "location": {
+   "zone": "fovea",
+   "typical_clock": null,
+   "notes": "Centred on the fovea; cuff of subretinal fluid around the hole; yellow deposits may be seen at the base; prehole opacity/(pseudo)operculum may lie on the posterior hyaloid."
+  },
+  "shape": "point",
+  "typical_size": "≈1/8–1/3 disc diameter (IVTS: small ≤250 µm, medium >250–400 µm, large >400 µm)",
+  "drawing": {
+   "fill": "red",
+   "outline": "blue",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw a small round red-filled circle with a blue outline at the fovea; add a thin blue ring for the cuff of subretinal fluid and a small green dot just off-centre for an operculum/pseudo-operculum if present."
+  },
+  "color_source": "CMS L33567 App A (full-thickness break; blue = detached retina); Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (operculum green)",
+  "pubmed": [
+   {
+    "pmid": "24053995",
+    "doi": "10.1016/j.ophtha.2013.07.042",
+    "title": "The International Vitreomacular Traction Study Group classification of vitreomacular adhesion, traction, and macular hole.",
+    "year": "2013"
+   },
+   {
+    "pmid": "7785690",
+    "doi": "10.1016/s0002-9394(14)72781-3",
+    "title": "Reappraisal of biomicroscopic classification of stages of development of a macular hole.",
+    "year": "1995"
+   },
+   {
+    "pmid": "9479299",
+    "doi": "10.1016/s0161-6420(98)93562-x",
+    "title": "Incidence of idiopathic full-thickness macular holes in fellow eyes. A 5-year prospective natural history study.",
+    "year": "1998"
+   }
+  ]
+ },
+ {
+  "id": "lamellar_macular_hole",
+  "name": "Lamellar macular hole",
+  "synonyms": [
+   "lamellar hole",
+   "lamellar macular hole",
+   "lmh",
+   "partial thickness macular hole",
+   "partial-thickness macular hole",
+   "lamellar defect",
+   "inner lamellar hole"
+  ],
+  "group": "breaks",
+  "definition": "A partial-thickness foveal defect with irregular foveal contour, undermined edges and apparent loss of foveal tissue, seen ophthalmoscopically as a round reddish foveal lesion with intact outer retina.",
+  "location": {
+   "zone": "fovea",
+   "typical_clock": null,
+   "notes": "Centred on the fovea; often with epiretinal proliferation/membrane; diagnosis confirmed by OCT but lesion is visible and charted clinically."
+  },
+  "shape": "point",
+  "typical_size": "≈1/8–1/3 disc diameter",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "cross_hatch",
+   "pattern_color": "red",
+   "description": "Draw a small round blue outline at the fovea and cross-hatch its interior in red to indicate a partial-thickness break."
+  },
+  "color_source": "CMS L33567 App A (partial-thickness sensory retinal break: blue outline cross-hatched red)",
+  "pubmed": [
+   {
+    "pmid": "32107208",
+    "doi": "10.1136/bjophthalmol-2019-315432",
+    "title": "Optical coherence tomography-based consensus definition for lamellar macular hole.",
+    "year": "2020"
+   },
+   {
+    "pmid": "34748208",
+    "doi": "10.1002/14651858.CD013678.pub2",
+    "title": "Surgical interventions for lamellar macular holes.",
+    "year": "2021"
+   }
+  ]
+ },
+ {
+  "id": "partial_thickness_break",
+  "name": "Partial-thickness retinal break",
+  "synonyms": [
+   "partial thickness break",
+   "partial-thickness break",
+   "partial thickness hole",
+   "lamellar break",
+   "partial thickness tear",
+   "inner retinal break",
+   "incomplete break"
+  ],
+  "group": "breaks",
+  "definition": "A retinal break that involves only part of the neurosensory retinal thickness (e.g., inner-layer hole of retinoschisis, lamellar hole, deep erosion), so that no direct communication exists between vitreous and subretinal space.",
+  "location": {
+   "zone": "any",
+   "typical_clock": null,
+   "notes": "Most often peripheral (within lattice, at the vitreous base or in the inner wall of retinoschisis); at the fovea it is charted as a lamellar macular hole."
+  },
+  "shape": "patch",
+  "typical_size": "variable, usually <1 disc diameter",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "cross_hatch",
+   "pattern_color": "red",
+   "description": "Draw the outline of the defect in blue and cross-hatch its interior in red."
+  },
+  "color_source": "CMS L33567 App A (partial-thickness sensory retinal break: blue outline cross-hatched red)",
+  "pubmed": [
+   {
+    "pmid": "28321986",
+    "doi": "10.1111/aos.13424",
+    "title": "Monitoring retinoschisis and non-acute retinal detachment by optical coherence tomography: morphologic aspects and clinical impact.",
+    "year": "2017"
+   },
+   {
+    "pmid": "32107208",
+    "doi": "10.1136/bjophthalmol-2019-315432",
+    "title": "Optical coherence tomography-based consensus definition for lamellar macular hole.",
+    "year": "2020"
+   },
+   {
+    "pmid": "41236034",
+    "doi": "10.1016/j.jcjo.2025.09.023",
+    "title": "Optical coherence tomography features of lattice degeneration.",
+    "year": "2025"
+   }
+  ]
+ },
+ {
+  "id": "retinal_erosion",
+  "name": "Retinal erosion / localized retinal thinning",
+  "synonyms": [
+   "retinal erosion",
+   "erosion",
+   "retinal thinning",
+   "thin retina",
+   "thinned retina",
+   "atrophic retina",
+   "inner retinal erosion",
+   "area of thinning"
+  ],
+  "group": "breaks",
+  "definition": "A sharply demarcated, reddish area of inner neurosensory retinal thinning without a full-thickness defect, typically within lattice degeneration or near the vitreous base, which may later evolve into an atrophic hole.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Between equator and ora, commonly in the floor of lattice lesions; looks redder than surrounding retina because the retina is thin."
+  },
+  "shape": "patch",
+  "typical_size": "<1 disc diameter",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "cross_hatch",
+   "pattern_color": "red",
+   "description": "Draw a blue outline around the thin area and cross-hatch the interior in red (same symbol as a partial-thickness break)."
+  },
+  "color_source": "CMS L33567 App A (partial-thickness break: blue outline cross-hatched red); Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (thin retinal areas: blue outline, red cross-lines)",
+  "pubmed": [
+   {
+    "pmid": "41236034",
+    "doi": "10.1016/j.jcjo.2025.09.023",
+    "title": "Optical coherence tomography features of lattice degeneration.",
+    "year": "2025"
+   },
+   {
+    "pmid": "26992837",
+    "doi": "10.1016/j.ophtha.2016.01.045",
+    "title": "Ultra-Widefield Steering-Based Spectral-Domain Optical Coherence Tomography Imaging of the Retinal Periphery.",
+    "year": "2016"
+   }
+  ]
+ },
+ {
+  "id": "schisis_inner_layer_hole",
+  "name": "Inner-layer hole in retinoschisis",
+  "synonyms": [
+   "inner layer hole",
+   "inner layer break",
+   "inner wall hole",
+   "inner wall break",
+   "ilb",
+   "inner leaf hole",
+   "schisis inner hole",
+   "inner layer hole retinoschisis"
+  ],
+  "group": "breaks",
+  "definition": "A break confined to the thin inner wall of a retinoschisis cavity; small and round in degenerative retinoschisis, but may be very large in X-linked retinoschisis, leaving vessels bridging the defect.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "inferotemporal",
+   "notes": "Located on the inner (vitreous-facing) wall of the schisis cavity; by itself does not cause retinal detachment."
+  },
+  "shape": "point",
+  "typical_size": "small (1/10–1/2 DD) in degenerative schisis; up to several clock hours in XLRS",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "cross_hatch",
+   "pattern_color": "red",
+   "description": "Draw a blue outline within the blue-hatched schisis area and cross-hatch the open portion in red."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (open portion of inner-layer holes red cross-lined, blue outline); Requisites for Fundus drawing (SlideShare) https://www.slideshare.net/slideshow/retina-drwaing/163697941; CMS L33567 App A (partial-thickness break)",
+  "pubmed": [
+   {
+    "pmid": "28321986",
+    "doi": "10.1111/aos.13424",
+    "title": "Monitoring retinoschisis and non-acute retinal detachment by optical coherence tomography: morphologic aspects and clinical impact.",
+    "year": "2017"
+   },
+   {
+    "pmid": "35984486",
+    "doi": "10.1007/s00417-022-05801-8",
+    "title": "Characterization and diagnosis of retinoschisis and schisis detachments using spectral domain optical coherence tomography.",
+    "year": "2022"
+   },
+   {
+    "pmid": "960371",
+    "doi": "",
+    "title": "The natural history of senile retinoschisis.",
+    "year": "1976"
+   }
+  ]
+ },
+ {
+  "id": "schisis_outer_layer_hole",
+  "name": "Outer-layer hole in retinoschisis",
+  "synonyms": [
+   "outer layer hole",
+   "outer layer break",
+   "outer wall hole",
+   "outer wall break",
+   "olb",
+   "outer leaf hole",
+   "schisis outer hole",
+   "outer layer hole retinoschisis"
+  ],
+  "group": "breaks",
+  "definition": "A break in the outer wall of a retinoschisis cavity, typically larger, round with rolled edges and posterior to the equator, through which schisis fluid can enter the subretinal space to produce a schisis-detachment.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "inferotemporal",
+   "notes": "Within the area of schisis, often near its posterior border and posterior to the equator; seen best with scleral depression/retro-illumination."
+  },
+  "shape": "point",
+  "typical_size": "1/4–2 disc diameters; often multiple",
+  "drawing": {
+   "fill": "red",
+   "outline": "blue",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw a round red-filled area with a blue outline inside the blue-hatched schisis region; fill any surrounding subretinal fluid blue."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (open interior of outer-layer holes red, blue outline); Requisites for Fundus drawing (SlideShare) https://www.slideshare.net/slideshow/retina-drwaing/163697941; CMS L33567 App A (full-thickness break colours)",
+  "pubmed": [
+   {
+    "pmid": "960371",
+    "doi": "",
+    "title": "The natural history of senile retinoschisis.",
+    "year": "1976"
+   },
+   {
+    "pmid": "34794516",
+    "doi": "10.1186/s40942-021-00344-2",
+    "title": "Repair of progressive retinal detachment complicating degenerative retinoschisis: surgical management and outcomes in phakic eyes.",
+    "year": "2021"
+   },
+   {
+    "pmid": "35984486",
+    "doi": "10.1007/s00417-022-05801-8",
+    "title": "Characterization and diagnosis of retinoschisis and schisis detachments using spectral domain optical coherence tomography.",
+    "year": "2022"
+   },
+   {
+    "pmid": "34896193",
+    "doi": "10.1016/j.survophthal.2021.12.004",
+    "title": "Diagnosis and management of degenerative retinoschisis and related complications.",
+    "year": "2021"
+   }
+  ]
+ },
+ {
+  "id": "break_with_subretinal_fluid_cuff",
+  "name": "Retinal break with cuff of subretinal fluid",
+  "synonyms": [
+   "hole with cuff",
+   "break with cuff",
+   "cuff of fluid",
+   "cuff of subretinal fluid",
+   "subclinical detachment",
+   "subclinical retinal detachment",
+   "localized detachment around hole",
+   "srf cuff"
+  ],
+  "group": "breaks",
+  "definition": "A retinal break surrounded by a small localized rim of subretinal fluid that does not extend more than about 1–2 disc diameters from the break (subclinical retinal detachment).",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Around atrophic holes or tears between equator and ora; usually asymptomatic and slowly progressive or stable."
+  },
+  "shape": "ring",
+  "typical_size": "break plus a 1/4–2 disc diameter rim of fluid",
+  "drawing": {
+   "fill": "red",
+   "outline": "blue",
+   "pattern": "ring",
+   "pattern_color": "blue",
+   "description": "Draw the break as red with a blue outline and surround it with a blue-shaded ring representing the detached retina of the cuff."
+  },
+  "color_source": "CMS L33567 App A (break: blue outline filled red; blue = detached retina)",
+  "pubmed": [
+   {
+    "pmid": "11470709",
+    "doi": "10.1016/s0161-6420(01)00652-2",
+    "title": "Subclinical retinal detachment resulting from asymptomatic retinal breaks: prognosis for progression and regression.",
+    "year": "2001"
+   },
+   {
+    "pmid": "7177568",
+    "doi": "10.1016/s0161-6420(82)34684-9",
+    "title": "The natural history of asymptomatic retinal breaks.",
+    "year": "1982"
+   }
+  ]
+ },
+ {
+  "id": "bridging_vessel_tear",
+  "name": "Bridging vessel across a retinal tear",
+  "synonyms": [
+   "bridging vessel",
+   "bridging vessel across tear",
+   "avulsed vessel",
+   "avulsed retinal vessel",
+   "vessel crossing tear",
+   "bridging retinal vessel"
+  ],
+  "group": "breaks",
+  "definition": "A retinal blood vessel that remains intact across a retinal tear, attached to the vitreous-borne flap, and can bleed into the vitreous with ongoing traction.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Crosses the open area of a horseshoe tear from posterior retina to the flap."
+  },
+  "shape": "vessel_segment",
+  "typical_size": "spans the tear (≈1/4–2 DD)",
+  "drawing": {
+   "fill": "none",
+   "outline": "red",
+   "pattern": "none",
+   "pattern_color": null,
+   "description": "Draw the tear with break colours, then a red line (artery; blue if a vein) running across the red-filled tear to its flap."
+  },
+  "color_source": "CMS L33567 App A (red = retinal arteries, blue = retinal veins)",
+  "pubmed": [
+   {
+    "pmid": "7182970",
+    "doi": "",
+    "title": "Retinal breaks without detachment: natural history, management and long term follow-up.",
+    "year": "1982"
+   }
+  ]
+ },
+ {
+  "id": "lattice_degeneration",
+  "name": "Lattice degeneration",
+  "synonyms": [
+   "lattice",
+   "lattice degeneration",
+   "lattice degen",
+   "latice",
+   "lattis",
+   "ld",
+   "lattice lesion",
+   "lattice of the retina",
+   "peripheral lattice",
+   "lattice patch"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A circumferentially oriented, sharply demarcated spindle-shaped area of peripheral retinal thinning with overlying vitreous liquefaction and firm vitreoretinal adhesion at its margins, often showing white sclerotic vessels, pigment and small atrophic holes.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "superotemporal",
+   "notes": "Between equator and ora (anterior to equator), circumferential, often in the vertical meridians (superior > inferior, temporal > nasal); may lie in parallel rows; frequently bilateral; associated with myopia."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "fraction of a clock hour to ~3 clock hours long; ~1/4–1 DD wide",
+  "drawing": {
+   "fill": "none",
+   "outline": "black",
+   "pattern": "x_marks",
+   "pattern_color": "black",
+   "description": "Draw an elongated circumferential spindle with a black outline and fill it with a black lattice (criss-cross 'X') pattern, oriented parallel to the ora."
+  },
+  "color_source": "CMS L33567 App A (black outline filled with black lattice pattern = lattice in attached retina)",
+  "pubmed": [
+   {
+    "pmid": "424991",
+    "doi": "10.1016/0039-6257(79)90048-1",
+    "title": "Lattice degeneration of the retina.",
+    "year": "1979"
+   },
+   {
+    "pmid": "1160917",
+    "doi": "",
+    "title": "A clinical definition of lattice degeneration of the retina and its variations.",
+    "year": "1975"
+   },
+   {
+    "pmid": "4823775",
+    "doi": "10.1016/0002-9394(74)90525-x",
+    "title": "Lattice degeneration of the retina. XXX Edward Jackson Memorial Lecture.",
+    "year": "1974"
+   },
+   {
+    "pmid": "41236034",
+    "doi": "10.1016/j.jcjo.2025.09.023",
+    "title": "Optical coherence tomography features of lattice degeneration.",
+    "year": "2025"
+   }
+  ]
+ },
+ {
+  "id": "lattice_with_atrophic_holes",
+  "name": "Lattice degeneration with atrophic holes",
+  "synonyms": [
+   "lattice with holes",
+   "lattice with atrophic holes",
+   "lattice and holes",
+   "holes in lattice",
+   "lattice with round holes",
+   "lattice with hole",
+   "atrophic holes in lattice"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Lattice degeneration containing one or more small round atrophic full-thickness holes within its thinned floor.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "superotemporal",
+   "notes": "Holes lie inside the lattice band between equator and ora; subclinical detachment may develop around them."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "lattice 1–3 clock hours; holes <1/4 DD",
+  "drawing": {
+   "fill": "none",
+   "outline": "black",
+   "pattern": "x_marks",
+   "pattern_color": "black",
+   "description": "Draw the lattice symbol (black outline + black lattice pattern) and place small red-filled, blue-outlined circles inside it for each hole."
+  },
+  "color_source": "CMS L33567 App A (lattice symbol + full-thickness break symbol)",
+  "pubmed": [
+   {
+    "pmid": "2780007",
+    "doi": "10.1016/s0161-6420(89)32713-8",
+    "title": "Long-term natural history of lattice degeneration of the retina.",
+    "year": "1989"
+   },
+   {
+    "pmid": "717500",
+    "doi": "10.1016/0002-9394(78)90239-8",
+    "title": "Retinal holes.",
+    "year": "1978"
+   },
+   {
+    "pmid": "41236034",
+    "doi": "10.1016/j.jcjo.2025.09.023",
+    "title": "Optical coherence tomography features of lattice degeneration.",
+    "year": "2025"
+   }
+  ]
+ },
+ {
+  "id": "lattice_with_tractional_tear",
+  "name": "Lattice degeneration with tractional (flap) tear",
+  "synonyms": [
+   "lattice with tear",
+   "lattice with horseshoe tear",
+   "tear at edge of lattice",
+   "lattice with flap tear",
+   "tear at posterior margin of lattice",
+   "lattice tear"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Lattice degeneration with a flap tear at its posterior or lateral margin, created by vitreous traction on the firm vitreoretinal adhesion at the lattice border during posterior vitreous detachment.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "superotemporal",
+   "notes": "Tear arises at the posterior (or end) margin of the lattice band where vitreous is adherent."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "lattice 1–3 clock hours; tear 1/4–2 DD",
+  "drawing": {
+   "fill": "none",
+   "outline": "black",
+   "pattern": "x_marks",
+   "pattern_color": "black",
+   "description": "Draw the lattice symbol (black outline + black lattice pattern) and a horseshoe tear (red fill, blue outline) at its posterior edge with the tear apex pointing posteriorly."
+  },
+  "color_source": "CMS L33567 App A (lattice symbol + full-thickness break symbol)",
+  "pubmed": [
+   {
+    "pmid": "2780007",
+    "doi": "10.1016/s0161-6420(89)32713-8",
+    "title": "Long-term natural history of lattice degeneration of the retina.",
+    "year": "1989"
+   },
+   {
+    "pmid": "1160919",
+    "doi": "",
+    "title": "Tears of the peripheral retina; pathogenesis, incidence and classification in autopsy eyes.",
+    "year": "1975"
+   }
+  ]
+ },
+ {
+  "id": "pigmented_lattice",
+  "name": "Pigmented lattice degeneration",
+  "synonyms": [
+   "pigmented lattice",
+   "lattice with pigment",
+   "pigmented lattice degeneration",
+   "lattice pigmentation",
+   "lattice with pigment clumps",
+   "hyperpigmented lattice"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Lattice degeneration in which the thinned area contains prominent clumps of hyperpigmentation from RPE migration, with or without the classic white sclerotic vessels.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "superotemporal",
+   "notes": "Same distribution as lattice: circumferential between equator and ora."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "fraction of a clock hour to ~3 clock hours",
+  "drawing": {
+   "fill": "none",
+   "outline": "black",
+   "pattern": "x_marks",
+   "pattern_color": "black",
+   "description": "Draw the lattice symbol (black outline + black lattice pattern) and add extra black dots/clumps within it to indicate the pigment."
+  },
+  "color_source": "CMS L33567 App A (lattice of attached retina: black outline, black lattice pattern)",
+  "pubmed": [
+   {
+    "pmid": "424991",
+    "doi": "10.1016/0039-6257(79)90048-1",
+    "title": "Lattice degeneration of the retina.",
+    "year": "1979"
+   },
+   {
+    "pmid": "41236034",
+    "doi": "10.1016/j.jcjo.2025.09.023",
+    "title": "Optical coherence tomography features of lattice degeneration.",
+    "year": "2025"
+   }
+  ]
+ },
+ {
+  "id": "lattice_in_detached_retina",
+  "name": "Lattice degeneration in detached retina",
+  "synonyms": [
+   "lattice in detached retina",
+   "lattice detached",
+   "lattice under detachment",
+   "lattice in detachment",
+   "detached lattice"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Lattice degeneration located within an area of detached retina.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Between equator and ora, inside the detached (blue) area."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "fraction of a clock hour to ~3 clock hours",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "x_marks",
+   "pattern_color": "blue",
+   "description": "Draw an elongated circumferential spindle with a blue outline filled with a blue lattice (criss-cross) pattern."
+  },
+  "color_source": "CMS L33567 App A (blue outline filled with blue lattice pattern = lattice of detached retina)",
+  "pubmed": [
+   {
+    "pmid": "424991",
+    "doi": "10.1016/0039-6257(79)90048-1",
+    "title": "Lattice degeneration of the retina.",
+    "year": "1979"
+   },
+   {
+    "pmid": "2780007",
+    "doi": "10.1016/s0161-6420(89)32713-8",
+    "title": "Long-term natural history of lattice degeneration of the retina.",
+    "year": "1989"
+   }
+  ]
+ },
+ {
+  "id": "radial_perivascular_lattice",
+  "name": "Radial perivascular lattice degeneration",
+  "synonyms": [
+   "radial lattice",
+   "perivascular lattice",
+   "radial perivascular lattice",
+   "perivascular pigmentation",
+   "stickler lattice",
+   "radial perivascular degeneration"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Lattice-like retinal thinning and pigmentation oriented radially along retinal vessels, typically posterior to the equator, characteristic of Stickler and related hereditary vitreoretinopathies.",
+  "location": {
+   "zone": "equator",
+   "typical_clock": null,
+   "notes": "Radial bands following major retinal vessels from the equator posteriorly; often multiple and bilateral."
+  },
+  "shape": "band_radial",
+  "typical_size": "1–3 disc diameters long per segment",
+  "drawing": {
+   "fill": "none",
+   "outline": "black",
+   "pattern": "x_marks",
+   "pattern_color": "black",
+   "description": "Draw radially oriented spindles along the vessels with a black outline and black lattice pattern."
+  },
+  "color_source": "inferred: CMS lattice rule (black outline + black lattice pattern)",
+  "pubmed": [
+   {
+    "pmid": "7340662",
+    "doi": "",
+    "title": "Radial perivascular lattice degeneration.",
+    "year": "1981"
+   },
+   {
+    "pmid": "7732932",
+    "doi": "",
+    "title": "[Two cases of Kniest dysplasia--ocular manifestations].",
+    "year": "1995"
+   },
+   {
+    "pmid": "18309337",
+    "doi": "10.1038/eye.2008.38",
+    "title": "Clinical features of the congenital vitreoretinopathies.",
+    "year": "2008"
+   }
+  ]
+ },
+ {
+  "id": "snail_track_degeneration",
+  "name": "Snail-track degeneration",
+  "synonyms": [
+   "snail track",
+   "snail-track",
+   "snail track degeneration",
+   "snailtrack",
+   "snail trail",
+   "snail trail degeneration",
+   "frost degeneration",
+   "snail tracks"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A sharply demarcated, elongated band of glistening white frost-like ('snowflake') dots in the peripheral retina without the white sclerotic vessels of classic lattice, considered a variant or early stage of lattice degeneration.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "superotemporal",
+   "notes": "Circumferential bands between equator and ora, often in myopic eyes; may contain atrophic holes."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "1–3 clock hours; band up to ~1 DD wide",
+  "drawing": {
+   "fill": "none",
+   "outline": "black",
+   "pattern": "stipple",
+   "pattern_color": "green",
+   "description": "Draw a circumferential band with a black (lattice-type) outline filled with fine green stippling for the frost-like snowflakes."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (green stipple = frosting/snowflakes on lattice); outline inferred from CMS lattice rule (black)",
+  "pubmed": [
+   {
+    "pmid": "4552079",
+    "doi": "10.1016/0002-9394(72)90065-7",
+    "title": "Snail track degeneration of the retina.",
+    "year": "1972"
+   },
+   {
+    "pmid": "7294110",
+    "doi": "10.1016/0002-9394(81)90639-5",
+    "title": "A possible relationship between lattice and snail track degenerations of the retina.",
+    "year": "1981"
+   },
+   {
+    "pmid": "2997682",
+    "doi": "10.1159/000309568",
+    "title": "[Lattice degeneration of the peripheral retina: ultrastructural study].",
+    "year": "1985"
+   },
+   {
+    "pmid": "39311976",
+    "doi": "10.1007/s00417-024-06593-9",
+    "title": "Evaluation of peripheral retinal degenerations using ultra-widefield swept source optical coherence tomography.",
+    "year": "2024"
+   }
+  ]
+ },
+ {
+  "id": "white_without_pressure",
+  "name": "White without pressure",
+  "synonyms": [
+   "white without pressure",
+   "wwop",
+   "w w o p",
+   "white w/o pressure",
+   "white without",
+   "whitening without pressure",
+   "white-without-pressure"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A translucent grey-white change in the peripheral retina visible without scleral indentation, with a well-defined posterior border, reflecting vitreoretinal adhesion/traction and outer retinal reflectance change.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "temporal",
+   "notes": "Between equator and ora, often temporal and in myopic or darkly pigmented eyes; may be large or migratory; its posterior border can be a site of tears."
+  },
+  "shape": "patch",
+  "typical_size": "small patch to 360° band",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "cross_hatch",
+   "pattern_color": "blue",
+   "description": "Outline the white area in blue and cross-hatch it with blue lines."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (white with or without pressure: blue cross-lined)",
+  "pubmed": [
+   {
+    "pmid": "1267636",
+    "doi": "10.1001/archopht.1976.03910030270003",
+    "title": "Migratory white-without-pressure retinal lesions.",
+    "year": "1976"
+   },
+   {
+    "pmid": "24056529",
+    "doi": "10.1097/IAE.0000000000000012",
+    "title": "Spectral domain optical coherence tomography characteristics of white-without-pressure.",
+    "year": "2014"
+   },
+   {
+    "pmid": "7102785",
+    "doi": "",
+    "title": "Retinal white without pressure: review and relative incidence.",
+    "year": "1982"
+   },
+   {
+    "pmid": "7174054",
+    "doi": "",
+    "title": "White with pressure (WWP) and white without pressure (WWOP) lesions.",
+    "year": "1982"
+   }
+  ]
+ },
+ {
+  "id": "white_with_pressure",
+  "name": "White with pressure",
+  "synonyms": [
+   "white with pressure",
+   "wwp",
+   "w w p",
+   "whitening with pressure",
+   "white-with-pressure"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A grey-white opacification of the peripheral retina that appears only on scleral indentation, related to vitreoretinal adherence/peripheral retinal sclerosis.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Between equator and ora, often bordering lattice, snail-track or retinoschisis; common in normal eyes."
+  },
+  "shape": "patch",
+  "typical_size": "small patch to 360° band",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "cross_hatch",
+   "pattern_color": "blue",
+   "description": "Outline the area in blue and cross-hatch it with blue lines (same symbol as white without pressure; annotate 'WWP')."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (white with or without pressure: blue cross-lined)",
+  "pubmed": [
+   {
+    "pmid": "7174054",
+    "doi": "",
+    "title": "White with pressure (WWP) and white without pressure (WWOP) lesions.",
+    "year": "1982"
+   },
+   {
+    "pmid": "1160920",
+    "doi": "",
+    "title": "[Are the symptoms \"white with pressure\" and \"white without pressure\" related to peripheral retinal sclerosis?].",
+    "year": "1975"
+   }
+  ]
+ },
+ {
+  "id": "dark_without_pressure",
+  "name": "Dark without pressure",
+  "synonyms": [
+   "dark without pressure",
+   "dwop",
+   "dwp",
+   "d w o p",
+   "dark w/o pressure",
+   "dark-without-pressure"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A flat, well-demarcated area of darker brown-grey fundus in the mid-periphery or periphery, visible without indentation, corresponding to reduced outer-segment/ellipsoid zone reflectance; benign and sometimes changes over time.",
+  "location": {
+   "zone": "midperiphery",
+   "typical_clock": null,
+   "notes": "Mid-periphery to periphery, often inferior or temporal; geographic, sometimes curvilinear."
+  },
+  "shape": "patch",
+  "typical_size": "1 to several disc diameters",
+  "drawing": {
+   "fill": "none",
+   "outline": "brown",
+   "pattern": "none",
+   "pattern_color": null,
+   "description": "Outline the darker area with a brown line (no fill) and annotate 'DWP'."
+  },
+  "color_source": "inferred: CMS brown = darker pigmentation seen through attached retina",
+  "pubmed": [
+   {
+    "pmid": "32690924",
+    "doi": "10.1038/s41433-020-1088-5",
+    "title": "Dark without pressure retinal changes in a paediatric age group.",
+    "year": "2020"
+   },
+   {
+    "pmid": "40442145",
+    "doi": "10.1038/s41598-025-03302-2",
+    "title": "Multimodal imaging of dark without pressure in high myopia reveals evidence that photoreceptor microscopic lesions may be reversible.",
+    "year": "2025"
+   }
+  ]
+ },
+ {
+  "id": "paving_stone_degeneration",
+  "name": "Paving-stone (cobblestone) degeneration",
+  "synonyms": [
+   "paving stone",
+   "paving-stone",
+   "pavingstone",
+   "cobblestone",
+   "cobble stone",
+   "cobblestone degeneration",
+   "paving stone degeneration",
+   "peripheral chorioretinal atrophy paving stone",
+   "pavingstone degeneration"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Discrete round yellow-white areas of peripheral chorioretinal atrophy with loss of RPE and choriocapillaris, pigmented borders and visible large choroidal vessels/sclera, that may coalesce into bands.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "inferior (inferotemporal/inferonasal)",
+   "notes": "Between equator and ora, most often inferiorly; usually bilateral; not associated with retinal detachment risk."
+  },
+  "shape": "cluster",
+  "typical_size": "individual lesions ~1/10–1 DD; may coalesce into bands",
+  "drawing": {
+   "fill": "none",
+   "outline": "black",
+   "pattern": "cross_hatch",
+   "pattern_color": "red",
+   "description": "Draw small round lesions with black outlines and red cross-hatching inside, grouped or coalescent between equator and ora."
+  },
+  "color_source": "CMS L33567 App A (black outline cross-hatched red = paving-stone degeneration of attached retina)",
+  "pubmed": [
+   {
+    "pmid": "14237783",
+    "doi": "10.1001/archopht.1965.00970030171006",
+    "title": "PAVING-STONE DEGENERATION OF THE RETINA.",
+    "year": "1965"
+   },
+   {
+    "pmid": "717500",
+    "doi": "10.1016/0002-9394(78)90239-8",
+    "title": "Retinal holes.",
+    "year": "1978"
+   },
+   {
+    "pmid": "35254953",
+    "doi": "10.1080/08820538.2022.2039222",
+    "title": "Visualisation of peripheral retinal degenerations and anomalies with ocular imaging.",
+    "year": "2022"
+   }
+  ]
+ },
+ {
+  "id": "paving_stone_in_detached_retina",
+  "name": "Paving-stone degeneration seen through detached retina",
+  "synonyms": [
+   "paving stone under detachment",
+   "paving stone detached",
+   "cobblestone under detachment",
+   "paving stone in detached retina",
+   "cobblestone detached"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Paving-stone chorioretinal atrophy viewed through overlying detached neurosensory retina.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "inferior",
+   "notes": "Within an area of retinal detachment between equator and ora."
+  },
+  "shape": "cluster",
+  "typical_size": "individual lesions ~1/10–1 DD",
+  "drawing": {
+   "fill": "none",
+   "outline": "brown",
+   "pattern": "cross_hatch",
+   "pattern_color": "red",
+   "description": "Draw the lesions with brown outlines and red cross-hatching inside, within the blue detached area."
+  },
+  "color_source": "CMS L33567 App A (brown outline cross-hatched red = paving-stone seen through detached retina)",
+  "pubmed": [
+   {
+    "pmid": "14237783",
+    "doi": "10.1001/archopht.1965.00970030171006",
+    "title": "PAVING-STONE DEGENERATION OF THE RETINA.",
+    "year": "1965"
+   }
+  ]
+ },
+ {
+  "id": "typical_peripheral_cystoid_degeneration",
+  "name": "Typical peripheral cystoid degeneration",
+  "synonyms": [
+   "typical cystoid degeneration",
+   "peripheral cystoid degeneration",
+   "typical peripheral cystoid degeneration",
+   "tpcd",
+   "pcd",
+   "microcystoid degeneration",
+   "micro cystoid",
+   "blessig iwanoff cysts",
+   "blessig-iwanoff cysts",
+   "iwanoff cysts",
+   "cystoid degeneration"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Clusters of tiny intraretinal cystoid spaces in the outer plexiform/inner nuclear layers immediately posterior to the ora serrata, giving a stippled grey-white honeycomb appearance; present in virtually all adults.",
+  "location": {
+   "zone": "ora",
+   "typical_clock": null,
+   "notes": "Continuous band just posterior to the ora serrata, often 360°, most prominent temporally; precursor of typical degenerative retinoschisis."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "band ~1–2 DD (up to ~3 mm) wide posterior to the ora",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "dots",
+   "pattern_color": "blue",
+   "description": "Draw a band of small blue circles/stipple just posterior to the ora circle."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (cystoid degeneration: blue stippled/circled)",
+  "pubmed": [
+   {
+    "pmid": "1009817",
+    "doi": "10.1007/BF00146762",
+    "title": "[Cavity structures in the peripheral retina].",
+    "year": "1976"
+   },
+   {
+    "pmid": "301710",
+    "doi": "10.1007/BF00410997",
+    "title": "[Scanning electron microscopy of cystoid degeneration in the peripheral retina (author's transl)].",
+    "year": "1977"
+   },
+   {
+    "pmid": "26992837",
+    "doi": "10.1016/j.ophtha.2016.01.045",
+    "title": "Ultra-Widefield Steering-Based Spectral-Domain Optical Coherence Tomography Imaging of the Retinal Periphery.",
+    "year": "2016"
+   }
+  ]
+ },
+ {
+  "id": "reticular_peripheral_cystoid_degeneration",
+  "name": "Reticular peripheral cystoid degeneration",
+  "synonyms": [
+   "reticular cystoid degeneration",
+   "reticular peripheral cystoid degeneration",
+   "rpcd",
+   "inner cystoid degeneration",
+   "reticular cystoid"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Cystoid spaces in the nerve fibre layer arranged in a fine reticular pattern that follows retinal vessels, located posterior to and continuous with typical cystoid degeneration; precursor of reticular retinoschisis.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "inferotemporal",
+   "notes": "Posterior to the band of typical cystoid degeneration, between it and the equator; found in about one-fifth of adults."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "narrow band; 1 to several clock hours",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "stipple",
+   "pattern_color": "blue",
+   "description": "Draw fine blue stippling in a linear/reticular arrangement along the vessels, posterior to the typical cystoid band."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (cystoid degeneration: blue stippled/circled)",
+  "pubmed": [
+   {
+    "pmid": "5418858",
+    "doi": "10.1016/0002-9394(70)92272-5",
+    "title": "Reticular cystoid degeneration of the peripheral retina.",
+    "year": "1970"
+   },
+   {
+    "pmid": "1009817",
+    "doi": "10.1007/BF00146762",
+    "title": "[Cavity structures in the peripheral retina].",
+    "year": "1976"
+   },
+   {
+    "pmid": "301710",
+    "doi": "10.1007/BF00410997",
+    "title": "[Scanning electron microscopy of cystoid degeneration in the peripheral retina (author's transl)].",
+    "year": "1977"
+   }
+  ]
+ },
+ {
+  "id": "retinal_tuft",
+  "name": "Retinal tuft (vitreoretinal tuft, unspecified)",
+  "synonyms": [
+   "tuft",
+   "retinal tuft",
+   "vitreoretinal tuft",
+   "vr tuft",
+   "peripheral tuft",
+   "retinal tag",
+   "granular tag"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A small focal elevation of peripheral retina with gliosis produced by vitreous or zonular traction at a point of firm vitreoretinal adhesion; classified as non-cystic, cystic, or zonular traction tufts.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Near the vitreous base: intrabasal (zonular traction tufts), juxtabasal or extrabasal (cystic tufts)."
+  },
+  "shape": "point",
+  "typical_size": "usually <1/2 disc diameter",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "short_lines",
+   "pattern_color": "blue",
+   "description": "Draw a small cluster of short blue lines at the site of the tuft."
+  },
+  "color_source": "CMS L33567 App A (short blue lines = retinal tufts)",
+  "pubmed": [
+   {
+    "pmid": "12834683",
+    "doi": "10.1016/s0002-9394(03)00144-2",
+    "title": "Peripheral retinal degenerations and the risk of retinal detachment.",
+    "year": "2003"
+   },
+   {
+    "pmid": "1160919",
+    "doi": "",
+    "title": "Tears of the peripheral retina; pathogenesis, incidence and classification in autopsy eyes.",
+    "year": "1975"
+   }
+  ]
+ },
+ {
+  "id": "cystic_retinal_tuft",
+  "name": "Cystic retinal tuft",
+  "synonyms": [
+   "cystic retinal tuft",
+   "cystic tuft",
+   "crt",
+   "granular patch",
+   "cystic vitreoretinal tuft",
+   "retinal rosette"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A congenital, small, elevated, chalky-white nodular lesion with cystic internal structure and often pigment at its base, with firm vitreoretinal adhesion that can produce a flap or operculated tear during posterior vitreous detachment.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Equatorial to peripheral retina, posterior to the vitreous base (extrabasal/juxtabasal); present in ~5% of autopsy eyes."
+  },
+  "shape": "point",
+  "typical_size": "<1/2 disc diameter",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "short_lines",
+   "pattern_color": "blue",
+   "description": "Draw a small cluster of short blue lines; add black dots around it if pigment is present at the base."
+  },
+  "color_source": "CMS L33567 App A (short blue lines = retinal tufts)",
+  "pubmed": [
+   {
+    "pmid": "7295127",
+    "doi": "10.1001/archopht.1981.03930020662007",
+    "title": "Cystic retinal tufts and their relationship to retinal detachment.",
+    "year": "1981"
+   },
+   {
+    "pmid": "7262422",
+    "doi": "10.1159/000395301",
+    "title": "Relationship of cystic retinal tufts to retinal detachment.",
+    "year": "1981"
+   },
+   {
+    "pmid": "7173634",
+    "doi": "10.1007/BF02156845",
+    "title": "Phakic retinal detachment associated with cystic retinal tuft.",
+    "year": "1982"
+   },
+   {
+    "pmid": "36307802",
+    "doi": "10.1186/s12886-022-02636-z",
+    "title": "Spectral-domain optical coherence tomography characteristics of cystic retinal tuft.",
+    "year": "2022"
+   },
+   {
+    "pmid": "1160919",
+    "doi": "",
+    "title": "Tears of the peripheral retina; pathogenesis, incidence and classification in autopsy eyes.",
+    "year": "1975"
+   }
+  ]
+ },
+ {
+  "id": "noncystic_retinal_tuft",
+  "name": "Non-cystic retinal tuft",
+  "synonyms": [
+   "non cystic tuft",
+   "noncystic tuft",
+   "non-cystic retinal tuft",
+   "noncystic retinal tuft",
+   "short tuft",
+   "intrabasal tuft"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A short, thin, non-cystic projection of glial tissue from the retinal surface into the vitreous within the vitreous base, with negligible risk of retinal detachment.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Within the vitreous base, just posterior to the ora; often multiple."
+  },
+  "shape": "point",
+  "typical_size": "<1/4 disc diameter",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "short_lines",
+   "pattern_color": "blue",
+   "description": "Draw one or a few very short blue lines near the ora."
+  },
+  "color_source": "CMS L33567 App A (short blue lines = retinal tufts)",
+  "pubmed": [
+   {
+    "pmid": "11372537",
+    "doi": "10.1007/s004170000239",
+    "title": "Autosomal dominant peripheral cystic retinal patches and non-cystic retinal tufts associated with peripapillary crescents, retinal breaks and uveitis.",
+    "year": "2001"
+   },
+   {
+    "pmid": "12834683",
+    "doi": "10.1016/s0002-9394(03)00144-2",
+    "title": "Peripheral retinal degenerations and the risk of retinal detachment.",
+    "year": "2003"
+   }
+  ]
+ },
+ {
+  "id": "zonular_traction_tuft",
+  "name": "Zonular traction tuft",
+  "synonyms": [
+   "zonular traction tuft",
+   "ztt",
+   "zonular tuft",
+   "zonular traction retinal tuft",
+   "zonular traction"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A tuft of peripheral retina within the vitreous base pulled anteriorly by an aberrant zonular fibre that extends from the ciliary body to the apex of the tuft, occasionally causing a small hole or tear.",
+  "location": {
+   "zone": "ora",
+   "typical_clock": "nasal",
+   "notes": "Within the vitreous base near the ora, usually nasal (often inferonasal); usually single and unilateral; tuft points anteriorly toward the ciliary processes."
+  },
+  "shape": "point",
+  "typical_size": "<1/4 disc diameter",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "short_lines",
+   "pattern_color": "blue",
+   "description": "Draw a short blue line at the ora pointing anteriorly across the pars plana band toward the ciliary processes."
+  },
+  "color_source": "CMS L33567 App A (short blue lines = retinal tufts)",
+  "pubmed": [
+   {
+    "pmid": "5348832",
+    "doi": "10.1001/archopht.1969.00990020616009",
+    "title": "Zonular traction tufts o the peripheral retina in cadaver eyes.",
+    "year": "1969"
+   },
+   {
+    "pmid": "717500",
+    "doi": "10.1016/0002-9394(78)90239-8",
+    "title": "Retinal holes.",
+    "year": "1978"
+   },
+   {
+    "pmid": "1160919",
+    "doi": "",
+    "title": "Tears of the peripheral retina; pathogenesis, incidence and classification in autopsy eyes.",
+    "year": "1975"
+   },
+   {
+    "pmid": "12834683",
+    "doi": "10.1016/s0002-9394(03)00144-2",
+    "title": "Peripheral retinal degenerations and the risk of retinal detachment.",
+    "year": "2003"
+   }
+  ]
+ },
+ {
+  "id": "meridional_fold",
+  "name": "Meridional fold",
+  "synonyms": [
+   "meridional fold",
+   "meridonal fold",
+   "radial fold",
+   "ora fold",
+   "meridional retinal fold",
+   "peripheral fold"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A small radially oriented fold of redundant peripheral retina extending posteriorly from the ora, usually aligned with a dentate process, sometimes with a small hole at its posterior end.",
+  "location": {
+   "zone": "ora",
+   "typical_clock": "superonasal",
+   "notes": "Radial, starting at the ora; most common superonasally and often bilateral/mirror-image."
+  },
+  "shape": "line",
+  "typical_size": "1/4–2 disc diameters long",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "short_lines",
+   "pattern_color": "blue",
+   "description": "Draw a single short blue line perpendicular to the ora circle, extending posteriorly from it."
+  },
+  "color_source": "CMS L33567 App A (short blue lines = meridional folds)",
+  "pubmed": [
+   {
+    "pmid": "5477154",
+    "doi": "",
+    "title": "Meridional folds, meridional complexes, and associated abnormalities of the peripheral retina.",
+    "year": "1970"
+   },
+   {
+    "pmid": "5771007",
+    "doi": "",
+    "title": "Meridional folds and meridional complexes of the peripheral retina.",
+    "year": "1969"
+   },
+   {
+    "pmid": "26992837",
+    "doi": "10.1016/j.ophtha.2016.01.045",
+    "title": "Ultra-Widefield Steering-Based Spectral-Domain Optical Coherence Tomography Imaging of the Retinal Periphery.",
+    "year": "2016"
+   },
+   {
+    "pmid": "717500",
+    "doi": "10.1016/0002-9394(78)90239-8",
+    "title": "Retinal holes.",
+    "year": "1978"
+   }
+  ]
+ },
+ {
+  "id": "meridional_complex",
+  "name": "Meridional complex",
+  "synonyms": [
+   "meridional complex",
+   "meridonal complex",
+   "meridional fold complex",
+   "dentate process aligned with ciliary process"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A meridional fold in which the dentate process (and associated fold) is in radial alignment with a ciliary process, forming a continuous radial ridge from retina across the pars plana.",
+  "location": {
+   "zone": "ora",
+   "typical_clock": "superonasal",
+   "notes": "Radial, spanning from just posterior to the ora across the pars plana to a ciliary process; most common nasally."
+  },
+  "shape": "line",
+  "typical_size": "≈1–3 disc diameters long",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "short_lines",
+   "pattern_color": "blue",
+   "description": "Draw a short radial blue line crossing the ora circle and pars plana band to reach the ciliary-process circle."
+  },
+  "color_source": "inferred: CMS short blue lines = meridional folds",
+  "pubmed": [
+   {
+    "pmid": "5477154",
+    "doi": "",
+    "title": "Meridional folds, meridional complexes, and associated abnormalities of the peripheral retina.",
+    "year": "1970"
+   },
+   {
+    "pmid": "5771007",
+    "doi": "",
+    "title": "Meridional folds and meridional complexes of the peripheral retina.",
+    "year": "1969"
+   }
+  ]
+ },
+ {
+  "id": "enclosed_oral_bay",
+  "name": "Enclosed oral bay",
+  "synonyms": [
+   "enclosed oral bay",
+   "enclosed ora bay",
+   "enclosed bay",
+   "oral bay",
+   "ora bay",
+   "enclosed bay of the ora serrata"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A small oval island of pars plana epithelium completely surrounded by retina just posterior to the ora, formed by fusion of adjacent dentate processes; retinal tears may occur at its posterior margin.",
+  "location": {
+   "zone": "ora",
+   "typical_clock": "nasal",
+   "notes": "Immediately posterior to the ora serrata, more often nasally where dentate processes are prominent."
+  },
+  "shape": "patch",
+  "typical_size": "≈1/4–1 disc diameter",
+  "drawing": {
+   "fill": "none",
+   "outline": "brown",
+   "pattern": "none",
+   "pattern_color": null,
+   "description": "Draw a small closed oval loop attached to the posterior side of the ora circle, outlined in brown (pars plana tissue)."
+  },
+  "color_source": "inferred: Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology brown = uveal/pars plana tissue",
+  "pubmed": [
+   {
+    "pmid": "5437902",
+    "doi": "10.1001/archopht.1970.00990030421006",
+    "title": "Enclosed bays of the ora serrata. Relationship to retina tears.",
+    "year": "1970"
+   }
+  ]
+ },
+ {
+  "id": "ora_serrata_pearl",
+  "name": "Ora serrata pearl",
+  "synonyms": [
+   "ora pearl",
+   "ora pearls",
+   "ora serrata pearl",
+   "ora serrata pearls",
+   "pearls of the ora",
+   "pearl of ora"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A glistening, white-yellow, drusen-like nodule on a dentate process at the ora serrata.",
+  "location": {
+   "zone": "ora",
+   "typical_clock": null,
+   "notes": "On the dentate processes at the ora; often multiple."
+  },
+  "shape": "point",
+  "typical_size": "<1/10 disc diameter",
+  "drawing": {
+   "fill": "green",
+   "outline": "green",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Draw small solid green dots on the ora circle."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (pearls of ora: green solid)",
+  "pubmed": [
+   {
+    "pmid": "25856655",
+    "doi": "10.1001/jamaophthalmol.2014.5362",
+    "title": "Optical coherence tomography of an ora serrata pearl.",
+    "year": "2015"
+   },
+   {
+    "pmid": "26992837",
+    "doi": "10.1016/j.ophtha.2016.01.045",
+    "title": "Ultra-Widefield Steering-Based Spectral-Domain Optical Coherence Tomography Imaging of the Retinal Periphery.",
+    "year": "2016"
+   }
+  ]
+ },
+ {
+  "id": "pars_plana_cyst",
+  "name": "Pars plana cyst",
+  "synonyms": [
+   "pars plana cyst",
+   "pars plana cysts",
+   "ciliary epithelial cyst",
+   "ciliary body cyst",
+   "cyst of pars plana",
+   "pars plana ciliaris cyst"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A clear, dome-shaped cyst of the non-pigmented ciliary epithelium of the pars plana, between the ora serrata and the ciliary processes.",
+  "location": {
+   "zone": "pars_plana",
+   "typical_clock": "temporal",
+   "notes": "In the pars plana band, more often temporally; may be multiple; can rarely detach into the vitreous."
+  },
+  "shape": "point",
+  "typical_size": "1/4–2 disc diameters",
+  "drawing": {
+   "fill": "none",
+   "outline": "brown",
+   "pattern": "none",
+   "pattern_color": null,
+   "description": "Draw small brown-outlined circles or ovals within the pars plana band."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (pars plana cysts: brown solid)",
+  "pubmed": [
+   {
+    "pmid": "13457551",
+    "doi": "10.1001/archopht.1957.00940010548008",
+    "title": "Cysts of the pars plana ciliaris: ophthalmoscopic appearance and pathological description.",
+    "year": "1957"
+   },
+   {
+    "pmid": "5703875",
+    "doi": "10.1159/000305464",
+    "title": "[On the pathomorphology and pathogenesis of the pars plana cyst].",
+    "year": "1968"
+   },
+   {
+    "pmid": "33133452",
+    "doi": "10.18502/jovr.v15i4.7799",
+    "title": "A Suspected Detached Pars Plana Cyst in the Vitreous Cavity.",
+    "year": "2020"
+   }
+  ]
+ },
+ {
+  "id": "reticular_pigmentary_degeneration",
+  "name": "Reticular (peripheral) pigmentary degeneration",
+  "synonyms": [
+   "reticular pigmentary degeneration",
+   "reticular degeneration of the pigment epithelium",
+   "rdpe",
+   "peripheral reticular pigmentary degeneration",
+   "peripheral pigmentary degeneration",
+   "honeycomb pigmentation",
+   "reticular pigment"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "An age-related, net-like (polygonal) pattern of perivascular hyperpigmentation of the RPE in the peripheral fundus, associated with ageing and age-related macular degeneration.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Equator to ora, often a 360° band; bilateral."
+  },
+  "shape": "band_circumferential",
+  "typical_size": "several clock hours to 360°",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "cross_hatch",
+   "pattern_color": "brown",
+   "description": "Draw a fine brown polygonal (net-like) pattern in the peripheral band without an outline."
+  },
+  "color_source": "inferred: CMS brown = RPE pigmentation seen through attached retina",
+  "pubmed": [
+   {
+    "pmid": "4080322",
+    "doi": "10.1016/s0161-6420(85)33829-0",
+    "title": "Reticular degeneration of the pigment epithelium.",
+    "year": "1985"
+   },
+   {
+    "pmid": "35254953",
+    "doi": "10.1080/08820538.2022.2039222",
+    "title": "Visualisation of peripheral retinal degenerations and anomalies with ocular imaging.",
+    "year": "2022"
+   }
+  ]
+ },
+ {
+  "id": "peripheral_pigment_clumping",
+  "name": "Peripheral pigment clumping / hyperpigmentation",
+  "synonyms": [
+   "pigment clumping",
+   "peripheral pigment",
+   "pigment clump",
+   "hyperpigmentation",
+   "rpe hyperplasia",
+   "peripheral pigmentation",
+   "pigment migration",
+   "pigmentary changes"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Focal clumps of RPE hyperplasia or migrated pigment in the peripheral retina, seen through attached retina.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Anywhere in the periphery; often at margins of lattice, paving stone, old scars or demarcation lines."
+  },
+  "shape": "cluster",
+  "typical_size": "pinpoint to 1/2 disc diameter",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "dots",
+   "pattern_color": "brown",
+   "description": "Draw brown dots/clumps (black is used by some textbooks for intraretinal pigment)."
+  },
+  "color_source": "CMS L33567 App A (brown = RPE or choroidal pigmentation seen through attached retina)",
+  "pubmed": [
+   {
+    "pmid": "37993580",
+    "doi": "10.1038/s41598-023-47761-x",
+    "title": "Prevalence of peripheral retinal findings in retinal patients using ultra-widefield pseudocolor fundus imaging.",
+    "year": "2023"
+   }
+  ]
+ },
+ {
+  "id": "peripheral_chorioretinal_atrophy",
+  "name": "Peripheral chorioretinal atrophy",
+  "synonyms": [
+   "chorioretinal atrophy",
+   "peripheral chorioretinal atrophy",
+   "peripheral atrophy",
+   "cra",
+   "myopic peripheral atrophy",
+   "atrophic patch"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A white to yellow-white area of peripheral loss of RPE and choriocapillaris with exposed choroidal vessels or sclera and pigmented margins, common in high myopia and hereditary vitreoretinopathies.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Between equator and ora, often temporal; more frequent with increasing axial length."
+  },
+  "shape": "patch",
+  "typical_size": "1/4 to several disc diameters",
+  "drawing": {
+   "fill": "white",
+   "outline": "black",
+   "pattern": "none",
+   "pattern_color": null,
+   "description": "Draw a patch with a black (pigmented) outline and leave the interior white; if large choroidal vessels are visible, use the paving-stone symbol (black outline, red cross-hatch)."
+  },
+  "color_source": "inferred: brief textbook convention black = pigmented scars/borders; CMS paving-stone rule for visible choroidal vessels",
+  "pubmed": [
+   {
+    "pmid": "35326034",
+    "doi": "10.4103/ijo.IJO_946_21",
+    "title": "Clinical profile and distribution of peripheral retinal changes in myopic population in a hospital-based study in North India.",
+    "year": "2022"
+   },
+   {
+    "pmid": "36110731",
+    "doi": "10.4103/jpbs.jpbs_828_21",
+    "title": "Fundus Changes in High Myopia in Relation to Axial Length of the Globe.",
+    "year": "2022"
+   },
+   {
+    "pmid": "18309337",
+    "doi": "10.1038/eye.2008.38",
+    "title": "Clinical features of the congenital vitreoretinopathies.",
+    "year": "2008"
+   }
+  ]
+ },
+ {
+  "id": "peripheral_chorioretinal_scar",
+  "name": "Peripheral pigmented chorioretinal scar",
+  "synonyms": [
+   "chorioretinal scar",
+   "pigmented scar",
+   "peripheral scar",
+   "old scar",
+   "chorioretinitis scar",
+   "healed chorioretinitis",
+   "pigmented chorioretinal scar"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "A healed, flat, sharply demarcated area of chorioretinal atrophy with heavy pigment clumping from prior inflammation, trauma or treatment.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Anywhere in the periphery; retinal holes may form at the edge of chorioretinitis scars."
+  },
+  "shape": "patch",
+  "typical_size": "1/4 to several disc diameters",
+  "drawing": {
+   "fill": "white",
+   "outline": "black",
+   "pattern": "dots",
+   "pattern_color": "black",
+   "description": "Draw a patch with a heavy black outline, black pigment clumps and a white (bare sclera) centre."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (black = hyperpigmentation from prior cryo/photocoagulation/diathermy and RPE pigment); brief textbook black = pigmented scars",
+  "pubmed": [
+   {
+    "pmid": "717500",
+    "doi": "10.1016/0002-9394(78)90239-8",
+    "title": "Retinal holes.",
+    "year": "1978"
+   },
+   {
+    "pmid": "26992837",
+    "doi": "10.1016/j.ophtha.2016.01.045",
+    "title": "Ultra-Widefield Steering-Based Spectral-Domain Optical Coherence Tomography Imaging of the Retinal Periphery.",
+    "year": "2016"
+   }
+  ]
+ },
+ {
+  "id": "peripheral_drusen",
+  "name": "Peripheral drusen",
+  "synonyms": [
+   "peripheral drusen",
+   "drusen periphery",
+   "equatorial drusen",
+   "peripheral druse",
+   "drusen-like deposits"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Small yellow-white sub-RPE deposits located in the equatorial or peripheral fundus, common with age and age-related macular degeneration.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": null,
+   "notes": "Equator to periphery, often nasal or 360°."
+  },
+  "shape": "cluster",
+  "typical_size": "pinpoint (≤1/10 DD) each, in clusters",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "stipple",
+   "pattern_color": "yellow",
+   "description": "Draw yellow stippling (dots) over the involved area."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (drusen: yellow stippled); brief textbook yellow = drusen",
+  "pubmed": [
+   {
+    "pmid": "37993580",
+    "doi": "10.1038/s41598-023-47761-x",
+    "title": "Prevalence of peripheral retinal findings in retinal patients using ultra-widefield pseudocolor fundus imaging.",
+    "year": "2023"
+   },
+   {
+    "pmid": "31167730",
+    "doi": "10.1016/j.oret.2019.04.014",
+    "title": "Peripheral Retinal Lesions in Eyes with Age-Related Macular Degeneration Using Ultra-Widefield Imaging: A Systematic Review with Meta-analyses.",
+    "year": "2019"
+   },
+   {
+    "pmid": "39533036",
+    "doi": "10.1038/s41433-024-03438-x",
+    "title": "Morphology and incidence of drusen-like deposits in peripheral retina of eyes with high myopia.",
+    "year": "2024"
+   }
+  ]
+ },
+ {
+  "id": "snowflake_degeneration",
+  "name": "Snowflake degeneration",
+  "synonyms": [
+   "snowflake degeneration",
+   "snowflakes",
+   "snowflake vitreoretinal degeneration",
+   "svd",
+   "snow flakes",
+   "peripheral snowflakes",
+   "frosting"
+  ],
+  "group": "peripheral_degenerations",
+  "definition": "Numerous discrete white-yellow crystalline or granular dots (about 100–200 µm) in the peripheral retina, either as an inherited snowflake vitreoretinal degeneration or overlying lattice, cystoid degeneration or retinoschisis.",
+  "location": {
+   "zone": "equator",
+   "typical_clock": "inferior",
+   "notes": "Near the equator and periphery, sometimes 360°, sometimes predominantly inferior; may coexist with white with/without pressure and lattice."
+  },
+  "shape": "cluster",
+  "typical_size": "each dot ~100–200 µm (≈1/10 DD); area 1 clock hour to 360°",
+  "drawing": {
+   "fill": "none",
+   "outline": "none",
+   "pattern": "stipple",
+   "pattern_color": "green",
+   "description": "Draw fine green stippling over the involved area."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (green stippled/dotted = frosting or snowflakes)",
+  "pubmed": [
+   {
+    "pmid": "7162796",
+    "doi": "10.1016/s0161-6420(82)34609-6",
+    "title": "Snowflake degeneration of the retina.",
+    "year": "1982"
+   },
+   {
+    "pmid": "14644728",
+    "doi": "10.1016/S0161-6420(03)00828-5",
+    "title": "Snowflake vitreoretinal degeneration: follow-up of the original family.",
+    "year": "2003"
+   }
+  ]
+ },
+ {
+  "id": "degenerative_retinoschisis_typical",
+  "name": "Typical degenerative (senile) retinoschisis",
+  "synonyms": [
+   "retinoschisis",
+   "typical retinoschisis",
+   "degenerative retinoschisis",
+   "senile retinoschisis",
+   "acquired retinoschisis",
+   "schisis",
+   "skisis",
+   "typical degenerative retinoschisis",
+   "rs",
+   "flat schisis"
+  ],
+  "group": "detachments_schisis",
+  "definition": "Splitting of the peripheral neurosensory retina at the outer plexiform layer, arising from confluent typical cystoid degeneration, forming a smooth, immobile, shallow dome with a thin transparent inner wall, often with white flecks (snowflakes) and sheathed vessels.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "inferotemporal",
+   "notes": "Bilateral and symmetric in many patients, inferotemporal most often, then superotemporal; extends from the ora posteriorly, posterior border frequently post-equatorial; produces an absolute scotoma."
+  },
+  "shape": "dome",
+  "typical_size": "1–6 clock hours",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "cross_hatch",
+   "pattern_color": "blue",
+   "description": "Outline the schisis area in blue and cross-hatch it with blue lines (inner layer); draw inner-layer holes red cross-hatched and outer-layer holes red-filled, both with blue outlines."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (inner layer of retinoschisis: blue cross-lined); Requisites for Fundus drawing (SlideShare) https://www.slideshare.net/slideshow/retina-drwaing/163697941 (inner layer outlined and cross-hatched blue)",
+  "pubmed": [
+   {
+    "pmid": "4572333",
+    "doi": "10.1016/0002-9394(73)90809-x",
+    "title": "Typical and reticular degenerative retinoschisis.",
+    "year": "1973"
+   },
+   {
+    "pmid": "7425969",
+    "doi": "10.1111/j.1442-9071.1980.tb00339.x",
+    "title": "Clinical features of degenerative retinoschisis.",
+    "year": "1980"
+   },
+   {
+    "pmid": "3808625",
+    "doi": "10.1016/s0161-6420(86)33601-7",
+    "title": "Long-term natural history study of senile retinoschisis with implications for management.",
+    "year": "1986"
+   },
+   {
+    "pmid": "35984486",
+    "doi": "10.1007/s00417-022-05801-8",
+    "title": "Characterization and diagnosis of retinoschisis and schisis detachments using spectral domain optical coherence tomography.",
+    "year": "2022"
+   }
+  ]
+ },
+ {
+  "id": "degenerative_retinoschisis_bullous_reticular",
+  "name": "Reticular (bullous) degenerative retinoschisis",
+  "synonyms": [
+   "bullous retinoschisis",
+   "reticular retinoschisis",
+   "bullous schisis",
+   "reticular degenerative retinoschisis",
+   "bullous degenerative retinoschisis",
+   "reticular schisis"
+  ],
+  "group": "detachments_schisis",
+  "definition": "Splitting of the peripheral retina at the nerve fibre layer, arising from reticular cystoid degeneration, forming a more elevated, bullous cavity with an extremely thin inner wall and a higher frequency of large outer-layer breaks.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "inferotemporal",
+   "notes": "Inferotemporal most often; may extend posterior to the equator; outer-layer holes are typically large, round and posterior."
+  },
+  "shape": "dome",
+  "typical_size": "1–6 clock hours",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "cross_hatch",
+   "pattern_color": "blue",
+   "description": "Outline in blue and cross-hatch in blue as for typical schisis; draw the larger outer-layer holes as red-filled with blue outlines."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (inner layer of retinoschisis: blue cross-lined); Requisites for Fundus drawing (SlideShare) https://www.slideshare.net/slideshow/retina-drwaing/163697941",
+  "pubmed": [
+   {
+    "pmid": "4572333",
+    "doi": "10.1016/0002-9394(73)90809-x",
+    "title": "Typical and reticular degenerative retinoschisis.",
+    "year": "1973"
+   },
+   {
+    "pmid": "7425969",
+    "doi": "10.1111/j.1442-9071.1980.tb00339.x",
+    "title": "Clinical features of degenerative retinoschisis.",
+    "year": "1980"
+   },
+   {
+    "pmid": "7348852",
+    "doi": "10.1097/00006982-198101040-00006",
+    "title": "Macular function in typical and reticular retinoschisis.",
+    "year": "1981"
+   }
+  ]
+ },
+ {
+  "id": "schisis_detachment",
+  "name": "Schisis-detachment (retinoschisis-associated retinal detachment)",
+  "synonyms": [
+   "schisis detachment",
+   "schisis-detachment",
+   "retinoschisis detachment",
+   "schisis rd",
+   "schisis related detachment",
+   "outer layer break detachment"
+  ],
+  "group": "detachments_schisis",
+  "definition": "A retinal detachment arising when schisis fluid passes through outer-layer breaks into the subretinal space, either localized and stable or progressive and symptomatic when combined with inner-layer breaks.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "inferotemporal",
+   "notes": "Around outer-layer holes within or just beyond the schisis cavity, often posterior to the equator; localized forms are often bordered by a pigmented demarcation line."
+  },
+  "shape": "sector_region",
+  "typical_size": "localized (within one quadrant) to extensive",
+  "drawing": {
+   "fill": "blue",
+   "outline": "blue",
+   "pattern": "solid",
+   "pattern_color": null,
+   "description": "Fill the detached area blue (outline blue), with the overlying schisis cross-hatched blue and outer-layer holes red-filled; add a black line for any pigmented demarcation line."
+  },
+  "color_source": "CMS L33567 App A (blue = detached retina); Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (black = pigmented demarcation lines)",
+  "pubmed": [
+   {
+    "pmid": "34896193",
+    "doi": "10.1016/j.survophthal.2021.12.004",
+    "title": "Diagnosis and management of degenerative retinoschisis and related complications.",
+    "year": "2021"
+   },
+   {
+    "pmid": "3808625",
+    "doi": "10.1016/s0161-6420(86)33601-7",
+    "title": "Long-term natural history study of senile retinoschisis with implications for management.",
+    "year": "1986"
+   },
+   {
+    "pmid": "12101441",
+    "doi": "10.1038/sj.eye.6700191",
+    "title": "Perspectives on the management of the complications of senile retinoschisis.",
+    "year": "2002"
+   },
+   {
+    "pmid": "29780920",
+    "doi": "10.1016/j.ajoc.2018.01.005",
+    "title": "Visual recovery after surgical repair of chronic macular detachment associated with peripheral retinoschisis.",
+    "year": "2018"
+   }
+  ]
+ },
+ {
+  "id": "x_linked_retinoschisis_peripheral",
+  "name": "X-linked retinoschisis (peripheral)",
+  "synonyms": [
+   "x linked retinoschisis",
+   "x-linked retinoschisis",
+   "xlrs",
+   "juvenile retinoschisis",
+   "congenital retinoschisis",
+   "x linked juvenile retinoschisis",
+   "xljr",
+   "peripheral juvenile schisis"
+  ],
+  "group": "detachments_schisis",
+  "definition": "Inherited (RS1) splitting of the inner retina which, peripherally, forms bullous schisis with very thin inner walls, large inner-layer holes, vitreous veils, silver-white spiculations and pigmentary change, usually with a coexisting spoke-wheel foveal schisis.",
+  "location": {
+   "zone": "periphery",
+   "typical_clock": "inferotemporal",
+   "notes": "Peripheral schisis most often inferotemporal; honeycomb appearance and pigmentary changes; associated with vitreous haemorrhage and retinal detachment."
+  },
+  "shape": "dome",
+  "typical_size": "1–2 quadrants; inner-layer holes may span several clock hours",
+  "drawing": {
+   "fill": "none",
+   "outline": "blue",
+   "pattern": "cross_hatch",
+   "pattern_color": "blue",
+   "description": "Outline the schisis in blue and cross-hatch in blue; draw the large inner-layer holes with blue outline and red cross-hatching; draw vitreous veils in green with their red/blue vessels."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (inner layer of retinoschisis blue cross-lined; inner-layer holes red cross-lined; vitreous membranes green)",
+  "pubmed": [
+   {
+    "pmid": "36724832",
+    "doi": "10.1016/j.survophthal.2023.01.008",
+    "title": "Typical and atypical clinical presentations of X-Linked retinoschisis: A case series and literature review.",
+    "year": "2023"
+   },
+   {
+    "pmid": "36879218",
+    "doi": "10.1186/s12886-023-02835-2",
+    "title": "Retinal honeycomb appearance and its role in patients with X-linked retinoschisis.",
+    "year": "2023"
+   },
+   {
+    "pmid": "41044465",
+    "doi": "10.1111/aos.70002",
+    "title": "Long-term results of conservative and surgical treatment of congenital x-linked retinoschisis: A retrospective multicentre international study.",
+    "year": "2025"
+   }
+  ]
+ },
+ {
+  "id": "xlrs_vitreous_veil",
+  "name": "Vitreous veil (X-linked retinoschisis)",
+  "synonyms": [
+   "vitreous veil",
+   "vitreous veils",
+   "xlrs veil",
+   "inner layer veil",
+   "floating inner layer",
+   "retinal veil"
+  ],
+  "group": "detachments_schisis",
+  "definition": "A remnant of the extensively broken inner wall of X-linked retinoschisis that floats in the vitreous carrying retinal vessels.",
+  "location": {
+   "zone": "vitreous",
+   "typical_clock": "inferotemporal",
+   "notes": "Overlying the area of peripheral schisis, suspended in the vitreous cavity; vessels within may bleed."
+  },
+  "shape": "cloud",
+  "typical_size": "1–2 quadrants",
+  "drawing": {
+   "fill": "none",
+   "outline": "green",
+   "pattern": "none",
+   "pattern_color": null,
+   "description": "Draw a green-outlined membrane over the schisis area with red (artery) and blue (vein) vessel lines running through it."
+  },
+  "color_source": "Documentation & Drawing in Ophthalmology (eOphtha) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (vitreous membranes: green); CMS L33567 App A (vessel colours)",
+  "pubmed": [
+   {
+    "pmid": "36724832",
+    "doi": "10.1016/j.survophthal.2023.01.008",
+    "title": "Typical and atypical clinical presentations of X-Linked retinoschisis: A case series and literature review.",
+    "year": "2023"
+   },
+   {
+    "pmid": "41044465",
+    "doi": "10.1111/aos.70002",
+    "title": "Long-term results of conservative and surgical treatment of congenital x-linked retinoschisis: A retrospective multicentre international study.",
+    "year": "2025"
+   },
+   {
+    "pmid": "22004578",
+    "doi": "10.1016/j.oftal.2011.03.009",
+    "title": "[X linked retinoschisis, unusual presentation: strabismus].",
+    "year": "2011"
+   }
+  ]
+ }
+]

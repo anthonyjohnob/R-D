@@ -1,0 +1,913 @@
+[
+  {
+    "id": "rhegmatogenous_retinal_detachment",
+    "name": "Rhegmatogenous retinal detachment",
+    "synonyms": ["rrd", "rd", "retinal detachment", "rhegmatogenous rd", "rhegmatogenous detachment", "regmatogenous retinal detachment", "macula on rd", "macula off rd", "mac on", "mac off", "bullous rd", "detached retina", "fresh rd"],
+    "group": "detachments_schisis",
+    "definition": "Separation of the neurosensory retina from the retinal pigment epithelium caused by liquefied vitreous passing through one or more full-thickness retinal breaks into the subretinal space; a fresh detachment is convex, corrugated and mobile.",
+    "location": {"zone": "periphery", "typical_clock": "superotemporal", "notes": "Starts at the causative peripheral break (most often a superior or temporal horseshoe tear) and spreads from the ora posteriorly; record extent in clock hours and macula on/off status."},
+    "shape": "sector_region",
+    "typical_size": "1 clock hour to total (12 clock hours)",
+    "drawing": {"fill": "blue", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Shade the detached area solid blue inside a blue boundary; draw the causative break within it as a blue outline filled red, and a black scalloped line on the ora circle wherever the detachment reaches the ora."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "38485969", "doi": "10.1038/s41572-024-00501-5", "title": "Retinal detachment.", "year": "2024"},
+      {"pmid": "24158005", "doi": "10.1159/000355077", "title": "Rhegmatogenous retinal detachment: a reappraisal of its pathophysiology and treatment.", "year": "2013"},
+      {"pmid": "36640144", "doi": "10.1111/ceo.14205", "title": "Rhegmatogenous retinal detachment surgery: A review.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "subclinical_retinal_detachment",
+    "name": "Subclinical (localized) retinal detachment",
+    "synonyms": ["subclinical rd", "subclinical detachment", "subclinical retinal detachment", "asymptomatic retinal detachment", "localized rd", "localised retinal detachment", "cuff of fluid", "cuff of srf", "srf cuff", "small rd"],
+    "group": "detachments_schisis",
+    "definition": "Asymptomatic, localized retinal detachment surrounding a peripheral retinal break, with subretinal fluid confined to the periphery and no symptomatic field loss; it rarely progresses and may regress spontaneously.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Around a peripheral atrophic hole or tear near or anterior to the equator; may carry partial pigmented demarcation lines."},
+    "shape": "patch",
+    "typical_size": "a few disc diameters around the break; 1–2 clock hours",
+    "drawing": {"fill": "blue", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Small blue-shaded area around the break (break drawn as a blue outline filled red); add a black line on its posterior border if a pigmented demarcation line is present."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "11470709", "doi": "10.1016/s0161-6420(01)00652-2", "title": "Subclinical retinal detachment resulting from asymptomatic retinal breaks: prognosis for progression and regression.", "year": "2001"},
+      {"pmid": "7177568", "doi": "10.1016/s0161-6420(82)34684-9", "title": "The natural history of asymptomatic retinal breaks.", "year": "1982"}
+    ]
+  },
+  {
+    "id": "ora_with_detached_retina",
+    "name": "Ora serrata with adjacent detached retina",
+    "synonyms": ["rd to the ora", "detachment to ora", "extends to ora", "extends to the ora serrata", "ora involvement", "scalloped ora", "detached to ora"],
+    "group": "detachments_schisis",
+    "definition": "Chart marking showing that a retinal detachment extends anteriorly to the ora serrata over the involved clock hours.",
+    "location": {"zone": "ora", "typical_clock": null, "notes": "Drawn on the ora serrata (middle) circle over exactly the clock hours where detached retina reaches the ora."},
+    "shape": "band_circumferential",
+    "typical_size": "matches detachment extent, 1–12 clock hours",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "scalloped", "pattern_color": "black", "description": "Black scalloped line overlying the ora circle along the detached clock hours."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "38485969", "doi": "10.1038/s41572-024-00501-5", "title": "Retinal detachment.", "year": "2024"},
+      {"pmid": "36640144", "doi": "10.1111/ceo.14205", "title": "Rhegmatogenous retinal detachment surgery: A review.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "demarcation_line",
+    "name": "Demarcation line (high-water mark)",
+    "synonyms": ["demarcation line", "pigmented demarcation line", "pigment demarcation line", "high water mark", "high-water mark", "highwater mark", "high water marks", "tide mark", "tide line", "watermark", "dl"],
+    "group": "detachments_schisis",
+    "definition": "Curvilinear line of RPE hyperpigmentation (occasionally depigmented) at the junction of detached and attached retina, marking a long-standing detachment or a previous, more extensive position of the subretinal fluid.",
+    "location": {"zone": "midperiphery", "typical_clock": "inferior", "notes": "At the posterior margin of a chronic, usually inferior, detachment, convex toward the posterior pole; several parallel lines (high-water marks) record successive positions; can also form along the dependent edge after pneumatic retinopexy."},
+    "shape": "line",
+    "typical_size": "spans the detachment margin, typically 2–6 clock hours",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Solid black line traced along the attached margin of the detachment (or within detached retina for older lines); draw each high-water mark as its own parallel black line."},
+    "color_source": "Documentation & Drawing in Ophthalmology (P. Dutta Majumder, eOphtha): black solid = 'Pigmented demarcation lines at the attached margin of a detached retina or within the detached retina' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "37891492", "doi": "10.1186/s12886-023-03184-w", "title": "Evolution of demarcation line after pneumatic retinopexy-a case report.", "year": "2023"},
+      {"pmid": "30222808", "doi": "10.3928/23258160-20180831-11", "title": "Dedifferentiation of Retinal Pigment Epithelium in a Patient With Chronic Retinal Detachment.", "year": "2018"},
+      {"pmid": "16543924", "doi": "10.1038/sj.eye.6702318", "title": "Barrage laser photocoagulation for macula-sparing asymptomatic clinical rhegmatogenous retinal detachments.", "year": "2006"}
+    ]
+  },
+  {
+    "id": "intraretinal_macrocyst",
+    "name": "Intraretinal macrocyst",
+    "synonyms": ["intraretinal macrocyst", "macrocyst", "retinal macrocyst", "intraretinal cyst", "retinal cyst", "secondary retinal cyst", "hemorrhagic macrocyst", "hemorrhagic intraretinal macrocyst", "him"],
+    "group": "detachments_schisis",
+    "definition": "Large, thin-walled cavity in the outer plexiform layer of chronically detached retina, usually filled with clear fluid and sometimes with blood, seen as a round translucent dome on the detached retina.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Within long-standing detached retina, most often in the inferior or peripheral detachment; can lie at the macula; a hemorrhagic cyst can mimic a choroidal mass."},
+    "shape": "dome",
+    "typical_size": "1 to several disc diameters",
+    "drawing": {"fill": "none", "outline": "blue", "pattern": "wavy_lines", "pattern_color": "blue", "description": "Blue-outlined round dome inside the blue detachment with curved blue stripes across it to show its configuration; fill red if hemorrhagic."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): blue solid = 'Intra-retinal cysts [with overlying curvilinear stripes to show configuration]' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "31546541", "doi": "10.4103/ijo.IJO_704_19", "title": "Hemorrhagic macular intraretinal macrocyst in long-standing rhegmatogenous retinal detachment.", "year": "2019"},
+      {"pmid": "30787541", "doi": "10.4103/ojo.OJO_136_2018", "title": "Retinal detachment with hemorrhagic intraretinal macrocyst clinically presenting as pseudo-choroidal melanoma.", "year": "2019"},
+      {"pmid": "36590947", "doi": "10.3389/fmed.2022.1051181", "title": "Case report: An intraretinal macrocyst with crystalline content and retinal detachment.", "year": "2022"}
+    ]
+  },
+  {
+    "id": "subretinal_bands",
+    "name": "Subretinal bands (subretinal proliferation)",
+    "synonyms": ["subretinal bands", "subretinal band", "subretinal strands", "subretinal strand", "subretinal fibrosis", "subretinal membrane", "subretinal pvr", "napkin ring", "napkin-ring", "clothesline band", "srb"],
+    "group": "detachments_schisis",
+    "definition": "Linear, branching or annular strands of subretinal proliferative tissue derived from RPE and glial cells beneath long-standing detached retina, which can tent the retina and resist reattachment.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Beneath the detached retina, often posterior; may encircle the disc ('napkin ring') or run as branching strands; may persist after reattachment."},
+    "shape": "line",
+    "typical_size": "1 to several disc diameters long; may span quadrants",
+    "drawing": {"fill": "none", "outline": "yellow", "pattern": "none", "pattern_color": null, "description": "Draw each band as a yellow line (straight, branching or ring) within the blue detachment, with the retina tented along it."},
+    "color_source": "Retinal diagram (Dr Sabin Sahu, SlideShare): yellow = 'subretinal fibrosis' https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044",
+    "pubmed": [
+      {"pmid": "6486219", "doi": "10.1016/0002-9394(84)90131-4", "title": "Subretinal proliferation.", "year": "1984"},
+      {"pmid": "27099457", "doi": "10.2147/OPTH.S99754", "title": "Spectral domain optical coherence tomography imaging of subretinal bands associated with chronic retinal detachments.", "year": "2016"},
+      {"pmid": "18556980", "doi": null, "title": "Scleral buckling technique for longstanding inferior rhegmatogenous retinal detachments with subretinal bands.", "year": "2008"},
+      {"pmid": "35596163", "doi": "10.1186/s12886-022-02449-0", "title": "Evaluation of Ab externo subretinal bands removal during pars plana vitrectomy for rhegmatogenous retinal detachment complicated by proliferative vitreoretinopathy.", "year": "2022"}
+    ]
+  },
+  {
+    "id": "tractional_retinal_detachment",
+    "name": "Tractional retinal detachment",
+    "synonyms": ["trd", "tractional rd", "traction rd", "traction retinal detachment", "tractional detachment", "tractional retinal detachment", "diabetic trd", "table top detachment", "tabletop trd", "tenting", "macula threatening trd"],
+    "group": "detachments_schisis",
+    "definition": "Elevation of the retina from the RPE by contraction of preretinal, intraretinal or subretinal fibrovascular/fibrocellular membranes without a retinal break, giving a concave, immobile detachment.",
+    "location": {"zone": "arcades", "typical_clock": null, "notes": "Typically along the major vascular arcades and disc in proliferative diabetic retinopathy; concave surface that rarely reaches the ora; may form a 'tabletop' between adhesions or involve the macula."},
+    "shape": "sector_region",
+    "typical_size": "1–several disc diameters to several clock hours",
+    "drawing": {"fill": "blue", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Shade the concave detached area blue (without ora involvement) and draw the responsible membranes over it in green (orange where vascularized), with lines/arrows showing the direction of traction."},
+    "color_source": "CMS L33567 App A (detached retina blue; elevated neovascularization orange) + Documentation & Drawing in Ophthalmology (eOphtha) green = 'Vitreous membranes' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "38485969", "doi": "10.1038/s41572-024-00501-5", "title": "Retinal detachment.", "year": "2024"},
+      {"pmid": "26855122", "doi": "10.1111/aos.12951", "title": "Four-port bimanual 23-gauge vitrectomy for diabetic tractional retinal detachment.", "year": "2016"},
+      {"pmid": "29324591", "doi": "10.1097/IAE.0000000000002021", "title": "VISUALIZATION FROM INTRAOPERATIVE SWEPT-SOURCE MICROSCOPE-INTEGRATED OPTICAL COHERENCE TOMOGRAPHY IN VITRECTOMY FOR COMPLICATIONS OF PROLIFERATIVE DIABETIC RETINOPATHY.", "year": "2018"}
+    ]
+  },
+  {
+    "id": "combined_tractional_rhegmatogenous_rd",
+    "name": "Combined tractional-rhegmatogenous retinal detachment",
+    "synonyms": ["combined rd", "combined detachment", "combined trd rrd", "trd rrd", "combined tractional rhegmatogenous", "tractional rhegmatogenous detachment", "ctrd", "trd with break", "combined retinal detachment"],
+    "group": "detachments_schisis",
+    "definition": "Tractional detachment in which contracting fibrovascular tissue has torn a retinal break, so the detachment becomes convex and more mobile and extends beyond the traction zone, often toward the ora.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Traction at the arcades/disc with a small, often posterior break adjacent to fibrovascular adhesions (frequently found only at surgery); detachment commonly involves 3–4 quadrants."},
+    "shape": "sector_region",
+    "typical_size": "several clock hours to total",
+    "drawing": {"fill": "blue", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Blue detachment extending beyond the traction zone (black scalloped ora line where it reaches the ora), green/orange membranes at the adhesions, and the break drawn as a blue outline filled red."},
+    "color_source": "CMS L33567 App A + Documentation & Drawing in Ophthalmology (eOphtha) green = 'Vitreous membranes' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "18347622", "doi": "10.3129/i08-007", "title": "Combined rhegmatogenous and traction retinal detachment in proliferative diabetic retinopathy: clinical manifestations and surgical outcome.", "year": "2008"},
+      {"pmid": "25061523", "doi": "10.1155/2014/917375", "title": "Combined Tractional and Rhegmatogenous Retinal Detachment in Proliferative Diabetic Retinopathy in the Anti-VEGF Era.", "year": "2014"}
+    ]
+  },
+  {
+    "id": "exudative_retinal_detachment",
+    "name": "Exudative (serous) retinal detachment",
+    "synonyms": ["exudative rd", "exudative detachment", "exudative retinal detachment", "serous rd", "serous retinal detachment", "serous detachment", "bullous serous detachment", "nonrhegmatogenous rd", "non rhegmatogenous rd", "erd", "srd"],
+    "group": "detachments_schisis",
+    "definition": "Retinal detachment without a retinal break, caused by subretinal accumulation of exudate when inflammatory, infectious, neoplastic, vascular or choroidal disease breaks down the blood–retinal barrier; the retina is smooth and convex and the fluid shifts with posture.",
+    "location": {"zone": "periphery", "typical_clock": "inferior", "notes": "Gravitates to the dependent inferior fundus when upright; bullous, smooth surface without corrugations; the underlying cause (tumour, choroiditis) may be visible."},
+    "shape": "dome",
+    "typical_size": "1 quadrant to total",
+    "drawing": {"fill": "blue", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Smooth blue-shaded bullous area with no break; show the shifted fluid boundary with interrupted blue lines (see shifting subretinal fluid)."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "28506603", "doi": "10.1016/j.survophthal.2017.05.001", "title": "Exudative retinal detachment.", "year": "2017"},
+      {"pmid": "38485969", "doi": "10.1038/s41572-024-00501-5", "title": "Retinal detachment.", "year": "2024"},
+      {"pmid": "39707753", "doi": "10.1080/09273948.2024.2444512", "title": "An Unusual Case of Exudative Retinal Detachment in a 6-Year-Old Child with Acute Retinal Necrosis.", "year": "2024"}
+    ]
+  },
+  {
+    "id": "shifting_subretinal_fluid",
+    "name": "Shifting subretinal fluid",
+    "synonyms": ["shifting fluid", "shifting srf", "shifting subretinal fluid", "positional fluid", "fluid shifts", "shift of fluid", "positional shift"],
+    "group": "detachments_schisis",
+    "definition": "Change in the location and extent of a (usually exudative) retinal detachment with head position, as subretinal fluid gravitates to the most dependent part of the fundus.",
+    "location": {"zone": "periphery", "typical_clock": "inferior", "notes": "Outline the alternate boundary (e.g., supine vs upright) of the detachment; characteristic of exudative RD, uveal effusion and bullous central serous chorioretinopathy."},
+    "shape": "line",
+    "typical_size": "follows the detachment boundary",
+    "drawing": {"fill": "none", "outline": "blue", "pattern": "short_lines", "pattern_color": "blue", "description": "Interrupted (dashed) blue line showing the changed boundary or folds of the detached retina caused by shifting fluid."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): blue interrupted lines = 'Outline of change in area or folds of the detached retina because of shifting fluid' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "20159229", "doi": "10.1016/j.survophthal.2009.05.003", "title": "Uveal effusion syndrome.", "year": "2010"},
+      {"pmid": "32872388", "doi": "10.3390/ph13090221", "title": "Bullous Central Serous Chorioretinopathy: A Rare and Atypical Form of Central Serous Chorioretinopathy. A Systematic Review.", "year": "2020"},
+      {"pmid": "20532148", "doi": "10.3341/kjo.2010.24.3.182", "title": "Castleman's disease presenting with uveal effusion syndrome.", "year": "2010"}
+    ]
+  },
+  {
+    "id": "serous_choroidal_detachment",
+    "name": "Choroidal detachment (serous / effusion)",
+    "synonyms": ["choroidal detachment", "choroidal effusion", "serous choroidal detachment", "serous choroidal", "choroidals", "ciliochoroidal detachment", "ciliochoroidal effusion", "uveal effusion", "annular choroidal detachment", "chorodial detachment", "cd"],
+    "group": "detachments_schisis",
+    "definition": "Collection of serous fluid in the suprachoroidal space that produces smooth, dome-shaped, brownish elevations of the choroid and overlying retina, usually peripheral and often associated with hypotony.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Peripheral, often annular (360°) and lobulated; the ora and ciliary body can be seen without indentation; may accompany rhegmatogenous RD (RRD-CD) or follow surgery/hypotony."},
+    "shape": "dome",
+    "typical_size": "1 quadrant to 360°",
+    "drawing": {"fill": "brown", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Solid brown dome-shaped lobules drawn from the ora backwards over the involved clock hours; the overlying retina stays red (attached) unless an RD coexists."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): brown solid = 'Choroidal detachment' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology; also Jayanna & Shanmugam 2022 (PMID 36190076) https://doi.org/10.4103/ijo.IJO_1004_22",
+    "pubmed": [
+      {"pmid": "20159229", "doi": "10.1016/j.survophthal.2009.05.003", "title": "Uveal effusion syndrome.", "year": "2010"},
+      {"pmid": "36893435", "doi": "10.1097/IAE.0000000000003770", "title": "COMBINED RHEGMATOGENOUS RETINAL AND CHOROIDAL DETACHMENT: A Systematic Review.", "year": "2023"},
+      {"pmid": "2757544", "doi": "10.1001/archopht.1989.01070020213027", "title": "Clinical risk factors for proliferative vitreoretinopathy.", "year": "1989"}
+    ]
+  },
+  {
+    "id": "suprachoroidal_hemorrhage",
+    "name": "Suprachoroidal hemorrhage (hemorrhagic choroidal detachment)",
+    "synonyms": ["suprachoroidal hemorrhage", "suprachoroidal haemorrhage", "sch", "hemorrhagic choroidal detachment", "hemorrhagic choroidal", "hemorrhagic choroidals", "choroidal hemorrhage", "expulsive hemorrhage", "suprachoroidal bleed"],
+    "group": "detachments_schisis",
+    "definition": "Accumulation of blood in the suprachoroidal space, occurring spontaneously, during or after intraocular surgery, or after trauma, producing dark red-brown, firm, often very elevated choroidal domes.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Peripheral domes that can extend posteriorly; limited (1–2 quadrants) or massive and appositional."},
+    "shape": "dome",
+    "typical_size": "1 quadrant to 360°",
+    "drawing": {"fill": "red", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Brown-outlined dome(s) (choroidal detachment) filled red to indicate blood, distinguishing them from brown-filled serous choroidals."},
+    "color_source": "inferred: brown = choroidal detachment (Documentation & Drawing in Ophthalmology, eOphtha https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology) combined with red = hemorrhage (CMS L33567 App A)",
+    "pubmed": [
+      {"pmid": "37660688", "doi": "10.1159/000533937", "title": "Suprachoroidal Hemorrhage.", "year": "2023"},
+      {"pmid": "10416790", "doi": "10.1016/s0039-6257(99)00037-5", "title": "Suprachoroidal hemorrhage.", "year": "1999"},
+      {"pmid": "36858317", "doi": "10.1016/j.oret.2023.02.011", "title": "Visual and Anatomic Outcomes of Suprachoroidal Hemorrhage: A Systematic Review and Meta-Analysis.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "kissing_choroidal_detachment",
+    "name": "Appositional ('kissing') choroidal detachment",
+    "synonyms": ["kissing choroidals", "kissing choroidal", "kissing choroids", "kissing choroidal detachment", "appositional choroidals", "appositional choroidal detachment", "choroidal apposition", "retinal apposition"],
+    "group": "detachments_schisis",
+    "definition": "Choroidal detachments (serous or hemorrhagic) large enough that opposing bullae meet in the central vitreous cavity, bringing the overlying retinal surfaces into contact.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Bullae arise peripherally and touch centrally, usually just in front of the disc, hiding the posterior pole."},
+    "shape": "dome",
+    "typical_size": "two or more opposing quadrants, often 360°",
+    "drawing": {"fill": "brown", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Brown domes from opposite quadrants drawn reaching the centre and touching; use red fill with brown outline if hemorrhagic; label 'appositional'."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): brown solid = 'Choroidal detachment' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "9101203", "doi": "10.1177/112067219700700117", "title": "Vitreous management in massive suprachoroidal hemorrhage.", "year": "1997"},
+      {"pmid": "29016522", "doi": "10.1097/IJG.0000000000000801", "title": "Spontaneous Resolution of Delayed Suprachoroidal Hemorrhage in the Single Eye Following Needling in Congenital Glaucoma.", "year": "2017"}
+    ]
+  },
+  {
+    "id": "schisis_detachment",
+    "name": "Retinoschisis-associated retinal detachment (schisis-detachment)",
+    "synonyms": ["schisis detachment", "schisis-detachment", "schisis rd", "retinoschisis detachment", "retinoschisis with rd", "rd complicating retinoschisis", "schisis related rd", "progressive schisis detachment", "outer layer break detachment", "olb rd"],
+    "group": "detachments_schisis",
+    "definition": "Retinal detachment arising through outer-layer breaks of degenerative retinoschisis, either localized beneath the schisis cavity (schisis-detachment) or progressive and symptomatic when fluid extends beyond the posterior border of the schisis.",
+    "location": {"zone": "periphery", "typical_clock": "inferotemporal", "notes": "Under and posterior to bullous peripheral retinoschisis (commonly inferotemporal); outer-layer breaks are often large, round and may be posterior to the equator; localized forms may show pigmented demarcation lines."},
+    "shape": "sector_region",
+    "typical_size": "1–3 clock hours (localized) to extensive (progressive)",
+    "drawing": {"fill": "blue", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Blue-shaded detachment under/behind the schisis; draw the schisis inner layer with a blue outline and blue cross-hatching, and outer-layer breaks with a blue outline filled red."},
+    "color_source": "CMS L33567 App A (detached retina blue) + Documentation & Drawing in Ophthalmology (eOphtha): blue cross-lined = 'The inner layer of retinoschisis', red = 'open interior of outer layer holes in retinoschisis' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "34896193", "doi": "10.1016/j.survophthal.2021.12.004", "title": "Diagnosis and management of degenerative retinoschisis and related complications.", "year": "2021"},
+      {"pmid": "12358289", "doi": null, "title": "Outer layer breaks and asymptomatic schisis detachment: clinical considerations.", "year": "2002"},
+      {"pmid": "16395137", "doi": "10.1097/00006982-200601000-00007", "title": "Outcomes of surgery for progressive symptomatic retinal detachment complicating retinoschisis.", "year": "2006"},
+      {"pmid": "23709331", "doi": "10.5301/ejo.5000310", "title": "Acquired retinoschisis with giant outer layer break and retinal detachment.", "year": "2013"}
+    ]
+  },
+  {
+    "id": "pars_plana_epithelial_detachment",
+    "name": "Detachment / tear of the pars plana epithelium",
+    "synonyms": ["pars plana detachment", "pars plana epithelium detachment", "detached pars plana epithelium", "pars plana tear", "pars plana break", "pars plicata break", "nonpigmented ciliary epithelium tear", "ciliary epithelial tear", "ciliary epithelium detachment"],
+    "group": "detachments_schisis",
+    "definition": "Separation, often with tearing, of the non-pigmented ciliary epithelium of the pars plana anterior to the ora serrata, typically after blunt trauma, which can cause a shallow, smooth peripheral retinal detachment.",
+    "location": {"zone": "pars_plana", "typical_clock": "superonasal", "notes": "In the band between the ora and ciliary-process circles; usually needs scleral depression to see; the associated detachment is shallow and flat-surfaced."},
+    "shape": "band_circumferential",
+    "typical_size": "1–3 clock hours",
+    "drawing": {"fill": "none", "outline": "blue", "pattern": "cross_hatch", "pattern_color": "blue", "description": "Blue outline with blue cross-hatching in the pars plana band anterior to the ora over the affected clock hours."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): blue cross-lined = 'Detached pars plana epithelium anterior to the separation of ora serrata' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "9869457", "doi": "10.1097/00006982-199811000-00002", "title": "Retinal detachments due to traumatic tears in the pars plana ciliaris.", "year": "1998"},
+      {"pmid": "9716338", "doi": "10.1034/j.1600-0420.1998.760417.x", "title": "Schwartz-Matsuo syndrome in retinal detachment with tears of the nonpigmented epithelium of the ciliary body.", "year": "1998"},
+      {"pmid": "29018688", "doi": "10.1016/j.tjo.2014.06.003", "title": "Retinal detachment with a break at pars plicata associated with congenital malformation of the lens-zonule-ciliary body complex.", "year": "2014"}
+    ]
+  },
+  {
+    "id": "pvr_star_fold",
+    "name": "Star fold (focal fixed fold, PVR)",
+    "synonyms": ["star fold", "star folds", "starfold", "stellate fold", "focal fixed fold", "pvr star fold", "focal pvr", "pvr c focal", "star shaped fold"],
+    "group": "detachments_schisis",
+    "definition": "Fixed retinal folds radiating from a central point, produced by focal contraction of an epiretinal (or subretinal) membrane in proliferative vitreoretinopathy.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "On detached retina posterior or anterior to the equator, frequently inferior; count clock hours involved for PVR grading."},
+    "shape": "point",
+    "typical_size": "1–3 disc diameters",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "radial_lines", "pattern_color": "blue", "description": "Short blue lines radiating from a central point on the blue detachment."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): blue solid = 'Meridional, radial, fixed & circumferential folds' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology; CMS L33567 App A short blue lines = folds",
+    "pubmed": [
+      {"pmid": "1867299", "doi": "10.1016/s0002-9394(14)76695-4", "title": "An updated classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1991"},
+      {"pmid": "6856248", "doi": "10.1016/s0161-6420(83)34588-7", "title": "The classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1983"},
+      {"pmid": "30585928", "doi": "10.1097/IIO.0000000000000258", "title": "Proliferative Vitreoretinopathy: A Review.", "year": "2019"}
+    ]
+  },
+  {
+    "id": "pvr_fixed_retinal_folds",
+    "name": "Fixed retinal folds (diffuse PVR contraction)",
+    "synonyms": ["fixed folds", "fixed retinal folds", "retinal folds", "diffuse folds", "irregular folds", "pvr folds", "circumferential folds", "radial folds", "pvr grade c", "retinal stiffness"],
+    "group": "detachments_schisis",
+    "definition": "Rigid, immobile folds of detached retina caused by diffuse contraction of pre- or subretinal PVR membranes, which can coalesce and shorten the retina.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Posterior folds often converge toward the disc; circumferential or radial folds occur near the equator; record clock hours involved."},
+    "shape": "line",
+    "typical_size": "1–12 clock hours",
+    "drawing": {"fill": "none", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Solid blue lines tracing each fold (meridional, radial or circumferential) on the blue detachment."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): blue solid = 'Meridional, radial, fixed & circumferential folds' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "6856248", "doi": "10.1016/s0161-6420(83)34588-7", "title": "The classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1983"},
+      {"pmid": "1867299", "doi": "10.1016/s0002-9394(14)76695-4", "title": "An updated classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1991"}
+    ]
+  },
+  {
+    "id": "rolled_edge_of_tear",
+    "name": "Rolled (curled) edge of retinal tear",
+    "synonyms": ["rolled edge", "rolled edges", "curled edge", "curled posterior edge", "rolled posterior flap", "rolled flap", "inverted flap", "everted edge", "pvr grade b"],
+    "group": "detachments_schisis",
+    "definition": "Inward rolling of the posterior edge or flap of a retinal tear caused by epiretinal cellular proliferation and contraction, a sign of PVR and typical of giant retinal tears.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Along the posterior margin of a horseshoe or giant tear; the flap may fold over on itself."},
+    "shape": "line",
+    "typical_size": "length of the tear edge, 1–3 or more clock hours",
+    "drawing": {"fill": "none", "outline": "blue", "pattern": "cross_hatch", "pattern_color": "blue", "description": "Curved blue cross-lined band along the posterior edge of the break, with the break itself drawn as a blue outline filled red."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): blue cross-lined = 'Rolled edges of retinal tears [curved lines]' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "8986445", "doi": "10.1007/BF00189354", "title": "Cryopexy in primary rhegmatogenous retinal detachment: a risk factor for postoperative proliferative vitreoretinopathy?", "year": "1996"},
+      {"pmid": "24138895", "doi": "10.1016/j.survophthal.2013.03.006", "title": "Giant retinal tears.", "year": "2013"},
+      {"pmid": "6856248", "doi": "10.1016/s0161-6420(83)34588-7", "title": "The classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1983"}
+    ]
+  },
+  {
+    "id": "pvr_epiretinal_membrane",
+    "name": "Epiretinal proliferation / PVR membrane",
+    "synonyms": ["pvr membrane", "pvr membranes", "epiretinal proliferation", "epiretinal membrane", "pvr erm", "erm", "preretinal membrane", "periretinal membrane", "preretinal fibrosis", "surface wrinkling", "cellophane"],
+    "group": "detachments_schisis",
+    "definition": "Contractile fibrocellular membrane on the inner retinal surface formed in proliferative vitreoretinopathy or after detachment repair, causing surface wrinkling, vessel tortuosity and traction folds.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "On detached or reattached retina; commonly the macula after RD repair and the inferior retina in PVR."},
+    "shape": "patch",
+    "typical_size": "1 disc diameter to several clock hours",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "wavy_lines", "pattern_color": "green", "description": "Green-outlined area with fine green wavy lines indicating surface wrinkling; add blue fold lines where it drags the retina."},
+    "color_source": "Jayanna & Shanmugam, 'It is time for more colors!' Indian J Ophthalmol 2022 (PMID 36190076): preretinal lesions incl. epiretinal membrane coded green https://doi.org/10.4103/ijo.IJO_1004_22",
+    "pubmed": [
+      {"pmid": "30585928", "doi": "10.1097/IIO.0000000000000258", "title": "Proliferative Vitreoretinopathy: A Review.", "year": "2019"},
+      {"pmid": "37043411", "doi": "10.3928/23258160-20230307-01", "title": "Risk Factors for Epiretinal Membrane After Rhegmatogenous Retinal Detachment Repair: Quantitative Ultra Widefield Imaging Analysis.", "year": "2023"},
+      {"pmid": "1867299", "doi": "10.1016/s0002-9394(14)76695-4", "title": "An updated classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1991"}
+    ]
+  },
+  {
+    "id": "anterior_pvr",
+    "name": "Anterior PVR (circumferential contraction / anterior displacement)",
+    "synonyms": ["anterior pvr", "apvr", "circumferential contraction", "anterior loop", "anterior loop traction", "anterior displacement", "vitreous base contraction", "perpendicular traction", "peripheral trough", "pvr anterior"],
+    "group": "detachments_schisis",
+    "definition": "Contraction of proliferative membranes on the residual vitreous base that drags the peripheral retina centrally and anteriorly toward the ciliary body or iris, producing circumferential and radial fixed folds and a peripheral trough.",
+    "location": {"zone": "ora", "typical_clock": "inferior", "notes": "At the vitreous base between the equator and ora, extending onto the pars plana/ciliary body; most common inferiorly after vitrectomy or trauma; record clock hours."},
+    "shape": "band_circumferential",
+    "typical_size": "1–12 clock hours",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "radial_lines", "pattern_color": "blue", "description": "Green band along the vitreous base for the contracted membrane, with short blue radial fold lines just posterior to it; add an anterior arrow for anterior displacement."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): green = 'Vitreous membranes', blue = 'Meridional, radial, fixed & circumferential folds' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "3226683", "doi": "10.1016/s0161-6420(88)33003-4", "title": "Anterior proliferative vitreoretinopathy. Clinicopathologic, light microscopic, and ultrastructural findings.", "year": "1988"},
+      {"pmid": "8684799", "doi": "10.1016/s0161-6420(96)30562-9", "title": "Anterior proliferative vitreoretinopathy in the silicone study. Silicone Study Report Number 10.", "year": "1996"},
+      {"pmid": "1867299", "doi": "10.1016/s0002-9394(14)76695-4", "title": "An updated classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1991"}
+    ]
+  },
+  {
+    "id": "pvr_funnel_detachment",
+    "name": "Funnel retinal detachment (advanced PVR)",
+    "synonyms": ["funnel detachment", "funnel rd", "closed funnel", "open funnel", "narrow funnel", "total rd with pvr", "pvr grade d", "pvr d", "massive periretinal proliferation", "massive vitreous retraction", "fixed total detachment"],
+    "group": "detachments_schisis",
+    "definition": "Total retinal detachment in which fixed folds in all quadrants shorten the retina into an open, narrow or closed funnel (Retina Society PVR grade D).",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Whole fundus; folds converge on the disc; the posterior pole may be hidden in a closed funnel."},
+    "shape": "sector_region",
+    "typical_size": "total (12 clock hours)",
+    "drawing": {"fill": "blue", "outline": "blue", "pattern": "radial_lines", "pattern_color": "blue", "description": "Entire fundus shaded blue with blue fold lines converging on the disc and a black scalloped line along the whole ora; annotate funnel type."},
+    "color_source": "CMS L33567 App A (detached retina blue; ora with detached retina) + Documentation & Drawing in Ophthalmology (eOphtha) blue folds https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "6856248", "doi": "10.1016/s0161-6420(83)34588-7", "title": "The classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1983"},
+      {"pmid": "1867299", "doi": "10.1016/s0002-9394(14)76695-4", "title": "An updated classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1991"}
+    ]
+  },
+  {
+    "id": "posterior_vitreous_detachment",
+    "name": "Posterior vitreous detachment (posterior hyaloid)",
+    "synonyms": ["pvd", "p v d", "posterior vitreous detachment", "vitreous detachment", "complete pvd", "partial pvd", "incomplete pvd", "posterior hyaloid", "hyaloid separation", "vitreous separation"],
+    "group": "vitreous",
+    "definition": "Separation of the posterior cortical vitreous (posterior hyaloid) from the internal limiting membrane, beginning in the perifoveal macula and completed when it separates from the optic disc.",
+    "location": {"zone": "vitreous", "typical_clock": null, "notes": "Mobile membrane in front of the posterior pole; record complete vs partial and any persisting adhesion (macula, disc, vessels, tear flap)."},
+    "shape": "line",
+    "typical_size": "posterior pole to equator",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Curved green line in front of the posterior pole for the detached hyaloid face, with attachment points shown where it still adheres."},
+    "color_source": "Retinal diagram (Dr Sabin Sahu, SlideShare): green = 'Vitreous detachment (Weiss ring)' https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044",
+    "pubmed": [
+      {"pmid": "20172065", "doi": "10.1016/j.ajo.2009.11.022", "title": "Posterior vitreous detachment: evolution and complications of its early stages.", "year": "2010"},
+      {"pmid": "11049952", "doi": "10.1136/bjo.84.11.1264", "title": "Acute posterior vitreous detachment: the predictive value of vitreous pigment and symptomatology.", "year": "2000"}
+    ]
+  },
+  {
+    "id": "weiss_ring",
+    "name": "Weiss ring",
+    "synonyms": ["weiss ring", "weis ring", "vice ring", "wise ring", "prepapillary ring", "hyaloid ring", "glial ring", "vogt ring", "floater ring"],
+    "group": "vitreous",
+    "definition": "Ring-shaped condensation of peripapillary glial tissue torn from the optic disc margin and suspended in the posterior hyaloid, the classic sign of complete posterior vitreous detachment.",
+    "location": {"zone": "vitreous", "typical_clock": null, "notes": "Floats in the vitreous in front of the optic disc and moves with eye movement."},
+    "shape": "ring",
+    "typical_size": "about 1 disc diameter",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "ring", "pattern_color": "green", "description": "Small green ring drawn over or just in front of the optic disc."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): green solid = 'Hyaloid ring' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology; Retinal diagram (Dr Sabin Sahu, SlideShare) green = Weiss ring https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044",
+    "pubmed": [
+      {"pmid": "40041643", "doi": "10.7759/cureus.78342", "title": "A Retrospective Chart Review: The Presence of Anterior Hyaloid Separation Sign in Posterior Vitreous Detachment.", "year": "2025"},
+      {"pmid": "32086749", "doi": "10.1007/s12325-020-01261-w", "title": "Safety and Efficacy of YAG Laser Vitreolysis for the Treatment of Vitreous Floaters: An Overview.", "year": "2020"}
+    ]
+  },
+  {
+    "id": "vitreous_hemorrhage",
+    "name": "Vitreous hemorrhage",
+    "synonyms": ["vh", "vitreous hemorrhage", "vitreous haemorrhage", "vitreous heme", "vit heme", "vitreous bleed", "blood in vitreous", "old vitreous hemorrhage", "dense vh", "diffuse vh", "inferior vh"],
+    "group": "vitreous",
+    "definition": "Extravasated blood within the vitreous gel or retrohyaloid space, most often from proliferative diabetic retinopathy, a retinal tear, neovascularization after vein occlusion, or PVD without a tear.",
+    "location": {"zone": "vitreous", "typical_clock": "inferior", "notes": "Diffuse or localized; older blood settles inferiorly and dehemoglobinizes to yellow-white; record density and the area of fundus obscured."},
+    "shape": "cloud",
+    "typical_size": "localized (1 quadrant) to total",
+    "drawing": {"fill": "green", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Shade the area of fundus obscured by hemorrhage green (lighter shading for less dense hemorrhage)."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "9265701", "doi": "10.1016/s0039-6257(97)84041-6", "title": "Vitreous Hemorrhage.", "year": "1997"},
+      {"pmid": "26826742", "doi": "10.1016/j.jfo.2015.11.001", "title": "[Non-traumatic vitreous hemorrhage].", "year": "2016"},
+      {"pmid": "31124481", "doi": "10.4103/ijo.IJO_688_18", "title": "Pediatric vitreous hemorrhage: A narrative review.", "year": "2019"}
+    ]
+  },
+  {
+    "id": "red_blood_in_vitreous",
+    "name": "Red blood in vitreous (fresh clot)",
+    "synonyms": ["red blood in vitreous", "red blood in the vitreous", "fresh vitreous hemorrhage", "fresh vh", "fresh blood", "vitreous clot", "clotted blood", "blood clot vitreous", "red vh"],
+    "group": "vitreous",
+    "definition": "Fresh, red (not yet dehemoglobinized) blood or clot visible in the vitreous cavity, distinguished on the chart from older dispersed vitreous hemorrhage.",
+    "location": {"zone": "vitreous", "typical_clock": null, "notes": "Over the bleeding source (tear, neovascular frond) or as a clot in the vitreous, often inferior."},
+    "shape": "cloud",
+    "typical_size": "small clot to several clock hours",
+    "drawing": {"fill": "red", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Green outline filled red over the clot or fresh blood."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "9265701", "doi": "10.1016/s0039-6257(97)84041-6", "title": "Vitreous Hemorrhage.", "year": "1997"}
+    ]
+  },
+  {
+    "id": "subhyaloid_hemorrhage",
+    "name": "Subhyaloid / preretinal hemorrhage",
+    "synonyms": ["subhyaloid hemorrhage", "sub hyaloid hemorrhage", "subhyaloid haemorrhage", "preretinal hemorrhage", "pre-retinal hemorrhage", "preretinal heme", "premacular hemorrhage", "retrohyaloid hemorrhage", "boat shaped hemorrhage", "keel shaped hemorrhage", "sub ilm hemorrhage", "valsalva hemorrhage"],
+    "group": "vitreous",
+    "definition": "Blood trapped between the posterior hyaloid (or ILM) and the retina, forming a dark red, sharply bounded, often boat-shaped collection with a flat upper fluid level that hides the underlying retina.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Premacular or along the arcades/neovascular fronds; red cells settle inferiorly to give a horizontal upper meniscus (D shape)."},
+    "shape": "patch",
+    "typical_size": "1–8 disc diameters (mean ~6 DD in a YAG hyaloidotomy series)",
+    "drawing": {"fill": "red", "outline": "red", "pattern": "none", "pattern_color": null, "description": "Solid red D-shaped area with a straight horizontal upper border."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): red solid = 'Haemorrhages (pre-retinal and intra-retinal)' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology; CMS L33567 App A red = hemorrhages",
+    "pubmed": [
+      {"pmid": "11681509", "doi": "10.1177/112067210101100312", "title": "Photodisruptive Nd:YAG laser in the management of premacular subhyaloid hemorrhage.", "year": "2001"},
+      {"pmid": "38528997", "doi": "10.7759/cureus.56872", "title": "Nd:YAG Laser Hyaloidotomy: A Therapeutic Approach for Valsalva Premacular Hemorrhage.", "year": "2024"}
+    ]
+  },
+  {
+    "id": "vitreous_membrane_traction_band",
+    "name": "Vitreous membrane / vitreoretinal traction band",
+    "synonyms": ["vitreous membrane", "vitreous membranes", "vitreous band", "vitreous strand", "vitreous sheet", "vitreous condensation", "traction band", "vitreous traction", "vitreoretinal traction", "taut hyaloid", "taut posterior hyaloid", "intravitreal membrane"],
+    "group": "vitreous",
+    "definition": "Condensed or fibrotic sheet or strand of vitreous that inserts on the retina and transmits traction, seen as a grey-white membrane crossing the vitreous cavity.",
+    "location": {"zone": "vitreous", "typical_clock": null, "notes": "Draw its course through the vitreous to its retinal insertion (tear flap, lattice, neovascular frond, macula, disc)."},
+    "shape": "line",
+    "typical_size": "variable; may span the posterior pole to the periphery",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Solid green line(s) or sheet outline ending at the retinal insertion; add an arrow for the direction of traction."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): green solid = 'Vitreous membranes' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology; Jayanna & Shanmugam 2022 (PMID 36190076)",
+    "pubmed": [
+      {"pmid": "20172065", "doi": "10.1016/j.ajo.2009.11.022", "title": "Posterior vitreous detachment: evolution and complications of its early stages.", "year": "2010"},
+      {"pmid": "1867299", "doi": "10.1016/s0002-9394(14)76695-4", "title": "An updated classification of retinal detachment with proliferative vitreoretinopathy.", "year": "1991"},
+      {"pmid": "8684799", "doi": "10.1016/s0161-6420(96)30562-9", "title": "Anterior proliferative vitreoretinopathy in the silicone study. Silicone Study Report Number 10.", "year": "1996"}
+    ]
+  },
+  {
+    "id": "fibrovascular_proliferation",
+    "name": "Fibrovascular proliferation (fibrovascular membrane)",
+    "synonyms": ["fibrovascular proliferation", "fvp", "fibrovascular membrane", "fibrovascular membranes", "fvm", "fibrovascular tissue", "fibrous proliferation", "preretinal fibrovascular tissue", "nvd with fibrosis", "nve with fibrosis", "elevated nv"],
+    "group": "vitreous",
+    "definition": "Neovascular fronds with accompanying fibrous tissue growing from the disc or retina onto the posterior hyaloid (e.g., in proliferative diabetic retinopathy), whose contraction causes vitreous hemorrhage and tractional detachment.",
+    "location": {"zone": "arcades", "typical_clock": null, "notes": "Along the major vascular arcades and on the optic disc, often with broad plaque-like adhesions at several sites."},
+    "shape": "patch",
+    "typical_size": "1/4 disc diameter to several clock hours along the arcades",
+    "drawing": {"fill": "orange", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Orange-filled (elevated neovascularization) frond with a green outline for its elevated fibrous component; involuted, purely fibrous tissue drawn in green only."},
+    "color_source": "CMS L33567 App A (orange = elevated neovascularization) + Documentation & Drawing in Ophthalmology (eOphtha): green = 'Outline of elevated NV' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "18347622", "doi": "10.3129/i08-007", "title": "Combined rhegmatogenous and traction retinal detachment in proliferative diabetic retinopathy: clinical manifestations and surgical outcome.", "year": "2008"},
+      {"pmid": "25061523", "doi": "10.1155/2014/917375", "title": "Combined Tractional and Rhegmatogenous Retinal Detachment in Proliferative Diabetic Retinopathy in the Anti-VEGF Era.", "year": "2014"},
+      {"pmid": "7196564", "doi": null, "title": "Photocoagulation treatment of proliferative diabetic retinopathy. Clinical application of Diabetic Retinopathy Study (DRS) findings, DRS Report Number 8.", "year": "1981"}
+    ]
+  },
+  {
+    "id": "asteroid_hyalosis",
+    "name": "Asteroid hyalosis",
+    "synonyms": ["asteroid hyalosis", "asteroid", "asteroids", "asteroid bodies", "astroid hyalosis", "asteroid hyalinosis", "benson disease", "bensons disease"],
+    "group": "vitreous",
+    "definition": "Numerous small white-to-cream spherical calcium-phosphate (hydroxyapatite) bodies suspended in and moving with the vitreous gel, usually unilateral and asymptomatic.",
+    "location": {"zone": "vitreous", "typical_clock": null, "notes": "Diffusely distributed in the gel; bodies move with the vitreous and return to position rather than settling; can obscure the fundus view."},
+    "shape": "cloud",
+    "typical_size": "diffuse",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "stipple", "pattern_color": "green", "description": "Green stippled area over the part of the fundus obscured."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): green stippled = asteroid hyalosis https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology; Jayanna & Shanmugam 2022 (PMID 36190076)",
+    "pubmed": [
+      {"pmid": "30707924", "doi": "10.1016/j.survophthal.2019.01.008", "title": "Asteroid hyalosis-a comprehensive review.", "year": "2019"},
+      {"pmid": "32410360", "doi": "10.1111/aos.14465", "title": "Global prevalence of asteroid hyalosis and projection of its future burden: a systematic review and meta-analysis.", "year": "2020"},
+      {"pmid": "25906639", "doi": null, "title": "Asteroid hyalosis--current state of knowledge.", "year": "2014"}
+    ]
+  },
+  {
+    "id": "synchysis_scintillans",
+    "name": "Synchysis scintillans (cholesterolosis bulbi)",
+    "synonyms": ["synchysis scintillans", "synchesis scintillans", "synchysis", "cholesterolosis bulbi", "cholesterol crystals", "golden crystals", "sparkling vitreous"],
+    "group": "vitreous",
+    "definition": "Refractile golden cholesterol crystals floating freely in liquefied vitreous that settle inferiorly when the eye is still, typically after long-standing vitreous hemorrhage, trauma, chronic inflammation or chronic retinal detachment.",
+    "location": {"zone": "vitreous", "typical_clock": "inferior", "notes": "Swirl up with eye movement, then sink to the inferior vitreous cavity."},
+    "shape": "cloud",
+    "typical_size": "diffuse, concentrated inferiorly",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "dots", "pattern_color": "green", "description": "Scattered green dots concentrated over the inferior fundus; label to distinguish from asteroid hyalosis."},
+    "color_source": "CMS L33567 App A (green = opacities in media); dot pattern inferred to distinguish from asteroid hyalosis",
+    "pubmed": [
+      {"pmid": "9265701", "doi": "10.1016/s0039-6257(97)84041-6", "title": "Vitreous Hemorrhage.", "year": "1997"},
+      {"pmid": "38008935", "doi": "10.4274/tjo.galenos.2023.39016", "title": "A Rare Association: Neovascular Glaucoma Accompanying Anterior Chamber Synchysis Scintillans.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "vitreous_cells_haze",
+    "name": "Vitreous cells / haze (vitritis)",
+    "synonyms": ["vitreous cells", "vitreous haze", "vitritis", "vitreous inflammation", "cells in vitreous", "vitreous opacity", "vitreous opacities", "vitreous debris", "hazy media", "pigment clumps in vitreous"],
+    "group": "vitreous",
+    "definition": "Inflammatory cells, protein or pigment clumps in the vitreous that reduce the clarity of the fundus view, graded clinically on the standardized (SUN) vitreous haze scale.",
+    "location": {"zone": "vitreous", "typical_clock": null, "notes": "Diffuse or localized over an inflammatory focus; record the grade (0–4+)."},
+    "shape": "cloud",
+    "typical_size": "diffuse",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "stipple", "pattern_color": "green", "description": "Green stippling over the hazy area, denser for higher grades; annotate the haze grade."},
+    "color_source": "CMS L33567 App A (green = opacities in media)",
+    "pubmed": [
+      {"pmid": "16196117", "doi": "10.1016/j.ajo.2005.03.057", "title": "Standardization of uveitis nomenclature for reporting clinical data. Results of the First International Workshop.", "year": "2005"}
+    ]
+  },
+  {
+    "id": "intraocular_foreign_body",
+    "name": "Intraocular foreign body",
+    "synonyms": ["iofb", "i o f b", "intraocular foreign body", "foreign body", "fb", "intravitreal foreign body", "retained foreign body", "metallic foreign body", "ferrous foreign body", "impact site"],
+    "group": "vitreous",
+    "definition": "Retained foreign material that has penetrated the globe and lies in the vitreous cavity or is embedded in the retina/choroid, often with vitreous hemorrhage and a retinal impact site.",
+    "location": {"zone": "vitreous", "typical_clock": null, "notes": "Free in the vitreous (often inferior) or impacted on the posterior retina; draw the entry track and retinal impact site."},
+    "shape": "point",
+    "typical_size": "<1 to several mm (draw to scale against the disc)",
+    "drawing": {"fill": "green", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Solid green shape at the foreign-body position; mark its track as a green line and the retinal impact site (red hemorrhage, blue-outlined red break)."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): green solid = 'IOFB' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology; Jayanna & Shanmugam 2022 (PMID 36190076)",
+    "pubmed": [
+      {"pmid": "10937851", "doi": "10.1023/a:1006487313380", "title": "Ferrous intraocular foreign bodies retained in the posterior segment: management options and results.", "year": "1998"}
+    ]
+  },
+  {
+    "id": "retained_lens_fragment",
+    "name": "Retained (dropped) lens fragment",
+    "synonyms": ["dropped nucleus", "dropped lens", "dropped lens fragment", "retained lens fragment", "retained lens material", "retained nuclear fragment", "nucleus in vitreous", "lens fragment", "dislocated nucleus", "posteriorly dislocated lens"],
+    "group": "vitreous",
+    "definition": "Nuclear, epinuclear or cortical lens material dislocated into the vitreous cavity during cataract surgery, often lying on the inferior retina with intraocular inflammation and raised pressure.",
+    "location": {"zone": "vitreous", "typical_clock": "inferior", "notes": "Usually rests on the inferior retina or posterior pole, sometimes enveloped by vitreous."},
+    "shape": "patch",
+    "typical_size": "1–6 disc diameters",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "cross_hatch", "pattern_color": "green", "description": "Green-outlined, green cross-hatched opacity at its position; label 'nucleus' or 'cortex'."},
+    "color_source": "CMS L33567 App A (green = opacities in media); cross-hatching inferred to distinguish from IOFB",
+    "pubmed": [
+      {"pmid": "21445840", "doi": "10.5301/EJO.2011.6483", "title": "Retained lens fragments: nucleus fragments are associated with worse prognosis than cortex or epinucleus fragments.", "year": "2011"},
+      {"pmid": "8872375", "doi": null, "title": "Management of dislocated lens fragments after phacoemulsification surgery.", "year": "1996"}
+    ]
+  },
+  {
+    "id": "vitreous_base_avulsion",
+    "name": "Vitreous base avulsion",
+    "synonyms": ["vitreous base avulsion", "avulsed vitreous base", "avulsion of vitreous base", "bucket handle", "bucket-handle", "vitreous base detachment", "traumatic vitreous base avulsion"],
+    "group": "vitreous",
+    "definition": "Traumatic tearing of the vitreous base from the retina and/or pars plana, seen as a ribbon-like ('bucket-handle') band suspended in the anterior vitreous, often with peripheral tears or dialysis.",
+    "location": {"zone": "ora", "typical_clock": null, "notes": "Hangs in the anterior vitreous parallel to the ora, may carry strips of pars plana epithelium or retina; follows blunt trauma (e.g., squash-ball injury series with tears near the ora)."},
+    "shape": "band_circumferential",
+    "typical_size": "1–4 clock hours",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Curved green band drawn just central to the ora circle over the affected clock hours."},
+    "color_source": "inferred: green = preretinal/vitreous lesions (Jayanna & Shanmugam 2022, PMID 36190076, https://doi.org/10.4103/ijo.IJO_1004_22)",
+    "pubmed": [
+      {"pmid": "8694096", "doi": "10.1016/s0002-9394(14)72019-7", "title": "Retinal detachments by squash ball accidents.", "year": "1996"},
+      {"pmid": "28052952", "doi": "10.1136/bcr-2016-218303", "title": "Vitreous base avulsion.", "year": "2017"}
+    ]
+  },
+  {
+    "id": "encircling_scleral_buckle",
+    "name": "Encircling scleral buckle (band)",
+    "synonyms": ["encircling band", "encircling buckle", "encircling element", "scleral buckle", "sb", "buckle", "scleral band", "silicone band", "240 band", "cerclage", "circlage", "360 buckle"],
+    "group": "treatment_postop",
+    "definition": "Silicone band sutured 360° around the globe beneath the rectus muscles, indenting the sclera to support the vitreous base and retinal breaks and relieve circumferential traction.",
+    "location": {"zone": "equator", "typical_clock": null, "notes": "Circumferential 360° ridge typically at or just anterior to the equator; segmental elements may be added beneath breaks."},
+    "shape": "band_circumferential",
+    "typical_size": "360°; band ~2–2.5 mm wide",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Two parallel circumferential lines around the equator marking the buckle edges: black where the retina is attached, brown where the buckle lies under detached retina."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): black = 'Edge of buckle beneath the attached retina', brown = 'Edge of buckle beneath the detached retina' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "18210120", "doi": "10.1007/s00347-007-1673-z", "title": "[Scleral buckling surgery and pneumatic retinopexy. Techniques, indications and results].", "year": "2008"},
+      {"pmid": "9206745", "doi": "10.1055/s-2008-1035033", "title": "[Modification of axial length and astigmatism by scleral buckling surgery].", "year": "1997"},
+      {"pmid": "11318290", "doi": "10.1038/eye.2001.8", "title": "Characteristics and outcomes of paediatric rhegmatogenous retinal detachment treated by segmental scleral buckling plus an encircling element.", "year": "2001"}
+    ]
+  },
+  {
+    "id": "segmental_scleral_buckle",
+    "name": "Segmental (circumferential) scleral buckle",
+    "synonyms": ["segmental buckle", "segmental sponge", "segmental element", "circumferential buckle", "limbus parallel buckle", "local buckle", "partial buckle", "silicone tire", "tire", "silicone sponge", "sponge", "explant"],
+    "group": "treatment_postop",
+    "definition": "Silicone sponge or solid tire sutured limbus-parallel over a limited arc to indent the sclera beneath one or more retinal breaks.",
+    "location": {"zone": "equator", "typical_clock": null, "notes": "Over the clock hours of the breaks, extending beyond them on each side, usually between the equator and ora; may be combined with vitrectomy for inferior breaks."},
+    "shape": "band_circumferential",
+    "typical_size": "1–4 clock hours",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Two parallel circumferential lines over the involved clock hours with closed ends: black under attached retina, brown under detached retina."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): buckle edge black (attached) / brown (detached) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "18210120", "doi": "10.1007/s00347-007-1673-z", "title": "[Scleral buckling surgery and pneumatic retinopexy. Techniques, indications and results].", "year": "2008"},
+      {"pmid": "34434043", "doi": "10.2147/OPTH.S321371", "title": "Combined Pars Plana Vitrectomy and Segmental Scleral Buckle for Rhegmatogenous Retinal Detachment with Inferior Retinal Breaks.", "year": "2021"},
+      {"pmid": "9206745", "doi": "10.1055/s-2008-1035033", "title": "[Modification of axial length and astigmatism by scleral buckling surgery].", "year": "1997"}
+    ]
+  },
+  {
+    "id": "radial_sponge_buckle",
+    "name": "Radial sponge (meridional buckle)",
+    "synonyms": ["radial sponge", "radial buckle", "radial element", "radial explant", "meridional buckle", "radial plombe", "plombe", "plomb", "plombage"],
+    "group": "treatment_postop",
+    "definition": "Sponge explant sutured perpendicular to the limbus (meridionally) beneath a large horseshoe tear to close it while avoiding fishmouthing and radial folds.",
+    "location": {"zone": "equator", "typical_clock": null, "notes": "Radially oriented beneath the tear, from near the ora extending posterior to the tear's posterior edge."},
+    "shape": "band_radial",
+    "typical_size": "about 1 clock hour wide; 2–4 disc diameters long",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Two parallel radial lines beneath the tear with a closed posterior end: black under attached retina, brown under detached retina."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): buckle edge black (attached) / brown (detached) https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "931672", "doi": "10.1097/00004397-197601610-00012", "title": "Radial buckling in the repair of retinal detachment.", "year": "1976"},
+      {"pmid": "1094833", "doi": "10.1016/0002-9394(75)90678-9", "title": "Geometric analysis of radial buckling.", "year": "1975"},
+      {"pmid": "26155077", "doi": "10.1016/j.sjopt.2014.11.004", "title": "Scleral buckling surgery using multiple radial buckles: A valid option?", "year": "2014"}
+    ]
+  },
+  {
+    "id": "fishmouthing_radial_fold",
+    "name": "Fishmouthing / radial fold on buckle",
+    "synonyms": ["fishmouthing", "fish mouthing", "fishmouth", "fish mouth tear", "fishmouthed tear", "radial fold", "radial retinal fold", "buckle fold", "redundant retina"],
+    "group": "treatment_postop",
+    "definition": "Radial retinal fold arising from redundant retina over a circumferential buckle that holds a tear open ('fishmouthing') and can leak, typically with large horseshoe tears on limbus-parallel buckles.",
+    "location": {"zone": "equator", "typical_clock": null, "notes": "Runs radially across the circumferential buckle, posteriorly from the gaping tear."},
+    "shape": "band_radial",
+    "typical_size": "1–3 disc diameters",
+    "drawing": {"fill": "none", "outline": "blue", "pattern": "short_lines", "pattern_color": "blue", "description": "Short blue radial lines across the buckle for the fold; the open tear drawn as a blue outline filled red, gaping at its posterior lip."},
+    "color_source": "CMS L33567 App A (short blue lines = meridional folds; blue outline filled red = full-thickness break)",
+    "pubmed": [
+      {"pmid": "1094833", "doi": "10.1016/0002-9394(75)90678-9", "title": "Geometric analysis of radial buckling.", "year": "1975"},
+      {"pmid": "931672", "doi": "10.1097/00004397-197601610-00012", "title": "Radial buckling in the repair of retinal detachment.", "year": "1976"}
+    ]
+  },
+  {
+    "id": "scleral_buckle_intrusion",
+    "name": "Scleral buckle intrusion",
+    "synonyms": ["buckle intrusion", "intruded buckle", "band intrusion", "buckle erosion", "eroded explant", "buckle migration", "intrusion"],
+    "group": "treatment_postop",
+    "definition": "Late erosion of a scleral buckle element through the sclera and choroid into the eye, seen as a smooth grey-white element beneath or through the retina at the buckle site.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "At the buckle site; may be an incidental finding decades after surgery."},
+    "shape": "patch",
+    "typical_size": "1–3 clock hours",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Black-outlined segment of the buckle filled white where the element is visible intraocularly."},
+    "color_source": "inferred: buckle edge black (Documentation & Drawing in Ophthalmology, eOphtha https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology); white fill for exposed implant",
+    "pubmed": [
+      {"pmid": "15068447", "doi": "10.1111/j.1442-9071.2004.00788.x", "title": "Scleral buckle intrusion.", "year": "2004"},
+      {"pmid": "38228234", "doi": "10.1016/j.oftale.2024.01.006", "title": "Intrusion of silicone scleral buckle after cryotherapy.", "year": "2024"}
+    ]
+  },
+  {
+    "id": "laser_retinopexy",
+    "name": "Laser retinopexy around a break",
+    "synonyms": ["laser retinopexy", "laser around tear", "laser around break", "barricade laser", "laser barricade", "retinopexy", "laser scars", "laser spots", "argon laser", "photocoagulation scars", "lpc", "phc"],
+    "group": "treatment_postop",
+    "definition": "Two to three rows of confluent photocoagulation burns surrounding a retinal break (and any cuff of fluid) to create a chorioretinal adhesion; healed burns become pigmented scars with atrophic centres.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Encircles the break on attached retina; anteriorly the rows may be carried to the ora."},
+    "shape": "ring",
+    "typical_size": "ring 1–2 disc diameters wider than the break",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "dots", "pattern_color": "black", "description": "Rows of small black dots (healed, pigmented burns) encircling the break; draw fresh burns in yellow."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): black solid = 'Hyperpigmentation as a result of the previous treatment with Cryo/PHC/Diathermy' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "37240790", "doi": "10.3390/life13051145", "title": "High-Precision Optical Coherence Tomography Navigated Laser Retinopexy for Retinal Breaks.", "year": "2023"},
+      {"pmid": "34087903", "doi": "10.1097/MD.0000000000026227", "title": "Laser photocoagulation for the treatment of bilateral late-onset retinopathy of prematurity-related retinal detachment in an adult male: A case report.", "year": "2021"}
+    ]
+  },
+  {
+    "id": "laser_demarcation_barrier",
+    "name": "Laser demarcation (barrier) line",
+    "synonyms": ["demarcation laser", "laser demarcation", "barrier laser", "laser barrier", "barrage laser", "laser barrage", "laser wall", "walled off", "wall off laser", "delimiting laser"],
+    "group": "treatment_postop",
+    "definition": "Two to three confluent rows of photocoagulation placed on attached retina along the posterior border of a localized detachment to limit its posterior spread.",
+    "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Curved line posterior to the detachment margin on attached retina, with both ends carried to the ora."},
+    "shape": "line",
+    "typical_size": "spans the detachment, 1–5 clock hours",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "dots", "pattern_color": "black", "description": "Curved band of 2–3 rows of black dots on attached retina just posterior to the blue detachment, ends reaching the ora."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): black = treatment hyperpigmentation after PHC https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "16543924", "doi": "10.1038/sj.eye.6702318", "title": "Barrage laser photocoagulation for macula-sparing asymptomatic clinical rhegmatogenous retinal detachments.", "year": "2006"},
+      {"pmid": "25770055", "doi": "10.1016/j.pdpdt.2015.02.006", "title": "Demarcation laser photocoagulation induced retinal necrosis and rupture resulting in large retinal tear formation.", "year": "2015"},
+      {"pmid": "34087903", "doi": "10.1097/MD.0000000000026227", "title": "Laser photocoagulation for the treatment of bilateral late-onset retinopathy of prematurity-related retinal detachment in an adult male: A case report.", "year": "2021"}
+    ]
+  },
+  {
+    "id": "laser_360",
+    "name": "360° peripheral laser retinopexy",
+    "synonyms": ["360 laser", "360 degree laser", "360° laser", "three sixty laser", "360 laser retinopexy", "360 barricade", "360 endolaser", "circumferential laser", "prophylactic 360 laser"],
+    "group": "treatment_postop",
+    "definition": "Confluent rows of photocoagulation applied circumferentially around the whole peripheral retina, usually anterior to the equator, as prophylaxis against (re)detachment after vitrectomy or before silicone oil removal.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "360° band between the equator and ora."},
+    "shape": "band_circumferential",
+    "typical_size": "360°, about 3 rows",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "dots", "pattern_color": "black", "description": "Continuous circumferential band of black dots between the equator and ora circles."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): black = treatment hyperpigmentation after PHC https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "17621184", "doi": "10.1097/IAE.0b013e318030ebd7", "title": "Prophylactic intraoperative 360 degrees laser retinopexy for prevention of retinal detachment.", "year": "2007"},
+      {"pmid": "11772597", "doi": "10.1016/s0161-6420(01)00848-x", "title": "Is prophylactic 360-degree laser retinopexy protective? Risk factors for retinal redetachment after removal of silicone oil.", "year": "2002"},
+      {"pmid": "34120420", "doi": "10.3341/kjo.2021.0013", "title": "Protective Role of 360° Laser Retinopexy in Patients with Rhegmatogenous Retinal Detachment: a Systematic Review and Meta-analysis.", "year": "2021"}
+    ]
+  },
+  {
+    "id": "prp_scars",
+    "name": "Panretinal photocoagulation (PRP) scars",
+    "synonyms": ["prp", "p r p", "panretinal photocoagulation", "pan retinal photocoagulation", "pan-retinal photocoagulation", "prp scars", "prp laser", "scatter laser", "full prp", "fill in prp", "sectoral prp", "sector prp"],
+    "group": "treatment_postop",
+    "definition": "Scatter laser burns placed across the mid- and peripheral retina outside the vascular arcades for proliferative ischemic retinopathy, healing as pigmented chorioretinal scars that can enlarge over time.",
+    "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Outside the arcades and nasal to the disc, sparing the macula and papillomacular bundle, out to and beyond the equator; sectoral PRP is limited to an ischemic sector."},
+    "shape": "sector_region",
+    "typical_size": "360° (full PRP) or 1 quadrant (sectoral)",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "dots", "pattern_color": "black", "description": "Scattered black dots filling the mid-periphery outside the arcades, leaving the posterior pole clear."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): black = treatment hyperpigmentation after PHC https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "7196564", "doi": null, "title": "Photocoagulation treatment of proliferative diabetic retinopathy. Clinical application of Diabetic Retinopathy Study (DRS) findings, DRS Report Number 8.", "year": "1981"},
+      {"pmid": "29850219", "doi": "10.1155/2018/9371895", "title": "Less Expansion of Short-Pulse Laser Scars in Panretinal Photocoagulation for Diabetic Retinopathy.", "year": "2018"},
+      {"pmid": "28182169", "doi": "10.4274/tjo.75032", "title": "Comparison of Efficacy and Side Effects of Multispot Lasers and Conventional Lasers for Diabetic Retinopathy Treatment.", "year": "2017"}
+    ]
+  },
+  {
+    "id": "focal_grid_macular_laser",
+    "name": "Focal / grid macular laser scars",
+    "synonyms": ["focal laser", "grid laser", "focal grid", "focal grid laser", "modified grid", "macular laser", "macular grid scars", "focal photocoagulation", "etdrs laser", "mlt"],
+    "group": "treatment_postop",
+    "definition": "Small laser burns applied to leaking microaneurysms (focal) or in a grid over thickened macula for diabetic macular edema, sparing the foveal centre; healed burns appear as small pigmented or atrophic spots.",
+    "location": {"zone": "macula", "typical_clock": null, "notes": "Within the arcades, sparing the foveal centre; scars may enlarge with time."},
+    "shape": "cluster",
+    "typical_size": "small spots over a 1–3 disc diameter area",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "dots", "pattern_color": "black", "description": "Small black dots in the treated macular area, leaving the fovea clear."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): black = treatment hyperpigmentation after PHC https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "2866759", "doi": null, "title": "Photocoagulation for diabetic macular edema. Early Treatment Diabetic Retinopathy Study report number 1. Early Treatment Diabetic Retinopathy Study research group.", "year": "1985"}
+    ]
+  },
+  {
+    "id": "fresh_laser_burns",
+    "name": "Fresh laser (photocoagulation) burns",
+    "synonyms": ["fresh laser", "fresh burns", "fresh laser burns", "new laser", "white burns", "grey white burns", "acute laser burns", "laser uptake", "fresh phc", "laser today"],
+    "group": "treatment_postop",
+    "definition": "Recently applied laser burns visible as grey-white spots of outer-retinal whitening and edema that later pigment into scars.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Wherever treatment was applied at this visit; redraw as black scars at follow-up."},
+    "shape": "cluster",
+    "typical_size": "spots ~100–500 µm in rows or scatter",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "dots", "pattern_color": "yellow", "description": "Yellow dots/rows at the treated positions to show fresh, edematous burns."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): yellow solid = 'Post-PHC retinal edema' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "17621184", "doi": "10.1097/IAE.0b013e318030ebd7", "title": "Prophylactic intraoperative 360 degrees laser retinopexy for prevention of retinal detachment.", "year": "2007"},
+      {"pmid": "29850219", "doi": "10.1155/2018/9371895", "title": "Less Expansion of Short-Pulse Laser Scars in Panretinal Photocoagulation for Diabetic Retinopathy.", "year": "2018"}
+    ]
+  },
+  {
+    "id": "cryopexy_scar",
+    "name": "Cryopexy (cryotherapy) scar",
+    "synonyms": ["cryo", "cryopexy", "cryotherapy", "cryo scar", "cryo scars", "cryoretinopexy", "transscleral cryo", "cryo marks", "freeze scar"],
+    "group": "treatment_postop",
+    "definition": "Chorioretinal scar from transscleral freezing around a retinal break, appearing acutely as white frosting and later as larger, irregular patches of pigment clumping and RPE atrophy.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Around peripheral breaks, often on the buckle; applications are contiguous around the break."},
+    "shape": "patch",
+    "typical_size": "each application about 1–2 disc diameters; confluent around the break",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "stipple", "pattern_color": "black", "description": "Black-outlined patches with black stippled pigment around the break; fresh cryo (white frost) may be drawn yellow."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): black solid = 'Hyperpigmentation as a result of the previous treatment with Cryo/PHC/Diathermy' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "8986445", "doi": "10.1007/BF00189354", "title": "Cryopexy in primary rhegmatogenous retinal detachment: a risk factor for postoperative proliferative vitreoretinopathy?", "year": "1996"},
+      {"pmid": "7223820", "doi": "10.1016/0002-9394(81)90235-x", "title": "Surgical management of retinal detachment without cryopexy.", "year": "1981"},
+      {"pmid": "24790997", "doi": "10.1155/2014/364961", "title": "Using surgical microscope for sclera buckling and transscleral cryopexy: an alternative procedure of treatment for rhegmatogenous retinal detachment.", "year": "2014"}
+    ]
+  },
+  {
+    "id": "srf_drainage_site",
+    "name": "External subretinal fluid drainage site",
+    "synonyms": ["drainage site", "drain site", "srf drainage", "external drainage", "drainage sclerotomy", "sclerotomy drainage", "choroidotomy", "needle drainage", "cut down", "drainage scar"],
+    "group": "treatment_postop",
+    "definition": "Site of transscleral choroidotomy used to drain subretinal fluid during buckling surgery, later visible as a small pigmented chorioretinal scar, sometimes with local subretinal hemorrhage or retinal incarceration.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Beneath or beside the buckle where subretinal fluid was deepest, usually between rectus muscles."},
+    "shape": "point",
+    "typical_size": "<1 disc diameter (associated hemorrhage usually <2 DD)",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "x_marks", "pattern_color": "black", "description": "Small black X at the drainage site; add red if subretinal hemorrhage is present."},
+    "color_source": "inferred: black = pigmented chorioretinal scar after treatment (Documentation & Drawing in Ophthalmology, eOphtha https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology); X symbol for a point site",
+    "pubmed": [
+      {"pmid": "33512898", "doi": "10.1097/IAE.0000000000003136", "title": "EXTERNAL DRAINAGE OF SUBRETINAL FLUID DURING RHEGMATOGENOUS RETINAL DETACHMENT REPAIR.", "year": "2021"},
+      {"pmid": "26188754", "doi": null, "title": "Drainage of subretinal fluid during scleral buckling surgery for rhegmatogenous retinal detachment.", "year": "2015"},
+      {"pmid": "9524028", "doi": "10.1046/j.1440-1606.1998.00078.x", "title": "External argon laser choroidotomy for subretinal fluid drainage.", "year": "1998"}
+    ]
+  },
+  {
+    "id": "drainage_retinotomy",
+    "name": "Drainage retinotomy",
+    "synonyms": ["drainage retinotomy", "posterior retinotomy", "retinotomy", "drainage hole", "iatrogenic break", "posterior drainage retinotomy", "endodrainage site"],
+    "group": "treatment_postop",
+    "definition": "Small iatrogenic full-thickness retinal opening made during vitrectomy to drain subretinal fluid, usually surrounded by endolaser and visible postoperatively as a round hole within a pigmented laser ring.",
+    "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Usually in the mid-periphery away from the macula, in an area of deep subretinal fluid."},
+    "shape": "point",
+    "typical_size": "1/4–1/2 disc diameter",
+    "drawing": {"fill": "red", "outline": "blue", "pattern": "ring", "pattern_color": "black", "description": "Small full-thickness break (blue outline filled red) surrounded by a ring of black laser dots."},
+    "color_source": "CMS L33567 App A (blue outline filled red = full-thickness break) + Documentation & Drawing in Ophthalmology (eOphtha) black treatment scars https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "30566703", "doi": "10.3928/23258160-20181203-08", "title": "Non-Lasered Drainage Retinotomies for Repair of Primary Rhegmatogenous Retinal Detachments.", "year": "2018"},
+      {"pmid": "37043411", "doi": "10.3928/23258160-20230307-01", "title": "Risk Factors for Epiretinal Membrane After Rhegmatogenous Retinal Detachment Repair: Quantitative Ultra Widefield Imaging Analysis.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "relaxing_retinectomy",
+    "name": "Relaxing retinotomy / retinectomy edge",
+    "synonyms": ["retinectomy", "relaxing retinectomy", "relaxing retinotomy", "retinectomy edge", "retinotomy edge", "inferior retinectomy", "180 retinectomy", "circumferential retinectomy", "radial retinectomy"],
+    "group": "treatment_postop",
+    "definition": "Surgical incision or excision of contracted, shortened retina (usually peripheral and circumferential) to relieve PVR traction, leaving a free posterior retinal edge secured with endolaser and bare RPE/choroid anteriorly.",
+    "location": {"zone": "periphery", "typical_clock": "inferior", "notes": "Most often inferior, 90–180° (up to 360°), anterior to the equator; the posterior edge can fold or slip."},
+    "shape": "band_circumferential",
+    "typical_size": "3–12 clock hours",
+    "drawing": {"fill": "red", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Blue line marking the retinectomy edge, the area anterior to it treated as a giant break (blue outline filled red), and 2–3 rows of black laser dots just posterior to the edge."},
+    "color_source": "CMS L33567 App A (full-thickness break) + Documentation & Drawing in Ophthalmology (eOphtha) black treatment scars https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "30972375", "doi": "10.1177/2474126419831614", "title": "Outcomes of 25-gauge vitrectomy with relaxing retinectomy for retinal detachment secondary to proliferative vitreoretinopathy.", "year": "2019"},
+      {"pmid": "33014425", "doi": "10.1186/s40942-020-00251-y", "title": "Concept and application of relaxing radial retinectomy for retinal detachment with advanced proliferative vitreo-retinopathy.", "year": "2020"},
+      {"pmid": "18670467", "doi": "10.1038/eye.2008.220", "title": "Severe folding of the inferior retina after relaxing retinectomy for proliferative vitreoretinopathy.", "year": "2008"}
+    ]
+  },
+  {
+    "id": "intraocular_gas_bubble",
+    "name": "Intraocular gas bubble (air / SF6 / C3F8)",
+    "synonyms": ["gas bubble", "gas", "gas fill", "gas tamponade", "air bubble", "air fill", "sf6", "s f six", "sulfur hexafluoride", "c3f8", "c three f eight", "perfluoropropane", "c2f6", "percent gas fill"],
+    "group": "treatment_postop",
+    "definition": "Intravitreal air or expansile gas (SF6, C2F6, C3F8) used as internal tamponade after vitrectomy or pneumatic retinopexy, seen as a mobile superior bubble with a horizontal inferior meniscus.",
+    "location": {"zone": "vitreous", "typical_clock": "superior", "notes": "Rises to the highest point of the cavity; record % fill and meniscus level; positioning places it against the break."},
+    "shape": "sector_region",
+    "typical_size": "10–100% fill of the vitreous cavity",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Green outline of the bubble over the superior fundus bounded by a straight horizontal meniscus line; annotate gas type and % fill."},
+    "color_source": "inferred: no established colour for tamponades (Jayanna & Shanmugam 2022, PMID 36190076, https://doi.org/10.4103/ijo.IJO_1004_22); green used for vitreous-cavity contents per CMS L33567 App A (opacities in media) and PMID 36190076 (preretinal = green)",
+    "pubmed": [
+      {"pmid": "29280936", "doi": "10.1097/IAE.0000000000002015", "title": "THE ROLE OF INTRAOCULAR GAS TAMPONADE IN RHEGMATOGENOUS RETINAL DETACHMENT: A Synthesis of the Literature.", "year": "2018"},
+      {"pmid": "10749310", "doi": "10.3109/08820530009037846", "title": "Intraocular gas tamponades.", "year": "2000"},
+      {"pmid": "30581605", "doi": "10.1155/2018/8606494", "title": "Complications Associated with the Use of Expandable Gases in Vitrectomy.", "year": "2018"}
+    ]
+  },
+  {
+    "id": "pneumatic_retinopexy",
+    "name": "Pneumatic retinopexy",
+    "synonyms": ["pneumatic retinopexy", "pnr", "pneumoretinopexy", "pneumatic", "pr", "gas injection", "office gas injection"],
+    "group": "treatment_postop",
+    "definition": "Office repair combining intravitreal expansile gas injection with cryopexy or laser to the break(s) and head positioning so the bubble tamponades the break, classically for breaks within the superior 8 clock hours.",
+    "location": {"zone": "periphery", "typical_clock": "superior", "notes": "Classic indication: single break or group of breaks no larger than 1 clock hour in the superior 8 clock hours; the bubble is positioned over the break."},
+    "shape": "sector_region",
+    "typical_size": "break(s) ≤1 clock hour; bubble occupies the superior cavity",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Superior gas bubble outlined green with retinopexy marks around the break (black dots or stipple, yellow if fresh); note any new breaks and dependent demarcation line."},
+    "color_source": "inferred: tamponade drawn green (see intraocular gas bubble; PMID 36190076) + Documentation & Drawing in Ophthalmology (eOphtha) black treatment scars https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "18929759", "doi": "10.1016/j.survophthal.2008.06.008", "title": "Pneumatic retinopexy for the repair of retinal detachments: a comprehensive review (1986-2007).", "year": "2008"},
+      {"pmid": "34636994", "doi": "10.1007/s00417-021-05448-x", "title": "Pneumatic retinopexy: an update.", "year": "2021"},
+      {"pmid": "37891492", "doi": "10.1186/s12886-023-03184-w", "title": "Evolution of demarcation line after pneumatic retinopexy-a case report.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "silicone_oil_fill",
+    "name": "Silicone oil tamponade",
+    "synonyms": ["silicone oil", "silicon oil", "so", "oil", "oil fill", "oil filled eye", "silicone oil fill", "silicone oil tamponade", "heavy silicone oil", "heavy oil", "densiron", "1000 cs oil", "5000 cs oil"],
+    "group": "treatment_postop",
+    "definition": "Long-term intravitreal tamponade with silicone oil (lighter or heavier than water) after vitrectomy for complex detachments, showing a glistening reflex at its meniscus and usually requiring later removal.",
+    "location": {"zone": "vitreous", "typical_clock": null, "notes": "Fills most of the cavity; standard oil floats (inferior aqueous rim), heavy oil sinks (superior aqueous rim); mark under-fill and any oil-retina interface."},
+    "shape": "sector_region",
+    "typical_size": "near-complete fill; record % fill",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "parallel_hatch", "pattern_color": "green", "description": "Green outline of the oil bubble with light green parallel hatching; mark the meniscus (inferior for standard oil, superior for heavy oil) and label 'SO'."},
+    "color_source": "inferred: no established colour for silicone oil (Jayanna & Shanmugam 2022, PMID 36190076, https://doi.org/10.4103/ijo.IJO_1004_22); green for vitreous-cavity contents per CMS L33567 App A; hatching distinguishes oil from gas",
+    "pubmed": [
+      {"pmid": "39382231", "doi": "10.1080/02713683.2024.2409883", "title": "Complications of Silicone Oil as Vitreous Tamponade in Pars Plana Vitrectomy: A Mini Review.", "year": "2024"},
+      {"pmid": "34109851", "doi": "10.1177/11206721211019551", "title": "Long-term silicone oil tamponade in eyes with complicated retinal detachment.", "year": "2021"},
+      {"pmid": "25196757", "doi": "10.1159/000360454", "title": "Vitreous substitute and tamponade substances for microincision vitreoretinal surgery.", "year": "2014"}
+    ]
+  },
+  {
+    "id": "emulsified_silicone_oil",
+    "name": "Emulsified silicone oil droplets",
+    "synonyms": ["emulsified oil", "emulsified silicone oil", "emulsification", "oil droplets", "silicone oil droplets", "oil bubbles", "fish eggs", "sticky oil"],
+    "group": "treatment_postop",
+    "definition": "Dispersion of silicone oil into small droplets after prolonged tamponade, seen as tiny refractile bubbles in the vitreous cavity (and as an inverted pseudohypopyon in the anterior chamber) that may adhere to the retina.",
+    "location": {"zone": "vitreous", "typical_clock": "superior", "notes": "Droplets of standard oil gather superiorly in the cavity and on the retinal surface."},
+    "shape": "cluster",
+    "typical_size": "droplets far smaller than the disc, often diffuse",
+    "drawing": {"fill": "none", "outline": "none", "pattern": "dots", "pattern_color": "green", "description": "Clusters of small green dots/circles where droplets are seen, mainly superiorly."},
+    "color_source": "inferred: tamponade/vitreous contents drawn green (CMS L33567 App A opacities in media; PMID 36190076)",
+    "pubmed": [
+      {"pmid": "25325856", "doi": "10.3109/08820538.2014.962181", "title": "Complications of emulsified silicone oil after retinal detachment repair.", "year": "2014"},
+      {"pmid": "39382231", "doi": "10.1080/02713683.2024.2409883", "title": "Complications of Silicone Oil as Vitreous Tamponade in Pars Plana Vitrectomy: A Mini Review.", "year": "2024"}
+    ]
+  },
+  {
+    "id": "retained_pfcl",
+    "name": "Retained perfluorocarbon liquid (PFCL) droplet",
+    "synonyms": ["pfcl", "pfo", "pfcl droplet", "retained pfo", "retained pfcl", "perfluorocarbon", "perfluorocarbon liquid", "perfluoro-n-octane", "perfluorooctane", "perfluorodecalin", "heavy liquid", "heavy liquid bubble", "subretinal pfcl", "subretinal pfo"],
+    "group": "treatment_postop",
+    "definition": "Residual droplet(s) of heavy perfluorocarbon liquid left after vitrectomy, seen as clear, round, highly refractile bubbles that sink to the dependent vitreous cavity or become trapped subretinally, often beneath the fovea.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Preretinal droplets lie in the most dependent cavity; subretinal droplets sit under the posterior pole/fovea and can migrate."},
+    "shape": "point",
+    "typical_size": "1/10–1 disc diameter",
+    "drawing": {"fill": "none", "outline": "green", "pattern": "ring", "pattern_color": "green", "description": "Small round green-outlined circle(s) at the droplet position; label 'PFCL' and 'subretinal' when beneath the retina."},
+    "color_source": "inferred: no established colour for perfluoro liquids (Jayanna & Shanmugam 2022, PMID 36190076, https://doi.org/10.4103/ijo.IJO_1004_22); green for tamponade per CMS L33567 App A opacities in media",
+    "pubmed": [
+      {"pmid": "24221464", "doi": "10.3928/23258160-20131105-07", "title": "Management of retained subretinal perfluorocarbon liquid.", "year": "2013"},
+      {"pmid": "31981001", "doi": "10.1007/s10792-020-01287-7", "title": "Submacular perfluorocarbon liquid: long-term follow-up.", "year": "2020"},
+      {"pmid": "18854788", "doi": "10.1097/IAE.0b013e318188c7ea", "title": "Changes in retinal sensitivity from retained subretinal perfluorocarbon liquid.", "year": "2009"}
+    ]
+  },
+  {
+    "id": "postoperative_retinal_fold",
+    "name": "Postoperative retinal (macular) fold",
+    "synonyms": ["macular fold", "retinal fold", "postoperative fold", "post op fold", "postoperative macular fold", "outer retinal fold", "full thickness retinal fold", "slippage fold", "retinal slippage"],
+    "group": "treatment_postop",
+    "definition": "Fold of the reattached retina, sometimes crossing the macula, caused by residual subretinal fluid displaced by gas tamponade or by retinal slippage after detachment repair.",
+    "location": {"zone": "macula", "typical_clock": null, "notes": "Usually across the posterior pole/macula after gas tamponade; can be associated with macular translocation, diplopia and metamorphopsia; may flatten spontaneously."},
+    "shape": "line",
+    "typical_size": "1 to several disc diameters",
+    "drawing": {"fill": "none", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Blue line along the course of the fold on attached retina."},
+    "color_source": "Documentation & Drawing in Ophthalmology (eOphtha): blue solid = 'Meridional, radial, fixed & circumferential folds' https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology",
+    "pubmed": [
+      {"pmid": "35925346", "doi": "10.1007/s00347-022-01678-4", "title": "[Macular folds after surgical repair of retinal detachment].", "year": "2022"},
+      {"pmid": "25390962", "doi": "10.1097/ICB.0b013e3182247711", "title": "Spectral-Domain OPTICAL COHERENCE TOMOGRAPHY of a Macular Fold AFTER Retinal Detachment Repair.", "year": "2012"},
+      {"pmid": "28374275", "doi": "10.1007/s10792-017-0494-6", "title": "Postoperative roll cake-like macular fold after retinal detachment surgery.", "year": "2017"}
+    ]
+  }
+]

@@ -1,0 +1,900 @@
+[
+  {
+    "id": "optic_disc_edema",
+    "name": "Optic disc edema",
+    "synonyms": ["disc edema", "disc oedema", "disk edema", "optic disc swelling", "swollen disc", "disc swelling", "optic nerve head edema", "onh edema", "papillitis", "naion", "blurred disc margins", "elevated disc"],
+    "group": "optic_disc",
+    "definition": "Swelling of the optic nerve head from axoplasmic stasis, seen as an elevated, hyperaemic disc with blurred margins and obscuration of vessels at the disc edge, of any cause (e.g. NAION, optic neuritis/papillitis, raised intracranial pressure).",
+    "location": {"zone": "disc", "typical_clock": null, "notes": "Disc and immediately adjacent peripapillary nerve fibre layer; may be sectoral (e.g. altitudinal in NAION)."},
+    "shape": "disc_change",
+    "typical_size": "Whole disc (1 DD) plus a 0.25-0.5 DD peripapillary halo",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "radial_lines", "pattern_color": "yellow", "description": "Fill the disc circle yellow and feather its margin with short radial yellow strokes into the peripapillary retina to show blurred margins; add peripapillary flame haemorrhages as red strokes if present."},
+    "color_source": "inferred: CMS L33567 App A yellow = intraretinal edema; no standard disc-swelling code exists (Jayanna S, Shanmugam PM. It is time for more colors! Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22)",
+    "pubmed": [
+      {"pmid": "42144605", "doi": "10.1186/s12886-026-04860-3", "title": "Resolution of disc oedema in nonarteritic anterior ischaemic optic neuropathy versus optic neuritis: a retrospective, cross-sectional study.", "year": "2026"},
+      {"pmid": "32909979", "doi": "10.1097/WNO.0000000000001078", "title": "Optical Coherence Tomography Neuro-Toolbox for the Diagnosis and Management of Papilledema, Optic Disc Edema, and Pseudopapilledema.", "year": "2021"}
+    ]
+  },
+  {
+    "id": "papilledema",
+    "name": "Papilledema",
+    "synonyms": ["papilledema", "papilloedema", "papill edema", "papilla edema", "bilateral disc swelling", "raised icp disc", "iih disc swelling", "pseudotumor cerebri disc", "chronic papilledema", "atrophic papilledema"],
+    "group": "optic_disc",
+    "definition": "Optic disc swelling secondary to raised intracranial pressure, usually bilateral, with visual function typically preserved in the acute phase.",
+    "location": {"zone": "disc", "typical_clock": null, "notes": "Both discs; may be accompanied by peripapillary haemorrhages, cotton-wool spots and peripapillary retinal/choroidal folds."},
+    "shape": "disc_change",
+    "typical_size": "Whole disc plus peripapillary halo, up to about 1 DD beyond the margin in severe cases",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "radial_lines", "pattern_color": "yellow", "description": "Draw on both eye charts: fill each disc yellow with feathered radial yellow margins; add red flame haemorrhages and yellow cotton-wool spots around the disc where seen."},
+    "color_source": "inferred: CMS L33567 App A yellow = intraretinal edema; red = retinal hemorrhages",
+    "pubmed": [
+      {"pmid": "34813854", "doi": "10.1016/j.survophthal.2021.11.007", "title": "Papilledema: A review of etiology, pathophysiology, diagnosis, and management.", "year": "2021"},
+      {"pmid": "12654358", "doi": "10.1016/s0002-9394(02)02062-7", "title": "Anemia and papilledema.", "year": "2003"}
+    ]
+  },
+  {
+    "id": "optic_disc_pallor",
+    "name": "Optic disc pallor / optic atrophy",
+    "synonyms": ["optic atrophy", "disc pallor", "pale disc", "pale disk", "pale optic nerve", "optic nerve pallor", "temporal pallor", "sectoral pallor", "white disc", "consecutive optic atrophy", "secondary optic atrophy"],
+    "group": "optic_disc",
+    "definition": "Loss of the normal pink colour of the neuroretinal rim from loss of retinal ganglion cell axons, diffuse or sectoral (e.g. temporal pallor from papillomacular bundle loss).",
+    "location": {"zone": "disc", "typical_clock": null, "notes": "Whole disc or a sector of the rim; temporal sector in papillomacular bundle disease."},
+    "shape": "disc_change",
+    "typical_size": "Whole disc or a sector of it (1 DD)",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Outline the disc in black and leave the pale area white, shading only the affected sector for sectoral pallor; annotate the sector (e.g. 'temporal pallor')."},
+    "color_source": "inferred: natural-colour depiction; no standard code exists for disc pallor (Jayanna S, Shanmugam PM. Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22)",
+    "pubmed": [
+      {"pmid": "30239368", "doi": "10.1097/IIO.0000000000000244", "title": "Pediatric Optic Disc Pallor.", "year": "2018"},
+      {"pmid": "27585216", "doi": "10.1097/ICU.0000000000000314", "title": "Dominant optic atrophy: updates on the pathophysiology and clinical manifestations of the optic atrophy 1 mutation.", "year": "2016"}
+    ]
+  },
+  {
+    "id": "glaucomatous_cupping",
+    "name": "Glaucomatous optic disc cupping",
+    "synonyms": ["cupping", "glaucomatous cupping", "glaucomatous cup", "enlarged cup", "increased cup to disc ratio", "cup to disc ratio", "c d ratio", "c to d", "cd ratio", "rim notch", "notching", "rim thinning", "excavated disc", "glaucomatous optic neuropathy"],
+    "group": "optic_disc",
+    "definition": "Enlargement and deepening of the optic cup with diffuse or focal thinning (notching) of the neuroretinal rim from glaucomatous axon loss, often with vertical elongation of the cup.",
+    "location": {"zone": "disc", "typical_clock": "superior and inferior poles of the disc", "notes": "Rim loss characteristically at the inferotemporal and superotemporal poles; record the vertical cup-to-disc ratio."},
+    "shape": "disc_change",
+    "typical_size": "Recorded as vertical cup-to-disc ratio (e.g. 0.7) within a 1 DD disc",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "ring", "pattern_color": "black", "description": "Draw a second black oval inside the disc circle to mark the cup margin, sized to the vertical C/D ratio; show focal notches as indentations of the rim and write the ratio beside the disc."},
+    "color_source": "inferred: black outline for a structural landmark; CMS L33567 App A only asks that optic nerve 'cupping' be recorded, without a colour",
+    "pubmed": [
+      {"pmid": "10614679", "doi": "10.1016/s1350-9462(99)00002-6", "title": "Diagnosis and pathogenesis of glaucomatous optic neuropathy: morphological aspects.", "year": "2000"}
+    ]
+  },
+  {
+    "id": "optic_disc_hemorrhage",
+    "name": "Optic disc hemorrhage (Drance)",
+    "synonyms": ["disc hemorrhage", "disc haemorrhage", "disk hemorrhage", "drance hemorrhage", "drance haemorrhage", "splinter hemorrhage at disc", "disc heme", "optic disc bleed", "flame hemorrhage on disc"],
+    "group": "optic_disc",
+    "definition": "Splinter- or flame-shaped haemorrhage on or crossing the optic disc margin, a recognised marker of glaucomatous damage and progression.",
+    "location": {"zone": "peripapillary", "typical_clock": "inferotemporal or superotemporal disc margin", "notes": "Straddles the disc rim into the peripapillary nerve fibre layer, oriented radially."},
+    "shape": "line",
+    "typical_size": "0.1-0.25 DD in length",
+    "drawing": {"fill": "red", "outline": "red", "pattern": "solid", "pattern_color": null, "description": "Draw a short radial red stroke crossing the disc margin at the involved clock hour."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "27820751", "doi": "10.1097/ICU.0000000000000345", "title": "Optic disc hemorrhage in glaucoma: pathophysiology and prognostic significance.", "year": "2017"},
+      {"pmid": "10614679", "doi": "10.1016/s1350-9462(99)00002-6", "title": "Diagnosis and pathogenesis of glaucomatous optic neuropathy: morphological aspects.", "year": "2000"}
+    ]
+  },
+  {
+    "id": "optic_disc_pit",
+    "name": "Optic disc pit",
+    "synonyms": ["optic pit", "disc pit", "disk pit", "optic nerve pit", "optic disc pit maculopathy", "pit maculopathy", "odp", "congenital optic pit"],
+    "group": "optic_disc",
+    "definition": "Rare congenital circumscribed greyish depression in the optic disc, usually temporal, that may lead to macular schisis and serous macular detachment.",
+    "location": {"zone": "disc", "typical_clock": "temporal (often inferotemporal) disc", "notes": "Within the disc margin; associated macular fluid extends from the disc toward the fovea."},
+    "shape": "point",
+    "typical_size": "About 1/8-1/3 DD",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "stipple", "pattern_color": "black", "description": "Draw a small black-outlined oval at the temporal disc stippled black to show the grey pit; draw any associated serous macular detachment in blue."},
+    "color_source": "inferred: grey depression shown as black stipple; associated detachment blue per CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "21638030", "doi": "10.1007/s00417-011-1698-5", "title": "Optic disc pit: a review.", "year": "2011"},
+      {"pmid": "31441129", "doi": "10.1111/cxo.12957", "title": "Optic disc pit maculopathy: a review of diagnosis and treatment.", "year": "2019"}
+    ]
+  },
+  {
+    "id": "optic_disc_coloboma",
+    "name": "Optic disc coloboma",
+    "synonyms": ["disc coloboma", "disk coloboma", "optic nerve coloboma", "coloboma of the optic disc", "colobomatous disc", "optic disc excavation"],
+    "group": "optic_disc",
+    "definition": "Congenital excavation of the optic disc from incomplete closure of the embryonic fissure, seen as an enlarged, sharply demarcated, white bowl-shaped defect that is deeper inferiorly.",
+    "location": {"zone": "disc", "typical_clock": "inferior", "notes": "Excavation decentred inferiorly; may be continuous with an inferior chorioretinal coloboma."},
+    "shape": "disc_change",
+    "typical_size": "Enlarged disc, larger than 1 DD",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Enlarge the disc circle inferiorly with a black outline and leave the excavation white; draw any contiguous chorioretinal coloboma with the same code."},
+    "color_source": "inferred: white bare excavation with black margin; optic disc anomalies have no standard code (Jayanna S, Shanmugam PM. Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22)",
+    "pubmed": [
+      {"pmid": "38592429", "doi": "10.3390/jcm13051509", "title": "Congenital Optic Disc Anomalies: Insights from Multimodal Imaging.", "year": "2024"},
+      {"pmid": "29018703", "doi": "10.1016/j.tjo.2015.05.003", "title": "Retinal complications associated with congenital optic disc anomalies determined by swept source optical coherence tomography.", "year": "2015"}
+    ]
+  },
+  {
+    "id": "morning_glory_disc",
+    "name": "Morning glory disc anomaly",
+    "synonyms": ["morning glory", "morning glory disc", "morning glory disc anomaly", "morning glory syndrome", "mgda", "funnel shaped disc"],
+    "group": "optic_disc",
+    "definition": "Congenital funnel-shaped excavation of an enlarged optic disc with a central white glial tuft, a surrounding ring of chorioretinal pigmentary change, and numerous straight vessels radiating from the disc margin.",
+    "location": {"zone": "disc", "typical_clock": null, "notes": "Disc plus a peripapillary ring of pigmentary disturbance; usually unilateral."},
+    "shape": "disc_change",
+    "typical_size": "Enlarged disc with peripapillary ring, larger than 1 DD",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "radial_lines", "pattern_color": "red", "description": "Draw an enlarged disc with a white centre (glial tuft), a black-stippled peripapillary pigment ring, and many straight red vessels radiating from its edge."},
+    "color_source": "inferred: white glial tissue; black = pigment (Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044); red vessels per CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "18484308", "doi": "10.1080/13816810801901876", "title": "Update on the morning glory disc anomaly.", "year": "2008"},
+      {"pmid": "29018703", "doi": "10.1016/j.tjo.2015.05.003", "title": "Retinal complications associated with congenital optic disc anomalies determined by swept source optical coherence tomography.", "year": "2015"}
+    ]
+  },
+  {
+    "id": "optic_disc_drusen",
+    "name": "Optic disc drusen",
+    "synonyms": ["disc drusen", "disk drusen", "optic disc drusen", "optic nerve head drusen", "odd", "onhd", "buried drusen", "superficial drusen", "pseudopapilledema", "drusen of the optic disc", "hyaline bodies"],
+    "group": "optic_disc",
+    "definition": "Acellular, often calcified deposits in the prelaminar optic nerve head, visible as refractile yellow-white lumpy bodies when superficial or causing an elevated disc that mimics papilledema when buried.",
+    "location": {"zone": "disc", "typical_clock": null, "notes": "Within the disc substance, giving a lumpy or scalloped margin; frequently bilateral."},
+    "shape": "cluster",
+    "typical_size": "Small nodules within a 1 DD disc",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "dots", "pattern_color": "yellow", "description": "Draw clusters of small yellow circles within the disc circle and give the disc a lumpy, scalloped margin."},
+    "color_source": "inferred: drusen are stippled yellow (Documentation & Drawing in Ophthalmology, https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology)",
+    "pubmed": [
+      {"pmid": "32383130", "doi": "10.1007/s10792-020-01365-w", "title": "Optic disc drusen: a systematic review : Up-to-date and future perspective.", "year": "2020"},
+      {"pmid": "37144704", "doi": "10.1111/aos.15690", "title": "Prevalence of optic disc drusen: A systematic review, meta-analysis and forecasting study.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "myelinated_nerve_fibres",
+    "name": "Myelinated retinal nerve fibres",
+    "synonyms": ["myelinated nerve fibers", "myelinated nerve fibres", "myelinated rnfl", "myelinated retinal nerve fiber layer", "medullated nerve fibers", "medullated nerve fibres", "mrnf", "opaque nerve fibers", "opaque nerve fibres"],
+    "group": "optic_disc",
+    "definition": "Congenital patch of myelinated retinal nerve fibre layer appearing as a white, opaque, feathery-edged patch that follows the nerve fibre pattern and obscures the underlying retinal vessels.",
+    "location": {"zone": "peripapillary", "typical_clock": null, "notes": "Usually contiguous with the disc margin along the arcuate bundles; occasionally an isolated patch elsewhere."},
+    "shape": "patch",
+    "typical_size": "0.5 DD to several DD",
+    "drawing": {"fill": "white", "outline": "none", "pattern": "wavy_lines", "pattern_color": "black", "description": "Shade a white patch following the arcuate nerve fibre direction, with fine black feathered strokes at its frayed edges; draw vessels within it as interrupted."},
+    "color_source": "inferred: natural white colour; no standard code",
+    "pubmed": [
+      {"pmid": "30239369", "doi": "10.1097/IIO.0000000000000239", "title": "Myelinated Retinal Nerve Fiber Layer (RNFL): A Comprehensive Review.", "year": "2018"}
+    ]
+  },
+  {
+    "id": "peripapillary_atrophy",
+    "name": "Peripapillary (parapapillary) atrophy",
+    "synonyms": ["ppa", "peripapillary atrophy", "parapapillary atrophy", "peripapillary chorioretinal atrophy", "beta zone", "alpha zone", "myopic crescent", "temporal crescent", "peripapillary crescent", "peripapillary halo"],
+    "group": "optic_disc",
+    "definition": "Crescent or ring of chorioretinal atrophy adjacent to the optic disc; the beta zone exposes sclera and large choroidal vessels next to the disc margin, and the alpha zone shows irregular hypo/hyperpigmentation outside it.",
+    "location": {"zone": "peripapillary", "typical_clock": "temporal", "notes": "Crescent abutting the disc margin; may encircle the disc in high myopia or glaucoma."},
+    "shape": "ring",
+    "typical_size": "Crescent 0.1-1 DD wide",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "stipple", "pattern_color": "black", "description": "Draw a crescent against the (usually temporal) disc margin bounded by a black line: leave the inner beta zone white and stipple the outer alpha zone black for irregular pigment."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (BLACK = RPE, pigment clumping); white bare sclera inferred",
+    "pubmed": [
+      {"pmid": "20132988", "doi": "10.1016/j.ophtha.2009.10.016", "title": "Beta-Zone parapapillary atrophy and the velocity of glaucoma progression.", "year": "2010"},
+      {"pmid": "33437595", "doi": "10.4103/tjo.tjo_64_19", "title": "Controversies in the association of parapapillary atrophy with glaucoma.", "year": "2019"}
+    ]
+  },
+  {
+    "id": "tilted_disc",
+    "name": "Tilted disc",
+    "synonyms": ["tilted disc", "tilted disk", "tilted disc syndrome", "tds", "oblique disc insertion", "situs inversus of disc vessels", "inferonasal crescent", "torted disc"],
+    "group": "optic_disc",
+    "definition": "Congenital oblique insertion of the optic nerve producing an oval, obliquely oriented disc with an inferonasal crescent, situs inversus of the retinal vessels and inferonasal RPE/choroidal hypoplasia.",
+    "location": {"zone": "disc", "typical_clock": "inferonasal", "notes": "Oval disc with oblique long axis; crescent and ectatic hypopigmented fundus inferonasally."},
+    "shape": "disc_change",
+    "typical_size": "Disc plus inferonasal crescent",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Draw the disc as an oblique oval with a white, black-outlined crescent at its inferonasal edge; lightly mark any inferonasal ectatic zone."},
+    "color_source": "inferred: white bare-sclera crescent with black margin",
+    "pubmed": [
+      {"pmid": "10498002", "doi": "10.1097/00006324-199909000-00018", "title": "Tilted disc syndrome.", "year": "1999"},
+      {"pmid": "34011719", "doi": "10.4103/ijo.IJO_1902_20", "title": "Macular associations of tilted disc syndrome.", "year": "2021"}
+    ]
+  },
+  {
+    "id": "optic_nerve_hypoplasia",
+    "name": "Optic nerve hypoplasia",
+    "synonyms": ["optic nerve hypoplasia", "onh", "small disc", "hypoplastic disc", "double ring sign", "micropapilla", "septo optic dysplasia", "superior segmental optic hypoplasia"],
+    "group": "optic_disc",
+    "definition": "Congenitally small optic disc with reduced axon number, characteristically surrounded by a peripapillary double-ring sign, often with tortuous retinal vessels and nerve fibre layer thinning.",
+    "location": {"zone": "disc", "typical_clock": null, "notes": "Small disc within a larger scleral-canal ring; unilateral or bilateral."},
+    "shape": "disc_change",
+    "typical_size": "Disc clearly smaller than 1 normal DD",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "ring", "pattern_color": "black", "description": "Draw a reduced disc circle with a second concentric black ring around it to show the double-ring sign."},
+    "color_source": "inferred: black outline for structural landmark",
+    "pubmed": [
+      {"pmid": "24082663", "doi": "10.4103/0974-620X.116622", "title": "Optic nerve hypoplasia.", "year": "2013"}
+    ]
+  },
+  {
+    "id": "optic_disc_melanocytoma",
+    "name": "Optic disc melanocytoma",
+    "synonyms": ["melanocytoma", "optic disc melanocytoma", "optic nerve melanocytoma", "magnocellular nevus", "odm", "black disc tumor", "pigmented disc tumour"],
+    "group": "tumors_pigment",
+    "definition": "Benign, deeply pigmented magnocellular nevus of the optic disc, dark brown to black, often eccentric on the disc and frequently extending into the adjacent choroid or retina.",
+    "location": {"zone": "disc", "typical_clock": null, "notes": "On the disc, often eccentric, overhanging the margin when it has a choroidal (54%) or retinal (30%) component; 99% unilateral."},
+    "shape": "patch",
+    "typical_size": "Mean about 2 mm diameter (about 1.3 DD) and 1 mm thick",
+    "drawing": {"fill": "brown", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Fill the involved part of the disc solid dark brown with a black outline, extending past the margin where there is a choroidal or retinal component."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (BROWN = melanocytic lesions)",
+    "pubmed": [
+      {"pmid": "15350331", "doi": "10.1016/j.ophtha.2004.02.016", "title": "Melanocytoma of optic disc in 115 cases: the 2004 Samuel Johnson Memorial Lecture, part 1.", "year": "2004"}
+    ]
+  },
+  {
+    "id": "choroidal_nevus",
+    "name": "Choroidal nevus",
+    "synonyms": ["nevus", "naevus", "choroidal nevus", "choroidal naevus", "pigmented choroidal nevus", "flat pigmented lesion", "benign melanocytic lesion", "suspicious nevus", "giant nevus"],
+    "group": "tumors_pigment",
+    "definition": "Benign, well-circumscribed, flat or minimally elevated slate-grey to brown melanocytic choroidal lesion, often with overlying drusen; risk features include thickness >2 mm, subretinal fluid, orange pigment and margin <3 mm from the disc.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Mostly postequatorial but can occur anywhere in the choroid."},
+    "shape": "patch",
+    "typical_size": "Mean basal diameter about 1.25 mm (about 1 DD) in population studies; giant nevus 10 mm or more; thickness up to 2 mm",
+    "drawing": {"fill": "brown", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Fill a flat round or oval patch solid brown; add overlying drusen as yellow dots and any subretinal fluid in blue."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "28141766", "doi": "10.1097/ICU.0000000000000361", "title": "Choroidal nevus: a review of prevalence, features, genetics, risks, and outcomes.", "year": "2017"},
+      {"pmid": "16154197", "doi": "10.1016/j.ophtha.2005.06.011", "title": "Estimating the risk of malignant transformation of a choroidal nevus.", "year": "2005"}
+    ]
+  },
+  {
+    "id": "choroidal_melanoma",
+    "name": "Choroidal melanoma",
+    "synonyms": ["melanoma", "choroidal melanoma", "uveal melanoma", "malignant melanoma of the choroid", "pigmented choroidal mass", "collar button melanoma", "mushroom shaped melanoma", "ciliochoroidal melanoma"],
+    "group": "tumors_pigment",
+    "definition": "Malignant melanocytic tumour of the choroid presenting as an elevated brown dome- or mushroom (collar-button)-shaped mass, often with orange pigment and associated subretinal fluid.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Anywhere in the choroid, may extend anteriorly into the ciliary body; frequently with exudative retinal detachment."},
+    "shape": "dome",
+    "typical_size": "Thickness: small 0-3 mm, medium 3.1-8 mm, large >8 mm; basal diameter usually several DD",
+    "drawing": {"fill": "brown", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Draw a solid brown dome; for a collar-button tumour draw a narrowed waist where it breaks through Bruch membrane; draw associated serous detachment in blue."},
+    "color_source": "Documentation & Drawing in Ophthalmology, https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (BROWN = malignant choroidal melanomas)",
+    "pubmed": [
+      {"pmid": "19667335", "doi": "10.1001/archophthalmol.2009.208", "title": "Metastasis of uveal melanoma millimeter-by-millimeter in 8033 consecutive eyes.", "year": "2009"},
+      {"pmid": "25827540", "doi": "10.4103/0301-4738.154373", "title": "Using risk factors for detection and prognostication of uveal melanoma.", "year": "2015"},
+      {"pmid": "8169614", "doi": "", "title": "[Collar-button choroidal melanoma. Anatomo-radiologic correlations].", "year": "1994"}
+    ]
+  },
+  {
+    "id": "amelanotic_choroidal_melanoma",
+    "name": "Amelanotic choroidal melanoma",
+    "synonyms": ["amelanotic melanoma", "amelanotic choroidal melanoma", "non pigmented melanoma", "nonpigmented choroidal melanoma", "amelanotic choroidal mass", "amelanotic uveal melanoma"],
+    "group": "tumors_pigment",
+    "definition": "Choroidal melanoma with little or no pigment, appearing as a yellow-tan to pinkish elevated dome or mushroom mass, often with visible intrinsic vessels.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Anywhere in the choroid; differential includes metastasis and hemangioma."},
+    "shape": "dome",
+    "typical_size": "As for pigmented melanoma (small 0-3 mm, medium 3.1-8 mm, large >8 mm thick)",
+    "drawing": {"fill": "yellow", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Fill the dome yellow (amelanotic mass) with a brown outline to mark it as a choroidal tumour; draw subretinal fluid in blue."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = amelanotic mass lesions); brown outline = choroidal tumour (Requisites for fundus drawing, https://www.slideshare.net/slideshow/retina-drwaing/163697941)",
+    "pubmed": [
+      {"pmid": "21354612", "doi": "10.1016/S0140-6736(10)60815-X", "title": "Amelanotic choroidal melanoma.", "year": "2011"},
+      {"pmid": "19667335", "doi": "10.1001/archophthalmol.2009.208", "title": "Metastasis of uveal melanoma millimeter-by-millimeter in 8033 consecutive eyes.", "year": "2009"}
+    ]
+  },
+  {
+    "id": "circumscribed_choroidal_hemangioma",
+    "name": "Circumscribed choroidal hemangioma",
+    "synonyms": ["choroidal hemangioma", "choroidal haemangioma", "circumscribed choroidal hemangioma", "cch", "choroidal angioma", "orange choroidal mass"],
+    "group": "tumors_pigment",
+    "definition": "Benign solitary vascular hamartoma of the choroid presenting as a smooth, orange-red, elevated mass posterior to the equator, frequently with subretinal fluid or cystoid macular edema.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior to the equator, commonly macular or juxtapapillary; unilateral and solitary."},
+    "shape": "dome",
+    "typical_size": "Usually several DD in basal diameter, a few mm thick",
+    "drawing": {"fill": "red", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Draw a red-filled dome with a brown outline marking its choroidal origin; add overlying serous detachment in blue."},
+    "color_source": "Jayanna S, Shanmugam PM. It is time for more colors! Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22 (choroidal vascular tumours such as hemangioma coded red); brown outline = choroidal tumour (https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology)",
+    "pubmed": [
+      {"pmid": "26730320", "doi": "10.4103/2008-322X.170353", "title": "Circumscribed Choroidal Hemangioma.", "year": "2015"},
+      {"pmid": "12777933", "doi": "10.1097/00055735-200306000-00006", "title": "Circumscribed choroidal hemangioma.", "year": "2003"}
+    ]
+  },
+  {
+    "id": "diffuse_choroidal_hemangioma",
+    "name": "Diffuse choroidal hemangioma",
+    "synonyms": ["diffuse choroidal hemangioma", "diffuse choroidal haemangioma", "dch", "tomato ketchup fundus", "sturge weber choroid", "sturge weber choroidal hemangioma"],
+    "group": "tumors_pigment",
+    "definition": "Diffuse vascular hamartomatous thickening of the choroid, characteristic of Sturge-Weber syndrome, giving a deep red-orange fundus colour and often complicated by exudative retinal detachment.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Diffuse, ill-defined, involving much of the posterior choroid of one eye (side of the facial port-wine stain)."},
+    "shape": "sector_region",
+    "typical_size": "Extensive, often more than one quadrant",
+    "drawing": {"fill": "red", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Shade the involved fundus red with an ill-defined brown border; draw any exudative detachment in blue."},
+    "color_source": "Jayanna S, Shanmugam PM. Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22 (choroidal vascular tumours coded red); brown = choroidal tumour (https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology)",
+    "pubmed": [
+      {"pmid": "33843430", "doi": "10.1080/13816810.2021.1910963", "title": "Current concepts on diffuse choroidal hemangioma in Sturge Weber syndrome.", "year": "2021"}
+    ]
+  },
+  {
+    "id": "choroidal_metastasis",
+    "name": "Choroidal metastasis",
+    "synonyms": ["metastasis", "choroidal metastasis", "choroidal metastases", "choroidal mets", "uveal metastasis", "metastatic carcinoma choroid", "met"],
+    "group": "tumors_pigment",
+    "definition": "Secondary choroidal tumour, most often from breast or lung carcinoma, appearing as a creamy yellow plateau-shaped mass with subretinal fluid, frequently multifocal or bilateral.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Epicentre between macula and equator in 80%, macula 12%, anterior to equator 8%; mean two tumours per eye."},
+    "shape": "dome",
+    "typical_size": "Mean basal diameter about 9 mm (about 6 DD), about 3 mm thick",
+    "drawing": {"fill": "yellow", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Draw each focus as a flat-topped yellow mass with a brown outline; draw the associated subretinal fluid in blue."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = amelanotic mass lesions); brown = choroidal tumours (https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology)",
+    "pubmed": [
+      {"pmid": "9261313", "doi": "10.1016/s0161-6420(97)30148-1", "title": "Survey of 520 eyes with uveal metastases.", "year": "1997"}
+    ]
+  },
+  {
+    "id": "choroidal_osteoma",
+    "name": "Choroidal osteoma",
+    "synonyms": ["osteoma", "choroidal osteoma", "choroidal choristoma", "calcified choroidal lesion", "ossifying choroidal tumor"],
+    "group": "tumors_pigment",
+    "definition": "Benign ossifying tumour of the choroid, typically in young women, appearing as a yellow-orange, well-demarcated, scalloped, slightly elevated plaque with pigment mottling, often juxtapapillary.",
+    "location": {"zone": "peripapillary", "typical_clock": null, "notes": "Juxtapapillary or macular; clinically unilateral in 75%; choroidal neovascularisation in up to one third."},
+    "shape": "patch",
+    "typical_size": "Several DD with geographic scalloped margins",
+    "drawing": {"fill": "yellow", "outline": "brown", "pattern": "stipple", "pattern_color": "brown", "description": "Fill a scalloped-edged plaque yellow with a brown outline and brown stippling for pigment mottling; mark CNV with the CMS neovascularisation colours if present."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = amelanotic mass lesions); brown outline/stipple inferred from CMS L33567 App A brown = choroidal pigmentation",
+    "pubmed": [
+      {"pmid": "3051466", "doi": "10.1016/0039-6257(88)90069-0", "title": "Choroidal osteoma.", "year": "1988"},
+      {"pmid": "9429940", "doi": "10.1097/00004397-199703740-00015", "title": "Choroidal osteoma.", "year": "1997"}
+    ]
+  },
+  {
+    "id": "chrpe_solitary",
+    "name": "Congenital hypertrophy of the RPE (solitary)",
+    "synonyms": ["chrpe", "c h r p e", "solitary chrpe", "congenital hypertrophy of the rpe", "congenital hypertrophy of the retinal pigment epithelium", "flat pigmented rpe lesion", "chrpe with lacunae"],
+    "group": "tumors_pigment",
+    "definition": "Congenital, flat, sharply demarcated, uniformly dark RPE lesion with a depigmented halo and frequent depigmented lacunae, usually equatorial or peripheral.",
+    "location": {"zone": "equator", "typical_clock": "inferotemporal", "notes": "Equatorial region in 45%, inferotemporal quadrant most often (31%); rarely macular or peripapillary (1% each)."},
+    "shape": "patch",
+    "typical_size": "Median largest basal diameter 4.5 mm (about 3 DD)",
+    "drawing": {"fill": "brown", "outline": "none", "pattern": "dots", "pattern_color": "white", "description": "Fill a flat round patch with scalloped edge solid brown, leave a thin unpainted rim for the depigmented halo, and leave small white holes for lacunae."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "14522773", "doi": "10.1016/S0161-6420(03)00618-3", "title": "Solitary congenital hypertrophy of the retinal pigment epithelium: clinical features and frequency of enlargement in 330 patients.", "year": "2003"}
+    ]
+  },
+  {
+    "id": "chrpe_grouped_bear_tracks",
+    "name": "Grouped CHRPE (bear tracks)",
+    "synonyms": ["bear tracks", "bear track", "bear track pigmentation", "grouped chrpe", "grouped pigmentation", "congenital grouped pigmentation of the rpe", "cgp rpe", "grouped congenital hypertrophy of the rpe"],
+    "group": "tumors_pigment",
+    "definition": "Clusters of small, flat, sharply demarcated pigmented RPE lesions arranged sectorally like animal footprints, enlarging from near the disc toward the periphery.",
+    "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Sectoral, radiating from near the disc margin to the periphery, usually confined to one sector or quadrant; smaller spots near the disc, larger peripherally."},
+    "shape": "cluster",
+    "typical_size": "Spots from a fraction of a DD near the disc to about 1 DD peripherally, occupying a sector",
+    "drawing": {"fill": "brown", "outline": "none", "pattern": "none", "pattern_color": null, "description": "Draw groups of small solid brown blobs in a wedge-shaped sector, enlarging toward the ora."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "15878064", "doi": "10.1016/j.ophtha.2004.10.051", "title": "Grouped congenital hypertrophy of the retinal pigment epithelium follows developmental patterns of pigmentary mosaicism.", "year": "2005"},
+      {"pmid": "33289665", "doi": "10.1016/j.jaapos.2020.08.003", "title": "Diffuse bear-track retina: profound, bilateral, grouped congenital pigmentation of the retinal pigment epithelium in an infant.", "year": "2020"}
+    ]
+  },
+  {
+    "id": "grouped_albinotic_spots",
+    "name": "Congenital grouped albinotic spots (polar bear tracks)",
+    "synonyms": ["polar bear tracks", "white bear tracks", "congenital grouped albinotic spots", "grouped albinotic rpe spots", "cgas", "gcarpes", "albinotic spots"],
+    "group": "tumors_pigment",
+    "definition": "Rare benign congenital groups of flat, well-circumscribed white RPE spots, the non-pigmented counterpart of bear-track pigmentation.",
+    "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Predominantly unilateral, grouped in a sector."},
+    "shape": "cluster",
+    "typical_size": "Variably sized spots, a fraction of a DD each",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Draw grouped small white spots, each thinly outlined in black, in a sectoral cluster."},
+    "color_source": "inferred: white depigmented spots with black outline for visibility (no standard code)",
+    "pubmed": [
+      {"pmid": "32348540", "doi": "10.3928/23258160-20200326-05", "title": "Congenital Grouped Albinotic Spots: New Insights on the Pathophysiology Based on Multimodal Retinal Imaging.", "year": "2020"},
+      {"pmid": "31769080", "doi": "10.1111/cxo.12984", "title": "Multimodal imaging characteristics of congenital grouped hyper- and hypo-pigmented fundus lesions.", "year": "2019"}
+    ]
+  },
+  {
+    "id": "fap_pigmented_fundus_lesions",
+    "name": "FAP-associated pigmented RPE lesions",
+    "synonyms": ["fap lesions", "gardner syndrome lesions", "pigmented ocular fundus lesions", "pofl", "multiple chrpe", "bilateral chrpe", "rpe hamartomas fap", "familial adenomatous polyposis fundus"],
+    "group": "tumors_pigment",
+    "definition": "Multiple (three or more) and/or bilateral CHRPE-like pigmented RPE lesions that serve as an early phenotypic marker of familial adenomatous polyposis.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Scattered in both fundi."},
+    "shape": "cluster",
+    "typical_size": "Small, generally smaller than solitary CHRPE",
+    "drawing": {"fill": "brown", "outline": "none", "pattern": "none", "pattern_color": null, "description": "Draw multiple small brown ovals scattered in both fundi and annotate the count per eye."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "35321042", "doi": "10.2147/OPTH.S354761", "title": "Congenital Hypertrophy of the Retinal Pigment Epithelium (CHRPE) as a Screening Marker for Familial Adenomatous Polyposis (FAP): Systematic Literature Review and Screening Recommendations.", "year": "2022"},
+      {"pmid": "10537774", "doi": "10.1097/00055735-199906000-00003", "title": "Fundus lesions of adenomatous polyposis.", "year": "1999"}
+    ]
+  },
+  {
+    "id": "rpe_hyperplasia_pigment_clumps",
+    "name": "RPE hyperplasia / pigment clumps",
+    "synonyms": ["rpe hyperplasia", "reactive rpe hyperplasia", "pigment clumping", "pigment clumps", "pigment clump", "hyperpigmentation", "pigment migration", "intraretinal pigment", "pigmented plaque"],
+    "group": "tumors_pigment",
+    "definition": "Reactive proliferation and migration of RPE cells producing focal black pigment clumps or plaques, typically at sites of prior inflammation, trauma or detachment, or adjacent to tumours.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Wherever the inciting process was; often at scar margins."},
+    "shape": "cluster",
+    "typical_size": "Pinpoint to about 1 DD",
+    "drawing": {"fill": "black", "outline": "black", "pattern": "solid", "pattern_color": null, "description": "Draw solid black dots or irregular black clumps at the site."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (BLACK = pigment clumping, retinal pigmentation)",
+    "pubmed": [
+      {"pmid": "9930160", "doi": "10.1001/archopht.117.1.50", "title": "Idiopathic reactive hyperplasia of the retinal pigment epithelium.", "year": "1999"},
+      {"pmid": "37480939", "doi": "10.1016/j.jcjo.2023.07.005", "title": "Advances in multimodal imaging for diagnosis of pigmented ocular fundus lesions.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "combined_hamartoma",
+    "name": "Combined hamartoma of the retina and RPE",
+    "synonyms": ["combined hamartoma", "chrrpe", "chr rpe", "combined hamartoma of retina and rpe", "combined hamartoma of the retina and retinal pigment epithelium"],
+    "group": "tumors_pigment",
+    "definition": "Benign, slightly elevated, grey-black lesion of disorganised retina, glial tissue, vessels and RPE, with a surface membrane causing retinal traction and vascular tortuosity, usually juxtapapillary or macular.",
+    "location": {"zone": "peripapillary", "typical_clock": null, "notes": "Juxtapapillary 76%, macular 17%, peripheral 7% in a pooled series."},
+    "shape": "patch",
+    "typical_size": "About 1 to several DD",
+    "drawing": {"fill": "brown", "outline": "green", "pattern": "wavy_lines", "pattern_color": "red", "description": "Fill the lesion brown for its pigmented component, outline it in green for the epiretinal/glial membrane, and draw the dragged, tortuous vessels as wavy red lines across it."},
+    "color_source": "inferred: CMS L33567 App A brown = RPE pigmentation; green = preretinal membranes (Jayanna S, Shanmugam PM. Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22); red vessels per CMS",
+    "pubmed": [
+      {"pmid": "2697919", "doi": "10.1097/00006982-198909040-00011", "title": "Combined hamartoma of sensory retina and retinal pigment epithelium.", "year": "1989"},
+      {"pmid": "30689986", "doi": "10.1016/j.ajo.2019.01.016", "title": "Peripapillary Versus Macular Combined Hamartoma of the Retina and Retinal Pigment Epithelium: Imaging Characteristics.", "year": "2019"}
+    ]
+  },
+  {
+    "id": "astrocytic_hamartoma",
+    "name": "Retinal astrocytic hamartoma",
+    "synonyms": ["astrocytic hamartoma", "retinal astrocytic hamartoma", "rah", "retinal astrocytoma", "mulberry lesion", "glial hamartoma", "tuberous sclerosis retinal lesion"],
+    "group": "tumors_pigment",
+    "definition": "Benign glial tumour of the retinal nerve fibre layer, cream-white and well-circumscribed, either flat and semitranslucent or elevated, calcified and multilobulated ('mulberry'), associated with tuberous sclerosis.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior pole, often near the disc; multiple and bilateral in tuberous sclerosis; may be isolated."},
+    "shape": "patch",
+    "typical_size": "Usually up to 1-2 DD",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null, "description": "Draw a cream-white nodule filled yellow; for the calcified mulberry type draw small lobules within it."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = amelanotic mass lesions)",
+    "pubmed": [
+      {"pmid": "20435268", "doi": "10.1016/j.optm.2009.12.009", "title": "Retinal astrocytic hamartoma.", "year": "2010"},
+      {"pmid": "26618803", "doi": "10.1097/IAE.0000000000000829", "title": "RETINAL ASTROCYTIC HAMARTOMA: Optical Coherence Tomography Classification and Correlation With Tuberous Sclerosis Complex.", "year": "2016"}
+    ]
+  },
+  {
+    "id": "retinal_capillary_hemangioblastoma",
+    "name": "Retinal capillary hemangioblastoma",
+    "synonyms": ["capillary hemangioblastoma", "retinal hemangioblastoma", "retinal capillary hemangioma", "retinal angioma", "angiomatosis retinae", "rch", "vhl lesion", "von hippel lindau tumor", "von hippel tumour"],
+    "group": "tumors_pigment",
+    "definition": "Benign retinal vascular tumour, often the first manifestation of von Hippel-Lindau disease, appearing as a round orange-red mass supplied by a dilated tortuous feeding artery and draining vein, with exudation.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Mostly peripheral; juxtapapillary/endophytic variant on or beside the disc; may be multiple and bilateral."},
+    "shape": "dome",
+    "typical_size": "Pinpoint to several DD",
+    "drawing": {"fill": "red", "outline": "red", "pattern": "none", "pattern_color": null, "description": "Draw a round red mass with a dilated red feeder artery and blue draining vein running toward the disc; add yellow exudate and blue exudative detachment if present."},
+    "color_source": "Jayanna S, Shanmugam PM. It is time for more colors! Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22 (retinal tumours such as angiomas coded red); vessels per CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "41608742", "doi": "10.1159/000550011", "title": "Retinal Capillary Hemangioblastoma: A Comprehensive Review on Treatments.", "year": "2025"},
+      {"pmid": "36006455", "doi": "10.1007/s00438-022-01940-z", "title": "A meta-analysis of different von Hippel Lindau mutations: are they related to retinal capillary hemangioblastoma?", "year": "2022"}
+    ]
+  },
+  {
+    "id": "retinal_cavernous_hemangioma",
+    "name": "Retinal cavernous hemangioma",
+    "synonyms": ["cavernous hemangioma", "cavernous haemangioma", "retinal cavernous hemangioma", "cavernous hemangioma of the retina", "grape cluster lesion"],
+    "group": "tumors_pigment",
+    "definition": "Rare congenital retinal vascular hamartoma made of clustered thin-walled, dark-red saccular aneurysms ('cluster of grapes') with grey-white surface fibrosis, without feeder vessels or exudation.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Usually unilateral and unifocal; may lie on the disc or in the retina; intracranial involvement in about 14%."},
+    "shape": "cluster",
+    "typical_size": "About 1 to several DD",
+    "drawing": {"fill": "red", "outline": "green", "pattern": "none", "pattern_color": null, "description": "Draw a cluster of small dark-red circles (saccules); outline any overlying grey-white fibroglial tissue in green."},
+    "color_source": "Jayanna S, Shanmugam PM. Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22 (retinal vascular tumours red; preretinal fibrosis green)",
+    "pubmed": [
+      {"pmid": "27820777", "doi": "10.1097/IAE.0000000000001374", "title": "CAVERNOUS HEMANGIOMA OF THE RETINA: A Comprehensive Review of the Literature (1934-2015).", "year": "2017"}
+    ]
+  },
+  {
+    "id": "retinoblastoma",
+    "name": "Retinoblastoma",
+    "synonyms": ["retinoblastoma", "rb", "r b", "endophytic retinoblastoma", "exophytic retinoblastoma", "retinoblastoma vitreous seeds", "white retinal tumor child"],
+    "group": "tumors_pigment",
+    "definition": "Malignant retinal tumour of infancy and childhood appearing as a white, chalky, often calcified, vascularised retinal mass that grows into the vitreous (endophytic, with seeds) or beneath the retina (exophytic, with detachment); presents with leucocoria.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Anywhere in the retina; unifocal or multifocal; bilateral in heritable disease."},
+    "shape": "dome",
+    "typical_size": "From under 1 DD to filling the globe",
+    "drawing": {"fill": "yellow", "outline": "blue", "pattern": "none", "pattern_color": null, "description": "Draw each tumour filled yellow with a blue outline; draw vitreous seeds as green dots and any exudative detachment in blue."},
+    "color_source": "Documentation & Drawing in Ophthalmology, https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (retinoblastomas outlined in blue and coloured yellow)",
+    "pubmed": [
+      {"pmid": "22414599", "doi": "10.1016/S0140-6736(11)61137-9", "title": "Retinoblastoma.", "year": "2012"}
+    ]
+  },
+  {
+    "id": "vasoproliferative_tumour",
+    "name": "Vasoproliferative tumour of the retina",
+    "synonyms": ["vasoproliferative tumor", "vasoproliferative tumour", "vpt", "rvpt", "retinal vasoproliferative tumor", "acquired retinal hemangioma", "presumed acquired retinal hemangioma"],
+    "group": "tumors_pigment",
+    "definition": "Acquired idiopathic or secondary yellow-pink to red retinal vascular mass in the peripheral fundus with minimally dilated feeder vessels, intraretinal exudation and frequent exudative detachment.",
+    "location": {"zone": "periphery", "typical_clock": "inferotemporal", "notes": "Inferior, inferotemporal or temporal in 78%; within 6 mm of the ora in 88%; secondary forms follow pars planitis, retinitis pigmentosa, toxoplasmosis, coloboma."},
+    "shape": "dome",
+    "typical_size": "About 1 to several DD",
+    "drawing": {"fill": "red", "outline": "red", "pattern": "none", "pattern_color": null, "description": "Draw a red nodule near the ora; surround it with yellow exudate dots, draw exudative detachment in blue and adjacent RPE hyperplasia in black."},
+    "color_source": "Jayanna S, Shanmugam PM. Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22 (retinal vascular tumours coded red)",
+    "pubmed": [
+      {"pmid": "7748132", "doi": "10.1001/archopht.1995.01100050083035", "title": "Vasoproliferative tumors of the ocular fundus. Classification and clinical manifestations in 103 patients.", "year": "1995"},
+      {"pmid": "22370658", "doi": "10.1016/j.jaapos.2011.10.010", "title": "Retinal vasoproliferative tumors in ocular conditions of childhood.", "year": "2012"}
+    ]
+  },
+  {
+    "id": "chorioretinal_coloboma",
+    "name": "Chorioretinal (choroidal) coloboma",
+    "synonyms": ["coloboma", "choroidal coloboma", "chorioretinal coloboma", "retinochoroidal coloboma", "uveal coloboma", "fundus coloboma", "intercalary membrane"],
+    "group": "tumors_pigment",
+    "definition": "Congenital absence of retina, RPE and choroid along the inferonasal embryonic fissure, seen as a sharply demarcated white area of bare sclera with pigmented margins, covered by a thin intercalary membrane.",
+    "location": {"zone": "posterior_pole", "typical_clock": "inferior / inferonasal", "notes": "Inferior to the disc, may include the disc and extend to the periphery; RD (breaks in or outside the coloboma) and CNV at its margin are complications."},
+    "shape": "sector_region",
+    "typical_size": "From about 1 DD to a large sector reaching the ora",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "none", "pattern_color": null, "description": "Outline the defect in black for its pigmented margin and leave it white; mark any break in the intercalary membrane with the CMS retinal-break code."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (BLACK = pigment); white bare sclera inferred",
+    "pubmed": [
+      {"pmid": "28299000", "doi": "10.4103/2008-322X.200163", "title": "Chorioretinal Coloboma Complications: Retinal Detachment and Choroidal Neovascular Membrane.", "year": "2017"},
+      {"pmid": "24675580", "doi": "10.1038/eye.2014.61", "title": "Chorioretinal coloboma in a paediatric population.", "year": "2014"},
+      {"pmid": "34979194", "doi": "10.1016/j.survophthal.2021.12.008", "title": "Review of evidence for environmental causes of uveal coloboma.", "year": "2021"}
+    ]
+  },
+  {
+    "id": "vitreoretinal_lymphoma",
+    "name": "Vitreoretinal lymphoma",
+    "synonyms": ["vrl", "vitreoretinal lymphoma", "primary vitreoretinal lymphoma", "pvrl", "intraocular lymphoma", "masquerade syndrome", "lymphoma subretinal infiltrates"],
+    "group": "tumors_pigment",
+    "definition": "Intraocular large B-cell lymphoma that masquerades as uveitis, with vitreous cells/haze and creamy yellow subretinal (sub-RPE) infiltrates.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Vitreous plus multifocal posterior subretinal infiltrates; often bilateral."},
+    "shape": "cluster",
+    "typical_size": "Infiltrates about 0.25 to several DD",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null, "description": "Draw subretinal infiltrates as yellow patches and overlay vitreous cells/haze as a green stippled cloud."},
+    "color_source": "inferred: CMS L33567 App A yellow = chorioretinal exudate; green = opacities in media",
+    "pubmed": [
+      {"pmid": "33481398", "doi": "10.1097/APO.0000000000000365", "title": "Vitreoretinal Lymphoma: A Literature Review and Introduction of a New Diagnostic Method.", "year": "2021"},
+      {"pmid": "31589186", "doi": "10.1097/ICU.0000000000000620", "title": "Primary vitreoretinal lymphoma: empowering our clinical suspicion.", "year": "2019"}
+    ]
+  },
+  {
+    "id": "toxoplasmosis_active",
+    "name": "Toxoplasma retinochoroiditis (active)",
+    "synonyms": ["toxo", "active toxo", "toxoplasmosis", "ocular toxoplasmosis", "toxoplasma retinochoroiditis", "toxo retinitis", "retinochoroiditis", "satellite lesion", "headlight in the fog"],
+    "group": "inflammatory_infectious",
+    "definition": "Focal necrotising retinochoroiditis caused by Toxoplasma gondii, seen as a fluffy yellow-white retinal lesion, often a satellite at the edge of an old pigmented scar, with overlying vitritis.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Frequently posterior pole/macula but may be anywhere; recurrences adjacent to old scars."},
+    "shape": "patch",
+    "typical_size": "Usually about 1-3 DD",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null, "description": "Fill a fluffy-edged patch yellow beside any black-bordered scar; overlay a green stippled vitreous haze above it."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = retinal inflammation); green vitreous haze per CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "34370174", "doi": "10.1007/s10792-021-01994-9", "title": "Ocular toxoplasmosis: a review of the current diagnostic and therapeutic approaches.", "year": "2021"},
+      {"pmid": "26185543", "doi": "10.1186/s12348-015-0051-2", "title": "Coexisting choroidal neovascularization and active retinochoroiditis-an uncommon presentation of ocular toxoplasmosis.", "year": "2015"}
+    ]
+  },
+  {
+    "id": "toxoplasmosis_scar",
+    "name": "Toxoplasma retinochoroidal scar (inactive)",
+    "synonyms": ["toxo scar", "inactive toxo", "old toxo", "healed toxoplasmosis", "toxoplasma scar", "macular toxo scar", "pigmented chorioretinal scar"],
+    "group": "inflammatory_infectious",
+    "definition": "Healed toxoplasmic retinochoroiditis: a punched-out atrophic chorioretinal scar with a white bare-sclera centre and hyperpigmented borders, the usual site of satellite recurrences.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Macula/posterior pole common; may be multiple."},
+    "shape": "patch",
+    "typical_size": "About 0.5 to several DD",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "stipple", "pattern_color": "black", "description": "Outline the scar in black, leave the centre white, and stipple black pigment along its edge."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (BLACK = scar, pigment clumping); white bare-sclera centre inferred",
+    "pubmed": [
+      {"pmid": "26185543", "doi": "10.1186/s12348-015-0051-2", "title": "Coexisting choroidal neovascularization and active retinochoroiditis-an uncommon presentation of ocular toxoplasmosis.", "year": "2015"},
+      {"pmid": "35325921", "doi": "10.1097/IIO.0000000000000419", "title": "Ocular Toxoplasmosis: A Review of Current Literature.", "year": "2022"}
+    ]
+  },
+  {
+    "id": "cmv_retinitis",
+    "name": "CMV retinitis",
+    "synonyms": ["cmv", "cmv retinitis", "c m v retinitis", "cytomegalovirus retinitis", "cmvr", "pizza pie retinopathy", "pizza pie", "brushfire retinitis", "granular retinitis"],
+    "group": "inflammatory_infectious",
+    "definition": "Necrotising retinitis from cytomegalovirus in immunocompromised patients, seen as yellow-white granular retinal necrosis with intraretinal haemorrhage ('pizza pie') or an indolent granular border, with only mild vitritis.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Usually starts in the peripheral retina and advances toward the posterior pole, often along vascular arcades."},
+    "shape": "sector_region",
+    "typical_size": "From under 1 DD to several clock hours",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "dots", "pattern_color": "red", "description": "Fill the necrotic area yellow with scattered red dots and blots for haemorrhage; give it a granular, stippled advancing border."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = retinal inflammation); red haemorrhages per CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "39339903", "doi": "10.3390/v16091427", "title": "Cytomegalovirus Retinitis: Clinical Manifestations, Diagnosis and Treatment.", "year": "2024"},
+      {"pmid": "37305416", "doi": "10.3389/fcimb.2023.1107237", "title": "Clinical features of Cytomegalovirus retinitis in patients with acquired immunodeficiency syndrome and efficacy of the current therapy.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "acute_retinal_necrosis",
+    "name": "Acute retinal necrosis",
+    "synonyms": ["arn", "a r n", "acute retinal necrosis", "herpetic retinitis", "vzv retinitis", "hsv retinitis", "necrotizing herpetic retinitis", "necrotising retinitis"],
+    "group": "inflammatory_infectious",
+    "definition": "Rapidly progressive necrotising herpetic (VZV/HSV) retinitis, typically in immunocompetent patients, with confluent peripheral yellow-white necrosis, occlusive retinal arteritis and prominent vitritis, frequently complicated by retinal detachment.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Begins in the peripheral retina and spreads circumferentially and posteriorly; second eye involved in a proportion of cases."},
+    "shape": "band_circumferential",
+    "typical_size": "1 to 12 clock hours",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null, "description": "Draw a circumferential yellow band in the periphery with a scalloped posterior edge; add green vitreous haze and, later, breaks/detachment with the CMS codes."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = retinal inflammation)",
+    "pubmed": [
+      {"pmid": "38519714", "doi": "10.1038/s41433-024-03028-x", "title": "Diagnostic and therapeutic challenges in acute retinal necrosis; an update.", "year": "2024"},
+      {"pmid": "16282149", "doi": "10.1080/08820530500232027", "title": "Acute retinal necrosis.", "year": "2005"}
+    ]
+  },
+  {
+    "id": "progressive_outer_retinal_necrosis",
+    "name": "Progressive outer retinal necrosis",
+    "synonyms": ["porn", "p o r n", "progressive outer retinal necrosis", "porn syndrome", "vzv retinitis aids"],
+    "group": "inflammatory_infectious",
+    "definition": "Fulminant varicella-zoster retinitis in severely immunocompromised (AIDS) patients with multifocal deep outer retinal opacification that rapidly coalesces, with little vitritis.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Multifocal, posterior pole and periphery, rapidly confluent to total retinal necrosis."},
+    "shape": "cluster",
+    "typical_size": "Small foci coalescing to large areas",
+    "drawing": {"fill": "yellow", "outline": "none", "pattern": "none", "pattern_color": null, "description": "Draw multiple deep yellow patches across the fundus, merging where confluent; do not add vitreous haze unless present."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = retinal inflammation)",
+    "pubmed": [
+      {"pmid": "7852023", "doi": "10.1007/BF00915966", "title": "The progressive outer retinal necrosis syndrome.", "year": "1994"}
+    ]
+  },
+  {
+    "id": "candida_chorioretinitis",
+    "name": "Candida (fungal) chorioretinitis",
+    "synonyms": ["candida", "candida chorioretinitis", "fungal chorioretinitis", "candida retinitis", "fungal endophthalmitis", "endogenous fungal endophthalmitis", "puff balls", "fluffy chorioretinal lesions"],
+    "group": "inflammatory_infectious",
+    "definition": "Endogenous fungal infection producing multifocal fluffy white chorioretinal lesions that may extend into the vitreous as cotton-ball opacities.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Multifocal posterior pole and midperiphery, often bilateral, with overlying vitreous puffballs."},
+    "shape": "cluster",
+    "typical_size": "About 0.25-1 DD each",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null, "description": "Draw creamy yellow fluffy chorioretinal foci and overlying green vitreous puffballs."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = retinal inflammation); green vitreous opacities per CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "36306406", "doi": "10.1080/09273948.2022.2126863", "title": "Endogenous Endophthalmitis - A Major Review.", "year": "2022"},
+      {"pmid": "39325740", "doi": "10.1097/ICB.0000000000001655", "title": "LASER PHOTOCOAGULATION TREATMENT FOR CANDIDA CHORIORETINITIS.", "year": "2025"}
+    ]
+  },
+  {
+    "id": "endophthalmitis_vitreous_opacity",
+    "name": "Endophthalmitis vitreous opacity / vitritis",
+    "synonyms": ["endophthalmitis", "vitritis", "vitreous haze", "vitreous abscess", "purulent vitreous", "infectious endophthalmitis", "endogenous endophthalmitis", "post injection endophthalmitis", "vitreous cells"],
+    "group": "inflammatory_infectious",
+    "definition": "Diffuse inflammatory/infectious opacification of the vitreous (vitritis, vitreous abscess) obscuring fundus detail, the hallmark of endophthalmitis.",
+    "location": {"zone": "vitreous", "typical_clock": null, "notes": "Diffuse or localised over an infective focus; often densest inferiorly."},
+    "shape": "cloud",
+    "typical_size": "Localised to the whole vitreous cavity",
+    "drawing": {"fill": "green", "outline": "green", "pattern": "stipple", "pattern_color": "green", "description": "Shade the obscured area with green stippling, denser where the haze is denser."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "36677371", "doi": "10.3390/microorganisms11010080", "title": "Gram-Negative Endogenous Endophthalmitis: A Systematic Review.", "year": "2022"},
+      {"pmid": "36306406", "doi": "10.1080/09273948.2022.2126863", "title": "Endogenous Endophthalmitis - A Major Review.", "year": "2022"}
+    ]
+  },
+  {
+    "id": "chorioretinal_scar",
+    "name": "Chorioretinal scar",
+    "synonyms": ["chorioretinal scar", "cr scar", "atrophic scar", "punched out scar", "old scar", "pigmented scar", "inactive chorioretinal lesion", "healed choroiditis scar", "chorioretinal atrophy"],
+    "group": "inflammatory_infectious",
+    "definition": "Healed focal chorioretinal lesion of inflammatory, infectious or traumatic origin, seen as a well-demarcated atrophic area exposing sclera or choroidal vessels with variable pigmented margins.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Anywhere; record number and position."},
+    "shape": "patch",
+    "typical_size": "Pinpoint to several DD",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "stipple", "pattern_color": "black", "description": "Outline the scar in black, leave the atrophic centre white, and stipple black where it is pigmented."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (BLACK = scar, pigment clumping); white bare-sclera centre inferred",
+    "pubmed": [
+      {"pmid": "34370174", "doi": "10.1007/s10792-021-01994-9", "title": "Ocular toxoplasmosis: a review of the current diagnostic and therapeutic approaches.", "year": "2021"},
+      {"pmid": "11734684", "doi": "10.1097/00055735-200112000-00009", "title": "Presumed ocular histoplasmosis syndrome: update on epidemiology, pathogenesis, and photodynamic, antiangiogenic, and surgical therapies.", "year": "2001"}
+    ]
+  },
+  {
+    "id": "histoplasmosis_spots",
+    "name": "Histo spots (presumed ocular histoplasmosis)",
+    "synonyms": ["histo spots", "histo", "pohs", "p o h s", "presumed ocular histoplasmosis", "presumed ocular histoplasmosis syndrome", "punched out spots", "histoplasmosis scars"],
+    "group": "inflammatory_infectious",
+    "definition": "Small discrete punched-out atrophic chorioretinal scars in the macula and midperiphery, with peripapillary atrophy and no vitritis, forming with choroidal neovascularisation the classic triad of presumed ocular histoplasmosis syndrome.",
+    "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Macula and midperiphery plus peripapillary atrophy; occasionally in linear peripheral streaks."},
+    "shape": "cluster",
+    "typical_size": "Small spots, roughly 0.2-0.7 DD each",
+    "drawing": {"fill": "white", "outline": "black", "pattern": "stipple", "pattern_color": "black", "description": "Draw scattered small white spots with black pigmented rims, plus peripapillary atrophy; mark any CNV with the CMS neovascularisation colours."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (BLACK = scar); white atrophic centre inferred",
+    "pubmed": [
+      {"pmid": "11734684", "doi": "10.1097/00055735-200112000-00009", "title": "Presumed ocular histoplasmosis syndrome: update on epidemiology, pathogenesis, and photodynamic, antiangiogenic, and surgical therapies.", "year": "2001"},
+      {"pmid": "15870572", "doi": "10.1097/01.icu.0000161228.21797.d9", "title": "New and classic insights into presumed ocular histoplasmosis syndrome and its treatment.", "year": "2005"}
+    ]
+  },
+  {
+    "id": "multifocal_choroiditis",
+    "name": "Multifocal choroiditis (with panuveitis)",
+    "synonyms": ["mfc", "mcp", "multifocal choroiditis", "multifocal choroiditis and panuveitis", "mfcpu", "multifocal chorioretinitis", "choroiditis"],
+    "group": "inflammatory_infectious",
+    "definition": "Idiopathic inflammatory chorioretinopathy with multiple yellow-grey choroidal spots in the posterior pole and periphery plus vitritis, evolving into punched-out pigmented chorioretinal scars, sometimes with CNV or subretinal fibrosis.",
+    "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Posterior pole, peripapillary and peripheral; may be clustered or linear."},
+    "shape": "cluster",
+    "typical_size": "About 0.1-0.5 DD per spot",
+    "drawing": {"fill": "yellow", "outline": "none", "pattern": "none", "pattern_color": null, "description": "Draw active spots as small yellow dots; redraw inactive spots as white spots with black rims (chorioretinal scar code)."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation; BLACK = scar)",
+    "pubmed": [
+      {"pmid": "40288596", "doi": "10.1016/j.ajo.2025.04.018", "title": "Evidence and Consensus-Based Imaging Guidelines in Multifocal Choroiditis With Panuveitis and Punctate Inner Choroiditis-Multimodal Imaging in Uveitis (MUV) Taskforce Report 5.", "year": "2025"},
+      {"pmid": "10546386", "doi": "", "title": "Multifocal choroiditis with panuveitis and punctate inner choroidopathy: a mini review.", "year": "1999"}
+    ]
+  },
+  {
+    "id": "punctate_inner_choroidopathy",
+    "name": "Punctate inner choroidopathy",
+    "synonyms": ["pic", "p i c", "punctate inner choroidopathy", "punctate inner choroiditis"],
+    "group": "inflammatory_infectious",
+    "definition": "Idiopathic multifocal chorioretinopathy of young myopic women with small yellow-white punctate lesions of the inner choroid/outer retina in the posterior pole, without significant vitritis, often complicated by CNV.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Macula and posterior pole."},
+    "shape": "cluster",
+    "typical_size": "Small punctate lesions, under about 0.25 DD",
+    "drawing": {"fill": "yellow", "outline": "none", "pattern": "none", "pattern_color": null, "description": "Draw small yellow dots in the posterior pole; inactive lesions as tiny black-rimmed atrophic scars; CNV with the CMS neovascularisation colours."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation)",
+    "pubmed": [
+      {"pmid": "27751823", "doi": "10.1016/j.survophthal.2016.10.003", "title": "Punctate inner choroidopathy: A review.", "year": "2016"},
+      {"pmid": "38181975", "doi": "10.1016/j.preteyeres.2023.101235", "title": "Punctate inner choroidopathy: A review of the current diagnostic and therapeutic approaches.", "year": "2024"}
+    ]
+  },
+  {
+    "id": "birdshot_chorioretinopathy",
+    "name": "Birdshot chorioretinopathy lesions",
+    "synonyms": ["birdshot", "birdshot chorioretinopathy", "birdshot spots", "bscr", "birdshot uveitis", "hla a29 uveitis", "birdshot retinochoroidopathy", "vitiliginous chorioretinitis"],
+    "group": "inflammatory_infectious",
+    "definition": "Bilateral chronic HLA-A29-associated posterior uveitis with multiple cream-coloured, ovoid hypopigmented choroidal spots radiating from the disc, with vitritis.",
+    "location": {"zone": "posterior_pole", "typical_clock": "nasal and inferior to the disc", "notes": "Postequatorial, radiating outward from the disc, concentrated nasally/inferiorly; bilateral."},
+    "shape": "cluster",
+    "typical_size": "About 1/4-1/2 DD per spot",
+    "drawing": {"fill": "yellow", "outline": "none", "pattern": "none", "pattern_color": null, "description": "Draw many small cream-yellow ovals radiating from the disc, densest nasally and inferiorly, with green vitreous haze if active."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation, atrophic areas)",
+    "pubmed": [
+      {"pmid": "16263368", "doi": "10.1016/j.survophthal.2005.08.004", "title": "Birdshot chorioretinopathy.", "year": "2005"},
+      {"pmid": "36013011", "doi": "10.3390/jcm11164772", "title": "Birdshot Chorioretinopathy: A Review.", "year": "2022"}
+    ]
+  },
+  {
+    "id": "serpiginous_choroiditis",
+    "name": "Serpiginous choroiditis",
+    "synonyms": ["serpiginous", "serpiginous choroiditis", "serpiginous choroidopathy", "geographic choroiditis", "helicoid choroidopathy", "serpiginous like choroiditis", "ampiginous choroiditis", "tubercular serpiginous"],
+    "group": "inflammatory_infectious",
+    "definition": "Chronic recurrent inflammation of the choroid, choriocapillaris and RPE spreading in a serpentine/geographic pattern, classically from the peripapillary region, with grey-yellow active edges and atrophic pigmented scars.",
+    "location": {"zone": "peripapillary", "typical_clock": null, "notes": "Peripapillary (classic), macular or ampiginous types; tubercular serpiginous-like lesions may begin multifocally in the periphery."},
+    "shape": "sector_region",
+    "typical_size": "From 1 DD to large geographic areas",
+    "drawing": {"fill": "white", "outline": "yellow", "pattern": "stipple", "pattern_color": "black", "description": "Draw the atrophic geographic area white with black pigment stippling extending in pseudopods from the disc; mark active advancing edges with a yellow outline."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation; BLACK = scar)",
+    "pubmed": [
+      {"pmid": "15850812", "doi": "10.1016/j.survophthal.2005.02.010", "title": "Serpiginous choroiditis.", "year": "2005"},
+      {"pmid": "36352169", "doi": "10.1186/s12348-022-00312-3", "title": "Tubercular serpiginous choroiditis.", "year": "2022"}
+    ]
+  },
+  {
+    "id": "apmppe",
+    "name": "APMPPE placoid lesions",
+    "synonyms": ["apmppe", "a p m p p e", "acute posterior multifocal placoid pigment epitheliopathy", "placoid lesions", "placoid pigment epitheliopathy"],
+    "group": "inflammatory_infectious",
+    "definition": "Acute inflammatory choriocapillaritis producing multiple flat, cream-coloured placoid lesions at the level of the outer retina/RPE in the posterior pole, healing with RPE mottling.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior pole, usually bilateral."},
+    "shape": "cluster",
+    "typical_size": "About 1/2-1 DD per plaque",
+    "drawing": {"fill": "yellow", "outline": "none", "pattern": "none", "pattern_color": null, "description": "Draw multiple flat creamy yellow plaques in the posterior pole; redraw healed lesions as brown/black mottling."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation)",
+    "pubmed": [
+      {"pmid": "34524577", "doi": "10.1186/s12348-021-00263-1", "title": "Acute posterior multifocal placoid pigment epitheliopathy (APMPPE).", "year": "2021"}
+    ]
+  },
+  {
+    "id": "mewds",
+    "name": "MEWDS white dots",
+    "synonyms": ["mewds", "m e w d s", "multiple evanescent white dot syndrome", "white dots", "foveal granularity", "white dot syndrome"],
+    "group": "inflammatory_infectious",
+    "definition": "Usually unilateral, self-limited choriocapillaritis with subtle small white-grey dots at the outer retinal level in the posterior pole and midperiphery and a granular fovea.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior pole and midperiphery around the disc and arcades; fovea granular."},
+    "shape": "cluster",
+    "typical_size": "Tiny dots, under about 1/4 DD",
+    "drawing": {"fill": "yellow", "outline": "none", "pattern": "dots", "pattern_color": "yellow", "description": "Draw tiny faint yellow dots around the posterior pole and lightly stipple the fovea for granularity."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation)",
+    "pubmed": [
+      {"pmid": "34921620", "doi": "10.1186/s12348-021-00279-7", "title": "Multiple evanescent white dot syndrome (MEWDS): update on practical appraisal, diagnosis and clinicopathology; a review and an alternative comprehensive perspective.", "year": "2021"}
+    ]
+  },
+  {
+    "id": "asppc",
+    "name": "Acute syphilitic posterior placoid chorioretinitis",
+    "synonyms": ["asppc", "acute syphilitic posterior placoid chorioretinitis", "syphilitic placoid", "ocular syphilis", "syphilitic chorioretinitis", "placoid syphilis"],
+    "group": "inflammatory_infectious",
+    "definition": "Characteristic ocular syphilis lesion: a large, yellowish placoid lesion at the level of the outer retina/RPE in the macula or juxtapapillary region, often with vitritis and punctate preretinal precipitates.",
+    "location": {"zone": "macula", "typical_clock": null, "notes": "Macula or juxtapapillary posterior pole; uni- or bilateral."},
+    "shape": "patch",
+    "typical_size": "Large, typically more than 1 DD",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null, "description": "Draw a large round yellow placoid patch over the macula; add green vitreous haze/preretinal precipitates if present."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation)",
+    "pubmed": [
+      {"pmid": "35192047", "doi": "10.1186/s12348-022-00286-2", "title": "Acute syphilitic posterior placoid chorioretinitis: when the great mimicker cannot pretend any more; new insight of an old acquaintance.", "year": "2022"}
+    ]
+  },
+  {
+    "id": "choroidal_granuloma_tuberculoma",
+    "name": "Choroidal tubercles / tuberculoma (choroidal granuloma)",
+    "synonyms": ["choroidal tuberculoma", "choroidal tubercles", "tubercles", "tb choroiditis", "tubercular choroiditis", "choroidal granuloma", "miliary choroiditis", "sarcoid choroidal granuloma"],
+    "group": "inflammatory_infectious",
+    "definition": "Yellow-white elevated choroidal inflammatory mass (tuberculoma) or multiple small yellow choroidal tubercles from Mycobacterium tuberculosis (also seen in sarcoidosis), sometimes with overlying exudative detachment.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior pole and midperiphery; tubercles multiple, tuberculoma usually solitary."},
+    "shape": "dome",
+    "typical_size": "Tubercles about 0.25-1 DD; tuberculoma several DD",
+    "drawing": {"fill": "yellow", "outline": "brown", "pattern": "none", "pattern_color": null, "description": "Draw a yellow nodule with a brown outline for a choroidal mass; draw miliary tubercles as multiple small yellow dots; exudative detachment in blue."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation, amelanotic mass); brown outline = choroidal lesion (https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology)",
+    "pubmed": [
+      {"pmid": "32809898", "doi": "10.1080/09273948.2020.1776882", "title": "Ocular Tuberculosis in HIV-infected Individuals.", "year": "2020"}
+    ]
+  },
+  {
+    "id": "toxocara_posterior_granuloma",
+    "name": "Toxocara posterior pole granuloma",
+    "synonyms": ["toxocara", "toxocariasis", "ocular toxocariasis", "toxocara granuloma", "posterior pole granuloma", "toxocara canis", "ocular larva migrans"],
+    "group": "inflammatory_infectious",
+    "definition": "Ocular toxocariasis presenting as a white or yellowish elevated inflammatory granuloma in the posterior pole, often with epiretinal membrane, traction bands or retinal folds.",
+    "location": {"zone": "posterior_pole", "typical_clock": null, "notes": "Posterior pole/macula, usually unilateral, in children and young adults."},
+    "shape": "dome",
+    "typical_size": "About 0.5-2 DD",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null, "description": "Draw a white-yellow elevated nodule filled yellow; draw traction bands or epiretinal membrane in green."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation; GREEN = preretinal fibrosis/membranes)",
+    "pubmed": [
+      {"pmid": "25097848", "doi": "10.5415/apallergy.2014.4.3.134", "title": "Ocular toxocariasis: clinical features, diagnosis, treatment, and prevention.", "year": "2014"},
+      {"pmid": "10457701", "doi": "", "title": "Ocular toxocariasis: a rare presentation of a posterior pole granuloma with an associated choroidal neovascular membrane.", "year": "1999"}
+    ]
+  },
+  {
+    "id": "toxocara_peripheral_granuloma",
+    "name": "Toxocara peripheral granuloma with traction band",
+    "synonyms": ["peripheral toxocara granuloma", "peripheral granuloma", "toxocara peripheral", "peripheral toxocariasis", "retinal fold to disc", "dragged disc toxocara", "falciform fold toxocara"],
+    "group": "inflammatory_infectious",
+    "definition": "Peripheral form of ocular toxocariasis: a white granuloma in the peripheral retina with a fibrous vitreous band or retinal fold running toward the optic disc, which may drag the macula.",
+    "location": {"zone": "periphery", "typical_clock": null, "notes": "Any quadrant near the ora; the band or fold runs from the granuloma to the disc."},
+    "shape": "dome",
+    "typical_size": "Granuloma about 1-2 DD plus a band crossing the fundus",
+    "drawing": {"fill": "yellow", "outline": "yellow", "pattern": "none", "pattern_color": null, "description": "Draw a yellow peripheral nodule at or near the ora and a green band (fibrous traction or fold) running from it to the disc."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation; GREEN = preretinal fibrosis/membranes)",
+    "pubmed": [
+      {"pmid": "25097848", "doi": "10.5415/apallergy.2014.4.3.134", "title": "Ocular toxocariasis: clinical features, diagnosis, treatment, and prevention.", "year": "2014"},
+      {"pmid": "25858303", "doi": "10.2174/1574891x10666150410125057", "title": "Ocular toxocariasis: new diagnostic and therapeutic perspectives.", "year": "2015"}
+    ]
+  },
+  {
+    "id": "pars_planitis_snowbank",
+    "name": "Pars planitis snowbank",
+    "synonyms": ["snowbank", "snow bank", "snowbanking", "snow banking", "pars planitis", "intermediate uveitis", "pars plana exudate"],
+    "group": "inflammatory_infectious",
+    "definition": "Grey-white fibroglial inflammatory exudate over the inferior pars plana and vitreous base in pars planitis (idiopathic intermediate uveitis).",
+    "location": {"zone": "pars_plana", "typical_clock": "inferior (about 4-8 o'clock)", "notes": "Drawn in the band between the ora serrata and ciliary-process circles; may be accompanied by peripheral vasculitis."},
+    "shape": "band_circumferential",
+    "typical_size": "About 2-6 clock hours inferiorly",
+    "drawing": {"fill": "green", "outline": "green", "pattern": "stipple", "pattern_color": "green", "description": "Shade a stippled green band over the inferior pars plana between the ora and ciliary-process circles."},
+    "color_source": "inferred: preretinal/vitreous-base opacity drawn green (CMS L33567 App A 'opacities in media'; Jayanna S, Shanmugam PM. Indian J Ophthalmol 2022, https://doi.org/10.4103/ijo.IJO_1004_22)",
+    "pubmed": [
+      {"pmid": "27051493", "doi": "10.4103/2008-322X.176897", "title": "Pars Planitis: Epidemiology, Clinical Characteristics, Management and Visual Prognosis.", "year": "2015"},
+      {"pmid": "26438050", "doi": "10.1007/s00005-015-0361-y", "title": "Immunopathogenic Background of Pars Planitis.", "year": "2015"}
+    ]
+  },
+  {
+    "id": "vitreous_snowballs",
+    "name": "Vitreous snowballs",
+    "synonyms": ["snowballs", "snow balls", "vitreous snowballs", "vitreous aggregates", "inflammatory vitreous opacities", "string of pearls"],
+    "group": "inflammatory_infectious",
+    "definition": "Discrete white-grey inflammatory cell aggregates in the inferior vitreous, typical of intermediate uveitis (pars planitis, sarcoidosis) and also seen in fungal infection.",
+    "location": {"zone": "vitreous", "typical_clock": "inferior", "notes": "Inferior peripheral vitreous, near the vitreous base."},
+    "shape": "cluster",
+    "typical_size": "Small, under about 1/4 DD each",
+    "drawing": {"fill": "green", "outline": "green", "pattern": "dots", "pattern_color": "green", "description": "Draw small green circles over the inferior periphery to show vitreous snowballs."},
+    "color_source": "CMS L33567 App A",
+    "pubmed": [
+      {"pmid": "27051493", "doi": "10.4103/2008-322X.176897", "title": "Pars Planitis: Epidemiology, Clinical Characteristics, Management and Visual Prognosis.", "year": "2015"},
+      {"pmid": "37976519", "doi": "10.1080/09273948.2023.2279683", "title": "Pediatric Pars Planitis: A Review.", "year": "2023"}
+    ]
+  },
+  {
+    "id": "retinal_vasculitis_sheathing",
+    "name": "Retinal vasculitis / perivascular sheathing",
+    "synonyms": ["vasculitis", "retinal vasculitis", "periphlebitis", "perivascular sheathing", "vascular sheathing", "sheathed vessels", "perivenous cuffing", "candle wax drippings", "frosted branch angiitis"],
+    "group": "inflammatory_infectious",
+    "definition": "Inflammation of retinal vessels, veins more than arteries, seen as white perivascular sheathing or cuffing, sometimes with vascular occlusion and haemorrhage.",
+    "location": {"zone": "any", "typical_clock": null, "notes": "Peripheral or posterior vessel segments; often with intermediate or posterior uveitis."},
+    "shape": "vessel_segment",
+    "typical_size": "One vessel segment to multiple vessels",
+    "drawing": {"fill": "none", "outline": "black", "pattern": "parallel_hatch", "pattern_color": "black", "description": "Flank the involved vessel segment with parallel black lines to show sheathing; add red haemorrhages and mark occluded segments in brown per CMS."},
+    "color_source": "Documentation & Drawing in Ophthalmology, https://www.eophtha.com/posts/documentation-drawing-in-ophthalmology (BLACK = sheathed vessels)",
+    "pubmed": [
+      {"pmid": "41231527", "doi": "10.1080/09273948.2025.2566981", "title": "Complexities in the Terminology Used for Describing, Diagnosing, and Classifying Retinal Vasculitis: A Scoping Review from the International Uveitis Study Group (IUSG) Retinal Vasculitis Study (ReViSe)-Report 6.", "year": "2025"}
+    ]
+  },
+  {
+    "id": "dalen_fuchs_nodules",
+    "name": "Dalen-Fuchs nodules",
+    "synonyms": ["dalen fuchs nodules", "dalen-fuchs nodules", "dalen fuchs spots", "sympathetic ophthalmia nodules", "vkh nodules"],
+    "group": "inflammatory_infectious",
+    "definition": "Small yellow-white nodules between Bruch membrane and the RPE in the midperipheral fundus, characteristic of sympathetic ophthalmia (also seen in Vogt-Koyanagi-Harada disease).",
+    "location": {"zone": "midperiphery", "typical_clock": null, "notes": "Scattered in the midperiphery of both eyes."},
+    "shape": "cluster",
+    "typical_size": "Small, about 1/8-1/4 DD each",
+    "drawing": {"fill": "yellow", "outline": "none", "pattern": "none", "pattern_color": null, "description": "Draw scattered small yellow dots in the midperiphery of both eyes."},
+    "color_source": "Retinal diagram, Dr Sabin Sahu, https://www.slideshare.net/slideshow/retinal-diagram-dr-sabin-sahu/57240044 (YELLOW = inflammation)",
+    "pubmed": [
+      {"pmid": "35145783", "doi": "10.7759/cureus.20876", "title": "Imaging of Classic Dalén Fuchs Nodules in Sympathetic Ophthalmia With Spectral Domain OCT.", "year": "2022"}
+    ]
+  }
+]
