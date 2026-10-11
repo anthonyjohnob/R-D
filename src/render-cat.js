@@ -698,6 +698,113 @@ const RECIPE = {
   },
 };
 
+/* ------------------------------ tumours and naevi ----------------------- */
+/* Drawn to scale against the disc once measured. The colour code is the catalogue's (brown for melanocytic
+   lesions, yellow with a brown outline for amelanotic masses, red with a brown outline for haemangioma).
+   Overlying drusen are yellow stipple; subretinal fluid is blue like any detached retina, gravitating
+   inferiorly when extensive; orange pigment is drawn in orange (no standard colour exists for it).
+   Elevation has no colour code, so it is drawn as relief: shading, contour lines and a cast shadow that
+   grow with the grade, and a collar for a mushroom shape. Measurements are written beside the lesion. */
+const SRF_MARGIN = { trace: 0.18, yes: 0.42, ext: 0.8 };      // disc diameters beyond the lesion's edge
+function srfPath(x, y, T, f) {
+  const m = SRF_MARGIN[f.srf] * RD.DD_UNITS, down = f.srf === 'ext' ? m * 1.1 : m * 0.2;
+  return blob(x, y + down * 0.55, T.rx + m, T.ry + m + down * 0.55, T.rot, rngFor(f, 8), 0.05);
+}
+function insideEllipse(rng, x, y, T, k) {
+  for (let i = 0; i < 30; i++) {
+    const u = rng() * 2 - 1, v = rng() * 2 - 1;
+    if (u * u + v * v > 1) continue;
+    const lx = u * T.rx * k, ly = v * T.ry * k;
+    return [x + lx * Math.cos(T.rot) - ly * Math.sin(T.rot), y + lx * Math.sin(T.rot) + ly * Math.cos(T.rot)];
+  }
+  return [x, y];
+}
+function tumor(ctx, f, P, E, st) {
+  const T = P.tum, lvl = RD.tumorLevel(f, E), DDU = RD.DD_UNITS;
+  const ux = Math.max(T.rx, T.ry);
+  const at = (f.count > 1 || f.multi) ? copies(f, P, ux * 2.4, rngFor(f, 9)) : [[P.x, P.y]];
+  const lw = P.post ? 1.1 : 1.5;
+  for (const [x, y] of at) {
+    const shape = (k, dx, dy) => blob(x + (dx || 0), y + (dy || 0), T.rx * k, T.ry * k, T.rot, rngFor(f, 7), T.measured ? 0.035 : 0.08);
+    const body = shape(1);
+    // subretinal fluid around the lesion
+    if (f.srf && f.srf !== 'no') {
+      const p = srfPath(x, y, T, f);
+      ctx.fillStyle = 'rgba(104,170,232,0.30)'; ctx.fill(p);
+      ctx.strokeStyle = INK.blue; ctx.lineWidth = lw * 0.9; ctx.stroke(p);
+    }
+    // relief: a cast shadow below and to the right, longer as the lesion rises
+    if (lvl > 0) {
+      const off = Math.min(ux * (0.06 + 0.055 * lvl), 3 + lvl * 4);
+      ctx.save(); ctx.translate(off * 0.55, off); ctx.fillStyle = `rgba(40,30,20,${0.07 + 0.035 * lvl})`; ctx.fill(body); ctx.restore();
+      ctx.save(); ctx.translate(off * 0.3, off * 0.55); ctx.fillStyle = `rgba(40,30,20,${0.05 + 0.03 * lvl})`; ctx.fill(body); ctx.restore();
+    }
+    paint(ctx, body, st, { x, y, r: ux }, { lw, seed: f.seed, angle: T.rot });
+    if (lvl > 0) {
+      ctx.save(); ctx.clip(body);
+      const g = ctx.createRadialGradient(x - T.rx * 0.34, y - T.ry * 0.4, ux * 0.04, x, y, ux * 1.12);
+      const hi = Math.min(0.58, 0.2 + 0.13 * lvl), lo = 0.08 + 0.07 * lvl;
+      g.addColorStop(0, `rgba(255,255,255,${hi})`); g.addColorStop(0.42, `rgba(255,255,255,${hi * 0.18})`); g.addColorStop(1, `rgba(40,30,20,${lo})`);
+      ctx.fillStyle = g; ctx.fillRect(x - ux * 2, y - ux * 2, ux * 4, ux * 4);
+      // contour lines, like a relief map: one when elevated, two when markedly so
+      ctx.strokeStyle = `rgba(255,255,255,${0.32 + 0.06 * lvl})`; ctx.lineWidth = Math.max(0.6, lw * 0.6);
+      if (lvl >= 1.5) ctx.stroke(shape(0.64, -T.rx * 0.07, -T.ry * 0.09));
+      if (lvl >= 2.5) ctx.stroke(shape(0.33, -T.rx * 0.12, -T.ry * 0.15));
+      ctx.restore();
+    }
+    // mushroom (collar-button): the base skirt in shadow, the neck where it breaks through Bruch membrane
+    if (f.shape === 'mush') {
+      const neck = shape(0.66, -T.rx * 0.05, -T.ry * 0.06);
+      const ring = new Path2D(); ring.addPath(body); ring.addPath(neck);
+      ctx.fillStyle = 'rgba(40,30,20,0.16)'; ctx.fill(ring, 'evenodd');
+      ctx.strokeStyle = strokeOf(has(st.outline) ? st.outline : 'brown'); ctx.lineWidth = lw * 1.05; ctx.stroke(neck);
+    }
+    // surface features
+    const area = Math.PI * T.rx * T.ry / (DDU * DDU);       // in DD²
+    if (f.dru === 'yes') {
+      const rng = rngFor(f, 11), n = Math.max(7, Math.min(46, Math.round(area * 16)));
+      const r = Math.max(0.8, DDU * 0.042);
+      for (let i = 0; i < n; i++) {
+        const [px, py] = insideEllipse(rng, x, y, T, 0.82);
+        ctx.beginPath(); ctx.arc(px, py, r * (0.75 + rng() * 0.5), 0, TAU);
+        ctx.fillStyle = hexA(INK.yellow, 0.96); ctx.fill(); ctx.strokeStyle = 'rgba(160,110,0,0.75)'; ctx.lineWidth = Math.max(0.3, r * 0.3); ctx.stroke();
+      }
+    }
+    if (f.op === 'yes') {
+      const rng = rngFor(f, 13), n = Math.max(3, Math.min(16, Math.round(area * 5)));
+      for (let i = 0; i < n; i++) {
+        const [px, py] = insideEllipse(rng, x, y, T, 0.7);
+        const r = DDU * (0.06 + rng() * 0.07);
+        const p = blob(px, py, r, r * (0.6 + rng() * 0.3), rng() * TAU, rng, 0.25);
+        ctx.fillStyle = hexA(INK.orange, 0.92); ctx.fill(p); ctx.strokeStyle = 'rgba(176,86,10,0.85)'; ctx.lineWidth = Math.max(0.3, lw * 0.35); ctx.stroke(p);
+      }
+    }
+  }
+}
+/* measurements beside each measured lesion: “2×1.5 DD · ↑2.5 mm” (fs: font size in chart units) */
+function drawTumorLabels(ctx, scene, fs) {
+  for (const f of scene.findings) {
+    if (f.type !== 'cat' || !RD.isTumor(RD.CAT[f.key])) continue;
+    const text = [RD.tumorSize(f, true), typeof f.th === 'number' ? '↑' + RD.fmtNum(f.th) + ' mm' : ''].filter(Boolean).join(' · ');
+    if (!text) continue;
+    const P = RD.catPlace(f, scene.eye);
+    if (!P || !P.tum) continue;
+    let dx = P.x, dy = P.y; const L = Math.hypot(dx, dy);
+    if (L < 4) { dx = 0; dy = 1; } else { dx /= L; dy /= L; }
+    const a = Math.atan2(dy, dx);
+    const extra = f.srf && f.srf !== 'no' ? SRF_MARGIN[f.srf] * RD.DD_UNITS * (f.srf === 'ext' && dy > 0 ? 2 : 1) : 0;
+    const r = RD.ellipseR(P.tum.rx, P.tum.ry, a - P.tum.rot) + extra + fs * 0.45;
+    const lx = P.x + dx * r, ly = P.y + dy * r;
+    ctx.save();
+    ctx.font = `700 ${fs}px "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif`;
+    ctx.textAlign = dx > 0.38 ? 'left' : dx < -0.38 ? 'right' : 'center';
+    ctx.textBaseline = dy > 0.38 ? 'top' : dy < -0.38 ? 'bottom' : 'middle';
+    ctx.lineJoin = 'round'; ctx.lineWidth = fs * 0.34; ctx.strokeStyle = 'rgba(251,250,246,0.94)'; ctx.strokeText(text, lx, ly);
+    ctx.fillStyle = '#4A3420'; ctx.fillText(text, lx, ly);
+    ctx.restore();
+  }
+}
+
 /* ------------------------------ layers & entry point -------------------- */
 const DEEP_GROUPS = new Set(['tumors_pigment', 'dystrophies']);
 const DEEP_RECIPES = new Set(['prp', 'grid', 'staph', 'cfolds', 'angioid', 'cracks', 'coloboma', 'rupture', 'spicules', 'flecks', 'schisis']);
@@ -719,7 +826,7 @@ function drawFinding(ctx, f, scene, geo) {
   ctx.save();
   ctx.__eye = scene.eye;
   try {
-    const fn = RECIPE[E.r] || GENERIC[E.r] || GENERIC[E.shape] || GENERIC.patch;
+    const fn = P.tum ? tumor : RECIPE[E.r] || GENERIC[E.r] || GENERIC[E.shape] || GENERIC.patch;
     fn(ctx, f, P, E, st, scene, geo);
   } finally { ctx.restore(); }
 }
@@ -740,6 +847,7 @@ function highlightOf(f, scene) {
   if (['gas', 'oil', 'prp', 'pvd'].includes(E.r) || (P.span && P.span.full)) return { ring: G.R_ORA - 4 };
   if (P.span && !P.post && ['band_circumferential', 'sector_region', 'schisis', 'vo', 'ao', 'cluster', 'spicules', 'line'].includes(E.r)) return { arc: P.span };
   if (E.r === 'vo' || E.r === 'crao' || E.r === 'staph' || E.r === 'flecks') return { x: RD.discCenter(scene.eye)[0] * 0.4, y: 0, r: 100 };
+  if (P.tum) return { x: P.x, y: P.y, r: Math.max(12, Math.max(P.tum.rx, P.tum.ry) * 1.15 + 6) };
   if (DISC_LIKE.has(E.r) || P.site === 'disc') { const [dx, dy] = RD.discCenter(scene.eye); return { x: dx, y: dy, r: G.DISC_R + 12 }; }
   const r = Math.max(12, (SZ[E.r] || SZ[E.shape] || SZ.patch)[P.post ? 0 : 1] * P.k * 1.6 + 6);
   return { x: P.x, y: P.y, r };
@@ -776,5 +884,5 @@ function swatch(canvas, E, opts) {
   return canvas;
 }
 
-root.RDCatRender = { drawLayer, drawFinding, highlightOf, swatch, styleOf, codeText, layerOf, INK };
+root.RDCatRender = { drawLayer, drawFinding, highlightOf, swatch, styleOf, codeText, layerOf, INK, drawTumorLabels };
 })(typeof window !== 'undefined' ? window : globalThis);

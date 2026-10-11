@@ -133,11 +133,54 @@ function select(label, opts, value, onChange) {
   s.addEventListener('change', () => onChange(s.value));
   return s;
 }
+/* a tumour's size, thickness, elevation, surface and fluid, edited in place */
+const ELEV_OPTS = [['', 'Elevation: not stated'], ['flat', 'Flat'], ['min', 'Minimally elevated'], ['elev', 'Elevated'], ['mod', 'Moderately elevated'], ['marked', 'Markedly elevated']];
+const SHAPE_OPTS = [['', 'Shape: not stated'], ['dome', 'Dome-shaped'], ['mush', 'Mushroom-shaped']];
+const SRF_OPTS = [['', 'SRF: not stated'], ['no', 'No SRF'], ['trace', 'Trace SRF'], ['yes', 'SRF present'], ['ext', 'Extensive SRF']];
+const YN = (what) => [['', `${what}: not stated`], ['yes', `${what} present`], ['no', `No ${what.toLowerCase()}`]];
+function numBox(label, value, opts, onSet) {
+  const i = el('input', { type: 'number', step: opts.step || '0.25', min: String(opts.min), max: String(opts.max), placeholder: '–', 'aria-label': label, value: value != null ? String(value) : '' });
+  i.addEventListener('change', () => {
+    const v = i.value.trim() === '' ? null : parseFloat(i.value);
+    if (v === null || (isFinite(v) && v >= opts.min && v <= opts.max)) onSet(v); else i.value = value != null ? String(value) : '';
+  });
+  return i;
+}
+function tumorControls(f, E) {
+  const out = [];
+  const mm = f.bu === 'mm', b = Array.isArray(f.base) ? f.base : [];
+  const lim = mm ? { min: 0.1, max: 40, step: '0.5' } : { min: 0.1, max: 25, step: '0.25' };
+  const setDim = (ix) => (v) => editScene(f.id, x => {
+    const cur = Array.isArray(x.base) ? x.base.slice() : [];
+    if (v == null) { if (ix === 0) { delete x.base; delete x.bu; } else x.base = cur.slice(0, 1); return; }
+    if (ix === 1 && !cur.length) cur[0] = v;
+    cur[ix] = v; x.base = cur; x.bu = mm ? 'mm' : 'dd';
+  });
+  const unit = select('Size unit', [['dd', 'DD'], ['mm', 'mm']], mm ? 'mm' : 'dd', v => editScene(f.id, x => {
+    // switching units converts what is there (1 DD ≈ 1.5 mm)
+    if (Array.isArray(x.base)) x.base = x.base.map(n => v === 'mm' ? Math.round(n * RD.MM_PER_DD * 2) / 2 : Math.round(n / RD.MM_PER_DD * 4) / 4).map(n => Math.max(0.25, n));
+    x.bu = v;
+  }));
+  out.push(el('label', {}, ['Size', numBox('Size, first dimension', b[0], lim, setDim(0)), '×', numBox('Size, second dimension', b[1], lim, setDim(1)), unit]));
+  out.push(el('label', {}, ['Thickness', numBox('Thickness in mm', f.th, { min: 0.1, max: 30, step: '0.1' }, v => editScene(f.id, x => { if (v == null) delete x.th; else x.th = v; })), 'mm']));
+  const pick = (label, opts, key) => select(label, opts, f[key] || '', v => editScene(f.id, x => { if (v) x[key] = v; else delete x[key]; }));
+  out.push(pick('Elevation', ELEV_OPTS, 'elev'));
+  if (E.r === 'dome' || f.shape) out.push(pick('Shape', SHAPE_OPTS, 'shape'));
+  if (RD.MELANOCYTIC.has(E.id) || f.op) out.push(pick('Orange pigment', YN('Orange pigment'), 'op'));
+  if (RD.MELANOCYTIC.has(E.id) || f.dru) out.push(pick('Drusen', YN('Drusen'), 'dru'));
+  out.push(pick('Subretinal fluid', SRF_OPTS, 'srf'));
+  if (f.dist != null) {
+    const P = RD.catPlace(f, scene.eye), toDisc = P && (P.site === 'disc' || P.site === 'ppa');
+    out.push(el('label', {}, [`From ${toDisc ? 'disc' : 'fovea'}`, numBox('Distance from the margin', f.dist, { min: 0, max: 30, step: f.du === 'mm' ? '0.5' : '0.25' }, v => editScene(f.id, x => { if (v == null) { delete x.dist; delete x.du; } else x.dist = v; })), f.du === 'mm' ? 'mm' : 'DD']));
+  }
+  return out;
+}
 function findingSub(f) {
   const s = [];
   const E = catOf(f);
   if (E) {
     const P = RD.catPlace(f, scene.eye);
+    if (P && P.tum) { const feats = RD.tumorFeatures(f, true); if (feats.length) s.push(feats.join(', ')); }
     s.push(CR.codeText(E));
     if (P && P.auto && !P.post && E.site !== 'vitreous') s.push('typical location');
     return s.join(' · ');
@@ -219,7 +262,8 @@ function renderFindings() {
       const P = RD.catPlace(f, scene.eye);
       edit.append(select('Where', SITE_OPTS, f.site || '', v => editScene(f.id, x => { if (v) x.site = v; else delete x.site; })));
       if (f.hour == null && f.start == null && P && !P.span) edit.append(hourInput('Clock', +(P.h || 12).toFixed(2), v => editScene(f.id, x => { x.hour = v; })));
-      edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
+      if (P && P.tum) for (const c of tumorControls(f, P.E)) edit.append(c);
+      else edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
       if (P && P.post && view !== 'pole') edit.append(el('button', { type: 'button', class: 'mini', text: 'View enlarged', onclick: () => setView('pole') }));
     }
     if (f.type === 'pvr') edit.append(select('PVR grade', [['A', 'Grade A'], ['B', 'Grade B'], ['C', 'Grade C']], f.grade || 'C', v => editScene(f.id, x => { x.grade = v; })));
@@ -838,13 +882,13 @@ async function copyNote() {
 /* the standard colour code (CMS L33567 Appendix A), shown in the Colour code card */
 const CODE = [
   ['#D8423A', 'Red', 'retinal arteries, haemorrhage, the inside of full-thickness breaks'],
-  ['#2C66C4', 'Blue', 'detached retina, veins, outlines of breaks, lattice in detached retina, tufts and meridional folds (short lines)'],
-  ['#E0AA10', 'Yellow', 'exudate, retinal oedema and ischaemic whitening, drusen and other deposits'],
+  ['#2C66C4', 'Blue', 'detached retina (including subretinal fluid around a tumour), veins, outlines of breaks, lattice in detached retina, tufts and meridional folds (short lines)'],
+  ['#E0AA10', 'Yellow', 'exudate, retinal oedema and ischaemic whitening, drusen (stippled, also over a naevus) and other deposits'],
   ['#2E9A55', 'Green', 'opacities in the media: vitreous haemorrhage, membranes, foreign bodies; green outline around red = blood in the vitreous'],
   ['#8A5A33', 'Brown', 'choroidal detachment, uveal pigment (naevus, melanoma), RPE changes'],
   ['#25282C', 'Black', 'lattice in attached retina, retinal pigment, the ora next to detached retina, treatment scars'],
   ['#7E4FC0', 'Purple', 'flat neovascularisation (NVE, NVD, CNV)'],
-  ['#EE8A22', 'Orange', 'elevated neovascularisation and fibrovascular tissue'],
+  ['#EE8A22', 'Orange', 'elevated neovascularisation and fibrovascular tissue; R/D also draws orange pigment (lipofuscin) on a choroidal lesion in orange, as no standard colour exists for it'],
   ['#DE942A', 'Amber (R/D)', 'Lincoff zone — where the primary break is predicted'],
 ];
 function renderKey() {

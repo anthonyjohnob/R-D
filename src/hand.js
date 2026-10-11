@@ -126,9 +126,21 @@ root.RDHand = function (api) {
     pill(g, m[0], m[1], `${RD.fmtHour(s)}–${RD.fmtHour(e)}`, u, '#9A4E1C');
   }
   function handles(g, u) {
-    const f = api.getScene().findings.find(x => x.id === selected);
+    const live = drag && drag.pf && drag.id === selected;
+    const sc = live ? drag.psc : api.getScene();
+    const f = live ? drag.pf : sc.findings.find(x => x.id === selected);
     if (!f) return;
-    const H = hitInfo(f, api.getScene());
+    const H = hitInfo(f, sc);
+    if (H && H.tum) {
+      const c = H.pts[0], er = RD.ellipseR(H.tum.rx, H.tum.ry, -H.tum.rot), q = [c[0] + er, c[1]];
+      g.setLineDash([5 * u, 4 * u]); g.strokeStyle = 'rgba(224,118,58,0.8)'; g.lineWidth = 1.6 * u;
+      g.beginPath(); g.ellipse(c[0], c[1], H.tum.rx + 3 * u, H.tum.ry + 3 * u, H.tum.rot, 0, Math.PI * 2); g.stroke(); g.setLineDash([]);
+      g.fillStyle = '#FFFFFF'; g.strokeStyle = '#E0763A'; g.lineWidth = 2.2 * u;
+      g.beginPath(); g.arc(q[0], q[1], 7 * u, 0, Math.PI * 2); g.fill(); g.stroke();
+      if (drag && drag.end === 'rim') { const t = RD.tumorSize(f, true); if (t) pill(g, c[0], c[1] - H.tum.ry - 22 * u, t, u, '#9A4E1C'); }
+      else if (!drag) { const t = RD.tumorSize(f, true) || 'drag the edge to size'; pill(g, c[0], c[1] - H.tum.ry - 22 * u, t, u, '#9A4E1C'); }
+      return;
+    }
     if (!H || !H.span) return;
     for (const h of H.span) {
       const c = atR(H.rEnd, h);
@@ -174,6 +186,7 @@ root.RDHand = function (api) {
       case 'grt': case 'dia': return { span: [f.start, f.end], r0: G.R_ORA - 52, r1: G.R_ORA + 8, rEnd: G.R_ORA - 22 };
       case 'cat': {
         const P = RD.catPlace(f, sc.eye);
+        if (P && P.tum && !(f.count > 1) && !f.multi) return { pts: [[P.x, P.y]], r: Math.max(12, Math.max(P.tum.rx, P.tum.ry)), tum: P.tum };
         if (!P || P.span || (P.site === 'disc' && RD.DISC_RECIPES.has(P.E.r))) return null;
         return { pts: [[P.x, P.y]], r: Math.max(12, 10 * (P.k || 1)) };
       }
@@ -186,7 +199,13 @@ root.RDHand = function (api) {
     for (const f of sc.findings) {
       const H = hitInfo(f, sc);
       if (!H) continue;
-      if (H.pts) {
+      if (H.tum) {
+        // the edge of a tumour (a ring a finger wide) resizes it; anywhere inside moves it
+        const c = H.pts[0], d = dist(p, c), a = Math.atan2(p[1] - c[1], p[0] - c[0]);
+        const er = RD.ellipseR(H.tum.rx, H.tum.ry, a - H.tum.rot), band = Math.max(7 * u, Math.min(12 * u, er * 0.35));
+        if (er >= 12 * u && Math.abs(d - er) < band && 0.3 < bs) { bs = 0.3; best = { f, end: 'rim' }; }
+        else if (d < Math.max(er, 14 * u) && d / Math.max(er, 14 * u) < bs) { bs = d / Math.max(er, 14 * u); best = { f }; }
+      } else if (H.pts) {
         for (const c of H.pts) { const rr = Math.max(H.r, 14 * u), d = dist(p, c); if (d < rr && d / rr < bs) { bs = d / rr; best = { f }; } }
       } else {
         for (const [end, hh] of [['start', H.span[0]], ['end', H.span[1]]]) {
@@ -226,7 +245,7 @@ root.RDHand = function (api) {
       select(hit.f.id);
       drag = { id: hit.f.id, end: hit.end || null, p0: p, at: p, orig: RD.clone(hit.f), moved: 0, off: false };
       phase = hit.end ? 'resizing' : 'moving';
-      setHint(hit.end ? 'Drag the end to resize' : 'Drag off the chart to remove');
+      setHint(hit.end === 'rim' ? 'Drag the edge to resize' : hit.end ? 'Drag the end to resize' : 'Drag off the chart to remove');
       drawInk();
       return;
     }
@@ -315,6 +334,19 @@ root.RDHand = function (api) {
   /* ----------------------------- moving items --------------------------- */
   function applyMove(f, d, p, eye) {
     const o = d.orig;
+    if (d.end === 'rim') {
+      // resize about the centre, keeping the shape; recorded in DD (or mm if it was given in mm), to 0.25 DD
+      const P0 = RD.catPlace(o, eye), c = [P0.x, P0.y];
+      const k = Math.max(0.15, Math.min(8, dist(p, c) / Math.max(4, dist(d.p0, c))));
+      const DDU = RD.DD_UNITS;
+      const cur = Array.isArray(o.base) && o.base.length ? o.base.map(v => RD.toDD(v, o.bu)) : [P0.tum.rx * 2 / DDU, P0.tum.ry * 2 / DDU];
+      const q = (v) => Math.max(0.25, Math.round(v * k * 4) / 4);
+      let next = cur.map(q);
+      if (next.length === 2 && next[0] === next[1] && (!o.base || o.base.length === 1)) next = [next[0]];
+      if (o.bu === 'mm') { f.base = next.map(v => Math.max(0.5, Math.round(v * RD.MM_PER_DD * 2) / 2)); f.bu = 'mm'; }
+      else { f.base = next; f.bu = 'dd'; }
+      return;     // a lesion placed “2 DD from the disc” keeps that margin and grows away from it
+    }
     if (d.end) {
       const hh = qh(hourOf(p));
       if (d.end === 'start') f.start = hh; else f.end = hh;
@@ -334,8 +366,16 @@ root.RDHand = function (api) {
       case 'grt': case 'dia': f.start = qh(o.start + dh); f.end = qh(o.end + dh); break;
       case 'pvr': f.pts = [[Math.round(p[0]), Math.round(p[1])]]; f.hours = [qh(h)]; if ((f.grade || 'C') === 'C') f.loc = r > G.R_EQ ? 'A' : 'P'; break;
       case 'cat': {
-        f.at = [Math.round(p[0]), Math.round(p[1])]; f.hour = +h.toFixed(3);
         const E = RD.CAT[f.key];
+        if (RD.isTumor(E)) {
+          // a tumour keeps the point you grabbed under your finger; its old “2 DD from the disc” no longer applies
+          const P0 = RD.catPlace(o, eye), c = [P0.x + p[0] - d.p0[0], P0.y + p[1] - d.p0[1]];
+          f.at = [Math.round(c[0]), Math.round(c[1])]; f.hour = +RD.angleToHour(Math.atan2(c[1], c[0])).toFixed(3);
+          f.site = RD.siteAt(c, eye);
+          delete f.quad; delete f.arc; delete f.start; delete f.end; delete f.dist; delete f.du;
+          break;
+        }
+        f.at = [Math.round(p[0]), Math.round(p[1])]; f.hour = +h.toFixed(3);
         if (!(E && E.site === 'vitreous')) f.site = RD.siteAt(p, eye);
         delete f.quad; delete f.arc;
         break;
@@ -360,6 +400,7 @@ root.RDHand = function (api) {
       const f = sc.findings.find(x => x.id === drag.id);
       if (!f) return;
       applyMove(f, drag, p, sc.eye);
+      drag.pf = f; drag.psc = sc;
       api.setPreview(sc, phase === 'resizing' ? 'Resizing' : 'Moving');
     }
     drawInk();

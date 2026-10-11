@@ -847,6 +847,7 @@ function renderPole(canvas, scene, opts) {
   ctx.strokeStyle = '#4C5763'; ctx.lineWidth = 0.7; ctx.beginPath(); ctx.arc(0, 0, G.R_FOV, 0, TAU); ctx.stroke();
   ctx.fillStyle = '#4C5763'; ctx.beginPath(); ctx.arc(0, 0, 0.9, 0, TAU); ctx.fill();
   ctx.restore();
+  if (CR && CR.drawTumorLabels) CR.drawTumorLabels(ctx, scene, 13 * (opts.textScale || 1) * (S / G.SIZE) / k);
   if (opts.highlight) drawHighlight(ctx, scene, opts.highlight, k * 420 / S);
   ctx.restore();
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -906,6 +907,7 @@ function render(canvas, scene, opts) {
   if (CR) CR.drawLayer(ctx, scene, geo, 'vitreous');
   for (const f of F) if (f.type === 'vh') drawVH(ctx, f);
   drawMacula(ctx, geo);
+  if (CR && CR.drawTumorLabels) CR.drawTumorLabels(ctx, scene, 11.5 * ts);
   if (scene.lincoff) drawLincoff(ctx, scene);
   if (opts.review) drawReview(ctx, opts.review);
   if (opts.highlight) drawHighlight(ctx, scene, opts.highlight);

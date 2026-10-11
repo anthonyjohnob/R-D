@@ -118,7 +118,9 @@ const STOP = new Set(('draw me a an the add with and at plus also show there is 
   'both all big-ish its\' my our your his her their each every same right left side sided side\'s zone zones well quite very slightly mildly ' +
   'moderately severely degeneration grade type stage like just only both edge edges border borders line lines part portion half ' +
   'lets theres ones sides there here where its few tiny small large some area areas spot spots lesion lesions finding findings along seen noted ' +
-  'appears appear looks look consistent likely possible probably suspect suspected suspicious showing shows evident tractional').split(/\s+/));
+  'appears appear looks look consistent likely possible probably suspect suspected suspicious showing shows evident tractional ' +
+  'measuring measures measured measurement measurements approximately approx about roughly around size sized basal diameter diameters ' +
+  'largest greatest thickness height overlying surface shaped margin margins its').split(/\s+/));
 
 function num(w) {
   if (w == null) return null;
@@ -126,6 +128,31 @@ function num(w) {
   return NUMW[w] != null ? NUMW[w] : null;
 }
 function validHour(h) { return h != null && isFinite(h) && h > 0 && h <= 12.99; }
+
+/* Measurements that describe a tumour or naevus become tokens instead of being dropped: basal size in disc
+   diameters or mm (one or two dimensions), thickness, and a distance from the disc or fovea. The parser keeps
+   them only beside a tumour; anywhere else they are ignored, as before. Run twice: on digits, and again after
+   spoken numbers (“two disc diameters”) have been turned into digits. */
+const MN = '(\\d+(?:\\.\\d+)?)';
+const MEASURE_RE = [
+  [/\bmillimet(?:er|re)s?\b/g, 'mm'],
+  [/\b(?:optic\s+)?(?:disc|disk)[\s-]+diam(?:eter|eters|s)?\b|\bdds\b/g, 'dd'],
+  [/(\d)\s*d\s+d\b/g, '$1 dd'],
+  [/\b(\d+)\s*\/\s*(\d+)\s*(?=(?:dd|mm)\b)/g, (m, a, b) => +b ? ' ' + Math.round(+a / +b * 100) / 100 + ' ' : m],
+  [/(?<!\band\s+a\s)\bhalf(?:\s+of)?(?:\s+an?)?\s+(?=dd\b)/g, ' 0.5 '],
+  [/\b(?:a\s+)?quarter(?:\s+of)?(?:\s+an?)?\s+(?=dd\b)/g, ' 0.25 '],
+  // three dimensions: “6 x 5 x 2.5 mm” is base × base × thickness
+  [new RegExp(`\\b${MN}\\s*(?:mm\\s*)?(?:x|by|×)\\s*${MN}\\s*(?:mm\\s*)?(?:x|by|×)\\s*${MN}\\s*mm\\b`, 'g'), (m, a, b, c) => ` _tsz_${a}_${b}_mm_ _tth_${c}_ `],
+  // thickness
+  [new RegExp(`\\b(?:thickness|height|apical\\s+height|elevation|elevated|thick)\\s*(?:of|is|was|=|:|measuring|measures|measured|by|to)?\\s*(?:about|approximately|approx|around|~)?\\s*${MN}\\s*mm\\b`, 'g'), (m, n) => ` _tth_${n}_ `],
+  [new RegExp(`\\b${MN}\\s*mm\\s+(?:thick|in\\s+(?:thickness|height|elevation|apical\\s+height)|high|tall|of\\s+(?:thickness|elevation)|elevation)\\b`, 'g'), (m, n) => ` _tth_${n}_ `],
+  // basal size: “2 x 1.5 DD”, “2 DD by 1.5 DD”, “5 by 4 mm”, “2 DD”, “a 3 mm naevus”
+  [new RegExp(`\\b${MN}\\s*(?:(?:dd|mm)\\s*)?(?:x|by|×)\\s*${MN}\\s*(dd|mm)\\b`, 'g'), (m, a, b, u) => ` _tsz_${a}_${b}_${u}_ `],
+  // distance: “2 DD from the disc”, “1.5 DD temporal to the fovea”, “3 mm away from the disc margin”
+  [new RegExp(`\\b${MN}\\s*(dd|mm)\\s+(?:away\\s+)?(?=(?:from|off)\\b|(?:to|of)\\s+(?:the\\s+)?(?:optic\\s+)?(?:disc|disk|nerve|fovea|foveola|macula)|(?:above|below)\\s+(?:the\\s+)?(?:optic\\s+)?(?:disc|disk|nerve|fovea|macula)|(?:super|infer|temp|nas)\\w*\\s+(?:to|of|from)\\b)`, 'g'), (m, n, u) => ` _tdist_${n}_${u}_ `],
+  [new RegExp(`\\b${MN}\\s*(dd|mm)\\b`, 'g'), (m, n, u) => ` _tsz_${n}__${u}_ `],
+];
+function measureStage(s) { for (const [re, to] of MEASURE_RE) s = s.replace(re, to); return s; }
 
 /* stage 1: punctuation, spoken numbers, speech slips and spelling variants */
 function stage1(raw) {
@@ -137,6 +164,7 @@ function stage1(raw) {
   s = s.replace(/\b(?:c\s*\/\s*d|c\s*:\s*d|cdr|cup[\s-]*(?:to|-)?[\s-]*dis[ck](?:\s+ratio)?)\s*(?:ratio\s*)?(?:of\s*|is\s*|=\s*|:\s*)?(?:0?\.\d+|1\.0|1)\b/g, ' ');
   s = s.replace(/\b(?:va|bcva|ucva|vision|visual acuity|acuity|ph|pinhole)\s*(?:is\s*|of\s*|was\s*|:\s*)?(?:od\s+|os\s+|re\s+|le\s+)?(?:6\s*\/\s*\d{1,2}(?:\.\d)?|20\s*\/\s*\d{2,3}|\d\.\d+|cf|hm|lp|nlp|pl)\b/g, ' ');
   s = s.replace(/\blog\s*mar\s*(?:of\s*|is\s*)?-?\d*\.?\d+\b/g, ' ');
+  s = measureStage(s);
   s = s.replace(/\b\d+(?:\.\d+)?\s*\/\s*\d+\s*(?:dd|disc diameters?|disk diameters?|mm)\b/g, ' ');
   s = s.replace(/\b\d+(?:\.\d+)?\s*(?:by|x|×)\s*\d+(?:\.\d+)?\s*(?:mm|dd|disc diameters?|microns?|um|µm)?(?![\w])/g, ' ');
   s = s.replace(/\b\d+(?:\.\d+)?\s*%/g, ' ').replace(/\b(\d(?:\.\d)?)\s*\+/g, ' grade$1plus ');
@@ -154,6 +182,7 @@ function stage1(raw) {
   s = s.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b/g, w => NUMW[w]);
   s = s.replace(/\b(fifteen|thirty|forty[\s-]five|fourty five)\b/g, w => MINW[w.replace('-', ' ')] || MINW[w]);
   s = s.replace(/\b(\d{1,2})\s+and\s+a\s+half\b/g, (m, h) => ' ' + (+h + 0.5) + ' ');
+  s = measureStage(s);
   s = s.replace(/\b(\d{1,2}):(\d{2})\b/g, (m, h, mm) => ' ' + (+h + Math.round(+mm / 15) * 0.25) + ' ');
   s = s.replace(/\b(\d{1,2})\s+(15|30|45)\b(?!\s*(?:degree|clock))/g, (m, h, mm) => +h <= 12 ? ' ' + (+h + +mm / 60) + ' ' : m);
   s = s.replace(/\b360(?:\s*degrees?|°)?\b/g, ' _360_ ');
@@ -234,6 +263,8 @@ function normalize(raw, opts) {
     return ` _meta_pvd_${v}_ ${v === 'partial' ? 'partial pvd' : v === 'complete' ? 'complete pvd' : 'pvd'} `;
   });
   for (const [re, to] of META_RE) s = s.replace(re, to);
+  // how a tumour or naevus looks (elevation, shape, orange pigment, drusen, subretinal fluid) — only when one is named
+  s = tumorWords(s);
   // named pathology from the catalogue, longest phrase first
   if (!(opts && opts.noCatalog)) s = catalogStage(s);
   const REP_B = [
@@ -382,6 +413,52 @@ function catalogStage(s) {
   });
 }
 
+/* tumour descriptors → tokens; the parser attaches them to the tumour they sit beside */
+const TUMOR_WORD = /\b(?:nev(?:us|i|uses)|melanomas?|tumou?rs?|mass(?:es)?|lesions?|hemangiomas?|metasta\w*|mets|osteomas?|chrpe|c\s*h\s*r\s*p\s*e|hamartomas?|retinoblastomas?|vasoproliferative|hypertrophy\s+of\s+the\s+(?:rpe|retinal\s+pigment\s+epithelium))\b|_tsz_|_tth_/;
+const SRF_W = '(?:sub[\\s-]?retinal\\s+fluid|srf)';
+const TUMOR_RE = [
+  // “orange pigment absent”, “SRF: none”, “drusen negative”
+  [new RegExp(`\\b(orange\\s+pigment(?:ation)?|lipofuscin|${SRF_W}|drusen)\\s+(?:is\\s+|are\\s+|was\\s+)?(?:absent|negative|neg|not\\s+(?:present|seen|evident|visible)|none)\\b`, 'g'), (m, w) => ` _neg_ ${w} `],
+  [/\b(?:orange\s+)?lipofuscin\b|\borange\s+pigment(?:ation|ed)?\b/g, ' _top_ '],
+  [/(?<!\b(?:soft|hard|large|small|medium|confluent|macular|peripheral|equatorial|disc|disk|optic|nerve|buried|superficial|calcified|cuticular|reticular|basal\s+laminar|optic\s+disc|optic\s+nerve)\s)(?:\b(?:overlying|surface|surface\s+of)\s+)?\bdrusen\b(?![\s-]*like)(?!\s+(?:in|at|of|around|within|near)\s+(?:the\s+)?(?:macula|fovea|periphery|peripheral|disc|disk|optic|nerve|posterior|mid))/g, ' _tdru_ '],
+  [new RegExp(`\\b(?:trace|minimal|mild|slight|shallow|small\\s+amount\\s+of|a\\s+little|a\\s+small\\s+amount\\s+of|little)\\s+${SRF_W}\\b`, 'g'), ' _tsrf_trace_ '],
+  [new RegExp(`\\b(?:extensive|large\\s+amount\\s+of|a\\s+lot\\s+of|lots\\s+of|significant|marked|bullous|much)\\s+${SRF_W}\\b`, 'g'), ' _tsrf_ext_ '],
+  [new RegExp(`(?<!\\b(?:cuff\\s+of|shifting)\\s)\\b${SRF_W}\\b(?!\\s+(?:drainage|cuff|macula))`, 'g'), ' _tsrf_yes_ '],
+  [/\b(?:no|without)\s+(?:sub[\s-]?retinal\s+)?fluid\b/g, ' _neg_ _tsrf_yes_ '],
+  // elevation and shape
+  [/\b(?:mushroom|collar[\s-]?button)(?:[\s-]?shaped)?\b/g, ' _tsh_mush_ '],
+  [/\bdome[\s-]?shaped\b|\bdomed?\b/g, ' _tsh_dome_ '],
+  [/\b(?:not|non)[\s-]?elevated\b|\bno\s+elevation\b/g, ' _tel_flat_ '],
+  [/\b(?:minimally|slightly|mildly|barely|subtly|minimal)\s+elevated\b|\b(?:minimal|slight|mild|subtle)\s+elevation\b/g, ' _tel_min_ '],
+  [/\bmoderately\s+elevated\b|\bmoderate\s+elevation\b/g, ' _tel_mod_ '],
+  [/\b(?:markedly|highly|significantly|very|prominently|substantially|greatly)\s+elevated\b|\b(?:marked|significant|prominent|substantial)\s+elevation\b/g, ' _tel_marked_ '],
+  [/\belevated\b(?!\s+(?:nve|nvd|nv|neovascul\w*|new\s+vessels|dis[ck]|optic|nerve|iop|pressure|intraocular))|\belevation\b/g, ' _tel_elev_ '],
+  [/\bflat\b(?=\s+pigmented)/g, ' _tel_flat_ flat'],
+  [/\bflat\b(?!\s+(?:pigmented|(?:\w+\s+)?(?:retinal\s+)?(?:detachment|rd|rrd|rds|schisis|nve|nvd|nv|neovascul\w*|retina)\b|under\b|on\b|after\b))/g, ' _tel_flat_ '],
+];
+function tumorWords(s) {
+  if (!TUMOR_WORD.test(s)) return s;
+  for (const [re, to] of TUMOR_RE) s = s.replace(re, to);
+  return s;
+}
+const TUM_TOKEN = /^_(tsz|tth|tdist|tel|tsh|top|tdru|tsrf)_(?:([\d.]+|[a-z]+)_)?(?:([\d.]*)_)?(?:(dd|mm)_)?$/;
+function tumToken(w) {
+  const m = TUM_TOKEN.exec(w);
+  if (!m) return null;
+  const n = (v, lo, hi) => { const x = parseFloat(v); return isFinite(x) && x >= lo && x <= hi ? x : null; };
+  switch (m[1]) {
+    case 'tsz': { const a = n(m[2], 0.05, 40), b = m[3] ? n(m[3], 0.05, 40) : null; return a == null || (m[3] && b == null) ? null : { k: 'sz', v: { base: b != null ? [a, b] : [a], unit: m[4] === 'mm' ? 'mm' : 'dd' } }; }
+    case 'tth': { const a = n(m[2], 0.05, 30); return a == null ? null : { k: 'th', v: a }; }
+    case 'tdist': { const a = n(m[2], 0, 40); return a == null ? null : { k: 'dist', v: { n: a, unit: m[4] === 'mm' ? 'mm' : m[3] === 'mm' ? 'mm' : 'dd' } }; }
+    case 'tel': return ELEV_TEXT[m[2]] ? { k: 'elev', v: m[2] } : null;
+    case 'tsh': return SHAPE_TEXT[m[2]] ? { k: 'shape', v: m[2] } : null;
+    case 'top': return { k: 'op', v: 'yes' };
+    case 'tdru': return { k: 'dru', v: 'yes' };
+    case 'tsrf': return ['trace', 'yes', 'ext'].includes(m[2]) ? { k: 'srf', v: m[2] } : null;
+  }
+  return null;
+}
+
 function tokenize(norm) {
   const out = [];
   for (const w of norm.split(' ')) {
@@ -408,6 +485,7 @@ function tokenize(norm) {
     else if (w === '_pvd_') out.push({ t: 'skip', w });
     else if ((m = /^_meta_(pvd|lens)_(\w+?)_$/.exec(w))) out.push({ t: 'meta', k: m[1], v: m[2] });
     else if (w === '_neg_') out.push({ t: 'neg' });
+    else if (/^_t(?:sz|th|dist|el|sh|op|dru|srf)_/.test(w)) { const t = tumToken(w); if (t) out.push({ t: 'tum', k: t.k, v: t.v }); }
     else if (w === ',' || w === 'and' || w === 'or' || w === 'with' || w === 'plus' || w === 'also' || w === 'then' || w === 'but') out.push({ t: 'sep', w });
     else out.push({ t: 'word', w });
   }
@@ -489,8 +567,28 @@ function parse(text, ctx) {
   const negated = [];
   const cmds = [];
   const metas = {};
+  let pendingTum = null, negConsumed = false;
+  const isTumMention = (mn) => !!mn && mn.kind === 'cat' && !!mn.entry && isTumor(mn.entry) && !mn.remove;
+  const setTum = (t, k, v) => {
+    if (k === 'sz') { t.base = v.base.slice(); t.bu = v.unit; }
+    else if (k === 'dist') { t.dist = v.n; t.du = v.unit; }
+    else t[k] = v;
+  };
+  // drusen said beside a tumour describe its surface; drusen with a place of their own, or with no tumour
+  // in the sentence before them, are the catalogue finding
+  const DRUSEN = CAT.drusen_hard;
+  toks.forEach((t, i) => {
+    if (t.t !== 'tum' || t.k !== 'dru') return;
+    let own = false;
+    for (let j = i + 1; j < toks.length && toks[j].t !== 'sep' && toks[j].t !== 'f'; j++) if (['hr', 'rng', 'q', 'site'].includes(toks[j].t)) { own = true; break; }
+    let tum = false;
+    for (let j = i - 1; j >= 0; j--) { const u = toks[j]; if (u.t === 'f') { tum = u.f === 'cat' && isTumor(CATALOG[u.ix]); break; } }
+    // “no orange pigment or drusen on the naevus”: the tumour comes after, with nothing but “or” in between
+    if (!tum) for (let j = i + 1; j < toks.length; j++) { const u = toks[j]; if (u.t === 'f') { tum = u.f === 'cat' && isTumor(CATALOG[u.ix]); break; } if (u.t === 'sep' && u.w !== 'or') break; }
+    if ((own || !tum) && DRUSEN) toks[i] = { t: 'f', f: 'cat', ix: DRUSEN.ix, plural: true };
+  });
 
-  const nextNonMod = (i) => { for (let j = i + 1; j < toks.length; j++) { const t = toks[j]; if (t.t === 'm' || t.t === 'count' || t.t === 'arcq' || (t.t === 'word' && STOP.has(t.w))) continue; return t; } return null; };
+  const nextNonMod = (i) => { for (let j = i + 1; j < toks.length; j++) { const t = toks[j]; if (t.t === 'm' || t.t === 'count' || t.t === 'arcq' || t.t === 'tum' || (t.t === 'word' && STOP.has(t.w))) continue; return t; } return null; };
   const prevNonStop = (i) => { for (let j = i - 1; j >= 0; j--) { const t = toks[j]; if (t.t === 'word' && STOP.has(t.w)) continue; return t; } return null; };
 
   toks.forEach((tk, i) => {
@@ -518,11 +616,15 @@ function parse(text, ctx) {
           if (extra) current.extra = Object.assign(current.extra || {}, extra);
           for (const m of pendingMods) current.mods.add(m);
           pendingMods = [];
+          if (pendingTum) { current.tum = Object.assign(current.tum || {}, pendingTum); pendingTum = null; }
           sepSince = false;
           break;
         }
         const prevMention = current;
-        current = { kind, entry, extra, plural: tk.f === 'hsts' || tk.f === 'holes' || !!tk.plural, pos: pendingPos, mods: new Set(pendingMods), count: pendingCount, remove: removeMode, quadHint: pendingHint, site: pendingSite, arc: pendingArc, clause, negated: negActive, negAnd: negActive && negAnd };
+        // a negation used up by a tumour's descriptors (“no orange pigment or drusen on the naevus”) does not negate the tumour
+        const neg = negActive && !(negConsumed && entry && isTumor(entry));
+        current = { kind, entry, extra, plural: tk.f === 'hsts' || tk.f === 'holes' || !!tk.plural, pos: pendingPos, mods: new Set(pendingMods), count: pendingCount, remove: removeMode, quadHint: pendingHint, site: pendingSite, arc: pendingArc, clause, negated: neg, negAnd: neg && negAnd };
+        if (pendingTum) { if (entry && isTumor(entry)) current.tum = pendingTum; pendingTum = null; }
         if (prevMention && (joined === 'and' || joined === 'or')) current.andPrev = prevMention;
         if (prevMention && prevMention.kind === 'lat' && !prevMention.pos.length && joined === 'with' && (kind === 'hst' || kind === 'oph')) prevMention.borrow = current;
         pendingHint = null; pendingSite = null; pendingArc = null;
@@ -618,7 +720,20 @@ function parse(text, ctx) {
         // a specific statement (complete / partial / none) is not overridden by a bare “PVD” in the same breath
         if (!(tk.k === 'pvd' && tk.v === 'yes' && metas.pvd && metas.pvd !== 'yes')) metas[tk.k] = tk.v;
         break;
-      case 'neg': negActive = true; negAnd = false; break;
+      case 'neg': negActive = true; negAnd = false; negConsumed = false; break;
+      case 'tum': {
+        // size, thickness, distance, elevation, shape, orange pigment, drusen, SRF: they describe the tumour just
+        // named (“naevus 2 DD, flat, with drusen, no SRF”) or the one about to be named (“a flat 3 mm naevus”)
+        let v = tk.v;
+        if (negActive && (tk.k === 'op' || tk.k === 'dru' || tk.k === 'srf')) { v = 'no'; negConsumed = true; }
+        else if (negActive && tk.k === 'elev') { v = 'flat'; negConsumed = true; }
+        let nx = null;
+        for (let j = i + 1; j < toks.length; j++) { const t = toks[j]; if (t.t === 'tum' || t.t === 'm' || t.t === 'count' || t.t === 'neg' || (t.t === 'sep' && t.w === 'or') || (t.t === 'word' && STOP.has(t.w))) continue; nx = t; break; }
+        const nextTum = nx && nx.t === 'f' && nx.f === 'cat' && isTumor(CATALOG[nx.ix]);
+        if (nextTum && (sepSince || !isTumMention(current))) { pendingTum = pendingTum || {}; setTum(pendingTum, tk.k, v); }
+        else if (isTumMention(current) && (!sepSince || [',', 'with', 'and', 'or'].includes(lastSep))) { current.tum = current.tum || {}; setTum(current.tum, tk.k, v); }
+        break;
+      }
       case 'sep': sepSince = true; lastSep = tk.w; if (tk.w === ',') clause++; if (tk.w === 'and' && negActive) negAnd = true; if (tk.w !== 'and' && tk.w !== 'or') negActive = false; if (tk.w === 'plus' || tk.w === 'also') removeMode = false; break;
       case 'word':
         if (ADD_WORDS.has(tk.w)) removeMode = false;
@@ -667,9 +782,10 @@ function parse(text, ctx) {
     if (mn.count) base.count = mn.count; else if (mods.has('multi')) base.multi = true;
     if (mods.has('dense')) base.density = 'dense'; else if (mods.has('mild')) base.density = 'mild';
     if (mods.has('enc') && !mn.pos.length) { base.start = 12; base.end = 12; base.full = true; }
+    if (mn.tum && isTumor(E)) for (const k of TUM_KEYS) if (mn.tum[k] != null) base[k] = clone(mn.tum[k]);
     if (!mn.pos.length) { actions.push({ op: 'add', f: base }); return; }
     for (const p of mn.pos) {
-      const f = Object.assign({}, base);
+      const f = clone(base);
       if (p.kind === 'rng') { const r = orient({ s: p.a, e: p.b }, mn.quadHint, eye); f.start = normHour(r.s); f.end = normHour(r.e); }
       else if (p.kind === 'hr') f.hour = normHour(p.h);
       else { const q = quadrant(p.q, eye); if (!q) continue; f.quad = p.q; f.hour = q.c; f.start = q.s; f.end = q.e; }
@@ -921,6 +1037,73 @@ function catName(E) {
   return m ? cap(m[2].toLowerCase()) + ' ' + m[1].charAt(0).toLowerCase() + m[1].slice(1) : n;
 }
 
+/* ------------------------------------------------------------------ *
+ * Tumours and naevi: basal size (DD or mm), thickness, elevation and shape, orange pigment, drusen,
+ * subretinal fluid, and distance from the disc or fovea. A measured lesion is drawn to scale against
+ * the disc (1 DD = the disc's diameter on the chart; 1 DD ≈ 1.5 mm when only mm are given).
+ * ------------------------------------------------------------------ */
+const DD_UNITS = 2 * G.DISC_R;
+const MM_PER_DD = 1.5;
+const MELANOCYTIC = new Set(['choroidal_nevus', 'choroidal_melanoma', 'amelanotic_choroidal_melanoma']);
+const TUM_KEYS = ['base', 'bu', 'th', 'elev', 'shape', 'op', 'dru', 'srf', 'dist', 'du'];
+const ELEV_TEXT = { flat: 'flat', min: 'minimally elevated', elev: 'elevated', mod: 'moderately elevated', marked: 'markedly elevated' };
+const SHAPE_TEXT = { dome: 'dome-shaped', mush: 'mushroom-shaped' };
+const SRF_TEXT = { no: 'no subretinal fluid', trace: 'trace subretinal fluid', yes: 'subretinal fluid', ext: 'extensive subretinal fluid' };
+const SRF_SHORT = { no: 'no SRF', trace: 'trace SRF', yes: 'SRF', ext: 'extensive SRF' };
+function isTumor(E) { return !!E && E.group === 'tumors_pigment' && (E.r === 'patch' || E.r === 'dome'); }
+function toDD(v, u) { return u === 'mm' ? v / MM_PER_DD : v; }
+function fmtNum(n) { return String(Math.round(n * 100) / 100); }
+function tumorSize(f, short) {
+  if (!Array.isArray(f.base) || !f.base.length) return '';
+  return f.base.map(fmtNum).join(short ? '×' : ' × ') + ' ' + (f.bu === 'mm' ? 'mm' : 'DD');
+}
+/* the lesion's half-axes on the chart: measured, or the catalogue's typical size */
+function tumorRadii(f, E, post, k) {
+  if (Array.isArray(f.base) && f.base.length) {
+    const c = (v) => Math.max(0.1, Math.min(16, toDD(v, f.bu)));
+    const h = c(f.base[0]), v = c(f.base[1] != null ? f.base[1] : f.base[0]);
+    return { rx: h * DD_UNITS / 2, ry: v * DD_UNITS / 2, rot: 0, measured: true };
+  }
+  const dome = E.r === 'dome', r = (dome ? (post ? 9 : 17) : (post ? 7 : 13)) * k;
+  return { rx: r, ry: r * (dome ? 0.86 : 0.78), rot: null, measured: false };
+}
+/* distance from an ellipse's centre to its edge in direction a */
+function ellipseR(rx, ry, a) { const c = Math.cos(a), s = Math.sin(a); return (rx * ry) / Math.sqrt((ry * c) ** 2 + (rx * s) ** 2) || rx; }
+/* 0 flat … 3 markedly elevated: how strongly the chart shades the lesion */
+function tumorLevel(f, E) {
+  if (f.shape === 'mush') return 3;
+  const w = { flat: 0, min: 1, elev: 2, mod: 2, marked: 3 }[f.elev];
+  if (w != null) return f.shape === 'dome' ? Math.max(w, 1.5) : w;
+  if (f.shape === 'dome') return 2;
+  if (typeof f.th === 'number') return f.th < 0.8 ? 0.4 : f.th < 2 ? 1 : f.th < 4 ? 2 : 3;
+  return E && E.r === 'dome' ? 2 : 0;
+}
+/* the described features in order, for the note (long) or the findings list (short) */
+function tumorFeatures(f, short) {
+  const out = [];
+  if (typeof f.th === 'number') out.push(short ? fmtNum(f.th) + ' mm thick' : fmtNum(f.th) + ' mm thick');
+  const el = [f.elev ? ELEV_TEXT[f.elev] : null, f.shape ? SHAPE_TEXT[f.shape] : null].filter(Boolean);
+  if (el.length) out.push(el.join(', '));
+  if (f.dru) out.push(f.dru === 'yes' ? (short ? 'drusen' : 'overlying drusen') : 'no drusen');
+  if (f.op) out.push(f.op === 'yes' ? (short ? 'orange pigment' : 'orange pigment') : 'no orange pigment');
+  if (f.srf) out.push(short ? SRF_SHORT[f.srf] : SRF_TEXT[f.srf]);
+  return out;
+}
+/* tumour fields from untrusted input (review links, AI actions) */
+function cleanTumor(f, g) {
+  const n = (v, lo, hi) => (typeof v === 'number' && isFinite(v) && v >= lo && v <= hi) ? Math.round(v * 100) / 100 : null;
+  if (Array.isArray(f.base)) { const b = f.base.slice(0, 2).map(v => n(v, 0.05, 40)); if (b.length && b.every(v => v != null)) g.base = b; }
+  if (f.bu === 'mm' || f.bu === 'dd') g.bu = f.bu;
+  const th = n(f.th, 0.05, 30); if (th != null) g.th = th;
+  const d = n(f.dist, 0, 40); if (d != null) g.dist = d;
+  if (f.du === 'mm' || f.du === 'dd') g.du = f.du;
+  if (Object.prototype.hasOwnProperty.call(ELEV_TEXT, f.elev)) g.elev = f.elev;
+  if (Object.prototype.hasOwnProperty.call(SHAPE_TEXT, f.shape)) g.shape = f.shape;
+  for (const k of ['op', 'dru']) if (f[k] === 'yes' || f[k] === 'no') g[k] = f[k];
+  if (Object.prototype.hasOwnProperty.call(SRF_TEXT, f.srf)) g.srf = f.srf;
+  return g;
+}
+
 /* resolve a catalogue finding to chart geometry: site, clock direction, optional span, anchor point */
 function catPlace(f, eye) {
   const E = CAT[f.key];
@@ -960,9 +1143,24 @@ function catPlace(f, eye) {
       if (!said && (site === 'equator' || site === 'mid') && Math.abs(mod(h, 3) - 1.5) < 0.2) h = normHour(h + 0.45);
       [x, y] = towards(0, 0, h, SITE_R[site] || 160);
   }
+  const k = (E.k || 1) * (f.size || 1);
+  let tum = null;
+  if (isTumor(E)) {
+    tum = tumorRadii(f, E, post, k);
+    // “2 DD superotemporal to the disc”: margin to margin, along the stated direction (temporal if none)
+    const ref = (site === 'disc' || site === 'ppa') ? { c: dc, r: G.DISC_R } : (site === 'fovea' || site === 'parafovea' || site === 'macula') ? { c: [0, 0], r: 0 } : null;
+    if (ref && !Array.isArray(f.at) && (f.dist != null || (h != null && said))) {
+      const a = hourToAngle(h != null ? h : T);
+      // no distance given: “inferotemporal to the fovea” keeps the lesion just clear of the fovea (or disc)
+      const gap = f.dist != null ? toDD(f.dist, f.du) * DD_UNITS : DD_UNITS * (ref.r ? 0.2 : 0.25);
+      const d = ref.r + gap + ellipseR(tum.rx, tum.ry, a);
+      x = ref.c[0] + Math.cos(a) * d; y = ref.c[1] + Math.sin(a) * d;
+    }
+  }
   // dropped by hand at an exact spot (span and disc recipes keep their anatomical anchor)
-  if (Array.isArray(f.at) && !span && !(site === 'disc' && DISC_RECIPES.has(E.r))) { x = f.at[0]; y = f.at[1]; }
-  return { E, site, post, h, span, x, y, said, k: (E.k || 1) * (f.size || 1), auto: !said && !f.site };
+  if (Array.isArray(f.at) && (!span || tum) && !(site === 'disc' && DISC_RECIPES.has(E.r))) { x = f.at[0]; y = f.at[1]; }
+  if (tum && tum.rot == null) tum.rot = Math.atan2(y, x || 1e-6);
+  return { E, site, post, h, span, x, y, said, k, auto: !said && !f.site, tum };
 }
 /* which named site a point on the chart falls in (for findings dropped by hand) */
 function siteAt(p, eye) {
@@ -984,6 +1182,13 @@ function catLocText(f, eye, short) {
   const P = catPlace(f, eye);
   if (!P) return '';
   const parts = [];
+  if (P.tum && f.dist != null && !Array.isArray(f.at) && ['disc', 'ppa', 'fovea', 'parafovea', 'macula'].includes(P.site)) {
+    const d = `${fmtNum(f.dist)} ${f.du === 'mm' ? 'mm' : 'DD'}`;
+    const toDisc = P.site === 'disc' || P.site === 'ppa';
+    const q = f.quad && f.quad !== 'all' ? QUAD_NAMES[f.quad] : f.hour != null ? null : null;
+    if (short) return [q, `${d} from ${toDisc ? 'disc' : 'fovea'}`].filter(Boolean).join(' · ');
+    return q ? `${d} ${q} to the ${toDisc ? 'optic disc' : 'fovea'}` : f.hour != null ? `${d} from the ${toDisc ? 'optic disc' : 'fovea'} toward ${fmtHour(f.hour)} o’clock` : `${d} from the ${toDisc ? 'optic disc' : 'fovea'}`;
+  }
   // “temporal to the fovea”, “superotemporal to the optic disc”, “in the inferior macula”
   const rel = { fovea: 'the fovea', parafovea: 'the fovea', disc: 'the optic disc', ppa: 'the optic disc' }[P.site];
   if (f.quad && f.quad !== 'all' && (rel || P.site === 'macula') && !DISC_RECIPES.has(P.E.r)) {
@@ -1059,7 +1264,7 @@ const CAUSE_SHORT = { exudative: 'Exudative RD', combined: 'Combined TRD/RRD', s
 function findingTitle(f, eye) {
   const r = (a, b) => `${fmtHour(a)}–${fmtHour(b)}`;
   switch (f.type) {
-    case 'cat': return `${catName(CAT[f.key])} · ${catLocText(f, eye || 'OS', true)}`;
+    case 'cat': { const sz = isTumor(CAT[f.key]) ? tumorSize(f, true) : ''; return `${catName(CAT[f.key])} · ${sz ? sz + ' · ' : ''}${catLocText(f, eye || 'OS', true)}`; }
     case 'rd': { const w = CAUSE_SHORT[f.cause] || 'RD'; return f.total ? (f.cause === 'exudative' ? 'Total exudative RD' : 'Total RD') : (f.ring ? `${w} · 360°` : f.island && spanHours(f.start, f.end) >= 12 ? `${w} · posterior, not to the ora` : `${w} ${fmtHour(f.start)} → ${fmtHour(f.end)} · ${fmtSpan(spanHours(f.start, f.end))}${f.island ? ' · not to the ora' : ''}`) + (f.depth && f.depth !== 'normal' ? ' · ' + f.depth : ''); }
     case 'hst': return `${f.size && f.size < 1 ? 'Small h' : f.size > 1 ? 'Large h' : 'H'}orseshoe tear · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
     case 'grt': return `Giant tear ${r(f.start, f.end)} · ${fmtSpan(spanHours(f.start, f.end))}`;
@@ -1195,6 +1400,17 @@ function applyActions(scene0, actions) {
         }
         if (f.type === 'cat') {
           if (!CAT[f.key]) break;
+          // “the naevus has orange pigment”, “naevus 2 DD”: a tumour described again without a new place is updated
+          if (isTumor(CAT[f.key]) && f.hour == null && f.start == null && !f.site && !Array.isArray(f.at) && !f.count && !f.multi && TUM_KEYS.some(k => f[k] != null)) {
+            const same = scene.findings.filter(x => x.type === 'cat' && x.key === f.key);
+            if (same.length) {
+              const t = same.reduce((a, b) => (b.id > a.id ? b : a));
+              for (const k of TUM_KEYS) if (f[k] != null) t[k] = clone(f[k]);
+              if (f.dist != null && f.du == null) delete t.du;
+              notes.push(`Updated the ${catName(CAT[f.key]).toLowerCase()}${same.length > 1 ? ` ${catLocText(t, scene.eye)} (the most recent one)` : ''}.`);
+              break;
+            }
+          }
           const sameSite = (x) => (x.site || null) === (f.site || null);
           const dup = scene.findings.find(x => x.type === 'cat' && x.key === f.key && sameSite(x) && (
             (f.at ? (Array.isArray(x.at) && dist2(x.at, f.at) < 12) : (f.hour != null && x.hour != null && hourDist(x.hour, f.hour) < 0.2)) ||
@@ -2001,6 +2217,12 @@ function clinicalNote(scene) {
   for (const f of cats) {
     const nm = catName(CAT[f.key]);
     const head = f.count > 1 ? `${f.count} ${plural(nm.charAt(0).toLowerCase() + nm.slice(1))}` : nm;
+    if (isTumor(CAT[f.key])) {
+      // “Choroidal nevus 2 × 1.5 DD, 2 DD superotemporal to the optic disc; flat, overlying drusen, no orange pigment, no subretinal fluid.”
+      const sz = tumorSize(f), feats = tumorFeatures(f);
+      lines.push(`${head}${sz ? ' ' + sz + ',' : ''} ${catLocText(f, scene.eye)}${feats.length ? '; ' + feats.join(', ') : ''}.`.replace(/\s+\./, '.').replace(/,\s*;/, ';'));
+      continue;
+    }
     lines.push(`${head} ${catLocText(f, scene.eye)}.`.replace(/\s+\./, '.'));
   }
   const vit = { complete: 'Complete posterior vitreous detachment.', partial: 'Partial posterior vitreous detachment.', yes: 'Posterior vitreous detachment present.', none: 'No posterior vitreous detachment (vitreous attached).' }[scene.pvd];
@@ -2245,6 +2467,7 @@ function sanitizeActions(list) {
           if (f.arc === 's' || f.arc === 'i') g.arc = f.arc;
           if (typeof f.count === 'number' && f.count > 1) g.count = Math.min(12, Math.round(f.count));
           if (QUAD_NAMES[f.quad]) g.quad = f.quad;
+          if (isTumor(E)) cleanTumor(f, g);
         }
         if (['exudative', 'combined', 'schisis'].includes(f.cause)) g.cause = f.cause;
         if (f.hem === true) g.hem = true;
@@ -2341,6 +2564,10 @@ function diffScenes(a, b) {
       if ((o.depth || 'normal') !== (f.depth || 'normal')) parts.push(`${o.depth || 'standard'} → ${f.depth || 'standard'}`);
       if (!!o.chronic !== !!f.chronic) parts.push(f.chronic ? 'marked chronic' : 'no longer chronic');
     }
+    if (f.type === 'cat' && isTumor(CAT[f.key])) {
+      const d0 = tumorFeatures(o, true).join(', '), d1 = tumorFeatures(f, true).join(', ');
+      if (d0 !== d1) parts.push(d0 && d1 ? `${d0} → ${d1}` : d1 ? `now ${d1}` : `no longer described as ${d0}`);
+    }
     if (!parts.length) {
       const p0 = findingAnchor(o, a), p1 = findingAnchor(f, b);
       parts.push(p0 && p1 && Math.hypot(p0[0] - p1[0], p0[1] - p1[1]) > 6 ? `${t1} moved` : `${t1} adjusted`);
@@ -2384,6 +2611,7 @@ function sanitizeFinding(f) {
     if (SITES.includes(f.site)) g.site = f.site;
     if (own(QUAD_NAMES, f.quad)) g.quad = f.quad;
     const at = pt2(f.at); if (at) g.at = at;
+    if (isTumor(CAT[f.key])) cleanTumor(f, g);
   }
   if (f.type === 'rd' && f.path && typeof f.path === 'object' && Array.isArray(f.path.pts)) {
     let pts = f.path.pts.slice(0, 3000).map(pt2).filter(Boolean);
@@ -2447,6 +2675,7 @@ const API = {
   CATALOG, CAT, GROUPS, catPlace, catLocText, catName, POSTERIOR_SITES, SITE_TEXT, SITES, QUAD_NAMES, stage1,
   prepareStroke, pathOptions, pickPathSide, rdFromPath, pathShape, pathField, pathAgrees, PVD_TEXT, LENS_TEXT, repairOptions, REPAIR_REFS, PROCS,
   DISC_RECIPES, QUAD_RECIPES, siteAt, findingAnchor, diffScenes, sanitizeScene, sanitizeReview,
+  isTumor, MELANOCYTIC, TUM_KEYS, DD_UNITS, MM_PER_DD, ELEV_TEXT, SHAPE_TEXT, SRF_TEXT, SRF_SHORT, toDD, fmtNum, tumorSize, tumorRadii, tumorLevel, tumorFeatures, ellipseR, cleanTumor,
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = API;
 else root.RD = API;
