@@ -29,7 +29,7 @@ if (!scene || !Array.isArray(scene.findings) || scene.v !== 2) scene = RD.emptyS
 let undoStack = [], redoStack = [];
 let previewScene = null, previewText = null, highlight = null;
 // a teaching review in progress (resident's original, comments, who/what), kept apart from your own drawing
-let review = null, commentArm = false, lastLink = null, draftCase = '';
+let review = null, commentArm = false, lastLink = null, draftCase = '', clearAsk = false;
 (function restoreReview() {
   const saved = store.get('rdraw.review.v1');
   if (!saved || typeof saved !== 'object' || !saved.o) return;
@@ -82,7 +82,7 @@ function renderEye() {
 function renderTools() {
   $('#undo').disabled = !undoStack.length;
   $('#redo').disabled = !redoStack.length;
-  $('#clear').disabled = !scene.findings.length;
+  $('#clear').disabled = !scene.findings.length && !review;
   $('#lincoffBtn').setAttribute('aria-pressed', String(!!scene.lincoff));
   document.querySelectorAll('.view-switch button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.view === view)));
   $('#poleDot').hidden = !R.hasPosterior(scene) || view === 'pole';
@@ -441,6 +441,7 @@ async function run(text, heard) {
     else if (a.op === 'redo') { if (!redo()) notes.push('Nothing to redo.'); }
     else rest.push(a);
   }
+  if (review && rest.length === 1 && rest[0].op === 'clear') { rest.length = 0; askClear(); }
   if (rest.length) {
     const out = RD.applyActions(scene, rest); notes = notes.concat(out.notes); commit(out.scene);
     const post = out.added.some(f => { if (f.type !== 'cat') return false; const P = RD.catPlace(f, scene.eye); return P && P.post; });
@@ -655,17 +656,19 @@ function enterReview(r) {
     reviewer: r.reviewer || (r.st === 'reviewed' ? '' : (prefs.myName || '')), t: r.t, rt: r.rt, view: 'changes', stash };
   scene = RD.clone(r.st === 'reviewed' ? r.c : r.o);
   undoStack = []; redoStack = []; previewScene = null; previewText = null; highlight = null;
-  prefs.eye = scene.eye; lastLink = null; commentArm = false; view = 'fundus';
+  prefs.eye = scene.eye; lastLink = null; commentArm = false; clearAsk = false; view = 'fundus';
   save(); renderAll();
   toast(review.role === 'reviewer' ? 'Reviewing — your corrections are tracked against the original' : 'Review opened — corrections are marked on the chart');
   const card = $('#reviewCard'); if (card && card.scrollIntoView && window.innerWidth < 980) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 function exitReview(keep) {
   if (!review) return;
-  const next = keep === 'corrected' ? RD.clone(scene) : keep === 'original' ? RD.clone(review.o) : (review.stash || RD.emptyScene(prefs.eye));
-  review = null; commentArm = false; lastLink = null;
+  const next = keep === 'corrected' ? RD.clone(scene) : keep === 'original' ? RD.clone(review.o) : keep === 'blank' ? RD.emptyScene(scene.eye) : (review.stash || RD.emptyScene(prefs.eye));
+  // clearing out of a review: Undo brings back the corrected drawing, then your own drawing from before the review
+  const back = keep === 'blank' ? [review.stash, scene.findings.length ? RD.clone(scene) : null].filter(Boolean) : [];
+  review = null; commentArm = false; lastLink = null; clearAsk = false;
   try { localStorage.removeItem('rdraw.review.v1'); } catch (e) { /* storage unavailable */ }
-  scene = next; undoStack = []; redoStack = []; previewScene = null; previewText = null; prefs.eye = scene.eye;
+  scene = next; undoStack = back; redoStack = []; previewScene = null; previewText = null; prefs.eye = scene.eye;
   save(); renderAll();
 }
 function reviewOverlay(showOriginal) {
@@ -697,13 +700,30 @@ function openLinkBox() {
   return el('details', { class: 'rv-open' }, [el('summary', { text: 'Received a review link?' }), el('div', { class: 'rv-fields' }, [inp, el('button', { type: 'button', class: 'btn-line', text: 'Open', onclick: go })])]);
 }
 const KIND_TEXT = { added: 'Added', removed: 'Removed', changed: 'Changed' };
+// Clear during a review asks what to clear: emptying the corrected drawing on its own would leave every original
+// finding marked as removed (red rings, dashed outline) — right for a reviewer redrawing from scratch, puzzling otherwise.
+function askClear() { clearAsk = true; commentArm = false; review.view = 'changes'; renderAll(); }
+function renderClearAsk(bar, isRev) {
+  const lose = isRev ? (review.cm.length || (review.fb || '').trim() ? ' Closing it ends the review and discards its comments and feedback.' : ' Closing it ends the review.')
+    : ' Closing it removes the review from this device; the link still has it.';
+  bar.append(el('div', { class: 'rb-who' }, [el('strong', { text: 'Clear the chart?' }), el('span', { text: (isRev ? 'You’re reviewing a drawing.' : 'This chart is showing a review.') + lose })]));
+  const acts = el('div', { class: 'rb-acts' });
+  const btn = (text, title, fn, cls) => acts.append(el('button', { type: 'button', class: 'mini' + (cls ? ' ' + cls : ''), text, title, onclick: () => { clearAsk = false; fn(); } }));
+  btn('Clear and close the review', 'A blank chart, with the review closed', () => { exitReview('blank'); toast('Review closed and chart cleared — Undo brings the drawing back'); }, 'primary');
+  if (isRev && RD.diffScenes(review.o, scene).length) btn('Undo my corrections', 'Back to the drawing as it was sent; keep reviewing', () => { commit(RD.clone(review.o)); toast('Back to the drawing as it was sent'); });
+  if (isRev && scene.findings.length) btn('Redraw from scratch', 'Keep reviewing on an empty chart; the original findings stay marked as removed', () => { commit(RD.emptyScene(scene.eye)); toast('Empty chart — the original findings are marked as removed'); });
+  btn('Cancel', 'Keep everything as it is', () => renderAll());
+  bar.append(acts);
+}
 function renderReviewBar() {
   const bar = $('#reviewBar');
   if (!bar) return;
   bar.hidden = !review;
   bar.replaceChildren();
+  bar.classList.toggle('asking', !!(review && clearAsk));
   if (!review) return;
   const isRev = review.role === 'reviewer';
+  if (clearAsk) { renderClearAsk(bar, isRev); return; }
   const who = isRev ? `Reviewing${review.case ? ' “' + review.case + '”' : ''}${review.author ? ' from ' + review.author : ''}` : `Review${review.reviewer ? ' by ' + review.reviewer : ''}${review.case ? ' · “' + review.case + '”' : ''}`;
   bar.append(el('div', { class: 'rb-who' }, [el('strong', { text: who }), el('span', { text: commentArm ? 'Tap the chart where the comment belongs' : isRev ? 'Your corrections are tracked against the original' : 'Corrections are marked on the chart' })]));
   const seg = el('div', { class: 'seg rb-seg', role: 'group', 'aria-label': 'Which drawing to show' });
@@ -931,13 +951,16 @@ $('#go').addEventListener('click', () => { const t = input.value; input.value = 
 $('#mic').addEventListener('click', () => (listening ? stopVoice() : startVoice()));
 $('#undo').addEventListener('click', undo);
 $('#redo').addEventListener('click', redo);
-$('#clear').addEventListener('click', () => { commit(RD.emptyScene(scene.eye)); toast('Chart cleared — Undo brings it back'); });
+$('#clear').addEventListener('click', () => {
+  if (review) { askClear(); return; }
+  commit(RD.emptyScene(scene.eye)); toast('Chart cleared — Undo brings it back');
+});
 
 /* Feedback: a button that opens the author's Google Form in a new tab. R/D itself sends nothing; the card stays
    hidden unless FEEDBACK_URL is a Google Forms address. */
 const FEEDBACK_URL = '';
 const FEEDBACK_RE = /^https:\/\/(docs\.google\.com\/forms\/d\/e\/[\w-]+\/viewform|forms\.gle\/[\w-]+)(\?[\w=&.-]*)?$/;
-if (FEEDBACK_RE.test(FEEDBACK_URL)) { $('#feedbackLink').href = FEEDBACK_URL; $('#feedbackCard').hidden = false; }
+if (FEEDBACK_RE.test(FEEDBACK_URL)) { $('#feedbackLink').href = FEEDBACK_URL; $('#feedbackCard').hidden = false; if ($('#privFeedback')) $('#privFeedback').hidden = false; }
 $('#lincoffBtn').addEventListener('click', toggleLincoff);
 $('#export').addEventListener('click', exportPNG);
 $('#copy').addEventListener('click', copyNote);
@@ -947,6 +970,7 @@ document.querySelectorAll('.eye-switch button').forEach(b => b.addEventListener(
   const next = RD.clone(scene); next.eye = b.dataset.eye; commit(next);
 }));
 document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && clearAsk) { clearAsk = false; renderAll(); return; }
   const mod = e.metaKey || e.ctrlKey;
   if (mod && e.key.toLowerCase() === 'z' && (document.activeElement !== input || !input.value)) { e.preventDefault(); e.shiftKey ? redo() : undo(); }
   else if (e.key === '/' && document.activeElement !== input && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); input.focus(); }

@@ -12,6 +12,7 @@ pages="${PAGES_DIR:-../rd-pages}"
 python3 build.py
 for t in test/*.test.js; do node "$t" | tail -1; done
 python3 scratch/site_test.py | tee /dev/stderr | grep -q '^no console errors$'
+python3 scratch/clear_review_e2e.py | tee /dev/stderr | grep -q '^ALL PASS$'
 
 if [ ! -d "$pages/.git" ]; then
   git clone --branch main https://github.com/anthonyjohnob/R-D "$pages"

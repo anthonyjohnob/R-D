@@ -12,6 +12,7 @@ scratch/*
 !scratch/hand_e2e2.py
 !scratch/hand_e2e3.py
 !scratch/review_e2e.py
+!scratch/clear_review_e2e.py
 !scratch/site_test.py
 !scratch/rtest.py
 !scratch/e2e.py

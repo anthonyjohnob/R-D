@@ -247,6 +247,10 @@ kbd { font-family: var(--font-mono); font-size: 12px; border: 1px solid var(--li
 .rb-who span { font-size: 12.5px; color: var(--ink-2); }
 .rb-seg { flex: 0 0 auto; min-width: 180px; }
 .review-bar .mini[aria-pressed="true"] { background: #FFF1DC; border-color: #E4A13E; color: #7A4A0B; }
+.rb-acts { display: flex; flex-wrap: wrap; gap: 8px; flex: 1 1 auto; justify-content: flex-end; }
+.rb-acts .mini { padding: 6px 12px; }
+.rb-acts .mini.primary { background: var(--navy); border-color: var(--navy); color: var(--surface); }
+.review-bar.asking { border-color: var(--coral); }
 .review-card.active { border-color: color-mix(in srgb, #7A5CC0 45%, var(--line)); box-shadow: 0 0 0 3px color-mix(in srgb, #7A5CC0 10%, transparent); }
 .rv-intro, .rv-meta { margin: 0 0 10px; color: var(--ink-2); font-size: 14px; }
 .rv-meta { font-weight: 700; color: var(--ink); }
