@@ -932,6 +932,12 @@ $('#mic').addEventListener('click', () => (listening ? stopVoice() : startVoice(
 $('#undo').addEventListener('click', undo);
 $('#redo').addEventListener('click', redo);
 $('#clear').addEventListener('click', () => { commit(RD.emptyScene(scene.eye)); toast('Chart cleared — Undo brings it back'); });
+
+/* Feedback: a button that opens the author's Google Form in a new tab. R/D itself sends nothing; the card stays
+   hidden unless FEEDBACK_URL is a Google Forms address. */
+const FEEDBACK_URL = '';
+const FEEDBACK_RE = /^https:\/\/(docs\.google\.com\/forms\/d\/e\/[\w-]+\/viewform|forms\.gle\/[\w-]+)(\?[\w=&.-]*)?$/;
+if (FEEDBACK_RE.test(FEEDBACK_URL)) { $('#feedbackLink').href = FEEDBACK_URL; $('#feedbackCard').hidden = false; }
 $('#lincoffBtn').addEventListener('click', toggleLincoff);
 $('#export').addEventListener('click', exportPNG);
 $('#copy').addEventListener('click', copyNote);

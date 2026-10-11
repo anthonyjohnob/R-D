@@ -33,6 +33,8 @@ try:
         print('manifest:', man)
         print('privacy section:', pg.is_visible('#privacy'), '| tag:', pg.inner_text('.tag'))
         print('Ask-Claude option hidden on the website:', not pg.is_visible('#claudeOpt'))
+        fb = pg.evaluate("() => { const c = document.querySelector('#feedbackCard'), a = document.querySelector('#feedbackLink'); return [!c.hidden, a.getAttribute('href'), a.target, a.rel]; }")
+        print('feedback:', ('shown → ' + fb[1] + ' | new tab: ' + str(fb[2] == '_blank') + ' | noopener: ' + str('noopener' in fb[3])) if fb[0] else 'hidden (no form address set)')
         # on-device dictation: first press installs the language pack, then recognition starts locally
         pg.click('#mic'); pg.wait_for_timeout(400)
         print('dictation started:', pg.evaluate('window.__started'), '| label:', pg.inner_text('#micLabel'))
