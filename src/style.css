@@ -153,8 +153,6 @@ h2 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: 
 .pal-ghost canvas { width: 32px; height: 32px; }
 .pal-ghost .pal-more-ic { color: #124C78; }
 .chart-foot { margin: 4px 6px 2px; color: var(--muted); font-size: 13px; }
-.example-flag { margin: 6px 6px 2px; background: var(--chip-bg); color: var(--ink-2); border-radius: 12px; padding: 8px 8px 8px 14px; font-size: 14px; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-.example-flag button { border: 0; background: var(--navy); color: var(--surface); border-radius: 999px; padding: 5px 12px; cursor: pointer; font-size: 13px; font-weight: 700; }
 
 /* chart view switch */
 .view-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 2px 0; }

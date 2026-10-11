@@ -10,7 +10,7 @@ with sync_playwright() as p:
     pg.goto(URL); pg.wait_for_timeout(700)
     pg.screenshot(path='e2e_initial.png')
     # start blank, then dictate-by-typing a multi-finding command
-    pg.click('#startBlank'); pg.wait_for_timeout(200)
+    pg.wait_for_timeout(100)  # opens on a clean chart
     pg.fill('#cmd','mac off RRD 10 to 2 with HST at 12, lattice 7-8'); pg.wait_for_timeout(400)
     pg.screenshot(path='e2e_preview.png')
     pg.press('#cmd','Enter'); pg.wait_for_timeout(400)

@@ -41,7 +41,7 @@ with sync_playwright() as p:
     pg.on('console', lambda m: errs.append(m.type + ': ' + m.text) if m.type in ('error', 'warning') and 'ERR_' not in m.text else None)
     pg.on('pageerror', lambda e: errs.append('PAGEERROR ' + str(e)))
     pg.goto(URL); pg.wait_for_timeout(700)
-    pg.click('#startBlank'); pg.wait_for_timeout(200)
+    pg.wait_for_timeout(100)  # opens on a clean chart
     print('hand on by default (fine pointer):', pg.get_attribute('#handBtn', 'aria-pressed'))
     print('hint:', pg.inner_text('#inkHint'))
     # trace a superotemporal-ish border 10 -> 2 and tap the detached (superior) side
@@ -132,7 +132,7 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errs.append('PAGEERROR(mobile) ' + str(e)))
     pg.on('console', lambda m: errs.append('mobile ' + m.type + ': ' + m.text) if m.type in ('error', 'warning') and 'ERR_' not in m.text else None)
     pg.goto(URL); pg.wait_for_timeout(700)
-    pg.click('#startBlank'); pg.wait_for_timeout(150)
+    pg.wait_for_timeout(100)  # opens on a clean chart
     print('\nmobile hand default:', pg.get_attribute('#handBtn', 'aria-pressed'))
     pg.tap('#handBtn'); pg.wait_for_timeout(150)
     print('mobile hand after tap:', pg.get_attribute('#handBtn', 'aria-pressed'))

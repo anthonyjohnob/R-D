@@ -14,7 +14,7 @@ errs = []
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page(viewport={'width': 1360, 'height': 1000})
     pg.on('pageerror', lambda e: errs.append(str(e)))
-    pg.goto(URL); pg.wait_for_timeout(500); pg.click('#startBlank')
+    pg.goto(URL); pg.wait_for_timeout(500)
     def mp(pts):
         x, y = chart_pt(pg, *pts[0]); pg.mouse.move(x, y); pg.mouse.down()
         for q in pts[1:]: x, y = chart_pt(pg, *q); pg.mouse.move(x, y, steps=2)

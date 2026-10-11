@@ -21,7 +21,7 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errs.append('PAGEERROR(m) ' + str(e)))
     pg.on('console', lambda m: errs.append('m ' + m.type + ': ' + m.text) if m.type in ('error', 'warning') and 'ERR_' not in m.text else None)
     pg.goto(URL); pg.wait_for_timeout(600)
-    pg.click('#startBlank'); pg.tap('#handBtn'); pg.wait_for_timeout(100)
+    pg.tap('#handBtn'); pg.wait_for_timeout(100)
     cdp = ctx.new_cdp_session(pg)
     def touch(pts_xy):
         cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': pts_xy[0][0], 'y': pts_xy[0][1]}]})
@@ -53,7 +53,6 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errs.append('PAGEERROR(d) ' + str(e)))
     pg.on('console', lambda m: errs.append('d ' + m.type + ': ' + m.text) if m.type in ('error', 'warning') and 'ERR_' not in m.text else None)
     pg.goto(URL); pg.wait_for_timeout(600)
-    pg.click('#startBlank')
     def mouse_path(pts):
         x, y = chart_pt(pg, *pts[0]); pg.mouse.move(x, y); pg.mouse.down()
         for q in pts[1:]:

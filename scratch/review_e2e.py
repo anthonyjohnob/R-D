@@ -19,7 +19,7 @@ try:
         b = p.chromium.launch()
         # ---------- resident ----------
         res = b.new_context(viewport={'width': 1360, 'height': 1000}); rp = res.new_page(); watch(rp, 'resident')
-        rp.goto(URL); rp.wait_for_timeout(700); rp.click('#startBlank')
+        rp.goto(URL); rp.wait_for_timeout(700)
         cmd(rp, 'macula on RRD 10 to 2 with HST at 12, lattice 7 to 8, phakic')
         rp.fill('#review input[aria-label="Your name or initials"]', 'J. Resident')
         rp.fill('#review input[aria-label="Case label"]', 'Case 3')
@@ -30,7 +30,7 @@ try:
 
         # ---------- fellow: has a drawing of their own first ----------
         fel = b.new_context(viewport={'width': 1360, 'height': 1000}); fp = fel.new_page(); watch(fp, 'fellow')
-        fp.goto(URL); fp.wait_for_timeout(700); fp.click('#startBlank'); cmd(fp, 'RD from 3 to 6 macula on')
+        fp.goto(URL); fp.wait_for_timeout(700); cmd(fp, 'RD from 3 to 6 macula on')
         own = findings(fp)
         fp.goto(link); fp.wait_for_timeout(900)          # same document: arrives through hashchange
         print('fellow bar:', fp.inner_text('#reviewBar').replace('\n', ' | '))

@@ -8,7 +8,7 @@ with sync_playwright() as p:
     pg.on('console', lambda m: errs.append(m.type+': '+m.text) if m.type in ('error','warning') and 'ERR_TUNNEL' not in m.text else None)
     pg.on('pageerror', lambda e: errs.append('PAGEERROR '+str(e)))
     pg.goto(URL); pg.wait_for_timeout(800)
-    pg.click('#startBlank'); pg.wait_for_timeout(200)
+    pg.wait_for_timeout(100)  # opens on a clean chart
     cmds = ['right eye', 'PDR with NVD and NVE superotemporally, no vitreous haemorrhage',
             'dot blot haemorrhages in all four quadrants, hard exudates temporal to the fovea, cotton wool spots along the superior arcade',
             'PRP', 'tractional retinal detachment along the inferior arcade', 'macular edema']

@@ -25,8 +25,7 @@ const prefs = Object.assign({ eye: 'OS', claude: true }, store.get('rdraw.prefs'
 let view = 'fundus';          // 'fundus' | 'pole'
 let poleHintShown = false;
 let scene = store.get('rdraw.scene.v2');
-let isExample = false;
-if (!scene || !Array.isArray(scene.findings) || scene.v !== 2) { scene = exampleScene(prefs.eye); isExample = true; }
+if (!scene || !Array.isArray(scene.findings) || scene.v !== 2) scene = RD.emptyScene(prefs.eye);   // first visit: a clean chart
 let undoStack = [], redoStack = [];
 let previewScene = null, previewText = null, highlight = null;
 // a teaching review in progress (resident's original, comments, who/what), kept apart from your own drawing
@@ -37,28 +36,23 @@ let review = null, commentArm = false, lastLink = null, draftCase = '';
   const r = RD.sanitizeReview(Object.assign({}, saved, { v: 1, st: 'reviewed', c: saved.c || saved.o }));
   if (!r) return;
   review = { st: saved.st === 'reviewed' ? 'reviewed' : 'submitted', role: saved.role === 'resident' ? 'resident' : 'reviewer', o: r.o, cm: r.cm, fb: r.fb, case: r.case, author: r.author, reviewer: r.reviewer, t: r.t, rt: r.rt, view: 'changes', stash: saved.stash ? RD.sanitizeScene(saved.stash) : null };
-  scene = r.c; isExample = false;
+  scene = r.c;
 })();
 let hand = null;
 let sample = null, downloads = null;
 const canvas = $('#chart');
 const input = $('#cmd');
 
-function exampleScene(eye) {
-  let s = RD.emptyScene(eye);
-  for (const c of ['fovea splitting RRD from 10 to 5 with a horseshoe tear at 12', 'lattice from 7 to 8']) s = RD.applyActions(s, RD.parse(c, { eye }).actions).scene;
-  return s;
-}
 function save() {
   if (review) store.set('rdraw.review.v1', { v: 1, st: review.st, role: review.role, o: review.o, c: scene, cm: review.cm, fb: review.fb, case: review.case, author: review.author, reviewer: review.reviewer, t: review.t, rt: review.rt, stash: review.stash });
-  else if (!isExample) store.set('rdraw.scene.v2', scene);
+  else store.set('rdraw.scene.v2', scene);
   store.set('rdraw.prefs', prefs);
 }
 function commit(next) {
   undoStack.push(scene); if (undoStack.length > 120) undoStack.shift();
   redoStack = [];
   previewScene = null; previewText = null;          // a preview never outlives a change to the record
-  scene = next; isExample = false;
+  scene = next;
   prefs.eye = scene.eye;
   save(); renderAll();
 }
@@ -90,7 +84,6 @@ function renderTools() {
   $('#redo').disabled = !redoStack.length;
   $('#clear').disabled = !scene.findings.length;
   $('#lincoffBtn').setAttribute('aria-pressed', String(!!scene.lincoff));
-  $('#exampleFlag').hidden = !isExample;
   document.querySelectorAll('.view-switch button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.view === view)));
   $('#poleDot').hidden = !R.hasPosterior(scene) || view === 'pole';
   $('#lincoffBtn').disabled = view === 'pole';
@@ -657,11 +650,11 @@ async function loadFromHash() {
   enterReview(r);
 }
 function enterReview(r) {
-  const stash = review ? review.stash : (isExample ? null : RD.clone(scene));
+  const stash = review ? review.stash : (scene.findings.length ? RD.clone(scene) : null);
   review = { st: r.st, role: r.st === 'reviewed' ? 'resident' : 'reviewer', o: r.o, cm: r.cm || [], fb: r.fb || '', case: r.case || '', author: r.author || '',
     reviewer: r.reviewer || (r.st === 'reviewed' ? '' : (prefs.myName || '')), t: r.t, rt: r.rt, view: 'changes', stash };
   scene = RD.clone(r.st === 'reviewed' ? r.c : r.o);
-  undoStack = []; redoStack = []; previewScene = null; previewText = null; highlight = null; isExample = false;
+  undoStack = []; redoStack = []; previewScene = null; previewText = null; highlight = null;
   prefs.eye = scene.eye; lastLink = null; commentArm = false; view = 'fundus';
   save(); renderAll();
   toast(review.role === 'reviewer' ? 'Reviewing — your corrections are tracked against the original' : 'Review opened — corrections are marked on the chart');
@@ -672,7 +665,7 @@ function exitReview(keep) {
   const next = keep === 'corrected' ? RD.clone(scene) : keep === 'original' ? RD.clone(review.o) : (review.stash || RD.emptyScene(prefs.eye));
   review = null; commentArm = false; lastLink = null;
   try { localStorage.removeItem('rdraw.review.v1'); } catch (e) { /* storage unavailable */ }
-  scene = next; undoStack = []; redoStack = []; previewScene = null; previewText = null; isExample = false; prefs.eye = scene.eye;
+  scene = next; undoStack = []; redoStack = []; previewScene = null; previewText = null; prefs.eye = scene.eye;
   save(); renderAll();
 }
 function reviewOverlay(showOriginal) {
@@ -939,7 +932,6 @@ $('#mic').addEventListener('click', () => (listening ? stopVoice() : startVoice(
 $('#undo').addEventListener('click', undo);
 $('#redo').addEventListener('click', redo);
 $('#clear').addEventListener('click', () => { commit(RD.emptyScene(scene.eye)); toast('Chart cleared — Undo brings it back'); });
-$('#startBlank').addEventListener('click', () => { commit(RD.emptyScene(scene.eye)); input.focus(); });
 $('#lincoffBtn').addEventListener('click', toggleLincoff);
 $('#export').addEventListener('click', exportPNG);
 $('#copy').addEventListener('click', copyNote);

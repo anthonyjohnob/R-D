@@ -23,6 +23,8 @@ try:
         pg.on('pageerror', lambda e: errs.append('PAGEERROR ' + str(e)))
         pg.on('request', lambda r: external.append(r.url) if not r.url.startswith(URL) and not r.url.startswith('data:') and not r.url.startswith('blob:') else None)
         pg.goto(URL); pg.wait_for_timeout(1200)
+        first = pg.evaluate("() => [[...document.querySelectorAll('#findings .f-title')].length, !!localStorage.getItem('rdraw.scene.v2'), document.querySelector('#clear').disabled]")
+        print('first visit is a clean chart:', first[0] == 0 and first[2])
         sw = pg.evaluate("async () => { const r = await navigator.serviceWorker.ready; return !!r.active; }")
         print('service worker active:', sw)
         fonts = pg.evaluate("async () => { await document.fonts.ready; return [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family + ' ' + f.weight); }")
@@ -45,7 +47,6 @@ try:
         box = pg.evaluate("() => { const b = document.querySelector('#chart').getBoundingClientRect(); return [b.left, b.top, b.width]; }")
         def pt(r, h):
             a = math.radians(h * 30 - 90); return box[0] + (r * math.cos(a) + 410) / 820 * box[2], box[1] + (r * math.sin(a) + 410) / 820 * box[2]
-        pg.click('#startBlank') if pg.is_visible('#startBlank') else None
         x, y = pt(312, 9); pg.mouse.move(x, y); pg.mouse.down()
         for i in range(1, 41):
             t = i / 40; x, y = pt(312 - 200 * math.sin(math.pi * t), 9 + 6 * t); pg.mouse.move(x, y)

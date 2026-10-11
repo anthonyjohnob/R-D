@@ -9,7 +9,7 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errs.append('PAGEERROR '+str(e)))
     pg.goto(URL); pg.wait_for_timeout(800)
     pg.screenshot(path='n_initial.png')
-    pg.click('#startBlank'); pg.wait_for_timeout(200)
+    pg.wait_for_timeout(100)  # opens on a clean chart
     for c in ['macula off RRD from 10 to 3 with a horseshoe tear at 1, lattice 7 to 8',
               'dot blot hemorrhages and microaneurysms in the macula, hard exudates',
               'cotton wool spots at 1:30 and 4:30', 'BRVO inferotemporal', 'disc hemorrhage at 5',
