@@ -38,6 +38,8 @@ with sync_playwright() as p:
     # social preview: the logo, a line of text and the example chart
     pg = b.new_page(viewport={'width': 900, 'height': 900}, device_scale_factor=1)
     pg.goto((root / 'dist' / 'R-D.html').as_uri()); pg.wait_for_timeout(900)
+    for c in ('fovea splitting RRD from 10 to 5 with a horseshoe tear at 12', 'lattice from 7 to 8'):   # the app opens blank
+        pg.fill('#cmd', c); pg.press('#cmd', 'Enter'); pg.wait_for_timeout(250)
     chart = pg.evaluate("() => document.querySelector('#chart').toDataURL('image/png')")
     pg.close()
     pg = b.new_page(viewport={'width': 1200, 'height': 630}, device_scale_factor=1)
