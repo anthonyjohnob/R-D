@@ -8,7 +8,9 @@ const CHANGELOG = [
   { v: '1.4', date: '2026-10-12', title: 'A simpler layout, made for phones', items: [
     'The chart fills the top of the screen. Under it, a strip sums up the eye — detachment, PVD and lens, repair options, Lincoff zone, buckle guide — and any chip opens its details.',
     'A dock at the bottom holds one big button (Trace the detachment, then Redraw and Add detachment) and the everyday tools: Tear, Hole, Lattice, Laser and More for everything else.',
-    'A guide carries on by itself: trace the detachment, add the break (the tools to use glow), record PVD and lens, then see the repair options. Any step can be skipped.',
+    'A guide carries on by itself: trace the detachment, add the break (the tools to use glow), then record PVD and lens. Any step can be skipped.',
+    'Once the drawing is done, four big buttons light up under the summary (in the top bar on a computer): Surgical options, Buckle guide (when a buckle is among the options), Save PNG and Send for review.',
+    'Surgical options describe the evidence rather than a choice: a summary of where the published studies lean for an eye like this one, then each operation labelled most evidence for, some or mixed evidence, evidence leans against, or outside the trial criteria — with a count of the findings for and against.',
     'Tapping a finding opens its editor under the chart, with a size stepper as well as the lever, so the chart is never covered.',
     'Clear, save, share and the clinical note are one tap from the top bar; the laser pattern folds to one line once you start tracing.',
     'On a computer the tools sit in a rail on the left and panels open on the right. The classic layout is still in the ⋯ menu.',

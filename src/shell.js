@@ -26,6 +26,8 @@ root.RDShell = function (X, H) {
     pole: svg('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2M12 18.5v2"/>'),
     layout: svg('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>'),
     review: svg('<path d="M4 5h16v11H8l-4 4Z"/><path d="M8 9h8M8 12h5"/>'),
+    scale: svg('<path d="M12 4v16M8 20h8M5 7h14M12 4l0 3"/><path d="M5 7 2.5 13a2.6 2.6 0 0 0 5 0Z"/><path d="M19 7l-2.5 6a2.6 2.6 0 0 0 5 0Z"/>'),
+    ring: svg('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><path d="M12 3.5v3M12 17.5v3"/>'),
   };
   const iconBtn = (id, label, ic, cls) => { const b = el('button', { type: 'button', class: 's-icon' + (cls ? ' ' + cls : ''), id, 'aria-label': label, title: label }); b.innerHTML = ic; return b; };
   const scene = () => X.getScene();
@@ -62,6 +64,21 @@ root.RDShell = function (X, H) {
   go.innerHTML = IC.go; go.setAttribute('aria-label', 'Draw it');
   cmdCard.prepend(el('div', { class: 's-cmd' }, [cmd, mic, go]));
   sMain.append(card, strip, cmdCard);
+
+  /* when the drawing is done: the surgical options, the buckle guide, the PNG and the review link, big and in reach.
+     Under the summary on a phone; in the top bar on a computer. */
+  const acts = el('section', { id: 'sActs', 'aria-label': 'Next steps', hidden: true });
+  const actsHead = el('p', { class: 's-acts-h', text: 'Drawing done — next' });
+  const actsGrid = el('div', { class: 's-acts-g' });
+  const actBtn = (k, ic, label, sub, fn) => { const b = el('button', { type: 'button', class: 's-act a-' + k, 'data-k': k }); b.innerHTML = `<span class="sa-ic">${ic}</span><span class="sa-t"><b>${label}</b><small>${sub}</small></span>`; b.addEventListener('click', fn); return b; };
+  const toCard = (id, cardSel) => { showSheet(id); const c = $(cardSel); if (c) setTimeout(() => c.scrollIntoView({ block: 'start', behavior: 'smooth' }), 280); };
+  const aSurg = actBtn('surg', IC.scale, 'Surgical options', 'Where the evidence leans', () => showSheet('shRepair'));
+  const aBuckle = actBtn('buckle', IC.ring, 'Buckle guide', 'Elements and placement', () => showSheet('shBuckle'));
+  const aPng = actBtn('png', IC.dl, 'Save PNG', 'Download the drawing', () => X.exportPNG());
+  const aRev = actBtn('rev', IC.review, 'Send for review', 'A link for a fellow or attending', () => toCard('shShare', '#reviewCard'));
+  actsGrid.append(aSurg, aBuckle, aPng, aRev);
+  acts.append(actsHead, actsGrid);
+  sMain.insertBefore(acts, cmdCard);
 
   /* ------------------------------ the dock ------------------------------ */
   const dock = el('nav', { id: 'sDock', 'aria-label': 'Draw' });
@@ -114,7 +131,7 @@ root.RDShell = function (X, H) {
   const askBody = el('div', { class: 's-ask' });
   const shAsk = sheet('shAsk', 'PVD and lens', [askBody]);
   const shLincoff = sheet('shLincoff', 'Where is the primary break?', [$('#lincoffCard')]);
-  const shRepair = sheet('shRepair', 'Repair options', [$('#repairCard')]);
+  const shRepair = sheet('shRepair', 'Surgical options', [$('#repairCard')]);
   const shBuckle = sheet('shBuckle', 'Scleral buckle guide', [$('#buckleCard')]);
   const shareGrid = el('div', { class: 's-grid3' });
   const gridBtn = (ic, label, fn, id) => { const b = el('button', { type: 'button', id: id || null }); b.innerHTML = ic + `<span>${label}</span>`; b.addEventListener('click', fn); return b; };
@@ -258,14 +275,8 @@ root.RDShell = function (X, H) {
       if (rd.cause !== 'exudative') {
         const both = !!(sc.pvd && sc.lens);
         chip(`${sc.pvd ? PVD_SHORT[sc.pvd] || 'PVD' : 'PVD ?'} · ${sc.lens ? LENS_SHORT[sc.lens] : 'lens ?'}`, both ? '' : 'quiet', openAsk);
-        const O = RD.repairOptions(sc);
-        if (O.state === 'ok') {
-          const best = X.prefs.hcpAck ? O.options.find(o => o.tier === 'favoured' && !o.excluded) : null;
-          chip(best ? `Repair: ${best.name}` : 'Repair options', 'accent', () => showSheet('shRepair'));
-        }
         const z = RD.lincoff(sc);
         if (z) chip(`Lincoff ${z.rule} · ${z.zones.map(q => RD.fmtHour(q.from) + '–' + RD.fmtHour(q.to)).join(', ')}`, z.breaks ? (z.consistent ? 'ok' : 'warn') : '', () => showSheet('shLincoff'), z.title);
-        const bk = $('#buckleCard'); if (bk && !bk.hidden) chip('Buckle guide', '', () => showSheet('shBuckle'));
       }
     }
     const pc = chip(X.getView() === 'pole' ? '← Fundus' : 'Posterior pole', 'quiet', () => X.setView(X.getView() === 'pole' ? 'fundus' : 'pole'));
@@ -363,13 +374,12 @@ root.RDShell = function (X, H) {
     if (!sc.findings.some(f => RD.BREAK_TYPES.has(f.type))) return null;          // step 2 is the dock's hint
     if (!sc.pvd && !skip.has('pvd')) return 'pvd';
     if (!sc.lens && !skip.has('lens')) return 'lens';
-    if (!skip.has('repair')) return 'repair';
     return null;
   }
   function renderGuide(step) {
     const sc = scene();
-    const head = (n, title) => el('div', { class: 'flow-head' }, [el('div', {}, [el('div', { class: 'flow-step', text: `Step ${n} of 5` }), el('h3', { text: title })])]);
-    const later = el('button', { type: 'button', class: 'flow-skip', text: 'Later', onclick: () => { skip.add('pvd'); skip.add('lens'); skip.add('repair'); showSheet(null); } });
+    const head = (n, title) => el('div', { class: 'flow-head' }, [el('div', {}, [el('div', { class: 'flow-step', text: `Step ${n} of 4` }), el('h3', { text: title })])]);
+    const later = el('button', { type: 'button', class: 'flow-skip', text: 'Later', onclick: () => { skip.add('pvd'); skip.add('lens'); showSheet(null); syncActs(); } });
     let kids;
     if (step === 'pvd') kids = [head(3, 'Is there a posterior vitreous detachment?'), el('p', { text: 'It changes which repairs the evidence favours.' }),
       el('div', { class: 'flow-opts' }, X.PVD_OPTS.map(([v, t]) => el('button', { type: 'button', class: 'word', text: t.replace(' PVD', ''), onclick: () => X.setMeta({ pvd: v }) }))),
@@ -377,8 +387,6 @@ root.RDShell = function (X, H) {
     else if (step === 'lens') kids = [head(4, 'Lens status?'), el('p', { text: 'Phakic and pseudophakic eyes did differently in the repair trials.' }),
       el('div', { class: 'flow-opts' }, X.LENS_OPTS.map(([v, t]) => el('button', { type: 'button', class: 'word', text: t, onclick: () => X.setMeta({ lens: v }) }))),
       el('div', { class: 'flow-acts' }, [el('button', { type: 'button', class: 'flow-skip', text: 'Skip', onclick: () => { skip.add('lens'); syncGuide(true); } }), later])];
-    else kids = [head(5, 'What does the evidence say?'), el('p', { text: `Repair options for this eye${sc.pvd && sc.lens ? '' : ' (more precise with PVD and lens recorded)'}, weighed against published trials and cohorts.` }),
-      el('div', { class: 'flow-acts' }, [el('button', { type: 'button', class: 'flow-next s-next', text: 'See repair options', onclick: () => { skip.add('repair'); showSheet('shRepair'); } }), el('button', { type: 'button', class: 'flow-skip', text: 'Not now', onclick: () => { skip.add('repair'); showSheet(null); } })])];
     guideBody.replaceChildren(el('div', { class: 'flow' }, kids));
   }
   let guideShown = null;
@@ -403,6 +411,39 @@ root.RDShell = function (X, H) {
   /* everything is drawn by hand on the fundus: no switch to look for */
   hand.setOn(true, true);
 
+  /* the actions: shown once the drawing is done, and lit up for a moment when it gets there */
+  function drawingDone() {
+    const sc = scene();
+    if (!sc.findings.length) return false;
+    const rd = RD.mainRd(sc);
+    return !rd || rd.cause === 'exudative' || sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
+  }
+  let wasDone = false, glowT = 0;
+  function syncActs() {
+    const sc = scene(), done = drawingDone(), rv = X.getReview();
+    acts.hidden = !done && !rv;
+    const O = RD.repairOptions(sc);
+    aSurg.hidden = O.state !== 'ok';
+    const BK = root.RDBuckle, P = BK ? BK.plan(sc) : null;
+    aBuckle.hidden = !(sc.findings.some(f => f.type === 'buckle') || (P && P.state === 'ok' && (P.cand.sb || P.cand.ppvsb)));
+    const reviewer = rv && rv.role === 'reviewer';
+    aRev.querySelector('b').textContent = reviewer ? 'Send back' : rv ? 'Review' : 'Send for review';
+    aRev.querySelector('small').textContent = reviewer ? 'Your corrections, as a link' : rv ? 'Changes and comments' : 'A link for a fellow or attending';
+    actsGrid.dataset.n = String([aSurg, aBuckle, aPng, aRev].filter(b => !b.hidden).length);
+    // lit when the drawing is done and the guide has finished asking
+    const ready = done && openId !== 'shGuide';
+    if (ready && !wasDone) { acts.classList.add('lit'); clearTimeout(glowT); glowT = setTimeout(() => acts.classList.remove('lit'), 5200); }
+    if (!done) acts.classList.remove('lit');
+    wasDone = ready || (done && wasDone);
+    if (!done) wasDone = false;
+  }
+  function placeActs() {
+    const want = desk() ? sTop : sMain;
+    if (acts.parentNode === want) return;
+    if (want === sTop) sTop.insertBefore(acts, sTop.querySelector('.s-gap')); else sMain.insertBefore(acts, cmdCard);
+  }
+  matchMedia('(min-width: 1000px)').addEventListener('change', placeActs);
+
   function sync() {
     if (!scene().findings.length) emptied = true;
     renderStrip();
@@ -415,9 +456,11 @@ root.RDShell = function (X, H) {
     if (openId === 'shAsk') renderAsk();
     if (openId === 'shDetach') { if (RD.rdsOf(sc).length) renderDetach(); else showSheet(null); }
     syncGuide();
+    syncActs();
     placeLaser();
   }
   window.addEventListener('resize', () => { scrim.hidden = !openId || isBelow(openId) || desk(); placeBelow(); });
+  placeActs();
   sync();
   return { sync, showSheet };
 };

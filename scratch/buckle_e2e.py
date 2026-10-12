@@ -31,7 +31,7 @@ try:
         cmd(pg, 'left eye'); hand_off(pg)
         cmd(pg, 'macula on RRD 10 to 2 with a horseshoe tear at 12, phakic, no PVD')
         check('detachment: guide shown', pg.is_visible('#buckleCard'))
-        check('gated until the repair options are opened', 'Open the repair options above' in pg.text_content('#buckle') and not bk_titles(pg))
+        check('gated until the repair options are opened', 'Open the surgical options' in pg.text_content('#buckle') and not bk_titles(pg))
         pg.click('.rep-gate button'); pg.wait_for_timeout(250)
         check('single tear: radial element', bk_titles(pg) == ['Radial segmental element under the tear'], bk_titles(pg))
         check('both tabs offered', [t.rstrip('*') for t in tabs(pg)] == ['Buckle alone', 'Vitrectomy + buckle'], tabs(pg))
@@ -74,7 +74,7 @@ try:
         pg.click('#buckle .bk-tabs button:has-text("Vitrectomy + buckle")'); pg.wait_for_timeout(200)
         check('PPV tab: band plan', bk_titles(pg) == ['Vitrectomy with a 360° encircling band'], bk_titles(pg))
         subs = pg.evaluate("() => [...document.querySelectorAll('#buckle .bk-sub')].map(e => e.textContent)")
-        check('PPV tab: for and against', 'For adding the band' in subs and 'Against, or no benefit shown' in subs, subs)
+        check('PPV tab: for and against', 'Evidence for adding the band' in subs and 'Against, or no benefit shown' in subs, subs)
         check('PPV tab: VIPER and Cochrane shown', 'VIPER' in pg.text_content('#buckle') and '6 RCTs' in pg.text_content('#buckle'))
         pg.locator('#buckleCard').screenshot(path=SP + 'bke_ppv_card.png')
 

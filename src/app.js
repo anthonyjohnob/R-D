@@ -365,13 +365,29 @@ function setMeta(m) {
 }
 
 /* ------------------------------ repair options -------------------------- */
-const TIER_TEXT = { favoured: 'Best supported', consider: 'Also reasonable', less: 'Less supported', pending: 'Needs the break located' };
+/* How each option is labelled. R/D summarises where the published evidence leans for an eye like the one drawn; it
+   never tells the reader what to do, so the labels describe the evidence, not the choice. */
+const THUMB = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H3V10z"/><path d="M7 10l4-8a3 3 0 0 1 3 3v4h5.5a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 18.1 21H7"/></svg>';
+function evidenceLabel(o) {
+  const pro = o.why.filter(y => y.sign > 0).length, con = o.why.filter(y => y.sign < 0).length;
+  if (o.pending) return 'Needs the break located';
+  if (o.excluded) return 'Outside the trial criteria';
+  if (o.tier === 'favoured') return 'Most evidence for';
+  if (o.tier === 'less') return 'Evidence leans against';
+  return pro && con ? 'Mixed evidence' : pro ? 'Some evidence for' : con ? 'Mixed evidence' : 'No specific evidence';
+}
+function evidenceTally(o) {
+  if (o.excluded) return null;
+  const pro = o.why.filter(y => y.sign > 0).length, con = o.why.filter(y => y.sign < 0).length;
+  if (!pro && !con) return null;
+  return el('span', { class: 'rep-tally' }, [pro ? el('span', { class: 'tl-pro', text: `${pro} for` }) : null, pro && con ? ' · ' : null, con ? el('span', { class: 'tl-con', text: `${con} against` }) : null]);
+}
 function renderRepair() {
   const box = $('#repair');
   if (!box) return;
   box.replaceChildren();
   const O = RD.repairOptions(scene);
-  if (O.state === 'none') { box.append(el('p', { class: 'lin-text', text: 'Draw or describe a detachment to see repair options weighed against the published evidence.' })); return; }
+  if (O.state === 'none') { box.append(el('p', { class: 'lin-text', text: 'Draw or describe a detachment to see the surgical options weighed against the published evidence.' })); return; }
   if (O.state === 'exudative') { box.append(el('p', { class: 'lin-text', text: 'This detachment is recorded as exudative: treatment targets the cause, and the rhegmatogenous repair trials do not apply.' })); return; }
   if (!prefs.hcpAck) {
     // intended for clinicians only: the summary stays closed until the viewer confirms they are one
@@ -381,6 +397,13 @@ function renderRepair() {
     ]));
     return;
   }
+  // where the evidence leans, in one line, before the detail
+  const lean = O.options.filter(o => o.tier === 'favoured' && !o.excluded);
+  const ic = el('span', { class: 'rep-lean-ic' }); ic.innerHTML = THUMB;
+  const leanText = lean.length
+    ? el('p', {}, ['In eyes like this one, the published studies give the most support to ', ...lean.flatMap((o, i) => [i ? (i === lean.length - 1 ? ' and ' : ', ') : null, el('strong', { text: o.name[0].toLowerCase() + o.name.slice(1) })]).filter(Boolean), '.'])
+    : el('p', { text: scene.pvd && scene.lens ? 'For what is recorded, no single operation stands out in the published studies.' : 'For what is recorded so far, no single operation stands out — PVD and lens status sharpen this.' });
+  box.append(el('div', { class: 'rep-lean' + (lean.length ? '' : ' none') }, [lean.length ? ic : null, el('div', {}, [el('div', { class: 'rep-lean-k', text: 'Where the evidence leans' }), leanText, el('p', { class: 'rep-lean-sub', text: 'A summary of what published trials and cohorts found — not advice for this patient.' })])]));
   box.append(el('div', { class: 'rep-ask' }, [
     askRow(scene.pvd ? 'Posterior vitreous detachment' : 'Is there a posterior vitreous detachment?', O.ask.pvd, PVD_OPTS.map(([v, t]) => [v, t.replace(' PVD', '')]), scene.pvd === 'yes' ? 'complete' : scene.pvd, v => setMeta({ pvd: v })),
     askRow(scene.lens ? 'Lens' : 'Lens status?', O.ask.lens, LENS_OPTS, scene.lens, v => setMeta({ lens: v })),
@@ -394,8 +417,8 @@ function renderRepair() {
   const cite = (refs) => el('span', { class: 'rep-refs' }, refs.map(k => el('a', { href: 'https://doi.org/' + O.refs[k].doi, target: '_blank', rel: 'noopener', title: O.refs[k].cite, text: String(num(k)) })));
   const list = el('ol', { class: 'rep-list' });
   for (const o of O.options) {
-    const label = o.excluded && !o.pending ? 'Not a candidate here' : TIER_TEXT[o.tier];
-    const li = el('li', { class: 'rep-opt t-' + o.tier }, [el('div', { class: 'rep-h' }, [el('strong', { text: o.name }), el('span', { class: 'rep-tier', text: label })])]);
+    const tierEl = el('span', { class: 'rep-tier' }); if (o.tier === 'favoured' && !o.excluded) tierEl.innerHTML = THUMB + ' '; tierEl.append(evidenceLabel(o));
+    const li = el('li', { class: 'rep-opt t-' + o.tier }, [el('div', { class: 'rep-h' }, [el('div', { class: 'rep-name' }, [el('strong', { text: o.name }), evidenceTally(o)]), tierEl])]);
     if (o.why.length) {
       const w = el('ul', { class: 'rep-why' });
       for (const y of o.why) w.append(el('li', { class: y.sign > 0 ? 'pro' : y.sign < 0 ? 'con' : 'neu' }, [y.t, ' ', cite(y.refs)]));
@@ -454,7 +477,7 @@ function renderBuckle() {
   card.hidden = P.state !== 'ok';
   box.replaceChildren();
   if (P.state !== 'ok') return;
-  if (!prefs.hcpAck) { box.append(el('p', { class: 'lin-text', text: 'Open the repair options above (for eye-care professionals and trainees) to see the buckle guide.' })); return; }
+  if (!prefs.hcpAck) { box.append(el('p', { class: 'lin-text', text: 'Open the surgical options (for eye-care professionals and trainees) to see the buckle guide.' })); return; }
   const order = [];
   const num = (k) => { let i = order.indexOf(k); if (i < 0) { order.push(k); i = order.length - 1; } return i + 1; };
   const cite = (refs) => el('span', { class: 'rep-refs' }, (refs || []).map(k => { const r = P.refs[k]; return el('a', { href: r.doi ? 'https://doi.org/' + r.doi : r.url || `https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/`, target: '_blank', rel: 'noopener', title: r.cite, text: String(num(k)) }); }));
@@ -464,7 +487,7 @@ function renderBuckle() {
 
   const tabs = [['sb', 'Buckle alone'], ['ppvsb', 'Vitrectomy + buckle']].filter(([k]) => P.cand[k]);
   if (!tabs.length) {
-    box.append(el('p', { class: 'lin-text', text: 'A buckle is not among the better-supported options for this drawing (see Repair options above). The element guide below still applies if you choose one.' }));
+    box.append(el('p', { class: 'lin-text', text: 'The published studies give a buckle little support for this drawing (see the surgical options). The element guide below still applies if one is used.' }));
   } else {
     const rank = { favoured: 0, consider: 1 };
     if (!buckleTab || !P.cand[buckleTab]) buckleTab = tabs.slice().sort((a, b) => rank[P.tiers[a[0]]] - rank[P.tiers[b[0]]])[0][0];
@@ -489,7 +512,7 @@ function renderBuckle() {
     };
     const addBtn = (draw) => el('button', { type: 'button', class: 'glass small', text: 'Add to drawing', onclick: () => { bucklePreviewKey = null; commit(BK.applyPlan(scene, draw)); toast('Buckle added to the drawing — Undo removes it'); } });
     const conf = [el('p', { class: 'bk-title' }, [el('strong', { text: S.title })]), el('p', { class: 'bk-sum', text: S.summary })];
-    if (S.why.length) conf.push(el('p', { class: 'bk-sub', text: buckleTab === 'ppvsb' ? 'For adding the band' : 'Why' }), list(S.why, null, 'pro'));
+    if (S.why.length) conf.push(el('p', { class: 'bk-sub', text: buckleTab === 'ppvsb' ? 'Evidence for adding the band' : 'Evidence for it' }), list(S.why, null, 'pro'));
     if (S.against && S.against.length) conf.push(el('p', { class: 'bk-sub', text: 'Against, or no benefit shown' }), list(S.against, null, 'con'));
     if (S.alts && S.alts.length) { conf.push(el('p', { class: 'bk-sub', text: 'Alternatives' })); const u = el('ul', { class: 'rep-why bk-list' }); for (const a of S.alts) u.append(el('li', { class: 'neu' }, [el('strong', { text: a.name + ': ' }), a.t, ' ', tag(a.lv), ' ', cite(a.refs)])); conf.push(u); }
     if (S.draw && S.draw.length) conf.push(el('div', { class: 'rv-actions bk-actions' }, [showBtn(S.draw, 'Show on chart', buckleTab), S.drawAlt ? showBtn(S.drawAlt, 'Show the segmental option', buckleTab + '-alt') : null, addBtn(S.draw)]));

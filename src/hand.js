@@ -247,10 +247,10 @@ root.RDHand = function (api) {
     if (!active()) { setHint(''); return; }
     const sc = api.getScene(), hasRd = !!RD.mainRd(sc);
     const needBreak = hasRd && (!!SH || !pal.hidden) && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
-    if (traceMode) { setHint(traceMode === 'redraw' ? 'Trace the new border, ora to ora — it replaces the old one' : hasRd ? 'Trace the next detachment’s border, ora to ora' : 'Step 1 of 5 · Trace the posterior border, from the ora round to the ora', true); return; }
+    if (traceMode) { setHint(traceMode === 'redraw' ? 'Trace the new border, ora to ora — it replaces the old one' : hasRd ? 'Trace the next detachment’s border, ora to ora' : 'Step 1 of 4 · Trace the posterior border, from the ora round to the ora', true); return; }
     if (SH) {
       const z = needBreak ? RD.lincoff(sc) : null;
-      setHint(needBreak ? `Step 2 of 5 · Add the break — Tear or Hole${z ? ` · look ${z.zoneText.replace(' o’clock', '')} first (Lincoff)` : ''}` : '', false, needBreak);
+      setHint(needBreak ? `Step 2 of 4 · Add the break — Tear or Hole${z ? ` · look ${z.zoneText.replace(' o’clock', '')} first (Lincoff)` : ''}` : '', false, needBreak);
       return;
     }
     setHint(needBreak ? `Now add the break${pal.classList.contains('docked') ? ' — pick one below' : ' — pick one in the panel'}` : hasRd ? 'Drag a finding to move it · off the chart to remove' : 'Trace the detachment’s border, ora to ora');
