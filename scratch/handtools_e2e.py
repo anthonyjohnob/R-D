@@ -29,19 +29,17 @@ def path(pg, pts, steps=2):
     pg.mouse.up(); pg.wait_for_timeout(200)
 def titles(pg): return pg.evaluate("() => [...document.querySelectorAll('#findings .f-title')].map(e => e.textContent)")
 def scene(pg): return pg.evaluate("() => JSON.parse(localStorage.getItem('rdraw.scene.v2'))")
-def handle(pg, typ):
-    """page position of the size handle and the centre of the first finding of a type (mirrors hand.js)"""
-    return pg.evaluate("""(typ) => { const s = JSON.parse(localStorage.getItem('rdraw.scene.v2')); const f = s.findings.find(x => x.type === typ);
-       const b = document.querySelector('#chart').getBoundingClientRect(), u = 820 / b.width, sz = f.size || 1;
-       const ext = { hst: 16 * sz, hole: 5 * sz + 3, vh: 44 * sz }[typ];
-       const r = typ === 'vh' ? (f.r != null ? f.r : (216 + 300) / 2 - 12) : RD.radiusFor(f), a = RD.hourToAngle(f.hour), c = [r * Math.cos(a), r * Math.sin(a)];
-       const d = Math.max(ext, 7 * u) + 7 * u, q = [c[0] + d * Math.SQRT1_2, c[1] - d * Math.SQRT1_2];
-       const P = (p) => [b.left + (p[0] + 410) / 820 * b.width, b.top + (p[1] + 410) / 820 * b.width];
-       return [...P(q), ...P(c)]; }""", typ)
+def lever(pg):
+    """the size lever drawn for the selected finding (chart units), published by hand.js for checks"""
+    return pg.evaluate("() => window.RDHand.lever")
 def drag_handle(pg, typ, factor, shot=None):
-    hx, hy, cx, cy = handle(pg, typ)
-    pg.mouse.move(hx, hy); pg.mouse.down()
-    pg.mouse.move(cx + (hx - cx) * factor, cy + (hy - cy) * factor, steps=10); pg.wait_for_timeout(120)
+    """slide the lever knob: factor 1 keeps the size, >1 moves it up (larger), <1 down (smaller)"""
+    L = lever(pg)
+    f = [f for f in scene(pg)['findings'] if f['type'] == typ][-1]
+    s0 = f.get('size', 1)
+    yk = lambda sz: L['y1'] - (min(max(sz, L['min']), L['max']) - L['min']) / (L['max'] - L['min']) * (L['y1'] - L['y0'])
+    kx, ky = xy(pg, L['x'], yk(s0)); tx, ty = xy(pg, L['x'], yk(s0 * factor))
+    pg.mouse.move(kx, ky); pg.mouse.down(); pg.mouse.move(tx, ty, steps=10); pg.wait_for_timeout(120)
     if shot: pg.locator('#stage').screenshot(path=shot)
     pg.mouse.up(); pg.wait_for_timeout(250)
 try:
@@ -68,7 +66,8 @@ try:
         pg.goto(URL); pg.wait_for_timeout(700)
         check('earlier user: update note shown', pg.is_visible('#whatsNew') and f'version {VER}' in pg.text_content('#whatsNew h2'), pg.text_content('#whatsNew') if pg.is_visible('#whatsNew') else '')
         n_items = pg.evaluate("() => document.querySelectorAll('#whatsNew .wn-list li').length")
-        check('note lists only what is new', n_items == 3, n_items)
+        n_new = pg.evaluate("() => RDChangelog.CHANGELOG[0].items.length")
+        check('note lists only what is new', n_items == n_new, (n_items, n_new))
         pg.screenshot(path='scratch/ht_whatsnew.png', clip={'x': 0, 'y': 0, 'width': 1360, 'height': 520})
         pg.click('#whatsNew button:has-text("Got it")'); pg.wait_for_timeout(150)
         check('Got it closes the note', pg.is_hidden('#whatsNew'))
@@ -98,21 +97,45 @@ try:
         pg.goto(URL); pg.wait_for_timeout(5000)
         check('same version live: no bar', pg.is_hidden('#updateBar'))
 
+        # ---------------- a locked detachment; Redraw / Add ----------------
+        path(pg, arc_stroke(10, 2, 120))
+        x, y = chart_pt(pg, 250, 12); pg.mouse.click(x, y); pg.wait_for_timeout(300)
+        check('Redraw / Add buttons appear with a detachment', pg.is_visible('.rd-bar'))
+        path(pg, arc_stroke(6.5, 9.5, 130))
+        check('a stray drag does not draw a new detachment', titles(pg) == ['RD 10 → 2 · 4 clock hours'], titles(pg))
+        check('and says why', 'locked' in pg.inner_text('#inkHint'), pg.inner_text('#inkHint'))
+        pg.click('.rd-btn:has-text("Add detachment")'); pg.wait_for_timeout(120)
+        check('Add detachment arms one trace', pg.get_attribute('.rd-btn:has-text("Add detachment")', 'aria-pressed') == 'true' and 'next detachment' in pg.inner_text('#inkHint'))
+        path(pg, arc_stroke(6.5, 9.5, 130)); x, y = chart_pt(pg, 260, 8); pg.mouse.click(x, y); pg.wait_for_timeout(300)
+        check('a second detachment is added', len([t for t in titles(pg) if t.startswith('RD')]) == 2, titles(pg))
+        check('then locked again', pg.get_attribute('.rd-btn:has-text("Add detachment")', 'aria-pressed') == 'false')
+        pg.click('.rd-btn:has-text("Redraw")'); pg.wait_for_timeout(120)
+        pg.click('.rd-btn:has-text("Redraw")'); pg.wait_for_timeout(120)
+        check('pressing Redraw again cancels', pg.get_attribute('.rd-btn:has-text("Redraw")', 'aria-pressed') == 'false')
+        pg.click('.rd-btn:has-text("Redraw")'); pg.wait_for_timeout(120)
+        path(pg, arc_stroke(10, 2, 120)); x, y = chart_pt(pg, 250, 12); pg.mouse.click(x, y); pg.wait_for_timeout(300)
+        check('Redraw replaces every detachment', [t for t in titles(pg) if t.startswith('RD')] == ['RD 10 → 2 · 4 clock hours'], titles(pg))
+        pg.click('#undo'); pg.wait_for_timeout(200)
+        check('undo brings back both', len([t for t in titles(pg) if t.startswith('RD')]) == 2, titles(pg))
+        pg.click('#clear'); pg.wait_for_timeout(200)
+        check('Clear unlocks a fresh trace', pg.is_hidden('.rd-bar'))
+
         # ---------------- resizing ----------------
         path(pg, arc_stroke(10, 2, 120))
         x, y = chart_pt(pg, 250, 12); pg.mouse.click(x, y); pg.wait_for_timeout(300)
         pg.click('#palette .pal-breaks .pal-tile[aria-label="Horseshoe tear"]'); pg.wait_for_timeout(100)
         x, y = chart_pt(pg, 262, 12.5); pg.mouse.click(x, y); pg.wait_for_timeout(300)
         check('tear placed and selected', 'Horseshoe tear · 12:30' in titles(pg), titles(pg))
+        check('a selected tear shows its size lever', lever(pg) is not None)
         drag_handle(pg, 'hst', 1.8, 'scratch/ht_resize.png')
         hst = [f for f in scene(pg)['findings'] if f['type'] == 'hst'][0]
-        check('dragging the handle out enlarges the tear', 1.25 <= hst.get('size', 1) <= 2.5 and 'Large horseshoe tear · 12:30' in titles(pg), (hst.get('size'), titles(pg)))
+        check('sliding the lever up enlarges the tear', 1.25 <= hst.get('size', 1) <= 2.5 and 'Large horseshoe tear · 12:30' in titles(pg), (hst.get('size'), titles(pg)))
         check('the note says large', 'Large horseshoe tear at 12:30 o’clock' in pg.text_content('#note'))
         pg.click('#undo'); pg.wait_for_timeout(200)
         check('undo restores the size', 'Horseshoe tear · 12:30' in titles(pg), titles(pg))
         x, y = chart_pt(pg, 262, 12.5); pg.mouse.click(x, y); pg.wait_for_timeout(200)     # select it again
         drag_handle(pg, 'hst', 0.35)
-        check('dragging in makes it small', 'Small horseshoe tear · 12:30' in titles(pg), titles(pg))
+        check('sliding down makes it small', 'Small horseshoe tear · 12:30' in titles(pg), titles(pg))
         drag_handle(pg, 'hst', 0.05)
         check('never smaller than half', [f for f in scene(pg)['findings'] if f['type'] == 'hst'][0].get('size', 1) >= 0.5)
         # a hole
@@ -158,7 +181,7 @@ try:
         check('tap on a break lasers around it, in the pattern', 'Laser around a break · 4 rows' in titles(pg), titles(pg))
         check('note gives the pattern', '(4 rows, 1 burn width apart)' in pg.text_content('#note'), pg.text_content('#note')[-260:])
         pg.click('#palette .pal-laser button:has-text("Done")'); pg.wait_for_timeout(150)
-        check('Done ends laser', pg.is_hidden('#palette .pal-laser') and 'Trace to redraw' in pg.inner_text('#inkHint'), pg.inner_text('#inkHint'))
+        check('Done ends laser', pg.is_hidden('#palette .pal-laser') and 'Drag a finding' in pg.inner_text('#inkHint'), pg.inner_text('#inkHint'))
         check('the pattern is remembered', pg.evaluate("() => JSON.parse(localStorage.getItem('rdraw.prefs')).laser") == {'rows': 4, 'gap': 1})
         # select the line: its pattern can be changed
         mid = lf['line'][len(lf['line']) // 2]
@@ -186,6 +209,21 @@ try:
         fp.goto(link); fp.wait_for_timeout(900)
         check('reviewer sees sizes, the traced line and its pattern', any(t.startswith('Small horseshoe tear') for t in titles(fp)) and any(t.startswith('Laser line') and t.endswith('2 rows') for t in titles(fp)), titles(fp))
         fp.close()
+
+        # ---------------- phone: drawing is off; a tap on the chart asks ----------------
+        tp = b.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, device_scale_factor=2).new_page(); watch(tp, 'touch')
+        tp.goto(URL); tp.wait_for_timeout(800); tp.locator('#chart').scroll_into_view_if_needed(); tp.wait_for_timeout(200)
+        check('phone: drawing starts off', tp.get_attribute('#handBtn', 'aria-pressed') == 'false')
+        x, y = chart_pt(tp, 100, 3); tp.touchscreen.tap(x, y); tp.wait_for_timeout(250)
+        check('a tap on the chart asks to start drawing', tp.is_visible('.draw-ask'))
+        tp.click('.draw-ask button:has-text("Not now")'); tp.wait_for_timeout(150)
+        tp.touchscreen.tap(x, y); tp.wait_for_timeout(250)
+        check('Not now: not asked again', tp.is_hidden('.draw-ask'))
+        tp.reload(); tp.wait_for_timeout(800); tp.locator('#chart').scroll_into_view_if_needed(); tp.wait_for_timeout(200)
+        x, y = chart_pt(tp, 100, 3); tp.touchscreen.tap(x, y); tp.wait_for_timeout(250)
+        tp.click('.draw-ask button:has-text("Yes")'); tp.wait_for_timeout(250)
+        check('Yes turns drawing on', tp.get_attribute('#handBtn', 'aria-pressed') == 'true' and tp.is_hidden('.draw-ask'))
+        tp.close()
 
         # ---------------- phone, dark ----------------
         mp = b.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, device_scale_factor=2, color_scheme='dark')

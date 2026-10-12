@@ -468,3 +468,21 @@ details.card[open] > summary::after { content: "–"; }
 .palette.laser-only > :not(.pal-head):not(.pal-laser) { display: none; }
 .pal-done { display: flex; justify-content: flex-end; }
 .pal-done .btn-line { padding: 5px 14px; font-size: 13px; }
+/* Redraw / Add detachment, while drawing by hand */
+.rd-bar { position: absolute; left: 10px; bottom: 10px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; }
+.rd-bar[hidden] { display: none; }
+.rd-btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 94%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  color: var(--ink); border-radius: 999px; padding: 7px 13px 7px 10px; font-weight: 700; font-size: 13px; cursor: pointer; box-shadow: var(--shadow); }
+.rd-btn svg { width: 16px; height: 16px; flex: none; color: var(--chip-rd); }
+.rd-btn:hover { border-color: var(--focus); }
+.rd-btn[aria-pressed="true"] { background: var(--chip-rd); color: #fff; border-color: var(--chip-rd); }
+.rd-btn[aria-pressed="true"] svg { color: #fff; }
+.rd-bar.flash .rd-btn { animation: rdflash 0.9s ease-in-out 2; }
+@keyframes rdflash { 50% { border-color: #E0763A; box-shadow: 0 0 0 4px rgba(224,118,58,0.28); } }
+/* drawing is off: a tap on the chart asks */
+.draw-ask { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 4; width: min(330px, calc(100% - 32px)); display: grid; gap: 8px; padding: 16px; border-radius: var(--radius);
+  background: var(--surface); border: 1px solid var(--line); box-shadow: 0 14px 40px rgba(19,50,79,0.22); text-align: center; }
+.draw-ask[hidden] { display: none; }
+.draw-ask strong { font-size: 17px; }
+.draw-ask span { color: var(--ink-2); font-size: 14px; line-height: 1.4; }
+.da-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }

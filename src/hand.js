@@ -36,6 +36,8 @@ root.RDHand = function (api) {
   let ghost = null;
   let palPlaced = false;
   let ghostKind = null;
+  let traceMode = null;     // once a detachment is drawn it is locked: 'redraw' or 'add' unlocks one new trace
+  let lockShown = false;
 
   /* ------------------------------ geometry ------------------------------ */
   const rect = () => chart.getBoundingClientRect();
@@ -189,20 +191,31 @@ root.RDHand = function (api) {
       if (!drag) pill(g, m[0], m[1] - 24 * u, 'drag to move · off the chart to remove', u, '#9A4E1C');
       return;
     }
-    const SH = sizeHandle(f, sc);
-    if (SH) {
+    const L0 = sizeLever(f, sc);
+    if (L0) {
+      const L = drag && drag.end === 'lever' && drag.lever ? Object.assign({}, drag.lever, { c: L0.c, ext: L0.ext }) : L0;
+      root.RDHand.lever = { x: L.x, y0: L.y0, y1: L.y1, min: L.min, max: L.max };       // for the browser checks
       g.setLineDash([5 * u, 4 * u]); g.strokeStyle = 'rgba(224,118,58,0.8)'; g.lineWidth = 1.6 * u;
-      g.beginPath(); g.arc(SH.c[0], SH.c[1], SH.ext + 3 * u, 0, Math.PI * 2); g.stroke(); g.setLineDash([]);
-      const [hx, hy] = SH.hp;
-      g.fillStyle = '#FFFFFF'; g.strokeStyle = '#E0763A'; g.lineWidth = 2.2 * u;
-      g.beginPath(); g.arc(hx, hy, 8 * u, 0, Math.PI * 2); g.fill(); g.stroke();
-      // a small diagonal double arrow: drag out or in
-      const a = 3.6 * u;
-      g.strokeStyle = '#C2571F'; g.lineWidth = 1.6 * u; g.lineCap = 'round';
-      g.beginPath(); g.moveTo(hx - a, hy + a); g.lineTo(hx + a, hy - a);
-      g.moveTo(hx + a, hy - a); g.lineTo(hx + a - 2.6 * u, hy - a); g.moveTo(hx + a, hy - a); g.lineTo(hx + a, hy - a + 2.6 * u);
-      g.moveTo(hx - a, hy + a); g.lineTo(hx - a + 2.6 * u, hy + a); g.moveTo(hx - a, hy + a); g.lineTo(hx - a, hy + a - 2.6 * u); g.stroke();
-      if (drag && drag.end === 'size') pill(g, SH.c[0], SH.c[1] - SH.ext - 24 * u, sizeText(f), u, '#9A4E1C');
+      g.beginPath(); g.arc(L.c[0], L.c[1], L.ext + 3 * u, 0, Math.PI * 2); g.stroke(); g.setLineDash([]);
+      // the track, filled up to the current size
+      const w = 9 * u, ky = leverY(L, f.size || 1), y1 = leverY(L, 1);
+      const rr = (x, y, ww, hh, r) => { g.beginPath(); if (g.roundRect) g.roundRect(x, y, ww, hh, r); else g.rect(x, y, ww, hh); };
+      g.fillStyle = 'rgba(255,253,248,0.96)'; g.strokeStyle = '#E0763A'; g.lineWidth = 1.6 * u;
+      rr(L.x - w / 2, L.y0, w, L.y1 - L.y0, w / 2); g.fill(); g.stroke();
+      g.fillStyle = 'rgba(224,118,58,0.35)'; rr(L.x - w / 2 + 1.5 * u, ky, w - 3 * u, L.y1 - ky - 1.5 * u, (w - 3 * u) / 2); g.fill();
+      // the usual size, and which way is bigger
+      g.strokeStyle = 'rgba(154,78,28,0.75)'; g.lineWidth = 1.4 * u;
+      g.beginPath(); g.moveTo(L.x - w, y1); g.lineTo(L.x + w, y1); g.stroke();
+      g.fillStyle = '#9A4E1C'; g.font = `700 ${13 * u}px "Atkinson Hyperlegible", system-ui, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillText('+', L.x, L.y0 - 10 * u); g.fillText('−', L.x, L.y1 + 10 * u);
+      // the knob
+      g.fillStyle = '#FFFFFF'; g.strokeStyle = '#E0763A'; g.lineWidth = 2.4 * u;
+      g.beginPath(); g.arc(L.x, ky, 11 * u, 0, Math.PI * 2); g.fill(); g.stroke();
+      g.strokeStyle = '#C2571F'; g.lineWidth = 1.5 * u;
+      g.beginPath(); for (const dy of [-3, 0, 3]) { g.moveTo(L.x - 5 * u, ky + dy * u); g.lineTo(L.x + 5 * u, ky + dy * u); } g.stroke();
+      const tx = L.x;
+      if (drag && drag.end === 'lever') pill(g, tx, L.y0 - 30 * u, sizeText(f), u, '#9A4E1C');
+      else if (!drag) pill(g, tx, L.y0 - 30 * u, 'size', u, '#9A4E1C');
       return;
     }
     if (!H || !H.span) return;
@@ -229,9 +242,11 @@ root.RDHand = function (api) {
     if (!active()) { setHint(''); return; }
     const sc = api.getScene(), hasRd = !!RD.mainRd(sc);
     const needBreak = hasRd && !pal.hidden && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
-    setHint(needBreak ? `Now add the break${pal.classList.contains('docked') ? ' — pick one below' : ' — pick one in the panel'}` : hasRd ? 'Trace to redraw · drag to move · drag off to remove' : 'Trace the detachment’s border, ora to ora');
+    if (traceMode) { setHint(traceMode === 'redraw' ? 'Trace the new border, ora to ora — it replaces the old one' : 'Trace the next detachment’s border, ora to ora', true); return; }
+    setHint(needBreak ? `Now add the break${pal.classList.contains('docked') ? ' — pick one below' : ' — pick one in the panel'}` : hasRd ? 'Drag a finding to move it · off the chart to remove' : 'Trace the detachment’s border, ora to ora');
   }
   function cancel() {
+    if (traceMode) { traceMode = null; renderRdBar(); }
     if (phase === 'side' || phase === 'swiping') { prep = null; choice = null; api.setPreview(null); }
     if (drag) api.setPreview(null);
     disarm(true);
@@ -278,15 +293,27 @@ root.RDHand = function (api) {
     }
     return H.r;
   }
-  function sizeHandle(f, sc) {
+  /* a vertical lever beside the selected finding: push the knob up to enlarge, down to shrink */
+  function sizeLever(f, sc) {
     if (!f || f.type === 'rd') return null;
     const H = hitInfo(f, sc);
     if (!H || !H.pts || H.tum || H.pts.length !== 1) return null;
     if (f.type === 'pvr' && (f.grade || 'C') !== 'C') return null;
     const u = unit(), c = H.pts[0], ext = Math.max(extentOf(f, H), 7 * u);
-    const d = ext + 7 * u, hp = [c[0] + d * Math.SQRT1_2, c[1] - d * Math.SQRT1_2];
-    return { c, ext, hp };
+    const half = G.SIZE / 2, len = 124 * u, gx = ext + 30 * u;
+    const yc = clamp(c[1], -half + len / 2 + 18 * u, half - len / 2 - 18 * u), y0 = yc - len / 2, y1 = yc + len / 2;
+    // beside the finding, on whichever side is clear of the chart's edge and the panel
+    const pr = !pal.hidden && !pal.classList.contains('docked') ? palChartRect() : null;
+    const blocked = (x) => Math.abs(x) > half - 24 * u || (pr && x > pr[0] - 24 * u && x < pr[2] + 24 * u && y1 > pr[1] - 30 * u && y0 < pr[3] + 30 * u);
+    let x = c[0] + gx; if (blocked(x) && !blocked(c[0] - gx)) x = c[0] - gx;
+    return { c, ext, x, y0, y1, min: SIZE_MIN, max: sizeMax(f) };
   }
+  function palChartRect() {
+    const r = rect(), q = pal.getBoundingClientRect(), k = G.SIZE / (r.width || G.SIZE);
+    return [(q.left - r.left) * k - G.SIZE / 2, (q.top - r.top) * k - G.SIZE / 2, (q.right - r.left) * k - G.SIZE / 2, (q.bottom - r.top) * k - G.SIZE / 2];
+  }
+  const leverY = (L, s) => L.y1 - (clamp(s, L.min, L.max) - L.min) / (L.max - L.min) * (L.y1 - L.y0);
+  const leverSize = (L, y) => Math.round((L.min + clamp((L.y1 - y) / (L.y1 - L.y0), 0, 1) * (L.max - L.min)) * 20) / 20;
   function sizeText(f) {
     const s = f.size || 1;
     if (['hst', 'hole', 'oph'].includes(f.type)) return s < 0.85 ? 'Small' : s >= 1.25 ? 'Large' : 'Medium';
@@ -295,10 +322,10 @@ root.RDHand = function (api) {
   function hitTest(p) {
     const sc = api.getScene(), u = unit(), r = Math.hypot(p[0], p[1]), h = hourOf(p);
     let best = null, bs = Infinity;
-    // the selected finding's size handle comes first
+    // the selected finding's size lever comes first
     if (selected != null) {
-      const sf = sc.findings.find(x => x.id === selected), SH = sizeHandle(sf, sc);
-      if (SH && dist(p, SH.hp) < 14 * u) return { f: sf, end: 'size', c: SH.c };
+      const sf = sc.findings.find(x => x.id === selected), L = sizeLever(sf, sc);
+      if (L && Math.abs(p[0] - L.x) < 22 * u && p[1] > L.y0 - 18 * u && p[1] < L.y1 + 18 * u) return { f: sf, end: 'lever', lever: L };
     }
     for (const f of sc.findings) {
       const H = hitInfo(f, sc);
@@ -358,13 +385,20 @@ root.RDHand = function (api) {
     const hit = hitTest(p);
     if (hit) {
       select(hit.f.id);
-      drag = { id: hit.f.id, end: hit.end || null, p0: p, at: p, orig: RD.clone(hit.f), moved: 0, off: false, c: hit.c || null };
+      drag = { id: hit.f.id, end: hit.end || null, p0: p, at: p, orig: RD.clone(hit.f), moved: 0, off: false, lever: hit.lever || null };
       phase = hit.end ? 'resizing' : 'moving';
-      setHint(hit.end === 'rim' || hit.end === 'size' ? 'Drag out to enlarge, in to shrink' : hit.end ? 'Drag the end to resize' : 'Drag off the chart to remove');
+      setHint(hit.end === 'lever' ? 'Slide up to enlarge, down to shrink' : hit.end === 'rim' ? 'Drag out to enlarge, in to shrink' : hit.end ? 'Drag the end to resize' : 'Drag off the chart to remove');
+      if (hit.end === 'lever') moveDrag(p);      // a tap on the lever sets the size there
       drawInk();
       return;
     }
     if (selected != null) select(null);
+    if (RD.mainRd(api.getScene()) && !traceMode) {
+      // the detachment is locked: a stray drag never starts a new one
+      phase = 'locked'; lockShown = false;
+      drawInk();
+      return;
+    }
     phase = 'tracing';
     stroke = [p];
     setHint('Lift when you reach the ora');
@@ -394,6 +428,11 @@ root.RDHand = function (api) {
     else if (phase === 'placing') { hover = p; drawInk(); }
     else if (phase === 'spanning') { updateSpan(p); drawInk(); }
     else if (phase === 'moving' || phase === 'resizing') moveDrag(p);
+    else if (phase === 'locked' && !lockShown && dist(p, gStart) > 12 * unit()) {
+      lockShown = true;
+      setHint('The detachment is locked — tap Redraw or Add detachment to draw another');
+      flashBar();
+    }
   });
   const finish = (ev) => {
     if (pid == null || ev.pointerId !== pid) return;
@@ -409,6 +448,7 @@ root.RDHand = function (api) {
     else if (phase === 'lasering') finishLaser(p);
     else if (phase === 'spanning') { updateSpan(p); placeSpan(); }
     else if (phase === 'moving' || phase === 'resizing') endDrag(p);
+    else if (phase === 'locked') { phase = 'idle'; if (lockShown) setTimeout(() => { if (phase === 'idle') idleHint(); }, 2600); }
   };
   chart.addEventListener('pointerup', finish);
   chart.addEventListener('pointercancel', finish);
@@ -442,7 +482,10 @@ root.RDHand = function (api) {
   }
   function commitRd(c) {
     const rd = RD.rdFromPath(c);
-    const out = RD.applyActions(api.getScene(), [{ op: 'add', f: rd }]);
+    let base = api.getScene();
+    if (traceMode === 'redraw') { base = RD.clone(base); base.findings = base.findings.filter(f => f.type !== 'rd'); }
+    traceMode = null; renderRdBar();
+    const out = RD.applyActions(base, [{ op: 'add', f: rd }]);
     api.setPreview(null);
     api.commit(out.scene);
     const f = out.added[0];
@@ -468,9 +511,8 @@ root.RDHand = function (api) {
       else { f.base = next; f.bu = 'dd'; }
       return;     // a lesion placed “2 DD from the disc” keeps that margin and grows away from it
     }
-    if (d.end === 'size') {
-      const k = dist(p, d.c) / Math.max(6, dist(d.p0, d.c));
-      const v = Math.round(clamp((o.size || 1) * k, SIZE_MIN, sizeMax(o)) * 20) / 20;
+    if (d.end === 'lever') {
+      const v = leverSize(d.lever, p[1]);
       if (Math.abs(v - 1) < 0.001) delete f.size; else f.size = v;
       return;
     }
@@ -952,6 +994,7 @@ root.RDHand = function (api) {
       sum += 0.25 + (F && F(x, y) < 0 ? 1 : 0);
     }
     for (const q of pts) if (q[0] > x0 - 10 && q[0] < x1 + 10 && q[1] > y0 - 10 && q[1] < y1 + 10) sum += 40;
+    if (!corner[0] && corner[1] && !rdBar.hidden) sum += 30;          // keep clear of the Redraw / Add buttons
     return sum;
   }
   let palCorner = null, palFull = null;
@@ -992,9 +1035,55 @@ root.RDHand = function (api) {
   }
   fab.addEventListener('click', () => openPalette());
 
+  /* --------------- Redraw / Add detachment: the only ways to trace once one is drawn --------------- */
+  const icRedraw = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/></svg>';
+  const icAdd = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+  const btnRedraw = el('button', { type: 'button', class: 'rd-btn', 'aria-pressed': 'false', title: 'Scrap the detachment and trace it again' });
+  btnRedraw.innerHTML = icRedraw + '<span>Redraw</span>';
+  const btnAdd = el('button', { type: 'button', class: 'rd-btn', 'aria-pressed': 'false', title: 'Trace another, separate detachment' });
+  btnAdd.innerHTML = icAdd + '<span>Add detachment</span>';
+  const rdBar = el('div', { class: 'rd-bar', role: 'group', 'aria-label': 'Detachment', hidden: true }, [btnRedraw, btnAdd]);
+  stage.append(rdBar);
+  function setTraceMode(m) {
+    if (phase !== 'idle' && phase !== 'armed') cancel();
+    disarm(true);
+    if (selected != null) select(null);
+    traceMode = traceMode === m ? null : m;
+    renderRdBar(); idleHint(); drawInk();
+  }
+  btnRedraw.addEventListener('click', () => setTraceMode('redraw'));
+  btnAdd.addEventListener('click', () => setTraceMode('add'));
+  function renderRdBar() {
+    const show = active() && !!RD.mainRd(api.getScene());
+    rdBar.hidden = !show;
+    if (!show && traceMode) traceMode = null;
+    btnRedraw.setAttribute('aria-pressed', String(traceMode === 'redraw'));
+    btnAdd.setAttribute('aria-pressed', String(traceMode === 'add'));
+    btnRedraw.querySelector('span').textContent = RD.rdsOf(api.getScene()).length > 1 ? 'Redraw all' : 'Redraw';
+  }
+  function flashBar() { rdBar.classList.remove('flash'); void rdBar.offsetWidth; rdBar.classList.add('flash'); }
+
+  /* --------------- drawing is off: a tap on the chart offers to turn it on --------------- */
+  let askDismissed = false, busyAtDown = false;
+  const askBox = el('div', { class: 'draw-ask', role: 'dialog', 'aria-label': 'Draw on the chart?', hidden: true }, [
+    el('strong', { text: 'Draw on the chart?' }),
+    el('span', { text: 'Trace the detachment and place tears, laser and more with your finger or mouse.' }),
+    el('div', { class: 'da-actions' }, [
+      el('button', { type: 'button', class: 'glass small', text: 'Yes, start drawing', onclick: () => { askBox.hidden = true; setOn(true); } }),
+      el('button', { type: 'button', class: 'btn-line', text: 'Not now', onclick: () => { askBox.hidden = true; askDismissed = true; } }),
+    ]),
+  ]);
+  stage.append(askBox);
+  chart.addEventListener('pointerdown', () => { busyAtDown = !!(api.busy && api.busy()); }, { capture: true });
+  chart.addEventListener('click', () => {
+    if (on || askDismissed || busyAtDown || api.getView() !== 'fundus') return;
+    askBox.hidden = false;
+  });
+
   /* ------------------------------- mode -------------------------------- */
   function setOn(v, quiet) {
     on = !!v;
+    if (on) askBox.hidden = true;
     btn.setAttribute('aria-pressed', String(on));
     if (!on) { cancel(); pal.hidden = true; select(null); }
     api.setPref('hand', on);
@@ -1034,6 +1123,7 @@ root.RDHand = function (api) {
       if (phase === 'idle') idleHint();
     }
     if (selected != null && !api.getScene().findings.some(f => f.id === selected)) select(null);
+    renderRdBar();
     drawInk();
   }
 

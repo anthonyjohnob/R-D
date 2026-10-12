@@ -1190,6 +1190,7 @@ if (window.RDHand) {
     announce(chips, notes) { renderLive({ chips, unknown: [], warnings: [] }, { committed: true, notes }); },
     setMeta,
     getPref: (k) => prefs[k], setPref(k, v) { prefs[k] = v; save(); },
+    busy: () => commentArm,
   });
 }
 
