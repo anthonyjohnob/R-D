@@ -902,6 +902,46 @@ function geometryFor(scene) {
   return geo;
 }
 
+/* PVD recorded for the eye (scene.pvd), drawn in the vitreous green: the detached posterior hyaloid as a dashed
+   line in front of the posterior pole and, when complete, a Weiss ring just in front of the disc; when partial, the
+   hyaloid still adheres at the disc, shown by its ends running to the disc margin. u scales strokes for the pole view. */
+const GRN = '#2E9A55';
+function drawPVD(ctx, scene, u) {
+  const pvd = scene.pvd;
+  if (pvd !== 'complete' && pvd !== 'yes' && pvd !== 'partial') return;
+  // a PVD or Weiss ring placed from the library is already drawn by its own recipe
+  if (scene.findings.some(f => f.type === 'cat' && (f.key === 'posterior_vitreous_detachment' || f.key === 'weiss_ring'))) return;
+  u = u || 1;
+  const [dx] = RD.discCenter(scene.eye), cx = -dx * 0.15, R = 128, toDisc = dx > 0 ? 0 : Math.PI;
+  ctx.save();
+  ctx.strokeStyle = 'rgba(46,154,85,0.85)'; ctx.lineWidth = 1.7 * u; ctx.lineCap = 'round';
+  ctx.setLineDash([7 * u, 5 * u]);
+  ctx.beginPath();
+  if (pvd === 'partial') {
+    // the same outline, pinched in to the disc margin where the hyaloid still holds on
+    const gap = 38 * DEG, m = G.DISC_R + 1.5, sg = dx > 0 ? 1 : -1;
+    const end = (s) => { const a = toDisc + s * gap; return [cx + R * Math.cos(a), R * Math.sin(a), a]; };
+    const [x0, y0, a0] = end(-1), [x1, y1, a1] = end(1);
+    const tan = (a, s) => [-Math.sin(a) * s, Math.cos(a) * s];       // along the circle, towards the disc side
+    ctx.moveTo(dx, -m);
+    { const t = tan(a0, 1); ctx.bezierCurveTo(dx - sg * 4, -m - 34, x0 + t[0] * 38, y0 + t[1] * 38, x0, y0); }
+    ctx.arc(cx, 0, R, a0, a1 + (a1 < a0 ? TAU : 0), true);
+    { const t = tan(a1, -1); ctx.bezierCurveTo(x1 + t[0] * 38, y1 + t[1] * 38, dx - sg * 4, m + 34, dx, m); }
+    ctx.stroke();
+    ctx.setLineDash([]); ctx.fillStyle = GRN;
+    for (const y of [-m, m]) { ctx.beginPath(); ctx.arc(dx, y, 2.4 * u, 0, TAU); ctx.fill(); }
+  } else {
+    ctx.arc(cx, 0, R, 0, TAU); ctx.stroke();
+    ctx.setLineDash([]);
+    // the Weiss ring: an irregular, slightly open ring just in front of the disc
+    const x = dx * 0.86, y = -9;
+    ctx.strokeStyle = GRN; ctx.lineWidth = 2.5 * u;
+    ctx.beginPath(); ctx.ellipse(x, y, 12, 9, 0.3, 0.35, TAU - 0.25); ctx.stroke();
+    ctx.lineWidth = 1.5 * u; ctx.beginPath(); ctx.ellipse(x + 0.6, y + 0.4, 8.6, 6.1, 0.45, 1.2, 4.2); ctx.stroke();
+  }
+  ctx.restore();
+}
+
 /* magnified posterior pole: disc, macula and arcades at ~2.2× the main chart */
 const POLE_HALF = 110;
 function poleCenter(eye) { return [RD.discCenter(eye)[0] * 0.24, 0]; }
@@ -942,6 +982,7 @@ function renderPole(canvas, scene, opts) {
     const vit = { ...scene, findings: scene.findings.filter(f => f.type === 'cat' && !['gas', 'oil', 'pvd'].includes((RD.CAT[f.key] || {}).r)) };
     CR.drawLayer(ctx, vit, geo, 'vitreous');
   }
+  drawPVD(ctx, scene, (S / 420) / k);
   ctx.save();
   ctx.strokeStyle = C.macula; ctx.lineWidth = 0.6; ctx.setLineDash([2.5, 2]);
   ctx.beginPath(); ctx.arc(0, 0, G.R_MAC, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
@@ -1007,6 +1048,7 @@ function render(canvas, scene, opts) {
   for (const f of F) if (f.type === 'hole') drawHole(ctx, f, geo, false);
   for (const f of F) if (f.type === 'pvr') drawPVR(ctx, f, geo, scene);
   if (CR) CR.drawLayer(ctx, scene, geo, 'vitreous');
+  drawPVD(ctx, scene, 1);
   for (const f of F) if (f.type === 'vh') drawVH(ctx, f);
   drawMacula(ctx, geo);
   drawBuckleLabels(ctx, scene, ts);

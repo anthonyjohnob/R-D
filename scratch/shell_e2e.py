@@ -33,6 +33,11 @@ def rect(pg, sel): return pg.evaluate("(s) => { const r = document.querySelector
 def strip(pg): return pg.evaluate("() => [...document.querySelectorAll('#sStrip .s-chip')].map(e => e.textContent)")
 def hint(pg): return pg.evaluate("() => { const h = document.querySelector('#inkHint'); return h && !h.hidden ? h.querySelector('.t').textContent : ''; }")
 def open_sheet(pg): return pg.evaluate("() => (document.querySelector('#sApp .sheet.open') || {}).id || null")
+def greens(pg):
+    """pixels in the vitreous green (the PVD drawing) on the chart"""
+    return pg.evaluate("""() => { const s = document.querySelector('#chart'), c = document.createElement('canvas'); c.width = s.width; c.height = s.height;
+      const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(s, 0, 0); const d = x.getImageData(0, 0, c.width, c.height).data; let n = 0;
+      for (let i = 0; i < d.length; i += 4) if (Math.abs(d[i] - 46) < 22 && Math.abs(d[i + 1] - 154) < 22 && Math.abs(d[i + 2] - 85) < 22) n++; return n; }""")
 def no_hscroll(pg): return pg.evaluate("() => document.documentElement.scrollWidth <= innerWidth + 1")
 
 try:
@@ -84,8 +89,11 @@ try:
         pg.click('#shEdit .mini:has-text("Done")'); pg.wait_for_timeout(350)
         # steps 3–5: the guide
         check('step 3: PVD question', open_sheet(pg) == 'shGuide' and 'Step 3 of 4' in pg.text_content('#shGuide'), open_sheet(pg))
+        g0 = greens(pg)
         pg.click('#shGuide .flow-opts button:has-text("Complete")'); pg.wait_for_timeout(300)
         check('PVD recorded', scene(pg).get('pvd') == 'complete', scene(pg).get('pvd'))
+        g1 = greens(pg)
+        check('PVD drawn: hyaloid and Weiss ring in green', g1 > g0 + 400, (g0, g1))
         check('step 4: lens', 'Step 4 of 4' in pg.text_content('#shGuide'))
         pg.click('#shGuide .flow-opts button:has-text("Phakic")'); pg.wait_for_timeout(300)
         check('lens recorded', scene(pg).get('lens') == 'phakic')
@@ -148,6 +156,11 @@ try:
         pg.click('#shDetach .sh-close'); pg.wait_for_timeout(300)
         pg.click('#sStrip .s-chip:has-text("PVD complete")'); pg.wait_for_timeout(300)
         check('PVD chip opens PVD and lens', open_sheet(pg) == 'shAsk' and pg.get_attribute('#shAsk button:has-text("Complete")', 'aria-pressed') == 'true')
+        gc = greens(pg)
+        pg.click('#shAsk button:has-text("Partial")'); pg.wait_for_timeout(300); gp = greens(pg)
+        pg.click('#shAsk button:has-text("No")'); pg.wait_for_timeout(300); gn = greens(pg)
+        check('partial PVD drawn without the Weiss ring; none clears it', 150 < gp < gc and gn == 0, (gc, gp, gn))
+        pg.click('#shAsk button:has-text("Complete")'); pg.wait_for_timeout(300)
         pg.keyboard.press('Escape'); pg.wait_for_timeout(300)
         check('Escape closes a panel', open_sheet(pg) is None)
         # clear, confirmed; undo brings it back

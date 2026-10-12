@@ -1036,7 +1036,7 @@ const CODE = [
   ['#D8423A', 'Red', 'retinal arteries, haemorrhage, the inside of full-thickness breaks'],
   ['#2C66C4', 'Blue', 'detached retina (including subretinal fluid around a tumour), veins, outlines of breaks, lattice in detached retina, tufts and meridional folds (short lines)'],
   ['#E0AA10', 'Yellow', 'exudate, retinal oedema and ischaemic whitening, drusen (stippled, also over a naevus) and other deposits'],
-  ['#2E9A55', 'Green', 'opacities in the media: vitreous haemorrhage, membranes, foreign bodies; green outline around red = blood in the vitreous'],
+  ['#2E9A55', 'Green', 'opacities in the media: vitreous haemorrhage, membranes, foreign bodies; green outline around red = blood in the vitreous; the detached posterior hyaloid (dashed) and a Weiss ring when a PVD is recorded'],
   ['#8A5A33', 'Brown', 'choroidal detachment, uveal pigment (naevus, melanoma), RPE changes'],
   ['#25282C', 'Black', 'lattice in attached retina, retinal pigment, the ora next to detached retina, treatment scars'],
   ['#7E4FC0', 'Purple', 'flat neovascularisation (NVE, NVD, CNV)'],
