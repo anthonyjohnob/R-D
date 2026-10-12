@@ -131,23 +131,45 @@ try:
         n0 = len(titles(pg))
         pg.click('#palette .pal-tile[aria-label="Laser"]'); pg.wait_for_timeout(100)
         check('laser hint mentions tracing', 'trace' in pg.inner_text('#inkHint'), pg.inner_text('#inkHint'))
+        check('laser pattern options appear', pg.is_visible('#palette .pal-laser') and pg.is_visible('#palette .pal-laser .seg[aria-label="Rows"]'))
+        pressed = lambda grp: pg.evaluate(f"() => [...document.querySelectorAll('#palette .pal-laser .seg[aria-label=\"{grp}\"] button[aria-pressed=\"true\"]')].map(b => b.textContent)")
+        check('default: 3 rows, spaced ½', pressed('Rows') == ['3'] and pressed('Burns') == ['Spaced'] and pressed('Gap') == ['½'], (pressed('Rows'), pressed('Burns'), pressed('Gap')))
+        pg.click('#palette .pal-laser .seg[aria-label="Rows"] button:has-text("2")'); pg.wait_for_timeout(80)
+        pg.click('#palette .pal-laser button:has-text("Confluent")'); pg.wait_for_timeout(80)
+        check('confluent hides the gap choice', pg.locator('#palette .pal-laser .seg[aria-label="Gap"]').count() == 0)
+        check('pattern described', '2 rows, confluent' in pg.text_content('#palette .pal-laser .pal-note'), pg.text_content('#palette .pal-laser .pal-note'))
         x0, y0 = chart_pt(pg, 230, 9.5); pg.mouse.move(x0, y0); pg.mouse.down()
         for i in range(1, 41):
             x, y = chart_pt(pg, 230 + 25 * math.sin(i / 40 * math.pi), 9.5 + i * 0.05); pg.mouse.move(x, y, steps=2)
         pg.wait_for_timeout(80); pg.locator('#stage').screenshot(path='scratch/ht_laser_tracing.png')
         pg.mouse.up(); pg.wait_for_timeout(250)
         lt = [t for t in titles(pg) if t.startswith('Laser line')]
-        check('traced laser added', len(lt) == 1 and len(titles(pg)) == n0 + 1, titles(pg))
+        check('traced laser added', len(lt) == 1 and len(titles(pg)) == n0 + 1 and lt[0].endswith('· 2 rows'), titles(pg))
         lf = [f for f in scene(pg)['findings'] if f['type'] == 'laser' and f.get('line')][0]
+        check('line carries the pattern', lf.get('rows') == 2 and lf.get('gap') == 0, (lf.get('rows'), lf.get('gap')))
+        check('laser stays picked for more', pg.is_visible('#palette .pal-laser') and 'Done' in pg.inner_text('#inkHint'), pg.inner_text('#inkHint'))
         check('line follows the trace', len(lf['line']) > 10 and all(abs(math.hypot(*q) - 240) < 30 for q in lf['line']), len(lf['line']))
-        check('note: drawn line', 'along a drawn line from' in pg.text_content('#note'), pg.text_content('#note')[-200:])
+        check('note: drawn line and its pattern', 'along a drawn line from' in pg.text_content('#note') and '(2 rows, confluent)' in pg.text_content('#note'), pg.text_content('#note')[-200:])
         pg.locator('#stage').screenshot(path='scratch/ht_laser.png')
-        # tap a break with Laser: lasers around it
-        pg.click('#palette .pal-tile[aria-label="Laser"]'); pg.wait_for_timeout(100)
+        # still on laser: 4 rows, 1 burn width apart, then tap a break to laser around it
+        pg.click('#palette .pal-laser .seg[aria-label="Rows"] button:has-text("4")'); pg.click('#palette .pal-laser button:has-text("Spaced")'); pg.wait_for_timeout(60)
+        pg.click('#palette .pal-laser .seg[aria-label="Gap"] button:text-is("1")'); pg.wait_for_timeout(80)
         x, y = chart_pt(pg, 255, 1.5); pg.mouse.click(x, y); pg.wait_for_timeout(250)
-        check('tap on a break lasers around it', 'Laser around a break' in titles(pg), titles(pg))
-        # move the line, then drag it off
+        check('tap on a break lasers around it, in the pattern', 'Laser around a break · 4 rows' in titles(pg), titles(pg))
+        check('note gives the pattern', '(4 rows, 1 burn width apart)' in pg.text_content('#note'), pg.text_content('#note')[-260:])
+        pg.click('#palette .pal-laser button:has-text("Done")'); pg.wait_for_timeout(150)
+        check('Done ends laser', pg.is_hidden('#palette .pal-laser') and 'Trace to redraw' in pg.inner_text('#inkHint'), pg.inner_text('#inkHint'))
+        check('the pattern is remembered', pg.evaluate("() => JSON.parse(localStorage.getItem('rdraw.prefs')).laser") == {'rows': 4, 'gap': 1})
+        # select the line: its pattern can be changed
         mid = lf['line'][len(lf['line']) // 2]
+        sx, sy = xy(pg, *mid); pg.mouse.click(sx, sy); pg.wait_for_timeout(150)
+        check('selecting a laser shows its pattern', pg.is_visible('#palette .pal-laser') and 'selected laser' in pg.text_content('#palette .pal-laser .pal-sec').lower() and pressed('Rows') == ['2'], pressed('Rows'))
+        pg.click('#palette .pal-laser .seg[aria-label="Rows"] button:has-text("3")'); pg.wait_for_timeout(150)
+        lfx = [f for f in scene(pg)['findings'] if f['type'] == 'laser' and f.get('line')][0]
+        check('changing it updates the selected line', lfx.get('rows') == 3 and lfx.get('gap') == 0, (lfx.get('rows'), lfx.get('gap')))
+        pg.click('#undo'); pg.wait_for_timeout(150)
+        check('one undo step', [f for f in scene(pg)['findings'] if f['type'] == 'laser' and f.get('line')][0].get('rows') == 2)
+        # move the line, then drag it off
         sx, sy = xy(pg, *mid); pg.mouse.click(sx, sy); pg.wait_for_timeout(150)
         pg.mouse.move(sx, sy); pg.mouse.down(); ex, ey = xy(pg, mid[0] + 20, mid[1] + 30); pg.mouse.move(ex, ey, steps=8); pg.mouse.up(); pg.wait_for_timeout(250)
         lf2 = [f for f in scene(pg)['findings'] if f['type'] == 'laser' and f.get('line')][0]
@@ -162,7 +184,7 @@ try:
         pg.click('#review button:has-text("Send for review")'); pg.wait_for_timeout(400); link = pg.input_value('.rv-link')
         fp = b.new_context(viewport={'width': 1360, 'height': 1000}).new_page(); watch(fp, 'fellow')
         fp.goto(link); fp.wait_for_timeout(900)
-        check('reviewer sees sizes and the traced line', any(t.startswith('Small horseshoe tear') for t in titles(fp)) and any(t.startswith('Laser line') for t in titles(fp)), titles(fp))
+        check('reviewer sees sizes, the traced line and its pattern', any(t.startswith('Small horseshoe tear') for t in titles(fp)) and any(t.startswith('Laser line') and t.endswith('2 rows') for t in titles(fp)), titles(fp))
         fp.close()
 
         # ---------------- phone, dark ----------------

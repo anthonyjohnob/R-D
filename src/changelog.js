@@ -7,7 +7,7 @@
 const CHANGELOG = [
   { v: '1.3', date: '2026-10-12', title: 'Resize by hand, traced laser, update notes', items: [
     'Tears, holes, tufts, paving stones, star folds, vitreous haemorrhage, laser spots and library findings can be resized by hand: tap one, then drag the round handle on its edge. Large and small tears and holes are named in the note.',
-    'Laser can be traced exactly where you want it: pick Laser, then drag along the fundus and three rows of burns follow your line. A tap on a break still lasers around it.',
+    'Laser can be traced exactly where you want it: pick Laser, choose the pattern — 1 to 5 rows, confluent or spaced, and the gap in burn widths — then drag along the fundus. Tap a break to laser around it in the same pattern; keep going for more lines, and tap Done when finished. Selecting a laser later lets you change its pattern.',
     'Version numbers, this update list, and a short note the first time a new version opens.',
   ] },
   { v: '1.2', date: '2026-10-11', title: 'Scleral buckle guide; breaks first', items: [

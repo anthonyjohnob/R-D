@@ -654,11 +654,13 @@ function treatmentAround(ctx, f, scene, kind) {
       ctx.fillStyle = 'rgba(70,52,40,0.45)'; ctx.beginPath(); ctx.ellipse(x, y, 4.2 * s, 3 * s, x * 0.03, 0, TAU); ctx.fill();
     }
   };
-  // laser traced by hand: three staggered rows of burns along the drawn line
-  if (Array.isArray(f.line) && f.line.length > 1) { for (const [x, y] of RD.laserLineSpots(f.line)) spot(x, y, 1); return; }
+  // laser traced by hand: rows of burns along the drawn line, in the pattern chosen (rows, confluent or spaced)
+  const pat = kind === 'laser' ? RD.laserPattern(f) : null;
+  if (Array.isArray(f.line) && f.line.length > 1) { for (const [x, y] of RD.laserLineSpots(f.line, pat)) spot(x, y, 1); return; }
   if (target && target.hour != null) {
     const s = target.size || 1;
     const [cx, cy] = at(RD.radiusFor(target), target.hour);
+    if (pat) { for (const [x, y] of RD.laserRings(15 * s + 4, pat)) spot(cx + x, cy + y, 1); return; }
     const rows = kind === 'laser' ? [15 * s + 4, 21 * s + 5] : [16 * s + 4];
     for (const rad of rows) { const n = Math.round(rad * TAU / (kind === 'laser' ? 6.5 : 11)); for (let i = 0; i < n; i++) { const a = i / n * TAU; spot(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad, 1); } }
     return;
@@ -666,6 +668,7 @@ function treatmentAround(ctx, f, scene, kind) {
   let s, e;
   if (target && target.start != null) { s = target.start - 0.25; e = target.end + 0.25; }
   else if (f.start != null) { s = f.start; e = f.end; }
+  else if (f.hour != null && pat) { const [cx, cy] = at(f.r != null ? f.r : G.TEAR_R, f.hour); for (const [x, y] of RD.laserRings(14 * (f.size || 1), pat)) spot(cx + x, cy + y, 1); return; }
   else if (f.hour != null) { const [cx, cy] = at(f.r != null ? f.r : G.TEAR_R, f.hour), sz = f.size || 1; for (const rad of [14 * sz, 20 * sz]) { const n = Math.round(rad * TAU / 6.5); for (let i = 0; i < n; i++) { const a = i / n * TAU; spot(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad, 1); } } return; }
   else return;
   const span = RD.spanHours(s, e);

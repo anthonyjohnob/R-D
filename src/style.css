@@ -456,3 +456,15 @@ details.card[open] > summary::after { content: "–"; }
 .ub-x:hover { opacity: 1; background: rgba(255,255,255,0.12); }
 .whatsnew .wn-head h2 { text-transform: none; letter-spacing: 0; color: var(--ink); font-size: 16.5px; font-weight: 700; }
 .wn-actions > * { flex: 0 0 auto; width: auto; }
+/* laser pattern options in the palette (shown while placing laser, or with a laser selected) */
+.pal-laser { margin: 0 0 8px; padding: 8px 8px 6px; border: 1px solid color-mix(in srgb, #B08A60 45%, var(--line-2)); border-radius: 10px; background: color-mix(in srgb, #B08A60 7%, var(--surface-2)); display: grid; gap: 5px; }
+.pal-laser[hidden] { display: none; }
+.palette.tucked > .pal-laser:not([hidden]) { display: grid; }
+.pal-laser .pal-sec { margin: 0 0 1px; color: #7A5A36; }
+.pal-laser .pal-lab { width: 44px; }
+.pal-unit { font-size: 11.5px; color: var(--muted); flex: none; }
+.pal-swatch { display: block; margin: 2px auto 0; max-width: 100%; border-radius: 8px; background: #FFFDF8; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06); }
+.pal-laser .pal-note { line-height: 1.35; }
+.palette.laser-only > :not(.pal-head):not(.pal-laser) { display: none; }
+.pal-done { display: flex; justify-content: flex-end; }
+.pal-done .btn-line { padding: 5px 14px; font-size: 13px; }

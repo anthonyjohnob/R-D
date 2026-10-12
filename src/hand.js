@@ -74,7 +74,7 @@ root.RDHand = function (api) {
     }
     if (placingBreak() && !api.getScene().lincoff) lincoffZone(g, u);
     if (phase === 'lasering' && stroke.length > 1) {
-      for (const [x, y] of RD.laserLineSpots(stroke)) {
+      for (const [x, y] of RD.laserLineSpots(stroke, laserOpt)) {
         if (Math.hypot(x, y) > G.R_ORA - 3) continue;
         g.fillStyle = 'rgba(176,138,96,0.45)'; g.beginPath(); g.arc(x, y, 3.1, 0, Math.PI * 2); g.fill();
         g.fillStyle = '#3A2E28'; g.beginPath(); g.arc(x, y, 1.7, 0, Math.PI * 2); g.fill();
@@ -327,6 +327,7 @@ root.RDHand = function (api) {
   function select(id) {
     selected = id;
     api.setHighlight(id);
+    renderLaserOpts();
   }
 
   /* ------------------------------ pointer input ------------------------- */
@@ -582,6 +583,7 @@ root.RDHand = function (api) {
         else if ((b.type === 'grt' || b.type === 'dia') && r > G.R_ORA - 70 && RD.inSpan(h, b.start, b.end, 0.1) && !tgt) tgt = b;
       }
       f = tgt ? { type: k, target: tgt.id } : { type: k, hour: hx, r: Math.round(clamp(r, 30, G.R_ORA - 20)) };
+      if (k === 'laser') Object.assign(f, { rows: laserOpt.rows, gap: laserOpt.gap });
     } else if (k === 'cat') {
       const E = item.E;
       // disc-shaped and whole-fundus findings have one anatomical place; sector findings take the quadrant
@@ -601,7 +603,8 @@ root.RDHand = function (api) {
     api.commit(out.scene);
     const nf = out.added[0] || null;
     if (nf) {
-      select(nf.id);
+      // a new laser is not selected, so the panel stays as it was (tap a laser to change its pattern)
+      if (nf.type !== 'laser') select(nf.id); else if (selected != null) select(null);
       api.announce([RD.describeAction({ op: 'add', f: nf }, out.scene.eye)].filter(Boolean), out.notes.filter(n => !/typical location/.test(n)));
     }
   }
@@ -613,19 +616,25 @@ root.RDHand = function (api) {
     idleHint(); drawInk();
   }
   /* a traced laser line: thinned to points about 3 units apart, kept inside the ora */
+  /* laser stays picked after each line or break, so several can be drawn; Done (or Esc) finishes */
   function finishLaser(p) {
     const pts = stroke, item = armed;
     stroke = [];
     const len = pts.reduce((s, q, i) => i ? s + dist(q, pts[i - 1]) : 0, 0);
-    if (len < 12 * unit()) { placeAt(item, p); return; }
-    hover = null; phase = 'idle';
-    let line = [pts[0]];
-    for (const q of pts.slice(1)) if (dist(q, line[line.length - 1]) >= 3) line.push(q);
-    if (line.length < 2) line.push(pts[pts.length - 1]);
-    if (line.length > 380) { const k = line.length / 380; line = Array.from({ length: 380 }, (_, i) => line[Math.min(line.length - 1, Math.round(i * k))]); }
-    addFinding({ type: 'laser', line: line.map(inOra) });
-    disarm();
-    idleHint(); drawInk();
+    hover = null; phase = 'armed';
+    if (len < 12 * unit()) {
+      if (Math.hypot(p[0], p[1]) <= G.R_CB + 20) addFinding(buildFinding(item, p, api.getScene().eye));
+    } else {
+      let line = [pts[0]];
+      for (const q of pts.slice(1)) if (dist(q, line[line.length - 1]) >= 3) line.push(q);
+      if (line.length < 2) line.push(pts[pts.length - 1]);
+      if (line.length > 380) { const k = line.length / 380; line = Array.from({ length: 380 }, (_, i) => line[Math.min(line.length - 1, Math.round(i * k))]); }
+      addFinding({ type: 'laser', line: line.map(inOra), rows: laserOpt.rows, gap: laserOpt.gap });
+    }
+    if (selected != null) select(null);
+    renderLaserOpts();
+    setHint('Trace more laser, or tap a break — Done when finished', true);
+    drawInk();
   }
   function updateSpan(p) {
     drag.h1 = hourOf(p);
@@ -672,6 +681,7 @@ root.RDHand = function (api) {
     phase = 'armed';
     if (!pal.classList.contains('docked')) { pal.classList.add('tucked'); palSub.textContent = `Placing: ${item.label.toLowerCase()}`; }
     if (selected != null) select(null);
+    renderLaserOpts();
     setHint(item.kind === 'laser' ? 'Tap a break to laser around it — or drag to trace the laser exactly' : SPAN[item.kind] ? `Tap, or drag along the fundus, to place the ${item.label.toLowerCase()}` : `Tap the fundus to place the ${item.label.toLowerCase()}`, true);
     drawInk();
   }
@@ -683,7 +693,8 @@ root.RDHand = function (api) {
     palSub.textContent = PAL_SUB;
     if (wasTucked) placePalette(false);
     hover = null;
-    if (phase === 'armed' || phase === 'placing' || phase === 'spanning') phase = 'idle';
+    if (phase === 'armed' || phase === 'placing' || phase === 'spanning' || phase === 'lasering') phase = 'idle';
+    renderLaserOpts();
     if (!quiet) drawInk();
   }
   /* a tile can be tapped (arm, then tap the fundus) or dragged straight onto the fundus */
@@ -794,6 +805,75 @@ root.RDHand = function (api) {
     if (!moreBox.hidden) { renderMore(); moreIn.focus(); }
   }
 
+  /* ---------------- laser pattern: rows, confluent or spaced, and the gap in burn widths ---------------- */
+  const LASER_DEFAULT = { rows: 3, gap: 0.5 };
+  const cleanOpt = (o) => ({ rows: Math.max(1, Math.min(5, Math.round((o && o.rows) || 3))), gap: o && RD.LASER_GAPS.includes(o.gap) ? o.gap : 0.5 });
+  let laserOpt = cleanOpt(Object.assign({}, LASER_DEFAULT, api.getPref('laser') || {}));
+  let lastSpaced = laserOpt.gap || 0.5;
+  const laserBox = el('div', { class: 'pal-laser', hidden: true });
+  function selectedLaser() {
+    if (selected == null) return null;
+    const f = api.getScene().findings.find(x => x.id === selected);
+    return f && f.type === 'laser' ? f : null;
+  }
+  function setLaser(next) {
+    next = cleanOpt(next);
+    if (next.gap) lastSpaced = next.gap;
+    const sel = phase === 'armed' || phase === 'lasering' ? null : selectedLaser();
+    laserOpt = next; api.setPref('laser', laserOpt);
+    if (sel) {
+      // the selected laser takes the new pattern (one Undo step)
+      const sc = RD.clone(api.getScene()), f = sc.findings.find(x => x.id === sel.id);
+      if (f) { f.rows = next.rows; f.gap = next.gap; api.commit(sc); }
+    }
+    renderLaserOpts(); drawInk();
+  }
+  function optRow(label, opts, value, pick, extra) {
+    const seg = el('div', { class: 'seg', role: 'group', 'aria-label': label });
+    for (const [v, t, title] of opts) seg.append(el('button', { type: 'button', 'aria-pressed': String(value === v), title: title || null, text: t, onclick: () => pick(v) }));
+    return el('div', { class: 'pal-row' }, [el('span', { class: 'pal-lab', text: label }), seg, extra || null]);
+  }
+  function drawSwatch(cv, pat) {
+    const W = 236, H = 62, dpr = Math.min(3, window.devicePixelRatio || 1);
+    cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, W, H);
+    const D = RD.BURN_D, along = pat.gap === 0 ? D * 0.82 : D * (1 + pat.gap), across = pat.gap === 0 ? D * 0.76 : along * 0.87;
+    const k = Math.min(1.9, (H - 12) / ((pat.rows - 1) * across + D));
+    const line = [[-W / 2 / k + 4, 0], [W / 2 / k - 4, 0]];
+    g.save(); g.translate(W / 2, H / 2); g.scale(k, k);
+    for (const [x, y] of RD.laserLineSpots(line, pat)) {
+      g.fillStyle = 'rgba(176,138,96,0.62)'; g.beginPath(); g.arc(x, y, 3.1, 0, Math.PI * 2); g.fill();
+      g.fillStyle = '#3A2E28'; g.beginPath(); g.arc(x, y, 1.7, 0, Math.PI * 2); g.fill();
+    }
+    g.restore();
+  }
+  function renderLaserOpts() {
+    const armedLaser = !!armed && armed.kind === 'laser';
+    const sel = armedLaser ? null : selectedLaser();
+    laserBox.hidden = !(armedLaser || sel);
+    // a selected laser turns the panel into its pattern editor until something else is picked
+    const wasOnly = pal.classList.contains('laser-only');
+    pal.classList.toggle('laser-only', !!sel);
+    if (wasOnly && !sel) placePalette(false);
+    if (laserBox.hidden) return;
+    const pat = sel ? (RD.laserPattern(sel) || cleanOpt(LASER_DEFAULT)) : laserOpt;
+    const spaced = pat.gap > 0;
+    const sw = el('canvas', { class: 'pal-swatch', 'aria-hidden': 'true' });
+    laserBox.replaceChildren(...[
+      el('div', { class: 'pal-sec' }, [sel ? 'Laser pattern · selected laser' : 'Laser pattern · as you trace']),
+      optRow('Rows', [1, 2, 3, 4, 5].map(n => [n, String(n), `${n} row${n > 1 ? 's' : ''}`]), pat.rows, (v) => setLaser({ rows: v, gap: pat.gap })),
+      optRow('Burns', [['c', 'Confluent', 'Burns touching, a continuous band'], ['s', 'Spaced', 'A gap between burns']], spaced ? 's' : 'c', (v) => setLaser({ rows: pat.rows, gap: v === 'c' ? 0 : (pat.gap || lastSpaced || 0.5) })),
+      spaced ? optRow('Gap', [[0.5, '½'], [1, '1'], [1.5, '1½'], [2, '2']].map(([v, t]) => [v, t, `${t} burn width${v > 1 ? 's' : ''} between burns`]), pat.gap, (v) => setLaser({ rows: pat.rows, gap: v }), el('span', { class: 'pal-unit', text: 'burns' })) : null,
+      sw,
+      el('p', { class: 'pal-note', text: `${RD.laserPatternText(pat)} — each dot is one burn.${sel ? ' Changes apply to the selected laser.' : ' Tap a break to laser around it, or drag to trace; keep going for more lines.'}` }),
+      el('div', { class: 'pal-done' }, [el('button', { type: 'button', class: 'btn-line', text: 'Done', onclick: () => { if (armedLaser) { disarm(); idleHint(); } else select(null); drawInk(); } })]),
+    ].filter(Boolean));
+    // the editor has to be seen: open the panel if it was folded away
+    if (sel) pal.classList.remove('min');
+    drawSwatch(sw, pat);
+  }
+
   const status = el('div', { class: 'pal-status' });
   const PAL_SUB = 'drag onto the fundus · or tap, then tap the spot';
   const palSub = el('span', { class: 'pal-sub', text: PAL_SUB });
@@ -804,7 +884,7 @@ root.RDHand = function (api) {
     el('button', { type: 'button', class: 'pal-btn pal-min', 'aria-label': 'Minimise the palette', title: 'Minimise', text: '–', onclick: () => { pal.classList.toggle('min'); } }),
     el('button', { type: 'button', class: 'pal-btn', 'aria-label': 'Close the palette', title: 'Close', text: '×', onclick: () => closePalette() }),
   ]);
-  pal.append(head, linHint, grid, moreBox, status);
+  pal.append(head, laserBox, linHint, grid, moreBox, status);
 
   function segRow(label, need, opts, value, onPick) {
     const row = el('div', { class: 'pal-row' + (need ? ' need' : '') }, [el('span', { class: 'pal-lab', text: label })]);
@@ -859,7 +939,7 @@ root.RDHand = function (api) {
   function palRect(corner) {
     const W = rect().width || G.SIZE, u = G.SIZE / W;
     // the palette's full size, even while it is tucked away during placement
-    if (!pal.classList.contains('tucked') && !pal.classList.contains('min') && pal.offsetHeight > 60) palFull = [pal.offsetWidth, pal.offsetHeight];
+    if (!pal.classList.contains('tucked') && !pal.classList.contains('min') && !pal.classList.contains('laser-only') && pal.offsetHeight > 60) palFull = [pal.offsetWidth, pal.offsetHeight];
     const pw = (palFull ? palFull[0] : pal.offsetWidth) * u, ph = (palFull ? palFull[1] : pal.offsetHeight) * u, m = 8 * u, H = G.SIZE / 2;
     const x0 = corner[0] ? H - m - pw : -H + m, y0 = corner[1] ? H - m - ph : -H + m;
     return [x0, y0, x0 + pw, y0 + ph];
@@ -950,7 +1030,7 @@ root.RDHand = function (api) {
     }
     else {
       fab.hidden = !pal.hidden;
-      if (!pal.hidden) { renderStatus(); placePalette(false); }
+      if (!pal.hidden) { renderStatus(); renderLaserOpts(); placePalette(false); }
       if (phase === 'idle') idleHint();
     }
     if (selected != null && !api.getScene().findings.some(f => f.id === selected)) select(null);

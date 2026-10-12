@@ -1278,7 +1278,11 @@ function findingTitle(f, eye) {
     case 'pav': return `Paving stone · ${fmtHour(f.hour)}`;
     case 'tuft': return `Tuft · ${fmtHour(f.hour)}`;
     case 'pvr': return `PVR ${f.grade || 'C'}${(f.grade || 'C') === 'C' ? (f.loc || 'P') : ''}${f.extent ? ' · ' + fmtSpan(f.extent) : ''}${f.hours ? ' · star fold ' + f.hours.map(fmtHour).join(', ') : ''}`;
-    case 'laser': if (Array.isArray(f.line) && f.line.length > 1) { const L = lineSpan(f.line); return L.len >= 11.5 ? 'Laser line · 360°' : L.len < 0.25 ? `Laser line · ${fmtHour(L.s)}` : `Laser line · ${fmtHour(L.s)}–${fmtHour(L.e)}`; }
+    case 'laser': {
+      const pat = laserPattern(f), rw = pat ? ` · ${pat.rows} row${pat.rows > 1 ? 's' : ''}` : '';
+      if (Array.isArray(f.line) && f.line.length > 1) { const L = lineSpan(f.line); return (L.len >= 11.5 ? 'Laser line · 360°' : L.len < 0.25 ? `Laser line · ${fmtHour(L.s)}` : `Laser line · ${fmtHour(L.s)}–${fmtHour(L.e)}`) + rw; }
+      if (pat) return (f.target ? 'Laser around a break' : f.hour != null ? `Laser · ${fmtHour(f.hour)}` : 'Laser') + rw;
+    }
       return f.around ? 'Laser around breaks' : f.target ? 'Laser around a break' : f.full || (f.start != null && spanHours(f.start, f.end) >= 12) ? 'Laser 360°' : f.hour ? `Laser · ${fmtHour(f.hour)}` : `Laser ${r(f.start, f.end)}`;
     case 'cryo': return f.around ? 'Cryo around breaks' : f.target ? 'Cryo around a break' : f.hour ? `Cryo · ${fmtHour(f.hour)}` : `Cryo ${r(f.start, f.end)}`;
     case 'vh': return `${f.fresh ? 'Fresh blood in vitreous' : 'Vitreous hemorrhage'} · ${fmtHour(f.hour)}`;
@@ -1720,7 +1724,47 @@ function lineSpan(line) {
   for (let i = 0; i < hs.length; i++) { const g = (i === hs.length - 1 ? hs[0] + 12 : hs[i + 1]) - hs[i]; if (g > gap) { gap = g; gi = i; } }
   return { s: normHour(Math.round(hs[(gi + 1) % hs.length] * 4) / 4), e: normHour(Math.round(hs[gi] * 4) / 4), len: 12 - gap };
 }
-function laserLineSpots(line) {
+/* the laser pattern chosen when it was drawn by hand: rows, and the gap between burns in burn widths
+   (0 = confluent). Older drawings have none and keep their original look. */
+const LASER_GAPS = [0, 0.5, 1, 1.5, 2];
+const BURN_D = 6.2;                      // the diameter of one burn on the chart
+function laserPattern(f) {
+  if (!f || (f.rows == null && f.gap == null)) return null;
+  return { rows: Math.max(1, Math.min(5, Math.round(f.rows || 3))), gap: LASER_GAPS.includes(f.gap) ? f.gap : 0.5 };
+}
+const fmtGap = (g) => ({ 0.5: '½', 1: '1', 1.5: '1½', 2: '2' })[g] || String(g);
+function laserPatternText(pat) {
+  if (!pat) return '';
+  return `${pat.rows} row${pat.rows > 1 ? 's' : ''}, ${pat.gap === 0 ? 'confluent' : `${fmtGap(pat.gap)} burn width${pat.gap > 1 ? 's' : ''} apart`}`;
+}
+/* centre-to-centre distance of burns along a row, and between rows (rows are staggered) */
+function laserPitch(pat) {
+  const along = pat.gap === 0 ? BURN_D * 0.82 : BURN_D * (1 + pat.gap);
+  return { along, across: pat.gap === 0 ? BURN_D * 0.76 : along * 0.87 };
+}
+/* rings of burns around a break or a spot, starting at radius r0 */
+function laserRings(r0, pat) {
+  const P = laserPitch(pat), out = [];
+  for (let k = 0; k < pat.rows; k++) {
+    const r = r0 + k * P.across, n = Math.max(6, Math.round(2 * Math.PI * r / P.along)), off = k % 2 ? 0.5 : 0;
+    for (let i = 0; i < n; i++) { const a = (i + off) / n * 2 * Math.PI; out.push([Math.cos(a) * r, Math.sin(a) * r]); }
+  }
+  return out;
+}
+function laserLineSpots(line, pat) {
+  if (pat) {
+    // rows either side of the traced line, each burn a pitch from the next, alternate rows offset by half a pitch
+    const P = laserPitch(pat), Q = resamplePath(line, P.along / 2), out = [];
+    for (let k = 0; k < pat.rows; k++) {
+      const o = (k - (pat.rows - 1) / 2) * P.across;
+      for (let i = k % 2; i < Q.length; i += 2) {
+        const a = Q[Math.max(0, i - 1)], b = Q[Math.min(Q.length - 1, i + 1)];
+        let tx = b[0] - a[0], ty = b[1] - a[1]; const L = Math.hypot(tx, ty) || 1; tx /= L; ty /= L;
+        out.push([Q[i][0] - ty * o, Q[i][1] + tx * o]);
+      }
+    }
+    return out;
+  }
   const step = 6.5, P = resamplePath(line, step), out = [];
   for (let i = 0; i < P.length; i++) {
     const a = P[Math.max(0, i - 1)], b = P[Math.min(P.length - 1, i + 1)];
@@ -2279,17 +2323,24 @@ function clinicalNote(scene) {
 function laserText(items, all, word) {
   const tgt = items.filter(x => x.target).map(x => all.find(y => y.id === x.target)).filter(Boolean);
   const parts = [];
-  if (tgt.length) parts.push('around the ' + (tgt.length === 1 ? LABEL[tgt[0].type].toLowerCase() + ' at ' + fmtHour(findingHour(tgt[0])) + ' o’clock' : tgt.length + ' breaks'));
+  const patOf = (xs) => { const t = xs.map(x => laserPatternText(laserPattern(x))); return t[0] && t.every(y => y === t[0]) ? ` (${t[0]})` : ''; };
+  const tgtItems = items.filter(x => x.target && all.some(y => y.id === x.target));
+  if (tgt.length) parts.push('around the ' + (tgt.length === 1 ? LABEL[tgt[0].type].toLowerCase() + ' at ' + fmtHour(findingHour(tgt[0])) + ' o’clock' : tgt.length + ' breaks') + patOf(tgtItems));
   const arcs = items.filter(x => x.start != null);
   if (arcs.some(a => spanHours(a.start, a.end) >= 12)) parts.push('360°');
   const part = arcs.filter(a => spanHours(a.start, a.end) < 12);
   if (part.length) parts.push(listJoin(part.map(a => `${fmtHour(a.start)}–${fmtHour(a.end)}`)) + ' o’clock');
   const spots = items.filter(x => x.hour != null && !x.target);
-  if (spots.length) parts.push('at ' + hourList(spots.map(s => s.hour)));
-  const drawn = items.filter(x => Array.isArray(x.line) && x.line.length > 1).map(x => lineSpan(x.line));
+  if (spots.length) parts.push('at ' + hourList(spots.map(s => s.hour)) + patOf(spots));
+  const drawnItems = items.filter(x => Array.isArray(x.line) && x.line.length > 1), drawn = drawnItems.map(x => lineSpan(x.line));
   const spanTxt = (L) => L.len >= 11.5 ? '360°' : L.len < 0.25 ? `at ${fmtHour(L.s)} o’clock` : `from ${fmtHour(L.s)} to ${fmtHour(L.e)} o’clock`;
-  if (drawn.length === 1) parts.push(`along a drawn line ${drawn[0].len >= 11.5 ? 'all round (360°)' : spanTxt(drawn[0])}`);
-  else if (drawn.length) parts.push(`along drawn lines (${listJoin(drawn.map(L => L.len >= 11.5 ? '360°' : L.len < 0.25 ? fmtHour(L.s) : fmtHour(L.s) + '–' + fmtHour(L.e)))} o’clock)`);
+  const short = (L) => L.len >= 11.5 ? '360°' : L.len < 0.25 ? fmtHour(L.s) : fmtHour(L.s) + '–' + fmtHour(L.e);
+  if (drawn.length === 1) parts.push(`along a drawn line ${drawn[0].len >= 11.5 ? 'all round (360°)' : spanTxt(drawn[0])}${patOf(drawnItems)}`);
+  else if (drawn.length) {
+    const pats = drawnItems.map(x => laserPatternText(laserPattern(x)));
+    if (pats.every(t => t === pats[0])) parts.push(`along drawn lines (${listJoin(drawn.map(short))} o’clock${pats[0] ? '; ' + pats[0] : ''})`);
+    else parts.push(`along drawn lines (${drawn.map((L, i) => `${short(L)} o’clock${pats[i] ? ', ' + pats[i] : ''}`).join('; ')})`);
+  }
   return `${word} ${parts.join('; ')}.`;
 }
 
@@ -2611,6 +2662,7 @@ function diffScenes(a, b) {
       const d0 = tumorFeatures(o, true).join(', '), d1 = tumorFeatures(f, true).join(', ');
       if (d0 !== d1) parts.push(d0 && d1 ? `${d0} → ${d1}` : d1 ? `now ${d1}` : `no longer described as ${d0}`);
     }
+    if (f.type === 'laser') { const a0 = laserPatternText(laserPattern(o)), a1 = laserPatternText(laserPattern(f)); if (a0 !== a1 && a0 && a1) parts.push(`${a0} → ${a1}`); }
     if ((o.size || 1) !== (f.size || 1) && t0 === t1) parts.push(`${t1} ${(f.size || 1) > (o.size || 1) ? 'enlarged' : 'made smaller'}`);
     if (!parts.length) {
       const p0 = findingAnchor(o, a), p1 = findingAnchor(f, b);
@@ -2650,6 +2702,10 @@ function sanitizeFinding(f) {
   if (Array.isArray(f.hours)) g.hours = f.hours.slice(0, 24).map(h => numIn(h, 0.0001, 12.9999)).filter(h => h != null).map(normHour);
   if (f.type === 'buckle') { if (f.radial === true) g.radial = true; if (f.onBand === true) g.onBand = true; if (f.ant === true) g.ant = true; if (own(BUCKLE_EL, f.el)) g.el = f.el; }
   if (Array.isArray(f.pts) && f.type === 'pvr') g.pts = f.pts.slice(0, 12).map(pt2).filter(Boolean);
+  if (f.type === 'laser') {
+    const rows = numIn(f.rows, 1, 5); if (rows != null) g.rows = Math.round(rows);
+    if (LASER_GAPS.includes(f.gap)) g.gap = f.gap;
+  }
   if (Array.isArray(f.line) && (f.type === 'laser' || f.type === 'cryo')) {
     let ln = f.line.slice(0, 3000).map(pt2).filter(Boolean);
     if (ln.length > 400) ln = resamplePath(ln, pathLength(ln) / 380).map(round1);
@@ -2726,7 +2782,7 @@ const API = {
   CATALOG, CAT, GROUPS, catPlace, catLocText, catName, POSTERIOR_SITES, SITE_TEXT, SITES, QUAD_NAMES, stage1,
   prepareStroke, pathOptions, pickPathSide, rdFromPath, pathShape, pathField, pathAgrees, PVD_TEXT, LENS_TEXT, repairOptions, REPAIR_REFS, PROCS,
   DISC_RECIPES, QUAD_RECIPES, siteAt, findingAnchor, diffScenes, sanitizeScene, sanitizeReview,
-  breakPoints, hourSpread, BUCKLE_EL, lineSpan, laserLineSpots, sizeWord,
+  breakPoints, hourSpread, BUCKLE_EL, lineSpan, laserLineSpots, laserRings, laserPattern, laserPatternText, LASER_GAPS, BURN_D, sizeWord,
   isTumor, MELANOCYTIC, TUM_KEYS, DD_UNITS, MM_PER_DD, ELEV_TEXT, SHAPE_TEXT, SRF_TEXT, SRF_SHORT, toDD, fmtNum, tumorSize, tumorRadii, tumorLevel, tumorFeatures, ellipseR, cleanTumor,
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = API;
