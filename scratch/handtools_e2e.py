@@ -88,9 +88,9 @@ try:
         ctx.close()
         # a newer version published while the page is open
         ctx = b.new_context(viewport={'width': 1360, 'height': 1000}); pg = ctx.new_page(); watch(pg, 'newer')
-        pg.route('**/version.json*', lambda route: route.fulfill(status=200, content_type='application/json', body=json.dumps({'version': '1.99', 'date': '2026-12-01'})))
+        pg.route('**/version.json*', lambda route: route.fulfill(status=200, content_type='application/json', body=json.dumps({'version': '9.99', 'date': '2026-12-01'})))
         pg.goto(URL); pg.wait_for_timeout(5000)
-        check('newer version offered', pg.is_visible('#updateBar') and 'Version 1.99' in pg.text_content('#updateBar'), pg.text_content('#updateBar'))
+        check('newer version offered', pg.is_visible('#updateBar') and 'Version 9.99' in pg.text_content('#updateBar'), pg.text_content('#updateBar'))
         pg.screenshot(path='scratch/ht_updatebar.png', clip={'x': 300, 'y': 860, 'width': 760, 'height': 140})
         pg.click('#updateBar .ub-x'); pg.wait_for_timeout(150)
         check('Not now hides it', pg.is_hidden('#updateBar'))

@@ -1,4 +1,4 @@
-"""The simple layout (shell.js), the default since 1.4: phone and computer. The guide from trace to repair options,
+"""The simple layout (shell.js), the default since 2.0: phone and computer. The guide from trace to repair options,
 the dock, the summary strip, the edit panel under the chart, laser folding, clear, the pole view, typing, the
 classic layout switch and the update note."""
 import json, math, subprocess, time

@@ -1,11 +1,11 @@
 /* R/D versions and what changed, newest first. The first entry is the version that runs.
-   Numbering: a new feature goes up a step (1.2 → 1.3); fixes and small touches add a third number
-   (1.3 → 1.3.1). Version 2 only when the owner decides a release is big enough for it.
+   Numbering: a new feature goes up a step (2.0 → 2.1); fixes and small touches add a third number
+   (2.1 → 2.1.1). A new major version (3.0) only when the owner decides a release is big enough for it.
    Every published update adds an entry here (tools/publish.sh refuses to publish the same version twice). */
 (function (root) {
 'use strict';
 const CHANGELOG = [
-  { v: '1.4', date: '2026-10-12', title: 'A simpler layout, made for phones', items: [
+  { v: '2.0', date: '2026-10-12', title: 'Version 2: a simpler layout, made for phones', items: [
     'The chart fills the top of the screen. Under it, a strip sums up the eye — detachment, PVD and lens, repair options, Lincoff zone, buckle guide — and any chip opens its details.',
     'A dock at the bottom holds one big button (Trace the detachment, then Redraw and Add detachment) and the everyday tools: Tear, Hole, Lattice, Laser and More for everything else.',
     'A guide carries on by itself: trace the detachment, add the break (the tools to use glow), then record PVD and lens. Any step can be skipped.',

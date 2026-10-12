@@ -99,7 +99,7 @@ const s2 = RD.clone(s); s2.findings.find(f => f.type === 'laser' && f.rows === 2
 ok(RD.diffScenes(s, s2).some(x => /2 rows, confluent → 3 rows, confluent|2 rows → .*3 rows/.test(x.text)), 'review names a pattern change', RD.diffScenes(s, s2));
 
 /* ---------------- the version list ---------------- */
-ok(CL.VERSION === CL.CHANGELOG[0].v && /^1(\.\d+){1,2}$/.test(CL.VERSION), 'version 1.x', CL.VERSION);
+ok(CL.VERSION === CL.CHANGELOG[0].v && /^2(\.\d+){1,2}$/.test(CL.VERSION), 'version 2.x (the owner decided on 2.0; 3 only when they say so)', CL.VERSION);
 let ordered = true;
 for (let i = 1; i < CL.CHANGELOG.length; i++) if (CL.cmpVersion(CL.CHANGELOG[i - 1].v, CL.CHANGELOG[i].v) <= 0 || CL.CHANGELOG[i - 1].date < CL.CHANGELOG[i].date) ordered = false;
 ok(ordered, 'newest first, versions and dates in order');
