@@ -51,7 +51,7 @@ function save() {
 function commit(next) {
   undoStack.push(scene); if (undoStack.length > 120) undoStack.shift();
   redoStack = [];
-  previewScene = null; previewText = null;          // a preview never outlives a change to the record
+  previewScene = null; previewText = null; bucklePreviewKey = null;          // a preview never outlives a change to the record
   scene = next;
   prefs.eye = scene.eye;
   save(); renderAll();
@@ -74,7 +74,7 @@ function draw() {
     if (hand) hand.drawInk();
   });
 }
-function renderAll() { draw(); renderFindings(); renderNote(); renderLincoff(); renderRepair(); renderEye(); renderTools(); renderKey(); renderReviewBar(); renderReview(); if (hand) hand.sync(); }
+function renderAll() { draw(); renderFindings(); renderNote(); renderLincoff(); renderRepair(); renderBuckle(); renderEye(); renderTools(); renderKey(); renderReviewBar(); renderReview(); if (hand) hand.sync(); }
 
 function renderEye() {
   document.querySelectorAll('.eye-switch button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.eye === scene.eye)));
@@ -361,7 +361,7 @@ function renderRepair() {
     // intended for clinicians only: the summary stays closed until the viewer confirms they are one
     box.append(el('div', { class: 'rep-gate' }, [
       el('p', { text: 'This section matches the drawing to published trials and cohorts of retinal detachment repair and shows what they found, with every source. It is for eye-care professionals and trainees, for education. It is not medical advice, not a recommendation for any patient, and not for patients deciding about their own care.' }),
-      el('button', { type: 'button', class: 'btn-line', text: 'I’m an eye-care professional or trainee — show the evidence', onclick: () => { prefs.hcpAck = true; save(); renderRepair(); } }),
+      el('button', { type: 'button', class: 'btn-line', text: 'I’m an eye-care professional or trainee — show the evidence', onclick: () => { prefs.hcpAck = true; save(); renderAll(); } }),
     ]));
     return;
   }
@@ -407,6 +407,119 @@ function renderRepair() {
   box.append(el('details', { class: 'rep-more' }, [el('summary', { text: `Sources (${order.length}, each checked on PubMed)` }), refs]));
   box.append(el('p', { class: 'rep-disc', text: 'For education: what published trials and cohorts found in comparable eyes. Not medical advice and not a recommendation for this patient — the clinician’s examination and judgement decide.' }));
 }
+
+/* ------------------------------ scleral buckle guide ------------------------------ */
+/* For an eye that is a buckle or vitrectomy-with-buckle candidate: the configuration the evidence supports,
+   the elements, where they go and what to expect, every point tagged with its kind of evidence (buckle.js). */
+const BK = window.RDBuckle;
+let buckleTab = null, bucklePreviewKey = null;
+const LV_CLASS = { rct: 'lv-rct', trial: 'lv-rct', meta: 'lv-meta', cohort: 'lv-cohort', series: 'lv-series', model: 'lv-model', expert: 'lv-expert' };
+function elementSvg(it) {
+  // a cross-section on the sclera, to scale (mm), drawn small
+  const k = 4.2, W = 64, H = 30, base = 25, w = Math.min(it.w * k, 58), h = Math.max(2.4, Math.min(it.h * k, 22)), x0 = (W - w) / 2;
+  const sponge = /sponge|half/.test(it.shape) || it.shape === 'oval' || it.shape === 'round';
+  let body = '';
+  if (it.shape === 'band') body = `<rect x="${x0}" y="${base - h}" width="${w}" height="${h}" rx="0.8"/>`;
+  else if (it.shape === 'tire') {
+    const g = (it.groove || 2.5) * k, gd = Math.min(3.2, h * 0.35), hl = it.asym ? h * 0.72 : h, hr = h;
+    body = `<path d="M${x0} ${base} C${x0} ${base - hl * 0.9} ${x0 + w * 0.18} ${base - hl} ${x0 + w * 0.3} ${base - hl} L${W / 2 - g / 2} ${base - hl} L${W / 2 - g / 2} ${base - hl + gd} L${W / 2 + g / 2} ${base - hr + gd} L${W / 2 + g / 2} ${base - hr} L${x0 + w * 0.7} ${base - hr} C${x0 + w * 0.82} ${base - hr} ${x0 + w} ${base - hr * 0.9} ${x0 + w} ${base} Z"/>`;
+  }
+  else if (it.shape === 'oval') body = `<ellipse cx="${W / 2}" cy="${base - h / 2}" rx="${w / 2}" ry="${h / 2}"/>`;
+  else if (it.shape === 'round') body = `<circle cx="${W / 2}" cy="${base - h / 2}" r="${h / 2}"/>`;
+  else if (it.shape === 'half') body = `<path d="M${x0} ${base} A${w / 2} ${h} 0 0 1 ${x0 + w} ${base} Z"/>`;
+  else if (it.shape === 'sleeve') body = `<rect x="${W / 2 - 9}" y="${base - 9}" width="18" height="9" rx="3"/><rect x="${W / 2 - 5}" y="${base - 6}" width="10" height="3" rx="1" class="hole"/>`;
+  const pores = sponge ? `<g class="pores">${[0.25, 0.45, 0.65, 0.35, 0.55].map((f, i) => `<circle cx="${x0 + w * f}" cy="${base - h * (0.3 + (i % 2) * 0.3)}" r="0.7"/>`).join('')}</g>` : '';
+  return `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true"><path class="sclera" d="M2 ${base + 1.5} Q${W / 2} ${base - 1} ${W - 2} ${base + 1.5}"/><g class="el ${sponge ? 'sp' : 'so'}">${body}</g>${pores}</svg>`;
+}
+function renderBuckle() {
+  const card = $('#buckleCard'), box = $('#buckle');
+  if (!card || !box || !BK) return;
+  const P = BK.plan(scene);
+  card.hidden = P.state !== 'ok';
+  box.replaceChildren();
+  if (P.state !== 'ok') return;
+  if (!prefs.hcpAck) { box.append(el('p', { class: 'lin-text', text: 'Open the repair options above (for eye-care professionals and trainees) to see the buckle guide.' })); return; }
+  const order = [];
+  const num = (k) => { let i = order.indexOf(k); if (i < 0) { order.push(k); i = order.length - 1; } return i + 1; };
+  const cite = (refs) => el('span', { class: 'rep-refs' }, (refs || []).map(k => { const r = P.refs[k]; return el('a', { href: r.doi ? 'https://doi.org/' + r.doi : r.url || `https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/`, target: '_blank', rel: 'noopener', title: r.cite, text: String(num(k)) }); }));
+  const tag = (lv) => lv ? el('span', { class: 'lv ' + LV_CLASS[lv], text: P.LV[lv] }) : null;
+  const item = (x, cls) => el('li', { class: cls || '' }, [x.t, ' ', tag(x.lv), ' ', cite(x.refs)]);
+  const list = (xs, cls, ic) => { const u = el('ul', { class: 'rep-why bk-list' }); for (const x of xs) u.append(item(x, ic)); return u; };
+
+  const tabs = [['sb', 'Buckle alone'], ['ppvsb', 'Vitrectomy + buckle']].filter(([k]) => P.cand[k]);
+  if (!tabs.length) {
+    box.append(el('p', { class: 'lin-text', text: 'A buckle is not among the better-supported options for this drawing (see Repair options above). The element guide below still applies if you choose one.' }));
+  } else {
+    const rank = { favoured: 0, consider: 1 };
+    if (!buckleTab || !P.cand[buckleTab]) buckleTab = tabs.slice().sort((a, b) => rank[P.tiers[a[0]]] - rank[P.tiers[b[0]]])[0][0];
+    if (tabs.length > 1) {
+      const seg = el('div', { class: 'seg bk-tabs', role: 'tablist', 'aria-label': 'Which operation' });
+      for (const [k, t] of tabs) seg.append(el('button', { type: 'button', role: 'tab', 'aria-selected': String(buckleTab === k), 'aria-pressed': String(buckleTab === k), text: t, onclick: () => { buckleTab = k; renderBuckle(); } }));
+      box.append(seg);
+    }
+    const facts = el('div', { class: 'chips rep-facts' });
+    for (const t of P.facts) facts.append(el('span', { class: 'chip k-status', text: t }));
+    box.append(facts);
+    const S = P[buckleTab];
+    const step = (n, title, kids) => el('section', { class: 'bk-step' }, [el('h3', {}, [el('span', { class: 'bk-n', text: String(n) }), title]), ...kids.filter(Boolean)]);
+    // 1 · configuration
+    const showBtn = (draw, label, key) => {
+      const on = bucklePreviewKey === key && previewScene;
+      return el('button', { type: 'button', class: 'btn-line', 'aria-pressed': String(!!on), text: on ? 'Hide from chart' : label, onclick: () => {
+        if (on) { previewScene = null; previewText = null; bucklePreviewKey = null; draw0(); return; }
+        if (view !== 'fundus') setView('fundus');
+        previewScene = BK.applyPlan(scene, draw); previewText = 'BUCKLE PLAN · not added'; bucklePreviewKey = key; draw0();
+      } });
+    };
+    const addBtn = (draw) => el('button', { type: 'button', class: 'glass small', text: 'Add to drawing', onclick: () => { bucklePreviewKey = null; commit(BK.applyPlan(scene, draw)); toast('Buckle added to the drawing — Undo removes it'); } });
+    const conf = [el('p', { class: 'bk-title' }, [el('strong', { text: S.title })]), el('p', { class: 'bk-sum', text: S.summary })];
+    if (S.why.length) conf.push(el('p', { class: 'bk-sub', text: buckleTab === 'ppvsb' ? 'For adding the band' : 'Why' }), list(S.why, null, 'pro'));
+    if (S.against && S.against.length) conf.push(el('p', { class: 'bk-sub', text: 'Against, or no benefit shown' }), list(S.against, null, 'con'));
+    if (S.alts && S.alts.length) { conf.push(el('p', { class: 'bk-sub', text: 'Alternatives' })); const u = el('ul', { class: 'rep-why bk-list' }); for (const a of S.alts) u.append(el('li', { class: 'neu' }, [el('strong', { text: a.name + ': ' }), a.t, ' ', tag(a.lv), ' ', cite(a.refs)])); conf.push(u); }
+    if (S.draw && S.draw.length) conf.push(el('div', { class: 'rv-actions bk-actions' }, [showBtn(S.draw, 'Show on chart', buckleTab), S.drawAlt ? showBtn(S.drawAlt, 'Show the segmental option', buckleTab + '-alt') : null, addBtn(S.draw)]));
+    box.append(step(1, 'Configuration', conf));
+    if (S.status === 'plan') {
+      if (S.elements.length) box.append(step(2, 'Elements', [list(S.elements, null, 'neu')]));
+      if (S.place.length) box.append(step(3, 'Placement and sutures', [list(S.place, null, 'neu')]));
+      if (S.expect.length) box.append(step(4, 'What to expect', [list(S.expect, null, 'neu')]));
+    }
+    if (S.notes && S.notes.length) box.append(el('div', { class: 'msg warn bk-notes' }, [list(S.notes, null, 'neu')]));
+    if (P.outside.length) box.append(el('p', { class: 'rep-disc', text: `Break${P.outside.length > 1 ? 's' : ''} in attached retina (${P.outside.map(b => fmtH(b.h)).join(', ')}) are not planned for here — treat or include them on your own judgement.` }));
+    const gen = el('details', { class: 'rep-more' }, [el('summary', { text: 'Drainage, and why buckles fail' })]);
+    for (const g of P.general) gen.append(el('p', {}, [g.t, ' ', tag(g.lv), ' ', cite(g.refs)]));
+    box.append(gen);
+  }
+  // the element library
+  const lib = el('details', { class: 'rep-more bk-lib', open: !tabs.length }, [el('summary', { text: 'Element guide: bands, tires, sponges, sleeves' })]);
+  for (const g of BK.ELEMENTS) {
+    lib.append(el('h4', { class: 'bk-group', text: g.group }));
+    if (g.note) lib.append(el('p', { class: 'bk-gnote', text: g.note }));
+    const ul = el('ul', { class: 'bk-els' });
+    for (const it of g.items) {
+      const svg = el('span', { class: 'bk-svg' }); svg.innerHTML = elementSvg(it);
+      ul.append(el('li', {}, [svg, el('div', {}, [el('div', { class: 'bk-el-h' }, [el('strong', { text: it.name }), el('span', { class: 'bk-dims', text: it.dims })]), el('div', { class: 'bk-use' }, [it.use, ' ', cite(it.refs)])])]));
+    }
+    lib.append(ul);
+  }
+  lib.append(el('p', { class: 'bk-gnote', text: 'Style numbers are shared by most makers (FCI, MIRA, DORC/Zeiss, Labtician), but some describe the same style differently. Dimensions are from the FCI product list; check the box for the element you use.' }));
+  box.append(lib);
+  const refs = el('ol', { class: 'lib-refs rep-reflist' });
+  for (const k of order) {
+    const r = P.refs[k];
+    refs.append(el('li', {}, [r.cite + ' ', r.doi ? el('a', { href: 'https://doi.org/' + r.doi, target: '_blank', rel: 'noopener', text: 'doi:' + r.doi }) : null, r.doi && r.pmid ? ' · ' : null, r.pmid ? el('a', { href: `https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/`, target: '_blank', rel: 'noopener', text: 'PMID ' + r.pmid }) : null, r.url ? el('a', { href: r.url, target: '_blank', rel: 'noopener', text: r.url.replace(/^https:\/\/(www\.)?/, '').split('/')[0] }) : null]));
+  }
+  box.append(el('details', { class: 'rep-more rep-how' }, [el('summary', { text: 'How this guide works, and its limits' }), el('ul', {}, [
+    el('li', { text: 'Reads the breaks drawn inside the detachment (tears, holes, dialyses, giant tears, holes in lattice), how far apart they are, lattice, PVR, lens status and which operations the repair card ranks as candidates.' }),
+    el('li', { text: 'There are no randomised trials of one buckle configuration against another. Configuration advice rests on comparative cohorts, case series, geometry and expert technique, and each point says which.' }),
+    el('li', { text: 'The thresholds come from the cited series (for example, breaks within 90° for a segmental buckle). The 1-clock-hour margin drawn either side of a segment is common teaching, not an outcome-tested figure.' }),
+    el('li', { text: 'Does not know the size of a tear in mm, its exact distance from the ora, axial length, the fellow eye, the media, or the surgeon’s experience. Element choice also depends on what is in the cupboard.' }),
+    el('li', { text: 'Fixed rules, no AI, nothing leaves the device. Education, not a surgical plan: examine, decide and check the sources yourself.' }),
+  ])]));
+  box.append(el('details', { class: 'rep-more' }, [el('summary', { text: `Sources (${order.length}; journal articles checked on PubMed)` }), refs]));
+  box.append(el('p', { class: 'rep-disc', text: 'For education: how published studies and technique references approach a buckle for an eye like this. Not a surgical plan or a recommendation for this patient.' }));
+}
+function fmtH(h) { return RD.fmtHour(h); }
+function draw0() { draw(); renderBuckle(); }
 
 function previewActions(actions) { return actions.filter(a => !['undo', 'redo'].includes(a.op)); }
 let previewTimer = 0;

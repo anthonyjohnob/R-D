@@ -9,6 +9,7 @@ The `main` branch holds only the built website that GitHub Pages serves at
 | Path | What it is |
 | --- | --- |
 | `src/core.js` | Chart geometry, the dictation parser, hand-drawn detachments, tumour descriptors (size, thickness, elevation, drusen, orange pigment, SRF), repair-evidence scoring, review links (pack/diff/sanitise) |
+| `src/buckle.js` | Scleral buckle guide: configuration for the drawn breaks (buckle alone, or with vitrectomy), element library, cited evidence |
 | `src/render.js`, `src/render-cat.js` | Canvas drawing of the fundus chart and the pathology library |
 | `src/hand.js` | Drawing by hand: tracing borders, palette, drag/tap placement |
 | `src/app.js` | Page logic: panels, dictation, teaching review, saving/export |
@@ -26,7 +27,7 @@ The `main` branch holds only the built website that GitHub Pages serves at
 python3 build.py                      # → dist/R-D.html (standalone), dist/artifact/, dist/site/ (website)
 for t in test/*.test.js; do node $t | tail -1; done
 python3 scratch/site_test.py          # needs Playwright + Chromium
-python3 scratch/hand_e2e.py; python3 scratch/review_e2e.py; python3 scratch/tumor_e2e.py
+python3 scratch/hand_e2e.py; python3 scratch/review_e2e.py; python3 scratch/tumor_e2e.py; python3 scratch/buckle_e2e.py
 ```
 
 ## Publish

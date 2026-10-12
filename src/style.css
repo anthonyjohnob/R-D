@@ -388,3 +388,36 @@ details.card[open] > summary::after { content: "–"; }
   .glass { flex: 1 1 auto; justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* ---------------------------- scleral buckle guide ---------------------------- */
+.bk-tabs { margin: 0 0 10px; }
+.bk-step { border-top: 1px solid var(--line); padding-top: 10px; margin-top: 10px; }
+.bk-step h3 { margin: 0 0 6px; font-size: 14px; display: flex; align-items: center; gap: 8px; color: var(--ink); }
+.bk-n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--navy); color: var(--surface); font-size: 12px; font-weight: 700; flex: none; }
+.bk-title { margin: 2px 0 2px; font-size: 15.5px; }
+.bk-sum { margin: 0 0 6px; font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
+.bk-sub { margin: 8px 0 2px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.bk-list li { line-height: 1.5; }
+.bk-actions { margin-top: 10px; flex-wrap: wrap; }
+.bk-notes { margin-top: 10px; }
+.bk-notes .rep-why { margin: 0; }
+.lv { display: inline-block; font-size: 10.5px; font-weight: 700; line-height: 1; padding: 3px 6px; border-radius: 999px; vertical-align: 1px; white-space: nowrap; border: 1px solid transparent; }
+.lv-rct { background: color-mix(in srgb, var(--ok) 16%, var(--surface)); color: color-mix(in srgb, var(--ok) 80%, var(--ink)); border-color: color-mix(in srgb, var(--ok) 35%, transparent); }
+.lv-meta { background: color-mix(in srgb, var(--ok) 10%, var(--surface)); color: color-mix(in srgb, var(--ok) 70%, var(--ink)); border-color: color-mix(in srgb, var(--ok) 25%, transparent); }
+.lv-cohort { background: color-mix(in srgb, var(--navy) 10%, var(--surface)); color: var(--navy); border-color: color-mix(in srgb, var(--navy) 22%, transparent); }
+.lv-series { background: var(--chip-bg); color: var(--ink-2); border-color: var(--line); }
+.lv-model { background: var(--chip-bg); color: var(--ink-2); border-color: var(--line); font-style: italic; }
+.lv-expert { background: color-mix(in srgb, var(--warn) 10%, var(--surface)); color: color-mix(in srgb, var(--warn) 85%, var(--ink)); border-color: color-mix(in srgb, var(--warn) 25%, transparent); }
+.bk-lib .bk-group { margin: 12px 0 4px; font-size: 13px; color: var(--ink); }
+.bk-gnote { margin: 2px 0 6px; font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+.bk-els { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.bk-els li { display: grid; grid-template-columns: 64px 1fr; gap: 10px; align-items: start; }
+.bk-svg svg { display: block; }
+.bk-svg .sclera { fill: none; stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 2; }
+.bk-svg .el.so { fill: #B9C3CC; stroke: #6F7C88; stroke-width: 0.8; }
+.bk-svg .el.sp { fill: #E7D9BC; stroke: #A08A5E; stroke-width: 0.8; }
+.bk-svg .hole { fill: var(--surface); }
+.bk-svg .pores { fill: #B49C6C; }
+.bk-el-h { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; font-size: 13.5px; }
+.bk-dims { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.bk-use { font-size: 13px; color: var(--ink-2); line-height: 1.45; }

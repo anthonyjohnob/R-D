@@ -1210,6 +1210,9 @@ function catLocText(f, eye, short) {
   return parts.filter(Boolean).join(short ? ' · ' : ' ');
 }
 
+/* buckle elements the chart can name (see buckle.js for the full guide) */
+const BUCKLE_EL = { '240': '240 band', '41': '41 band', '42': '42 band', '40': '40 band', '287': '287 tire', '287WG': '287WG tire', '277': '277 tire', '276': '276 tire', '279': '279 tire',
+  '506': '506 sponge', '510': '510 half-sponge', '511': '511 half-sponge', '519G': '519G grooved sponge', '507': '507 sponge', '505': '505 round sponge' };
 const LABEL = {
   cat: 'Finding', rd: 'Retinal detachment', hst: 'Horseshoe tear', grt: 'Giant retinal tear', dia: 'Retinal dialysis', oph: 'Operculated hole',
   hole: 'Atrophic hole', lat: 'Lattice degeneration', pav: 'Paving-stone degeneration', tuft: 'Retinal tuft', pvr: 'PVR',
@@ -1278,7 +1281,7 @@ function findingTitle(f, eye) {
     case 'laser': return f.around ? 'Laser around breaks' : f.target ? 'Laser around a break' : f.full || (f.start != null && spanHours(f.start, f.end) >= 12) ? 'Laser 360°' : f.hour ? `Laser · ${fmtHour(f.hour)}` : `Laser ${r(f.start, f.end)}`;
     case 'cryo': return f.around ? 'Cryo around breaks' : f.target ? 'Cryo around a break' : f.hour ? `Cryo · ${fmtHour(f.hour)}` : `Cryo ${r(f.start, f.end)}`;
     case 'vh': return `${f.fresh ? 'Fresh blood in vitreous' : 'Vitreous hemorrhage'} · ${fmtHour(f.hour)}`;
-    case 'buckle': return f.encircling ? 'Encircling buckle' : `Segmental buckle ${r(f.start, f.end)}`;
+    case 'buckle': return (f.encircling ? 'Encircling band' : f.radial ? `Radial buckle element · ${fmtHour(f.hour)}` : f.onBand ? `Segment on the band ${r(f.start, f.end)}` : `Segmental buckle ${r(f.start, f.end)}`) + (BUCKLE_EL[f.el] ? ` · ${f.el}` : '');
     case 'chd': { const w = f.hem ? 'Suprachoroidal hemorrhage' : f.kissing ? 'Kissing choroidals' : 'Choroidal detachment'; return f.total ? w + ' · 360°' : `${w} ${r(f.start, f.end)}`; }
   }
   return LABEL[f.type] || f.type;
@@ -1439,7 +1442,7 @@ function applyActions(scene0, actions) {
           const dup = scene.findings.find(x => x.type === f.type && x.hour != null && hourDist(x.hour, f.hour) < 0.2 && Math.abs(radiusFor(x) - radiusFor(f)) < 24);
           if (dup) { Object.assign(dup, f, { id: dup.id, seed: dup.seed }); break; }
         }
-        if (f.type === 'buckle') scene.findings = scene.findings.filter(x => x.type !== 'buckle' || !(f.encircling || x.encircling));
+        if (f.type === 'buckle' && !f.radial && !f.onBand) scene.findings = scene.findings.filter(x => x.type !== 'buckle' || x.radial || (x.onBand && f.encircling) || !(f.encircling || x.encircling));
         if (f.type === 'grt' && spanHours(f.start, f.end) < 3) notes.push(`A giant retinal tear spans 3 clock hours (90°) or more; this one spans ${fmtSpan(spanHours(f.start, f.end))}. Drawn as stated.`);
         if (f.type === 'lat') {
           const dup = scene.findings.find(x => x.type === 'lat' && spansOverlap(x, f));
@@ -2205,7 +2208,10 @@ function clinicalNote(scene) {
     const dens = v.density === 'dense' ? 'Dense v' : v.density === 'mild' ? 'Mild v' : 'V';
     lines.push(`${v.fresh ? 'Fresh red blood in the vitreous' : dens + 'itreous hemorrhage'}${v.located === false ? ', layered inferiorly' : ` at ${fmtHour(v.hour)} o’clock`}.`);
   }
-  for (const b of pts('buckle')) lines.push(b.encircling ? 'Encircling scleral buckle.' : `Segmental scleral buckle ${fmtHour(b.start)}–${fmtHour(b.end)} o’clock.`);
+  for (const b of pts('buckle')) {
+    const el = BUCKLE_EL[b.el] ? ` (${BUCKLE_EL[b.el]})` : '';
+    lines.push(b.encircling ? `Encircling scleral buckle${el}.` : b.radial ? `Radial scleral buckle element at ${fmtHour(b.hour)} o’clock${el}.` : b.onBand ? `Segmental element on the encircling band, ${fmtHour(b.start)}–${fmtHour(b.end)} o’clock${el}.` : `Segmental scleral buckle ${fmtHour(b.start)}–${fmtHour(b.end)} o’clock${el}.`);
+  }
   for (const c of pts('chd')) { const w = c.hem ? 'suprachoroidal hemorrhage' : c.kissing ? 'kissing choroidal detachments' : 'choroidal detachment'; lines.push(c.total ? `360° ${w}.` : `${cap(w)} ${fmtHour(c.start)}–${fmtHour(c.end)} o’clock.`); }
   const las = pts('laser'); if (las.length) lines.push(laserText(las, F, 'Laser retinopexy'));
   const cry = pts('cryo'); if (cry.length) lines.push(laserText(cry, F, 'Cryopexy'));
@@ -2534,7 +2540,7 @@ function findingAnchor(f, scene) {
       if (f.start != null) return at(G.R_ORA - 50, midHour(f.start, f.end));
       return at(G.R_ORA - 50, 12);
     }
-    case 'buckle': return at(G.R_ORA - 26, f.encircling || f.start == null ? 3 : midHour(f.start, f.end));
+    case 'buckle': return f.radial ? at(Math.min(G.R_ORA - 26, (f.r || G.TEAR_R) - 6), f.hour) : at(G.R_ORA - 26, f.encircling || f.start == null ? 3 : midHour(f.start, f.end));
     case 'cat': { const P = catPlace(f, scene ? scene.eye : 'OS'); return P ? [P.x, P.y] : null; }
   }
   return null;
@@ -2604,6 +2610,7 @@ function sanitizeFinding(f) {
   for (const [k, vals] of Object.entries(ENUMS)) if (vals.includes(f[k])) g[k] = f[k];
   for (const k of BOOLS) if (f[k] === true) g[k] = true;
   if (Array.isArray(f.hours)) g.hours = f.hours.slice(0, 24).map(h => numIn(h, 0.0001, 12.9999)).filter(h => h != null).map(normHour);
+  if (f.type === 'buckle') { if (f.radial === true) g.radial = true; if (f.onBand === true) g.onBand = true; if (f.ant === true) g.ant = true; if (own(BUCKLE_EL, f.el)) g.el = f.el; }
   if (Array.isArray(f.pts) && f.type === 'pvr') g.pts = f.pts.slice(0, 12).map(pt2).filter(Boolean);
   if (f.type === 'cat') {
     if (!own(CAT, f.key)) return null;
@@ -2624,6 +2631,7 @@ function sanitizeFinding(f) {
   }
   // what each kind of finding needs in order to be drawn
   if (['hst', 'hole', 'oph', 'tuft', 'pav', 'vh'].includes(g.type) && g.hour == null) return null;
+  if (g.type === 'buckle' && g.radial && g.hour == null) return null;
   if (['lat', 'grt', 'dia'].includes(g.type) && (g.start == null || g.end == null)) return null;
   if (g.type === 'rd' && !g.total && !g.path && (g.start == null || g.end == null)) return null;
   if (g.type === 'rd' && g.path && (g.start == null || g.end == null)) { const d = rdFromPath(g.path); g.start = d.start; g.end = d.end; }
@@ -2675,6 +2683,7 @@ const API = {
   CATALOG, CAT, GROUPS, catPlace, catLocText, catName, POSTERIOR_SITES, SITE_TEXT, SITES, QUAD_NAMES, stage1,
   prepareStroke, pathOptions, pickPathSide, rdFromPath, pathShape, pathField, pathAgrees, PVD_TEXT, LENS_TEXT, repairOptions, REPAIR_REFS, PROCS,
   DISC_RECIPES, QUAD_RECIPES, siteAt, findingAnchor, diffScenes, sanitizeScene, sanitizeReview,
+  breakPoints, hourSpread, BUCKLE_EL,
   isTumor, MELANOCYTIC, TUM_KEYS, DD_UNITS, MM_PER_DD, ELEV_TEXT, SHAPE_TEXT, SRF_TEXT, SRF_SHORT, toDD, fmtNum, tumorSize, tumorRadii, tumorLevel, tumorFeatures, ellipseR, cleanTumor,
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = API;

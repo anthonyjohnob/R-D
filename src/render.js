@@ -347,18 +347,77 @@ function drawChoroidals(ctx, scene) {
 }
 function circlePath(r) { const p = new Path2D(); p.arc(0, 0, r, 0, TAU); return p; }
 
-function drawBuckles(ctx, scene) {
-  for (const f of scene.findings.filter(x => x.type === 'buckle')) {
-    const r1 = G.R_ORA - 40, r2 = G.R_ORA - 12;
-    const p = f.encircling ? (() => { const q = new Path2D(); q.arc(0, 0, r2, 0, TAU); q.arc(0, 0, r1, 0, TAU, true); return q; })() : arcPath(r1, r2, f.start, f.end);
-    ctx.save();
-    ctx.fillStyle = 'rgba(122,85,54,0.09)'; ctx.fill(p, 'evenodd');
-    ctx.clip(p, 'evenodd');
-    ctx.strokeStyle = 'rgba(122,85,54,0.32)'; ctx.lineWidth = 0.8;
-    for (let k = 0; k < 220; k++) { const a = k / 220 * TAU; ctx.beginPath(); ctx.moveTo(Math.cos(a) * r1, Math.sin(a) * r1); ctx.lineTo(Math.cos(a + 0.03) * r2, Math.sin(a + 0.03) * r2); ctx.stroke(); }
-    ctx.restore();
-    ctx.strokeStyle = C.brown; ctx.lineWidth = 1.4; ctx.stroke(p);
+/* Scleral buckle elements. The element itself is a light brown hatched zone under the retina; its edge is
+   drawn on top, brown beneath detached retina and black beneath attached retina (the standard colour code). */
+function bucklePath(f, band) {
+  if (f.radial) {
+    // a radial element: from just behind the ora back past the break it supports
+    // wider than the tear it carries (a horseshoe tear is drawn 23 × size units across) and reaching behind it
+    const s = f.size || 1, rIn = Math.max(G.R_EQ - 70, (f.r || G.TEAR_R) - 14.5 * s - 12), rOut = G.R_ORA - 6, w = 11.5 * s + 5;
+    const a = RD.hourToAngle(f.hour), ux = Math.cos(a), uy = Math.sin(a), vx = -uy, vy = ux;
+    const p = new Path2D();
+    p.moveTo(ux * rOut + vx * w, uy * rOut + vy * w);
+    p.lineTo(ux * rIn + vx * w * 0.9, uy * rIn + vy * w * 0.9);
+    p.quadraticCurveTo(ux * (rIn - 14), uy * (rIn - 14), ux * rIn - vx * w * 0.9, uy * rIn - vy * w * 0.9);
+    p.lineTo(ux * rOut - vx * w, uy * rOut - vy * w);
+    p.closePath();
+    return { p, r1: rIn, r2: rOut };
   }
+  if (f.encircling) {
+    const r1 = G.R_ORA - 34, r2 = G.R_ORA - 18, p = new Path2D();
+    p.arc(0, 0, r2, 0, TAU); p.arc(0, 0, r1, 0, TAU, true);
+    return { p, r1, r2 };
+  }
+  // a segment on its own, or a tire under a band (broader than the band); one for a dialysis sits right at the ora
+  const r1 = G.R_ORA - (f.ant ? 34 : f.onBand || band ? 46 : 40), r2 = G.R_ORA - (f.ant ? 1 : f.onBand || band ? 6 : 12);
+  return { p: arcPath(r1, r2, f.start, f.end), r1, r2 };
+}
+function buckleList(scene) {
+  const B = scene.findings.filter(x => x.type === 'buckle');
+  const band = B.some(x => x.encircling);
+  const order = (f) => f.radial ? 2 : f.encircling ? 1 : 0;      // broad elements first, the band over them, radial on top
+  return B.slice().sort((a, b) => order(a) - order(b)).map(f => Object.assign({ f }, bucklePath(f, band)));
+}
+function drawBuckles(ctx, scene) {
+  for (const { f, p, r1, r2 } of buckleList(scene)) {
+    ctx.save();
+    ctx.fillStyle = f.encircling ? 'rgba(122,85,54,0.16)' : 'rgba(122,85,54,0.12)'; ctx.fill(p, 'evenodd');
+    ctx.clip(p, 'evenodd');
+    ctx.strokeStyle = 'rgba(122,85,54,0.34)'; ctx.lineWidth = 0.8;
+    if (f.radial) {
+      const a = RD.hourToAngle(f.hour), sx = Math.sin(a), cx = Math.cos(a);
+      for (let d = r1 - 16; d < r2 + 4; d += 3.2) { const x = cx * d, y = Math.sin(a) * d; ctx.beginPath(); ctx.moveTo(x - sx * 30, y + cx * 30); ctx.lineTo(x + sx * 30, y - cx * 30); ctx.stroke(); }
+    } else for (let k = 0; k < 220; k++) { const a = k / 220 * TAU; ctx.beginPath(); ctx.moveTo(Math.cos(a) * r1, Math.sin(a) * r1); ctx.lineTo(Math.cos(a + 0.03) * r2, Math.sin(a + 0.03) * r2); ctx.stroke(); }
+    ctx.restore();
+  }
+}
+function drawBuckleEdges(ctx, scene, regionPath) {
+  const L = buckleList(scene);
+  if (!L.length) return;
+  const stroke = (color) => { for (const { f, p } of L) { ctx.strokeStyle = color; ctx.lineWidth = f.encircling ? 1.6 : 1.4; ctx.stroke(p); } };
+  if (regionPath) {
+    ctx.save(); ctx.clip(regionPath, 'evenodd'); stroke(C.brown); ctx.restore();
+    const outside = new Path2D(); outside.rect(-G.SIZE, -G.SIZE, 2 * G.SIZE, 2 * G.SIZE); outside.addPath(regionPath);
+    ctx.save(); ctx.clip(outside, 'evenodd'); stroke('#2A2A2A'); ctx.restore();
+  } else stroke('#2A2A2A');
+}
+/* element names (240 band, 287 tire, 511 …) in the pars plana band, beside each element */
+function drawBuckleLabels(ctx, scene, ts) {
+  const L = scene.findings.filter(x => x.type === 'buckle' && RD.BUCKLE_EL && RD.BUCKLE_EL[x.el]);
+  if (!L.length) return;
+  const used = [];
+  ctx.save();
+  ctx.font = `700 ${10.5 * ts}px ${FONT_UI}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  for (const f of L) {
+    let h = f.radial ? f.hour : f.encircling ? null : RD.midHour(f.start, f.end);
+    if (h == null) { h = 7.5; for (const c of [7.5, 4.5, 10.5, 1.5, 6, 9, 3, 12]) if (!used.some(u => RD.hourDist(u, c) < 1.2)) { h = c; break; } }
+    used.push(h);
+    const [x, y] = at(G.R_CB - 11, h);
+    const t = RD.BUCKLE_EL[f.el];
+    ctx.lineWidth = 3.2 * ts; ctx.strokeStyle = 'rgba(244,240,232,0.95)'; ctx.strokeText(t, x, y);
+    ctx.fillStyle = '#6E4A2A'; ctx.fillText(t, x, y);
+  }
+  ctx.restore();
 }
 
 /* ------------------------------ breaks -------------------------------- */
@@ -915,6 +974,7 @@ function render(canvas, scene, opts) {
   const regionPath = geo ? pathFromLoops(geo.loops) : null;
   drawVessels(ctx, scene.eye, regionPath, false);
   if (geo) drawDetachment(ctx, scene, geo);
+  drawBuckleEdges(ctx, scene, regionPath);
   drawDisc(ctx, scene.eye);
   if (CR) CR.drawLayer(ctx, scene, geo, 'retina');
   const F = scene.findings;
@@ -932,6 +992,7 @@ function render(canvas, scene, opts) {
   if (CR) CR.drawLayer(ctx, scene, geo, 'vitreous');
   for (const f of F) if (f.type === 'vh') drawVH(ctx, f);
   drawMacula(ctx, geo);
+  drawBuckleLabels(ctx, scene, ts);
   if (CR && CR.drawTumorLabels) CR.drawTumorLabels(ctx, scene, 11.5 * ts);
   if (scene.lincoff) drawLincoff(ctx, scene);
   if (opts.review) drawReview(ctx, opts.review);
