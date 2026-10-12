@@ -414,8 +414,13 @@ function drawBuckleLabels(ctx, scene, ts) {
     used.push(h);
     const [x, y] = at(G.R_CB - 11, h);
     const t = RD.BUCKLE_EL[f.el];
-    ctx.lineWidth = 3.2 * ts; ctx.strokeStyle = 'rgba(244,240,232,0.95)'; ctx.strokeText(t, x, y);
-    ctx.fillStyle = '#6E4A2A'; ctx.fillText(t, x, y);
+    // along the ring, kept upright; level near 3 and 9 o'clock where the ring runs vertically
+    let rot = 0;
+    if (RD.hourDist(h, 3) > 1 && RD.hourDist(h, 9) > 1) { rot = RD.hourToAngle(h) + Math.PI / 2; if (Math.cos(rot) < 0) rot += Math.PI; }
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+    ctx.lineWidth = 3.2 * ts; ctx.strokeStyle = 'rgba(244,240,232,0.95)'; ctx.strokeText(t, 0, 0);
+    ctx.fillStyle = '#6E4A2A'; ctx.fillText(t, 0, 0);
+    ctx.restore();
   }
   ctx.restore();
 }

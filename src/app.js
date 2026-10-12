@@ -501,7 +501,7 @@ function renderBuckle() {
     }
     lib.append(ul);
   }
-  lib.append(el('p', { class: 'bk-gnote', text: 'Style numbers are shared by most makers (FCI, MIRA, DORC/Zeiss, Labtician), but some describe the same style differently. Dimensions are from the FCI product list; check the box for the element you use.' }));
+  lib.append(el('p', { class: 'bk-gnote', text: 'Dimensions are from the FCI product list. Other makers’ elements with the same style number may be described differently; check the box for the element you use.' }));
   box.append(lib);
   const refs = el('ol', { class: 'lib-refs rep-reflist' });
   for (const k of order) {
