@@ -460,6 +460,64 @@ details.card[open] > summary::after { content: "–"; }
 .bk-dims { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
 .bk-use { font-size: 13px; color: var(--ink-2); line-height: 1.45; }
 
+/* versions: the version link, the "updated" note, the update list and the update-available bar */
+.ver { display: inline-block; margin-left: 4px; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font: 600 11.5px/1.5 var(--font-mono); text-decoration: none; vertical-align: 2px; white-space: nowrap; }
+.ver:hover { color: var(--ink); border-color: var(--focus); }
+.ver:empty { display: none; }
+.whatsnew { margin: 0 0 16px; padding: 14px 16px; border-radius: var(--radius); background: var(--surface); border: 1px solid color-mix(in srgb, var(--focus) 35%, var(--line)); box-shadow: var(--shadow); }
+.wn-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.wn-head h2 { margin: 0; font-size: 16px; flex: 1; min-width: 12ch; }
+.wn-badge { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #fff; background: var(--focus); border-radius: 999px; padding: 2px 9px; }
+.wn-list { margin: 10px 0 12px; padding-left: 20px; display: grid; gap: 5px; color: var(--ink-2); font-size: 14px; line-height: 1.45; }
+.wn-list strong { color: var(--ink); }
+.wn-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.up-d { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+.updates { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 14px; }
+.updates > li { border-top: 1px solid var(--line-2); padding-top: 10px; }
+.updates > li:first-child { border-top: 0; padding-top: 0; }
+.up-h { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.up-h strong { font-size: 14.5px; }
+.up-t { color: var(--ink-2); font-size: 14px; flex: 1; min-width: 10ch; }
+.updates ul { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; color: var(--ink-2); font-size: 13.5px; line-height: 1.45; }
+.update-bar { position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); transform: translateX(-50%); z-index: 11; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;
+  width: max-content; max-width: calc(100% - 32px); padding: 10px 12px 10px 16px; border-radius: 14px; background: var(--ink); color: var(--bg); box-shadow: 0 10px 30px rgba(0,0,0,0.25); font-size: 14px; }
+.update-bar[hidden] { display: none; }
+.update-bar .glass.small { min-height: 34px; padding: 6px 14px; font-size: 14px; }
+.ub-x { border: 0; background: transparent; color: inherit; font-size: 20px; line-height: 1; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; opacity: 0.8; }
+.ub-x:hover { opacity: 1; background: rgba(255,255,255,0.12); }
+.whatsnew .wn-head h2 { text-transform: none; letter-spacing: 0; color: var(--ink); font-size: 16.5px; font-weight: 700; }
+.wn-actions > * { flex: 0 0 auto; width: auto; }
+/* laser pattern options in the palette (shown while placing laser, or with a laser selected) */
+.pal-laser { margin: 0 0 8px; padding: 8px 8px 6px; border: 1px solid color-mix(in srgb, #B08A60 45%, var(--line-2)); border-radius: 10px; background: color-mix(in srgb, #B08A60 7%, var(--surface-2)); display: grid; gap: 5px; }
+.pal-laser[hidden] { display: none; }
+.palette.tucked > .pal-laser:not([hidden]) { display: grid; }
+.pal-laser .pal-sec { margin: 0 0 1px; color: #7A5A36; }
+.pal-laser .pal-lab { width: 44px; }
+.pal-unit { font-size: 11.5px; color: var(--muted); flex: none; }
+.pal-swatch { display: block; margin: 2px auto 0; max-width: 100%; border-radius: 8px; background: #FFFDF8; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06); }
+.pal-laser .pal-note { line-height: 1.35; }
+.palette.laser-only > :not(.pal-head):not(.pal-laser) { display: none; }
+.pal-done { display: flex; justify-content: flex-end; }
+.pal-done .btn-line { padding: 5px 14px; font-size: 13px; }
+/* Redraw / Add detachment, while drawing by hand */
+.rd-bar { position: absolute; left: 10px; bottom: 10px; z-index: 2; display: flex; gap: 6px; flex-wrap: wrap; }
+.rd-bar[hidden] { display: none; }
+.rd-btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 94%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  color: var(--ink); border-radius: 999px; padding: 7px 13px 7px 10px; font-weight: 700; font-size: 13px; cursor: pointer; box-shadow: var(--shadow); }
+.rd-btn svg { width: 16px; height: 16px; flex: none; color: var(--chip-rd); }
+.rd-btn:hover { border-color: var(--focus); }
+.rd-btn[aria-pressed="true"] { background: var(--chip-rd); color: #fff; border-color: var(--chip-rd); }
+.rd-btn[aria-pressed="true"] svg { color: #fff; }
+.rd-bar.flash .rd-btn { animation: rdflash 0.9s ease-in-out 2; }
+@keyframes rdflash { 50% { border-color: #E0763A; box-shadow: 0 0 0 4px rgba(224,118,58,0.28); } }
+/* drawing is off: a tap on the chart asks */
+.draw-ask { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 4; width: min(330px, calc(100% - 32px)); display: grid; gap: 8px; padding: 16px; border-radius: var(--radius);
+  background: var(--surface); border: 1px solid var(--line); box-shadow: 0 14px 40px rgba(19,50,79,0.22); text-align: center; }
+.draw-ask[hidden] { display: none; }
+.draw-ask strong { font-size: 17px; }
+.draw-ask span { color: var(--ink-2); font-size: 14px; line-height: 1.4; }
+.da-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
+
 </style>
 </head>
 <body>
@@ -499,7 +557,7 @@ details.card[open] > summary::after { content: "–"; }
 </g>
 </svg>
 
-      <p class="tag">Retinal detachment mapping, spoken, typed or drawn</p>
+      <p class="tag">Retinal detachment mapping, spoken, typed or drawn <a class="ver" id="verLink" href="#updates" aria-label="Version and updates"></a></p>
     </div>
     <div class="eye-switch" role="radiogroup" aria-label="Eye being drawn">
       <button type="button" role="radio" data-eye="OD" aria-checked="false">OD <span>right eye</span></button>
@@ -508,6 +566,8 @@ details.card[open] > summary::after { content: "–"; }
   </header>
 
   <p class="intended" id="intended"><strong>For education and documentation by eye-care professionals.</strong> Not medical advice: R/D does not diagnose, treat or replace your examination and judgement, and it is not for patients making decisions about their own care.</p>
+
+  <section class="whatsnew" id="whatsNew" aria-labelledby="wnH" hidden></section>
 
   <main class="layout">
     <section class="chart-card" aria-label="Fundus chart">
@@ -656,6 +716,10 @@ details.card[open] > summary::after { content: "–"; }
         </div>
       </details>
 
+      <details class="card" id="updates">
+        <summary><h2>Updates</h2><span class="count" id="verCount"></span></summary>
+        <ol class="updates" id="updatesList"></ol>
+      </details>
       <details class="card">
         <summary><h2>Clinical basis</h2></summary>
         <ol class="refs">
@@ -700,6 +764,7 @@ details.card[open] > summary::after { content: "–"; }
   </main>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<div class="update-bar" id="updateBar" role="status" hidden></div>
 <span class="sr" id="srStatus" aria-live="polite"></span>
 
 <script>
@@ -1983,16 +2048,21 @@ function findingTitle(f, eye) {
   switch (f.type) {
     case 'cat': { const sz = isTumor(CAT[f.key]) ? tumorSize(f, true) : ''; return `${catName(CAT[f.key])} · ${sz ? sz + ' · ' : ''}${catLocText(f, eye || 'OS', true)}`; }
     case 'rd': { const w = CAUSE_SHORT[f.cause] || 'RD'; return f.total ? (f.cause === 'exudative' ? 'Total exudative RD' : 'Total RD') : (f.ring ? `${w} · 360°` : f.island && spanHours(f.start, f.end) >= 12 ? `${w} · posterior, not to the ora` : `${w} ${fmtHour(f.start)} → ${fmtHour(f.end)} · ${fmtSpan(spanHours(f.start, f.end))}${f.island ? ' · not to the ora' : ''}`) + (f.depth && f.depth !== 'normal' ? ' · ' + f.depth : ''); }
-    case 'hst': return `${f.size && f.size < 1 ? 'Small h' : f.size > 1 ? 'Large h' : 'H'}orseshoe tear · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
+    case 'hst': return `${sizeWord(f) ? cap(sizeWord(f)) + ' h' : 'H'}orseshoe tear · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
     case 'grt': return `Giant tear ${r(f.start, f.end)} · ${fmtSpan(spanHours(f.start, f.end))}`;
     case 'dia': return `Dialysis ${r(f.start, f.end)}`;
-    case 'oph': return `Operculated hole · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
-    case 'hole': return `Atrophic hole · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
+    case 'oph': return `${sizeWord(f) ? cap(sizeWord(f)) + ' o' : 'O'}perculated hole · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
+    case 'hole': return `${sizeWord(f) ? cap(sizeWord(f)) + ' a' : 'A'}trophic hole · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
     case 'lat': return `Lattice ${r(f.start, f.end)}` + (f.pigmented ? ' · pigmented' : '') + (f.holes ? ' · with holes' : '') + (f.tear ? ' · with tractional tear' : '');
     case 'pav': return `Paving stone · ${fmtHour(f.hour)}`;
     case 'tuft': return `Tuft · ${fmtHour(f.hour)}`;
     case 'pvr': return `PVR ${f.grade || 'C'}${(f.grade || 'C') === 'C' ? (f.loc || 'P') : ''}${f.extent ? ' · ' + fmtSpan(f.extent) : ''}${f.hours ? ' · star fold ' + f.hours.map(fmtHour).join(', ') : ''}`;
-    case 'laser': return f.around ? 'Laser around breaks' : f.target ? 'Laser around a break' : f.full || (f.start != null && spanHours(f.start, f.end) >= 12) ? 'Laser 360°' : f.hour ? `Laser · ${fmtHour(f.hour)}` : `Laser ${r(f.start, f.end)}`;
+    case 'laser': {
+      const pat = laserPattern(f), rw = pat ? ` · ${pat.rows} row${pat.rows > 1 ? 's' : ''}` : '';
+      if (Array.isArray(f.line) && f.line.length > 1) { const L = lineSpan(f.line); return (L.len >= 11.5 ? 'Laser line · 360°' : L.len < 0.25 ? `Laser line · ${fmtHour(L.s)}` : `Laser line · ${fmtHour(L.s)}–${fmtHour(L.e)}`) + rw; }
+      if (pat) return (f.target ? 'Laser around a break' : f.hour != null ? `Laser · ${fmtHour(f.hour)}` : 'Laser') + rw;
+    }
+      return f.around ? 'Laser around breaks' : f.target ? 'Laser around a break' : f.full || (f.start != null && spanHours(f.start, f.end) >= 12) ? 'Laser 360°' : f.hour ? `Laser · ${fmtHour(f.hour)}` : `Laser ${r(f.start, f.end)}`;
     case 'cryo': return f.around ? 'Cryo around breaks' : f.target ? 'Cryo around a break' : f.hour ? `Cryo · ${fmtHour(f.hour)}` : `Cryo ${r(f.start, f.end)}`;
     case 'vh': return `${f.fresh ? 'Fresh blood in vitreous' : 'Vitreous hemorrhage'} · ${fmtHour(f.hour)}`;
     case 'buckle': return (f.encircling ? 'Encircling band' : f.radial ? `Radial buckle element · ${fmtHour(f.hour)}` : f.onBand ? `Segment on the band ${r(f.start, f.end)}` : `Segmental buckle ${r(f.start, f.end)}`) + (BUCKLE_EL[f.el] ? ` · ${f.el}` : '');
@@ -2018,6 +2088,7 @@ function mainRd(scene) {
 }
 function findingHour(f) {
   if (f.hour != null) return f.hour;
+  if (Array.isArray(f.line) && f.line.length) { const m = f.line[Math.floor(f.line.length / 2)]; return angleToHour(Math.atan2(m[1], m[0])); }
   if (f.start != null) return f.total ? 12 : midHour(f.start, f.end);
   if (f.hours && f.hours.length) return f.hours[0];
   return null;
@@ -2421,6 +2492,66 @@ function resamplePath(p, step) {
     out.push([p[i - 1][0] + (p[i][0] - p[i - 1][0]) * t, p[i - 1][1] + (p[i][1] - p[i - 1][1]) * t]);
   }
   out.push(p[p.length - 1]);
+  return out;
+}
+/* a laser line traced by hand: the clock hours it covers, and where its spots go (three staggered rows,
+   as for laser drawn along an arc) */
+function lineSpan(line) {
+  const hs = line.map(q => mod(angleToHour(Math.atan2(q[1], q[0])), 12)).sort((a, b) => a - b);
+  if (!hs.length) return null;
+  let gap = -1, gi = 0;
+  for (let i = 0; i < hs.length; i++) { const g = (i === hs.length - 1 ? hs[0] + 12 : hs[i + 1]) - hs[i]; if (g > gap) { gap = g; gi = i; } }
+  return { s: normHour(Math.round(hs[(gi + 1) % hs.length] * 4) / 4), e: normHour(Math.round(hs[gi] * 4) / 4), len: 12 - gap };
+}
+/* the laser pattern chosen when it was drawn by hand: rows, and the gap between burns in burn widths
+   (0 = confluent). Older drawings have none and keep their original look. */
+const LASER_GAPS = [0, 0.5, 1, 1.5, 2];
+const BURN_D = 6.2;                      // the diameter of one burn on the chart
+function laserPattern(f) {
+  if (!f || (f.rows == null && f.gap == null)) return null;
+  return { rows: Math.max(1, Math.min(5, Math.round(f.rows || 3))), gap: LASER_GAPS.includes(f.gap) ? f.gap : 0.5 };
+}
+const fmtGap = (g) => ({ 0.5: '½', 1: '1', 1.5: '1½', 2: '2' })[g] || String(g);
+function laserPatternText(pat) {
+  if (!pat) return '';
+  return `${pat.rows} row${pat.rows > 1 ? 's' : ''}, ${pat.gap === 0 ? 'confluent' : `${fmtGap(pat.gap)} burn width${pat.gap > 1 ? 's' : ''} apart`}`;
+}
+/* centre-to-centre distance of burns along a row, and between rows (rows are staggered) */
+function laserPitch(pat) {
+  const along = pat.gap === 0 ? BURN_D * 0.82 : BURN_D * (1 + pat.gap);
+  return { along, across: pat.gap === 0 ? BURN_D * 0.76 : along * 0.87 };
+}
+/* rings of burns around a break or a spot, starting at radius r0 */
+function laserRings(r0, pat) {
+  const P = laserPitch(pat), out = [];
+  for (let k = 0; k < pat.rows; k++) {
+    const r = r0 + k * P.across, n = Math.max(6, Math.round(2 * Math.PI * r / P.along)), off = k % 2 ? 0.5 : 0;
+    for (let i = 0; i < n; i++) { const a = (i + off) / n * 2 * Math.PI; out.push([Math.cos(a) * r, Math.sin(a) * r]); }
+  }
+  return out;
+}
+function laserLineSpots(line, pat) {
+  if (pat) {
+    // rows either side of the traced line, each burn a pitch from the next, alternate rows offset by half a pitch
+    const P = laserPitch(pat), Q = resamplePath(line, P.along / 2), out = [];
+    for (let k = 0; k < pat.rows; k++) {
+      const o = (k - (pat.rows - 1) / 2) * P.across;
+      for (let i = k % 2; i < Q.length; i += 2) {
+        const a = Q[Math.max(0, i - 1)], b = Q[Math.min(Q.length - 1, i + 1)];
+        let tx = b[0] - a[0], ty = b[1] - a[1]; const L = Math.hypot(tx, ty) || 1; tx /= L; ty /= L;
+        out.push([Q[i][0] - ty * o, Q[i][1] + tx * o]);
+      }
+    }
+    return out;
+  }
+  const step = 6.5, P = resamplePath(line, step), out = [];
+  for (let i = 0; i < P.length; i++) {
+    const a = P[Math.max(0, i - 1)], b = P[Math.min(P.length - 1, i + 1)];
+    let tx = b[0] - a[0], ty = b[1] - a[1]; const L = Math.hypot(tx, ty) || 1; tx /= L; ty /= L;
+    out.push(P[i]);
+    if (i === P.length - 1) break;
+    for (const o of [-7, 7]) out.push([P[i][0] - ty * o + tx * step / 2, P[i][1] + tx * o + ty * step / 2]);
+  }
   return out;
 }
 function smoothPath(raw, passes) {
@@ -2879,6 +3010,16 @@ function breakInZone(b, zz) {
  * ------------------------------------------------------------------ */
 function listJoin(a) { return a.length <= 1 ? (a[0] || '') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]; }
 function hourList(hs) { return listJoin(hs.map(h => fmtHour(h))) + ' o’clock'; }
+/* breaks drawn larger or smaller than usual (by voice, or by dragging the size handle) */
+function sizeWord(f) { return !f || !f.size ? '' : f.size < 0.85 ? 'small' : f.size >= 1.25 ? 'large' : ''; }
+/* “Large horseshoe tear at 12 o’clock”, “2 horseshoe tears at 11 (large) and 1 o’clock” */
+function sizedBreaks(items, noun, plural, counted) {
+  const w = items.map(sizeWord), same = w.every(x => x === w[0]);
+  if (items.length === 1) return `${cap((w[0] ? w[0] + ' ' : '') + noun)} at ${hourList([items[0].hour])}`;
+  const head = counted ? `${items.length} ` : '';
+  if (same) return cap(`${head}${w[0] ? w[0] + ' ' : ''}${plural}`) + ` at ${hourList(items.map(f => f.hour))}`;
+  return cap(`${head}${plural}`) + ` at ${listJoin(items.map((f, i) => fmtHour(f.hour) + (w[i] ? ` (${w[i]})` : '')))} o’clock`;
+}
 
 function clinicalNote(scene) {
   const eyeTxt = scene.eye === 'OD' ? 'OD (right eye)' : 'OS (left eye)';
@@ -2903,11 +3044,11 @@ function clinicalNote(scene) {
   }
   const pts = (type) => F.filter(f => f.type === type);
   const hsts = pts('hst');
-  if (hsts.length) lines.push(`${hsts.length === 1 ? 'Horseshoe tear' : hsts.length + ' horseshoe tears'} at ${hourList(hsts.map(f => f.hour))}${hsts.some(f => f.rolled) ? ', rolled edges' : ''}${hsts.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
+  if (hsts.length) lines.push(`${sizedBreaks(hsts, 'horseshoe tear', 'horseshoe tears', true)}${hsts.some(f => f.rolled) ? ', rolled edges' : ''}${hsts.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
   for (const g of pts('grt')) lines.push(`Giant retinal tear from ${fmtHour(g.start)} to ${fmtHour(g.end)} o’clock (${fmtSpan(spanHours(g.start, g.end))}).`);
   for (const d of pts('dia')) lines.push(`Retinal dialysis from ${fmtHour(d.start)} to ${fmtHour(d.end)} o’clock.`);
-  const oph = pts('oph'); if (oph.length) lines.push(`Operculated hole${oph.length > 1 ? 's' : ''} at ${hourList(oph.map(f => f.hour))}${oph.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
-  const hol = pts('hole'); if (hol.length) lines.push(`Atrophic hole${hol.length > 1 ? 's' : ''} at ${hourList(hol.map(f => f.hour))}${hol.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
+  const oph = pts('oph'); if (oph.length) lines.push(`${sizedBreaks(oph, 'operculated hole', 'operculated holes')}${oph.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
+  const hol = pts('hole'); if (hol.length) lines.push(`${sizedBreaks(hol, 'atrophic hole', 'atrophic holes')}${hol.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
   const lat = pts('lat');
   if (lat.length) lines.push(`Lattice degeneration ${listJoin(lat.map(l => `${fmtHour(l.start)}–${fmtHour(l.end)}`))} o’clock${lat.some(l => l.pigmented) ? ', pigmented' : ''}${lat.some(l => l.holes) ? ', with atrophic holes' : ''}${lat.some(l => l.tear) ? ', with a tractional tear at its margin' : ''}.`);
   const pav = pts('pav'); if (pav.length) lines.push(`Paving-stone degeneration at ${hourList(pav.map(f => f.hour))}.`);
@@ -2961,13 +3102,24 @@ function clinicalNote(scene) {
 function laserText(items, all, word) {
   const tgt = items.filter(x => x.target).map(x => all.find(y => y.id === x.target)).filter(Boolean);
   const parts = [];
-  if (tgt.length) parts.push('around the ' + (tgt.length === 1 ? LABEL[tgt[0].type].toLowerCase() + ' at ' + fmtHour(findingHour(tgt[0])) + ' o’clock' : tgt.length + ' breaks'));
+  const patOf = (xs) => { const t = xs.map(x => laserPatternText(laserPattern(x))); return t[0] && t.every(y => y === t[0]) ? ` (${t[0]})` : ''; };
+  const tgtItems = items.filter(x => x.target && all.some(y => y.id === x.target));
+  if (tgt.length) parts.push('around the ' + (tgt.length === 1 ? LABEL[tgt[0].type].toLowerCase() + ' at ' + fmtHour(findingHour(tgt[0])) + ' o’clock' : tgt.length + ' breaks') + patOf(tgtItems));
   const arcs = items.filter(x => x.start != null);
   if (arcs.some(a => spanHours(a.start, a.end) >= 12)) parts.push('360°');
   const part = arcs.filter(a => spanHours(a.start, a.end) < 12);
   if (part.length) parts.push(listJoin(part.map(a => `${fmtHour(a.start)}–${fmtHour(a.end)}`)) + ' o’clock');
   const spots = items.filter(x => x.hour != null && !x.target);
-  if (spots.length) parts.push('at ' + hourList(spots.map(s => s.hour)));
+  if (spots.length) parts.push('at ' + hourList(spots.map(s => s.hour)) + patOf(spots));
+  const drawnItems = items.filter(x => Array.isArray(x.line) && x.line.length > 1), drawn = drawnItems.map(x => lineSpan(x.line));
+  const spanTxt = (L) => L.len >= 11.5 ? '360°' : L.len < 0.25 ? `at ${fmtHour(L.s)} o’clock` : `from ${fmtHour(L.s)} to ${fmtHour(L.e)} o’clock`;
+  const short = (L) => L.len >= 11.5 ? '360°' : L.len < 0.25 ? fmtHour(L.s) : fmtHour(L.s) + '–' + fmtHour(L.e);
+  if (drawn.length === 1) parts.push(`along a drawn line ${drawn[0].len >= 11.5 ? 'all round (360°)' : spanTxt(drawn[0])}${patOf(drawnItems)}`);
+  else if (drawn.length) {
+    const pats = drawnItems.map(x => laserPatternText(laserPattern(x)));
+    if (pats.every(t => t === pats[0])) parts.push(`along drawn lines (${listJoin(drawn.map(short))} o’clock${pats[0] ? '; ' + pats[0] : ''})`);
+    else parts.push(`along drawn lines (${drawn.map((L, i) => `${short(L)} o’clock${pats[i] ? ', ' + pats[i] : ''}`).join('; ')})`);
+  }
   return `${word} ${parts.join('; ')}.`;
 }
 
@@ -3251,6 +3403,7 @@ function findingAnchor(f, scene) {
       const t = f.target != null && scene ? scene.findings.find(x => x.id === f.target) : null;
       if (t) { const p = findingAnchor(t, scene); return [p[0] + 16, p[1] + 16]; }
       if (f.hour != null) return at(f.r != null ? f.r : G.TEAR_R, f.hour);
+      if (Array.isArray(f.line) && f.line.length) return f.line[Math.floor(f.line.length / 2)].slice(0, 2);
       if (f.start != null) return at(G.R_ORA - 50, midHour(f.start, f.end));
       return at(G.R_ORA - 50, 12);
     }
@@ -3288,6 +3441,8 @@ function diffScenes(a, b) {
       const d0 = tumorFeatures(o, true).join(', '), d1 = tumorFeatures(f, true).join(', ');
       if (d0 !== d1) parts.push(d0 && d1 ? `${d0} → ${d1}` : d1 ? `now ${d1}` : `no longer described as ${d0}`);
     }
+    if (f.type === 'laser') { const a0 = laserPatternText(laserPattern(o)), a1 = laserPatternText(laserPattern(f)); if (a0 !== a1 && a0 && a1) parts.push(`${a0} → ${a1}`); }
+    if ((o.size || 1) !== (f.size || 1) && t0 === t1) parts.push(`${t1} ${(f.size || 1) > (o.size || 1) ? 'enlarged' : 'made smaller'}`);
     if (!parts.length) {
       const p0 = findingAnchor(o, a), p1 = findingAnchor(f, b);
       parts.push(p0 && p1 && Math.hypot(p0[0] - p1[0], p0[1] - p1[1]) > 6 ? `${t1} moved` : `${t1} adjusted`);
@@ -3317,7 +3472,7 @@ function sanitizeFinding(f) {
   const seed = numIn(f.seed, 0, 4294967295); if (seed != null) g.seed = Math.round(seed);
   for (const k of ['hour', 'start', 'end']) { const h = numIn(f[k], 0.0001, 12.9999); if (h != null) g[k] = normHour(h); }
   const r = numIn(f.r, 0, 400); if (r != null) g.r = r;
-  const size = numIn(f.size, 0.5, 2); if (size != null) g.size = size;
+  const size = numIn(f.size, 0.4, 3); if (size != null) g.size = size;
   const ext = f.extent; if (typeof ext === 'number') { const e = numIn(ext, 0, 12); if (e != null) g.extent = e; } else if (own(EXTENT_R, ext)) g.extent = ext;
   const count = numIn(f.count, 1, 12); if (count != null) g.count = Math.round(count);
   const tgt = numIn(f.target, 1, 1e6); if (tgt != null) g.target = Math.round(tgt);
@@ -3326,6 +3481,15 @@ function sanitizeFinding(f) {
   if (Array.isArray(f.hours)) g.hours = f.hours.slice(0, 24).map(h => numIn(h, 0.0001, 12.9999)).filter(h => h != null).map(normHour);
   if (f.type === 'buckle') { if (f.radial === true) g.radial = true; if (f.onBand === true) g.onBand = true; if (f.ant === true) g.ant = true; if (own(BUCKLE_EL, f.el)) g.el = f.el; }
   if (Array.isArray(f.pts) && f.type === 'pvr') g.pts = f.pts.slice(0, 12).map(pt2).filter(Boolean);
+  if (f.type === 'laser') {
+    const rows = numIn(f.rows, 1, 5); if (rows != null) g.rows = Math.round(rows);
+    if (LASER_GAPS.includes(f.gap)) g.gap = f.gap;
+  }
+  if (Array.isArray(f.line) && (f.type === 'laser' || f.type === 'cryo')) {
+    let ln = f.line.slice(0, 3000).map(pt2).filter(Boolean);
+    if (ln.length > 400) ln = resamplePath(ln, pathLength(ln) / 380).map(round1);
+    if (ln.length >= 2 && pathLength(ln) >= 6) g.line = ln;
+  }
   if (f.type === 'cat') {
     if (!own(CAT, f.key)) return null;
     g.key = f.key;
@@ -3361,7 +3525,7 @@ function sanitizeScene(s) {
     if (g && !seen.has(g.id)) { seen.add(g.id); out.findings.push(g); }
   }
   for (const f of out.findings) if (f.target != null && !seen.has(f.target)) delete f.target;
-  out.findings = out.findings.filter(f => !((f.type === 'laser' || f.type === 'cryo') && f.target == null && f.hour == null && f.start == null && !f.around));
+  out.findings = out.findings.filter(f => !((f.type === 'laser' || f.type === 'cryo') && f.target == null && f.hour == null && f.start == null && !f.around && !f.line));
   if (own(PVD_TEXT, s.pvd)) out.pvd = s.pvd;
   if (own(LENS_TEXT, s.lens)) out.lens = s.lens;
   out.lincoff = s.lincoff === true;
@@ -3397,7 +3561,7 @@ const API = {
   CATALOG, CAT, GROUPS, catPlace, catLocText, catName, POSTERIOR_SITES, SITE_TEXT, SITES, QUAD_NAMES, stage1,
   prepareStroke, pathOptions, pickPathSide, rdFromPath, pathShape, pathField, pathAgrees, PVD_TEXT, LENS_TEXT, repairOptions, REPAIR_REFS, PROCS,
   DISC_RECIPES, QUAD_RECIPES, siteAt, findingAnchor, diffScenes, sanitizeScene, sanitizeReview,
-  breakPoints, hourSpread, BUCKLE_EL,
+  breakPoints, hourSpread, BUCKLE_EL, lineSpan, laserLineSpots, laserRings, laserPattern, laserPatternText, LASER_GAPS, BURN_D, sizeWord,
   isTumor, MELANOCYTIC, TUM_KEYS, DD_UNITS, MM_PER_DD, ELEV_TEXT, SHAPE_TEXT, SRF_TEXT, SRF_SHORT, toDD, fmtNum, tumorSize, tumorRadii, tumorLevel, tumorFeatures, ellipseR, cleanTumor,
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = API;
@@ -3980,20 +4144,21 @@ function drawPaving(ctx, f, geo) {
   const r = RD.radiusFor(f);
   const [cx, cy] = at(r, f.hour);
   const det = isDetached(geo, cx, cy);
-  const rr = RD.mulberry32(f.seed || 9);
+  const rr = RD.mulberry32(f.seed || 9), s = f.size || 1, L = 8 * s;
   for (let i = 0; i < 4; i++) {
-    const x = cx + (rr() - 0.5) * 22, y = cy + (rr() - 0.5) * 14, rad = 3.5 + rr() * 2.8;
+    const x = cx + (rr() - 0.5) * 22 * s, y = cy + (rr() - 0.5) * 14 * s, rad = (3.5 + rr() * 2.8) * s;
     const p = new Path2D(); p.arc(x, y, rad, 0, TAU);
     ctx.save(); ctx.clip(p); ctx.strokeStyle = C.red; ctx.lineWidth = 0.7;
-    for (let d = -8; d <= 8; d += 2.4) { ctx.beginPath(); ctx.moveTo(x + d - 8, y - 8); ctx.lineTo(x + d + 8, y + 8); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x + d + 8, y - 8); ctx.lineTo(x + d - 8, y + 8); ctx.stroke(); }
+    for (let d = -L; d <= L; d += 2.4) { ctx.beginPath(); ctx.moveTo(x + d - L, y - L); ctx.lineTo(x + d + L, y + L); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x + d + L, y - L); ctx.lineTo(x + d - L, y + L); ctx.stroke(); }
     ctx.restore();
     ctx.strokeStyle = det ? C.brown : C.black; ctx.lineWidth = 1.1; ctx.stroke(p);
   }
 }
 function drawTuft(ctx, f) {
+  const s = f.size || 1;
   ctx.save(); local(ctx, RD.radiusFor(f), f.hour);
-  ctx.strokeStyle = C.blue; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
-  for (const dx of [-3, 0, 3]) { ctx.beginPath(); ctx.moveTo(dx, -4); ctx.lineTo(dx * 0.6, 4); ctx.stroke(); }
+  ctx.strokeStyle = C.blue; ctx.lineWidth = 1.6 * Math.sqrt(s); ctx.lineCap = 'round';
+  for (const dx of [-3, 0, 3]) { ctx.beginPath(); ctx.moveTo(dx * s, -4 * s); ctx.lineTo(dx * 0.6 * s, 4 * s); ctx.stroke(); }
   ctx.restore();
 }
 
@@ -4034,6 +4199,7 @@ function drawPVR(ctx, f, geo, scene) {
   for (const [cx, cy] of pvrCenters(f, geo, scene)) {
     ctx.save();
     ctx.translate(cx, cy);
+    ctx.scale(f.size || 1, f.size || 1);
     const rays = 7 + Math.floor(rr() * 3);
     ctx.strokeStyle = '#1D4C9C'; ctx.lineCap = 'round';
     for (let i = 0; i < rays; i++) {
@@ -4060,9 +4226,13 @@ function treatmentAround(ctx, f, scene, kind) {
       ctx.fillStyle = 'rgba(70,52,40,0.45)'; ctx.beginPath(); ctx.ellipse(x, y, 4.2 * s, 3 * s, x * 0.03, 0, TAU); ctx.fill();
     }
   };
+  // laser traced by hand: rows of burns along the drawn line, in the pattern chosen (rows, confluent or spaced)
+  const pat = kind === 'laser' ? RD.laserPattern(f) : null;
+  if (Array.isArray(f.line) && f.line.length > 1) { for (const [x, y] of RD.laserLineSpots(f.line, pat)) spot(x, y, 1); return; }
   if (target && target.hour != null) {
     const s = target.size || 1;
     const [cx, cy] = at(RD.radiusFor(target), target.hour);
+    if (pat) { for (const [x, y] of RD.laserRings(15 * s + 4, pat)) spot(cx + x, cy + y, 1); return; }
     const rows = kind === 'laser' ? [15 * s + 4, 21 * s + 5] : [16 * s + 4];
     for (const rad of rows) { const n = Math.round(rad * TAU / (kind === 'laser' ? 6.5 : 11)); for (let i = 0; i < n; i++) { const a = i / n * TAU; spot(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad, 1); } }
     return;
@@ -4070,7 +4240,8 @@ function treatmentAround(ctx, f, scene, kind) {
   let s, e;
   if (target && target.start != null) { s = target.start - 0.25; e = target.end + 0.25; }
   else if (f.start != null) { s = f.start; e = f.end; }
-  else if (f.hour != null) { const [cx, cy] = at(f.r != null ? f.r : G.TEAR_R, f.hour); for (const rad of [14, 20]) { const n = Math.round(rad * TAU / 6.5); for (let i = 0; i < n; i++) { const a = i / n * TAU; spot(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad, 1); } } return; }
+  else if (f.hour != null && pat) { const [cx, cy] = at(f.r != null ? f.r : G.TEAR_R, f.hour); for (const [x, y] of RD.laserRings(14 * (f.size || 1), pat)) spot(cx + x, cy + y, 1); return; }
+  else if (f.hour != null) { const [cx, cy] = at(f.r != null ? f.r : G.TEAR_R, f.hour), sz = f.size || 1; for (const rad of [14 * sz, 20 * sz]) { const n = Math.round(rad * TAU / 6.5); for (let i = 0; i < n; i++) { const a = i / n * TAU; spot(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad, 1); } } return; }
   else return;
   const span = RD.spanHours(s, e);
   const base = target ? G.R_ORA - 58 : G.R_ORA - 44;
@@ -4082,19 +4253,20 @@ function treatmentAround(ctx, f, scene, kind) {
 
 function drawVH(ctx, f) {
   const rr = RD.mulberry32(f.seed || 13);
-  const n = f.density === 'dense' ? 640 : f.density === 'mild' ? 160 : 340;
+  const s = f.size || 1;
+  const n = Math.round((f.density === 'dense' ? 640 : f.density === 'mild' ? 160 : 340) * Math.min(2.2, Math.max(0.6, s)));
   const center = RD.hourToAngle(f.hour);
   const rc = f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12;
   for (let i = 0; i < n; i++) {
     const u = (rr() + rr() + rr() - 1.5) / 1.5, v = (rr() + rr() + rr() - 1.5) / 1.5;
-    const a = center + u * 0.85, r = rc + v * 78;
+    const a = center + u * 0.85 * s, r = rc + v * 78 * s;
     const x = Math.cos(a) * r, y = Math.sin(a) * r;
     if (Math.hypot(x, y) > G.R_ORA - 2) continue;
     ctx.fillStyle = f.fresh ? `rgba(206,52,44,${0.25 + rr() * 0.45})` : `rgba(46,140,80,${0.22 + rr() * 0.4})`;
     ctx.beginPath(); ctx.arc(x, y, 0.7 + rr() * 1.3, 0, TAU); ctx.fill();
   }
   for (let i = 0; i < (f.density === 'dense' ? 7 : 3); i++) {
-    const a = center + (rr() - 0.5) * 0.9, r = rc + (rr() - 0.5) * 70;
+    const a = center + (rr() - 0.5) * 0.9 * s, r = rc + (rr() - 0.5) * 70 * s;
     ctx.fillStyle = f.fresh ? 'rgba(190,40,36,0.32)' : 'rgba(40,120,70,0.28)'; ctx.beginPath(); ctx.ellipse(Math.cos(a) * r, Math.sin(a) * r, 7 + rr() * 6, 4 + rr() * 3, a, 0, TAU); ctx.fill();
     if (f.fresh) { ctx.strokeStyle = 'rgba(46,140,80,0.7)'; ctx.lineWidth = 0.8; ctx.stroke(); }
   }
@@ -4214,11 +4386,15 @@ function drawHighlight(ctx, scene, id, scale) {
   } else if (f.start != null) {
     const rL = f.type === 'lat' && f.r != null ? f.r : null;
     ctx.stroke(rL ? arcPath(rL - 18, rL + 18, f.start - 0.1, f.end + 0.1) : arcPath(G.R_ORA - 60, G.R_ORA + 6, f.start - 0.1, f.end + 0.1));
+  } else if (Array.isArray(f.line) && f.line.length > 1) {
+    ctx.lineWidth = 3 / k; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath(); ctx.moveTo(f.line[0][0], f.line[0][1]); for (const q of f.line.slice(1)) ctx.lineTo(q[0], q[1]);
+    ctx.save(); ctx.strokeStyle = 'rgba(240,127,99,0.25)'; ctx.lineWidth = 26 / k; ctx.setLineDash([]); ctx.stroke(); ctx.restore();
   } else {
     const h = RD.findingHour(f.target ? scene.findings.find(x => x.id === f.target) || f : f);
     const pts = f.type === 'pvr' && Array.isArray(f.pts) ? f.pts : null;
-    if (pts) for (const [x, y] of pts) { ctx.beginPath(); ctx.arc(x, y, 22, 0, TAU); ctx.stroke(); }
-    else if (h != null) { const [x, y] = at(f.type === 'pvr' ? G.R_EQ - 34 : f.type === 'vh' ? (f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12) : RD.radiusFor(f), h); ctx.beginPath(); ctx.arc(x, y, f.type === 'vh' ? 48 : 22, 0, TAU); ctx.stroke(); }
+    if (pts) for (const [x, y] of pts) { ctx.beginPath(); ctx.arc(x, y, 22 * Math.max(1, f.size || 1), 0, TAU); ctx.stroke(); }
+    else if (h != null) { const [x, y] = at(f.type === 'pvr' ? G.R_EQ - 34 : f.type === 'vh' ? (f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12) : RD.radiusFor(f), h); ctx.beginPath(); ctx.arc(x, y, (f.type === 'vh' ? 48 : 22) * Math.max(1, f.size || 1), 0, TAU); ctx.stroke(); }
     else if (f.encircling) { ctx.beginPath(); ctx.arc(0, 0, G.R_ORA - 26, 0, TAU); ctx.stroke(); }
   }
   ctx.restore();
@@ -5695,6 +5871,8 @@ root.RDHand = function (api) {
   let ghost = null;
   let palPlaced = false;
   let ghostKind = null;
+  let traceMode = null;     // once a detachment is drawn it is locked: 'redraw' or 'add' unlocks one new trace
+  let lockShown = false;
 
   /* ------------------------------ geometry ------------------------------ */
   const rect = () => chart.getBoundingClientRect();
@@ -5732,7 +5910,14 @@ root.RDHand = function (api) {
       sideArrows(g, u);
     }
     if (placingBreak() && !api.getScene().lincoff) lincoffZone(g, u);
-    if (hover && (phase === 'armed' || phase === 'placing' || phase === 'dragNew')) crosshair(g, hover, u);
+    if (phase === 'lasering' && stroke.length > 1) {
+      for (const [x, y] of RD.laserLineSpots(stroke, laserOpt)) {
+        if (Math.hypot(x, y) > G.R_ORA - 3) continue;
+        g.fillStyle = 'rgba(176,138,96,0.45)'; g.beginPath(); g.arc(x, y, 3.1, 0, Math.PI * 2); g.fill();
+        g.fillStyle = '#3A2E28'; g.beginPath(); g.arc(x, y, 1.7, 0, Math.PI * 2); g.fill();
+      }
+    }
+    if (hover && (phase === 'armed' || phase === 'placing' || phase === 'dragNew' || (phase === 'lasering' && stroke.length < 3))) crosshair(g, hover, u);
     if (phase === 'spanning' && drag) spanPreview(g, u);
     if (selected != null && !(drag && drag.off)) handles(g, u);
     if (drag && drag.off && drag.at) offMarker(g, drag.at, u);
@@ -5755,6 +5940,16 @@ root.RDHand = function (api) {
     const zz = z.zones[0], [lx, ly] = atR(G.R_EQ - 72, zz.kind === 'triangle' ? 12 : RD.midHour(zz.from, zz.to));
     pill(g, lx, ly, 'Lincoff zone', u, '#B5711A');
   }
+  function distToLine(p, pts) {
+    let best = Infinity;
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i], vx = b[0] - a[0], vy = b[1] - a[1], L = vx * vx + vy * vy || 1;
+      const t = clamp(((p[0] - a[0]) * vx + (p[1] - a[1]) * vy) / L, 0, 1);
+      best = Math.min(best, Math.hypot(p[0] - a[0] - t * vx, p[1] - a[1] - t * vy));
+    }
+    return best;
+  }
+  const inOra = (q) => { const r = Math.hypot(q[0], q[1]), lim = G.R_ORA - 4; const k = r > lim ? lim / r : 1; return [Math.round(q[0] * k * 10) / 10, Math.round(q[1] * k * 10) / 10]; };
   function line(g, pts, closed) { g.beginPath(); g.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) g.lineTo(pts[i][0], pts[i][1]); if (closed) g.closePath(); }
   function pill(g, x, y, text, u, color) {
     g.font = `700 ${12.5 * u}px "Atkinson Hyperlegible", system-ui, sans-serif`;
@@ -5824,6 +6019,40 @@ root.RDHand = function (api) {
       else if (!drag) { const t = RD.tumorSize(f, true) || 'drag the edge to size'; pill(g, c[0], c[1] - H.tum.ry - 22 * u, t, u, '#9A4E1C'); }
       return;
     }
+    if (H && H.line) {
+      g.save(); g.setLineDash([5 * u, 4 * u]); g.strokeStyle = 'rgba(224,118,58,0.85)'; g.lineWidth = 2 * u;
+      line(g, H.line); g.stroke(); g.restore();
+      const m = H.line[Math.floor(H.line.length / 2)];
+      if (!drag) pill(g, m[0], m[1] - 24 * u, 'drag to move · off the chart to remove', u, '#9A4E1C');
+      return;
+    }
+    const L0 = sizeLever(f, sc);
+    if (L0) {
+      const L = drag && drag.end === 'lever' && drag.lever ? Object.assign({}, drag.lever, { c: L0.c, ext: L0.ext }) : L0;
+      root.RDHand.lever = { x: L.x, y0: L.y0, y1: L.y1, min: L.min, max: L.max };       // for the browser checks
+      g.setLineDash([5 * u, 4 * u]); g.strokeStyle = 'rgba(224,118,58,0.8)'; g.lineWidth = 1.6 * u;
+      g.beginPath(); g.arc(L.c[0], L.c[1], L.ext + 3 * u, 0, Math.PI * 2); g.stroke(); g.setLineDash([]);
+      // the track, filled up to the current size
+      const w = 9 * u, ky = leverY(L, f.size || 1), y1 = leverY(L, 1);
+      const rr = (x, y, ww, hh, r) => { g.beginPath(); if (g.roundRect) g.roundRect(x, y, ww, hh, r); else g.rect(x, y, ww, hh); };
+      g.fillStyle = 'rgba(255,253,248,0.96)'; g.strokeStyle = '#E0763A'; g.lineWidth = 1.6 * u;
+      rr(L.x - w / 2, L.y0, w, L.y1 - L.y0, w / 2); g.fill(); g.stroke();
+      g.fillStyle = 'rgba(224,118,58,0.35)'; rr(L.x - w / 2 + 1.5 * u, ky, w - 3 * u, L.y1 - ky - 1.5 * u, (w - 3 * u) / 2); g.fill();
+      // the usual size, and which way is bigger
+      g.strokeStyle = 'rgba(154,78,28,0.75)'; g.lineWidth = 1.4 * u;
+      g.beginPath(); g.moveTo(L.x - w, y1); g.lineTo(L.x + w, y1); g.stroke();
+      g.fillStyle = '#9A4E1C'; g.font = `700 ${13 * u}px "Atkinson Hyperlegible", system-ui, sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillText('+', L.x, L.y0 - 10 * u); g.fillText('−', L.x, L.y1 + 10 * u);
+      // the knob
+      g.fillStyle = '#FFFFFF'; g.strokeStyle = '#E0763A'; g.lineWidth = 2.4 * u;
+      g.beginPath(); g.arc(L.x, ky, 11 * u, 0, Math.PI * 2); g.fill(); g.stroke();
+      g.strokeStyle = '#C2571F'; g.lineWidth = 1.5 * u;
+      g.beginPath(); for (const dy of [-3, 0, 3]) { g.moveTo(L.x - 5 * u, ky + dy * u); g.lineTo(L.x + 5 * u, ky + dy * u); } g.stroke();
+      const tx = L.x;
+      if (drag && drag.end === 'lever') pill(g, tx, L.y0 - 30 * u, sizeText(f), u, '#9A4E1C');
+      else if (!drag) pill(g, tx, L.y0 - 30 * u, 'size', u, '#9A4E1C');
+      return;
+    }
     if (!H || !H.span) return;
     for (const h of H.span) {
       const c = atR(H.rEnd, h);
@@ -5848,9 +6077,11 @@ root.RDHand = function (api) {
     if (!active()) { setHint(''); return; }
     const sc = api.getScene(), hasRd = !!RD.mainRd(sc);
     const needBreak = hasRd && !pal.hidden && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
-    setHint(needBreak ? `Now add the break${pal.classList.contains('docked') ? ' — pick one below' : ' — pick one in the panel'}` : hasRd ? 'Trace to redraw · drag to move · drag off to remove' : 'Trace the detachment’s border, ora to ora');
+    if (traceMode) { setHint(traceMode === 'redraw' ? 'Trace the new border, ora to ora — it replaces the old one' : 'Trace the next detachment’s border, ora to ora', true); return; }
+    setHint(needBreak ? `Now add the break${pal.classList.contains('docked') ? ' — pick one below' : ' — pick one in the panel'}` : hasRd ? 'Drag a finding to move it · off the chart to remove' : 'Trace the detachment’s border, ora to ora');
   }
   function cancel() {
+    if (traceMode) { traceMode = null; renderRdBar(); }
     if (phase === 'side' || phase === 'swiping') { prep = null; choice = null; api.setPreview(null); }
     if (drag) api.setPreview(null);
     disarm(true);
@@ -5862,10 +6093,12 @@ root.RDHand = function (api) {
   /* ------------------------------ hit testing --------------------------- */
   function hitInfo(f, sc) {
     switch (f.type) {
-      case 'hst': case 'hole': case 'oph': case 'tuft': case 'pav': return { pts: [atR(RD.radiusFor(f), f.hour)], r: 18 };
-      case 'laser': case 'cryo': return f.hour != null && !f.target ? { pts: [atR(f.r != null ? f.r : G.TEAR_R, f.hour)], r: 26 } : null;
-      case 'vh': return { pts: [atR(f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12, f.hour)], r: 40 };
-      case 'pvr': { const pts = Array.isArray(f.pts) ? f.pts : (f.hours || []).map(h => atR(G.R_EQ - 34, h)); return pts.length === 1 ? { pts, r: 18 } : null; }
+      case 'hst': case 'hole': case 'oph': case 'tuft': case 'pav': return { pts: [atR(RD.radiusFor(f), f.hour)], r: 18 * Math.max(1, f.size || 1) };
+      case 'laser': case 'cryo':
+        if (Array.isArray(f.line) && f.line.length > 1) return { line: f.line, r: 12 };
+        return f.hour != null && !f.target ? { pts: [atR(f.r != null ? f.r : G.TEAR_R, f.hour)], r: 26 * Math.max(1, f.size || 1) } : null;
+      case 'vh': return { pts: [atR(f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12, f.hour)], r: 40 * Math.max(1, f.size || 1) };
+      case 'pvr': { const pts = Array.isArray(f.pts) ? f.pts : (f.hours || []).map(h => atR(G.R_EQ - 34, h)); return pts.length === 1 ? { pts, r: 18 * Math.max(1, f.size || 1) } : null; }
       case 'lat': { const rL = f.r != null ? f.r : f.radial === 'post' ? G.R_EQ - 12 : G.LATTICE_R; return { span: [f.start, f.end], r0: rL - 18, r1: rL + 18, rEnd: rL }; }
       case 'grt': case 'dia': return { span: [f.start, f.end], r0: G.R_ORA - 52, r1: G.R_ORA + 8, rEnd: G.R_ORA - 22 };
       case 'cat': {
@@ -5877,9 +6110,58 @@ root.RDHand = function (api) {
     }
     return null;
   }
+  /* a finding drawn at one spot can be made larger or smaller with a handle on its edge */
+  const SIZE_MIN = 0.5;
+  const sizeMax = (f) => f.type === 'cat' ? 3 : f.type === 'vh' ? 2 : 2.5;
+  function extentOf(f, H) {
+    const s = f.size || 1;
+    switch (f.type) {
+      case 'hst': return 16 * s;
+      case 'hole': return 5 * s + 3;
+      case 'oph': return 15 * s;
+      case 'tuft': return 6 * s + 2;
+      case 'pav': return 13 * s;
+      case 'pvr': return 15 * s;
+      case 'vh': return 44 * s;
+      case 'laser': case 'cryo': return 22 * s;
+      case 'cat': return H.r;
+    }
+    return H.r;
+  }
+  /* a vertical lever beside the selected finding: push the knob up to enlarge, down to shrink */
+  function sizeLever(f, sc) {
+    if (!f || f.type === 'rd') return null;
+    const H = hitInfo(f, sc);
+    if (!H || !H.pts || H.tum || H.pts.length !== 1) return null;
+    if (f.type === 'pvr' && (f.grade || 'C') !== 'C') return null;
+    const u = unit(), c = H.pts[0], ext = Math.max(extentOf(f, H), 7 * u);
+    const half = G.SIZE / 2, len = 124 * u, gx = ext + 30 * u;
+    const yc = clamp(c[1], -half + len / 2 + 18 * u, half - len / 2 - 18 * u), y0 = yc - len / 2, y1 = yc + len / 2;
+    // beside the finding, on whichever side is clear of the chart's edge and the panel
+    const pr = !pal.hidden && !pal.classList.contains('docked') ? palChartRect() : null;
+    const blocked = (x) => Math.abs(x) > half - 24 * u || (pr && x > pr[0] - 24 * u && x < pr[2] + 24 * u && y1 > pr[1] - 30 * u && y0 < pr[3] + 30 * u);
+    let x = c[0] + gx; if (blocked(x) && !blocked(c[0] - gx)) x = c[0] - gx;
+    return { c, ext, x, y0, y1, min: SIZE_MIN, max: sizeMax(f) };
+  }
+  function palChartRect() {
+    const r = rect(), q = pal.getBoundingClientRect(), k = G.SIZE / (r.width || G.SIZE);
+    return [(q.left - r.left) * k - G.SIZE / 2, (q.top - r.top) * k - G.SIZE / 2, (q.right - r.left) * k - G.SIZE / 2, (q.bottom - r.top) * k - G.SIZE / 2];
+  }
+  const leverY = (L, s) => L.y1 - (clamp(s, L.min, L.max) - L.min) / (L.max - L.min) * (L.y1 - L.y0);
+  const leverSize = (L, y) => Math.round((L.min + clamp((L.y1 - y) / (L.y1 - L.y0), 0, 1) * (L.max - L.min)) * 20) / 20;
+  function sizeText(f) {
+    const s = f.size || 1;
+    if (['hst', 'hole', 'oph'].includes(f.type)) return s < 0.85 ? 'Small' : s >= 1.25 ? 'Large' : 'Medium';
+    return s < 0.85 ? 'Smaller than usual' : s >= 1.25 ? (s >= 1.9 ? 'Much larger' : 'Larger than usual') : 'Usual size';
+  }
   function hitTest(p) {
     const sc = api.getScene(), u = unit(), r = Math.hypot(p[0], p[1]), h = hourOf(p);
     let best = null, bs = Infinity;
+    // the selected finding's size lever comes first
+    if (selected != null) {
+      const sf = sc.findings.find(x => x.id === selected), L = sizeLever(sf, sc);
+      if (L && Math.abs(p[0] - L.x) < 22 * u && p[1] > L.y0 - 18 * u && p[1] < L.y1 + 18 * u) return { f: sf, end: 'lever', lever: L };
+    }
     for (const f of sc.findings) {
       const H = hitInfo(f, sc);
       if (!H) continue;
@@ -5891,6 +6173,9 @@ root.RDHand = function (api) {
         else if (d < Math.max(er, 14 * u) && d / Math.max(er, 14 * u) < bs) { bs = d / Math.max(er, 14 * u); best = { f }; }
       } else if (H.pts) {
         for (const c of H.pts) { const rr = Math.max(H.r, 14 * u), d = dist(p, c); if (d < rr && d / rr < bs) { bs = d / rr; best = { f }; } }
+      } else if (H.line) {
+        const rr = Math.max(H.r, 12 * u), d = distToLine(p, H.line);
+        if (d < rr && 0.9 * d / rr < bs) { bs = 0.9 * d / rr; best = { f }; }
       } else {
         for (const [end, hh] of [['start', H.span[0]], ['end', H.span[1]]]) {
           const c = atR(H.rEnd, hh), rr = 13 * u + 4, d = dist(p, c);
@@ -5904,6 +6189,7 @@ root.RDHand = function (api) {
   function select(id) {
     selected = id;
     api.setHighlight(id);
+    renderLaserOpts();
   }
 
   /* ------------------------------ pointer input ------------------------- */
@@ -5916,6 +6202,13 @@ root.RDHand = function (api) {
     gStart = p;
     if (phase === 'side') { phase = 'swiping'; updateSwipe(p); return; }
     if (phase === 'armed') {
+      if (armed.kind === 'laser') {
+        // laser: a tap treats the break under it; a drag traces the laser exactly where it goes
+        phase = 'lasering'; stroke = [p]; hover = p;
+        setHint('Trace where the laser goes — lift to finish', true);
+        drawInk();
+        return;
+      }
       if (SPAN[armed.kind]) {
         const rEnd = armed.kind === 'lat' ? clamp(Math.hypot(p[0], p[1]), G.R_EQ - 60, G.R_ORA - 16) : G.R_ORA - 22;
         drag = { h0: hourOf(p), h1: hourOf(p), p0: p, moved: 0, rEnd, cw: true, span: null };
@@ -5927,13 +6220,20 @@ root.RDHand = function (api) {
     const hit = hitTest(p);
     if (hit) {
       select(hit.f.id);
-      drag = { id: hit.f.id, end: hit.end || null, p0: p, at: p, orig: RD.clone(hit.f), moved: 0, off: false };
+      drag = { id: hit.f.id, end: hit.end || null, p0: p, at: p, orig: RD.clone(hit.f), moved: 0, off: false, lever: hit.lever || null };
       phase = hit.end ? 'resizing' : 'moving';
-      setHint(hit.end === 'rim' ? 'Drag the edge to resize' : hit.end ? 'Drag the end to resize' : 'Drag off the chart to remove');
+      setHint(hit.end === 'lever' ? 'Slide up to enlarge, down to shrink' : hit.end === 'rim' ? 'Drag out to enlarge, in to shrink' : hit.end ? 'Drag the end to resize' : 'Drag off the chart to remove');
+      if (hit.end === 'lever') moveDrag(p);      // a tap on the lever sets the size there
       drawInk();
       return;
     }
     if (selected != null) select(null);
+    if (RD.mainRd(api.getScene()) && !traceMode) {
+      // the detachment is locked: a stray drag never starts a new one
+      phase = 'locked'; lockShown = false;
+      drawInk();
+      return;
+    }
     phase = 'tracing';
     stroke = [p];
     setHint('Lift when you reach the ora');
@@ -5955,9 +6255,19 @@ root.RDHand = function (api) {
       for (const e of (evs.length ? evs : [ev])) { const q = toChart(e); if (dist(q, stroke[stroke.length - 1]) > 0.8 * unit()) stroke.push(q); }
       drawInk();
     } else if (phase === 'swiping') updateSwipe(p);
+    else if (phase === 'lasering') {
+      const evs = typeof ev.getCoalescedEvents === 'function' ? ev.getCoalescedEvents() : [];
+      for (const e of (evs.length ? evs : [ev])) { const q = toChart(e); if (dist(q, stroke[stroke.length - 1]) > 0.8 * unit()) stroke.push(q); }
+      hover = p; drawInk();
+    }
     else if (phase === 'placing') { hover = p; drawInk(); }
     else if (phase === 'spanning') { updateSpan(p); drawInk(); }
     else if (phase === 'moving' || phase === 'resizing') moveDrag(p);
+    else if (phase === 'locked' && !lockShown && dist(p, gStart) > 12 * unit()) {
+      lockShown = true;
+      setHint('The detachment is locked — tap Redraw or Add detachment to draw another');
+      flashBar();
+    }
   });
   const finish = (ev) => {
     if (pid == null || ev.pointerId !== pid) return;
@@ -5970,8 +6280,10 @@ root.RDHand = function (api) {
       const c = RD.pickPathSide(prep, gStart, p);
       commitRd(c);
     } else if (phase === 'placing') { placeAt(armed, p); }
+    else if (phase === 'lasering') finishLaser(p);
     else if (phase === 'spanning') { updateSpan(p); placeSpan(); }
     else if (phase === 'moving' || phase === 'resizing') endDrag(p);
+    else if (phase === 'locked') { phase = 'idle'; if (lockShown) setTimeout(() => { if (phase === 'idle') idleHint(); }, 2600); }
   };
   chart.addEventListener('pointerup', finish);
   chart.addEventListener('pointercancel', finish);
@@ -6005,7 +6317,10 @@ root.RDHand = function (api) {
   }
   function commitRd(c) {
     const rd = RD.rdFromPath(c);
-    const out = RD.applyActions(api.getScene(), [{ op: 'add', f: rd }]);
+    let base = api.getScene();
+    if (traceMode === 'redraw') { base = RD.clone(base); base.findings = base.findings.filter(f => f.type !== 'rd'); }
+    traceMode = null; renderRdBar();
+    const out = RD.applyActions(base, [{ op: 'add', f: rd }]);
     api.setPreview(null);
     api.commit(out.scene);
     const f = out.added[0];
@@ -6031,6 +6346,11 @@ root.RDHand = function (api) {
       else { f.base = next; f.bu = 'dd'; }
       return;     // a lesion placed “2 DD from the disc” keeps that margin and grows away from it
     }
+    if (d.end === 'lever') {
+      const v = leverSize(d.lever, p[1]);
+      if (Math.abs(v - 1) < 0.001) delete f.size; else f.size = v;
+      return;
+    }
     if (d.end) {
       const hh = qh(hourOf(p));
       if (d.end === 'start') f.start = hh; else f.end = hh;
@@ -6049,6 +6369,9 @@ root.RDHand = function (api) {
       }
       case 'grt': case 'dia': f.start = qh(o.start + dh); f.end = qh(o.end + dh); break;
       case 'pvr': f.pts = [[Math.round(p[0]), Math.round(p[1])]]; f.hours = [qh(h)]; if ((f.grade || 'C') === 'C') f.loc = r > G.R_EQ ? 'A' : 'P'; break;
+      case 'laser': case 'cryo':
+        if (Array.isArray(o.line)) { const dx = p[0] - d.p0[0], dy = p[1] - d.p0[1]; f.line = o.line.map(q => inOra([q[0] + dx, q[1] + dy])); break; }
+        f.hour = +h.toFixed(3); f.r = Math.round(clamp(r, 14, G.R_ORA - 6)); break;
       case 'cat': {
         const E = RD.CAT[f.key];
         if (RD.isTumor(E)) {
@@ -6137,6 +6460,7 @@ root.RDHand = function (api) {
         else if ((b.type === 'grt' || b.type === 'dia') && r > G.R_ORA - 70 && RD.inSpan(h, b.start, b.end, 0.1) && !tgt) tgt = b;
       }
       f = tgt ? { type: k, target: tgt.id } : { type: k, hour: hx, r: Math.round(clamp(r, 30, G.R_ORA - 20)) };
+      if (k === 'laser') Object.assign(f, { rows: laserOpt.rows, gap: laserOpt.gap });
     } else if (k === 'cat') {
       const E = item.E;
       // disc-shaped and whole-fundus findings have one anatomical place; sector findings take the quadrant
@@ -6156,7 +6480,8 @@ root.RDHand = function (api) {
     api.commit(out.scene);
     const nf = out.added[0] || null;
     if (nf) {
-      select(nf.id);
+      // a new laser is not selected, so the panel stays as it was (tap a laser to change its pattern)
+      if (nf.type !== 'laser') select(nf.id); else if (selected != null) select(null);
       api.announce([RD.describeAction({ op: 'add', f: nf }, out.scene.eye)].filter(Boolean), out.notes.filter(n => !/typical location/.test(n)));
     }
   }
@@ -6166,6 +6491,27 @@ root.RDHand = function (api) {
     if (item && Math.hypot(p[0], p[1]) <= G.R_CB + 20) addFinding(buildFinding(item, p, api.getScene().eye));
     disarm();
     idleHint(); drawInk();
+  }
+  /* a traced laser line: thinned to points about 3 units apart, kept inside the ora */
+  /* laser stays picked after each line or break, so several can be drawn; Done (or Esc) finishes */
+  function finishLaser(p) {
+    const pts = stroke, item = armed;
+    stroke = [];
+    const len = pts.reduce((s, q, i) => i ? s + dist(q, pts[i - 1]) : 0, 0);
+    hover = null; phase = 'armed';
+    if (len < 12 * unit()) {
+      if (Math.hypot(p[0], p[1]) <= G.R_CB + 20) addFinding(buildFinding(item, p, api.getScene().eye));
+    } else {
+      let line = [pts[0]];
+      for (const q of pts.slice(1)) if (dist(q, line[line.length - 1]) >= 3) line.push(q);
+      if (line.length < 2) line.push(pts[pts.length - 1]);
+      if (line.length > 380) { const k = line.length / 380; line = Array.from({ length: 380 }, (_, i) => line[Math.min(line.length - 1, Math.round(i * k))]); }
+      addFinding({ type: 'laser', line: line.map(inOra), rows: laserOpt.rows, gap: laserOpt.gap });
+    }
+    if (selected != null) select(null);
+    renderLaserOpts();
+    setHint('Trace more laser, or tap a break — Done when finished', true);
+    drawInk();
   }
   function updateSpan(p) {
     drag.h1 = hourOf(p);
@@ -6212,7 +6558,8 @@ root.RDHand = function (api) {
     phase = 'armed';
     if (!pal.classList.contains('docked')) { pal.classList.add('tucked'); palSub.textContent = `Placing: ${item.label.toLowerCase()}`; }
     if (selected != null) select(null);
-    setHint(SPAN[item.kind] ? `Tap, or drag along the fundus, to place the ${item.label.toLowerCase()}` : `Tap the fundus to place the ${item.label.toLowerCase()}`, true);
+    renderLaserOpts();
+    setHint(item.kind === 'laser' ? 'Tap a break to laser around it — or drag to trace the laser exactly' : SPAN[item.kind] ? `Tap, or drag along the fundus, to place the ${item.label.toLowerCase()}` : `Tap the fundus to place the ${item.label.toLowerCase()}`, true);
     drawInk();
   }
   function disarm(quiet) {
@@ -6223,7 +6570,8 @@ root.RDHand = function (api) {
     palSub.textContent = PAL_SUB;
     if (wasTucked) placePalette(false);
     hover = null;
-    if (phase === 'armed' || phase === 'placing' || phase === 'spanning') phase = 'idle';
+    if (phase === 'armed' || phase === 'placing' || phase === 'spanning' || phase === 'lasering') phase = 'idle';
+    renderLaserOpts();
     if (!quiet) drawInk();
   }
   /* a tile can be tapped (arm, then tap the fundus) or dragged straight onto the fundus */
@@ -6334,6 +6682,75 @@ root.RDHand = function (api) {
     if (!moreBox.hidden) { renderMore(); moreIn.focus(); }
   }
 
+  /* ---------------- laser pattern: rows, confluent or spaced, and the gap in burn widths ---------------- */
+  const LASER_DEFAULT = { rows: 3, gap: 0.5 };
+  const cleanOpt = (o) => ({ rows: Math.max(1, Math.min(5, Math.round((o && o.rows) || 3))), gap: o && RD.LASER_GAPS.includes(o.gap) ? o.gap : 0.5 });
+  let laserOpt = cleanOpt(Object.assign({}, LASER_DEFAULT, api.getPref('laser') || {}));
+  let lastSpaced = laserOpt.gap || 0.5;
+  const laserBox = el('div', { class: 'pal-laser', hidden: true });
+  function selectedLaser() {
+    if (selected == null) return null;
+    const f = api.getScene().findings.find(x => x.id === selected);
+    return f && f.type === 'laser' ? f : null;
+  }
+  function setLaser(next) {
+    next = cleanOpt(next);
+    if (next.gap) lastSpaced = next.gap;
+    const sel = phase === 'armed' || phase === 'lasering' ? null : selectedLaser();
+    laserOpt = next; api.setPref('laser', laserOpt);
+    if (sel) {
+      // the selected laser takes the new pattern (one Undo step)
+      const sc = RD.clone(api.getScene()), f = sc.findings.find(x => x.id === sel.id);
+      if (f) { f.rows = next.rows; f.gap = next.gap; api.commit(sc); }
+    }
+    renderLaserOpts(); drawInk();
+  }
+  function optRow(label, opts, value, pick, extra) {
+    const seg = el('div', { class: 'seg', role: 'group', 'aria-label': label });
+    for (const [v, t, title] of opts) seg.append(el('button', { type: 'button', 'aria-pressed': String(value === v), title: title || null, text: t, onclick: () => pick(v) }));
+    return el('div', { class: 'pal-row' }, [el('span', { class: 'pal-lab', text: label }), seg, extra || null]);
+  }
+  function drawSwatch(cv, pat) {
+    const W = 236, H = 62, dpr = Math.min(3, window.devicePixelRatio || 1);
+    cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    const g = cv.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, W, H);
+    const D = RD.BURN_D, along = pat.gap === 0 ? D * 0.82 : D * (1 + pat.gap), across = pat.gap === 0 ? D * 0.76 : along * 0.87;
+    const k = Math.min(1.9, (H - 12) / ((pat.rows - 1) * across + D));
+    const line = [[-W / 2 / k + 4, 0], [W / 2 / k - 4, 0]];
+    g.save(); g.translate(W / 2, H / 2); g.scale(k, k);
+    for (const [x, y] of RD.laserLineSpots(line, pat)) {
+      g.fillStyle = 'rgba(176,138,96,0.62)'; g.beginPath(); g.arc(x, y, 3.1, 0, Math.PI * 2); g.fill();
+      g.fillStyle = '#3A2E28'; g.beginPath(); g.arc(x, y, 1.7, 0, Math.PI * 2); g.fill();
+    }
+    g.restore();
+  }
+  function renderLaserOpts() {
+    const armedLaser = !!armed && armed.kind === 'laser';
+    const sel = armedLaser ? null : selectedLaser();
+    laserBox.hidden = !(armedLaser || sel);
+    // a selected laser turns the panel into its pattern editor until something else is picked
+    const wasOnly = pal.classList.contains('laser-only');
+    pal.classList.toggle('laser-only', !!sel);
+    if (wasOnly && !sel) placePalette(false);
+    if (laserBox.hidden) return;
+    const pat = sel ? (RD.laserPattern(sel) || cleanOpt(LASER_DEFAULT)) : laserOpt;
+    const spaced = pat.gap > 0;
+    const sw = el('canvas', { class: 'pal-swatch', 'aria-hidden': 'true' });
+    laserBox.replaceChildren(...[
+      el('div', { class: 'pal-sec' }, [sel ? 'Laser pattern · selected laser' : 'Laser pattern · as you trace']),
+      optRow('Rows', [1, 2, 3, 4, 5].map(n => [n, String(n), `${n} row${n > 1 ? 's' : ''}`]), pat.rows, (v) => setLaser({ rows: v, gap: pat.gap })),
+      optRow('Burns', [['c', 'Confluent', 'Burns touching, a continuous band'], ['s', 'Spaced', 'A gap between burns']], spaced ? 's' : 'c', (v) => setLaser({ rows: pat.rows, gap: v === 'c' ? 0 : (pat.gap || lastSpaced || 0.5) })),
+      spaced ? optRow('Gap', [[0.5, '½'], [1, '1'], [1.5, '1½'], [2, '2']].map(([v, t]) => [v, t, `${t} burn width${v > 1 ? 's' : ''} between burns`]), pat.gap, (v) => setLaser({ rows: pat.rows, gap: v }), el('span', { class: 'pal-unit', text: 'burns' })) : null,
+      sw,
+      el('p', { class: 'pal-note', text: `${RD.laserPatternText(pat)} — each dot is one burn.${sel ? ' Changes apply to the selected laser.' : ' Tap a break to laser around it, or drag to trace; keep going for more lines.'}` }),
+      el('div', { class: 'pal-done' }, [el('button', { type: 'button', class: 'btn-line', text: 'Done', onclick: () => { if (armedLaser) { disarm(); idleHint(); } else select(null); drawInk(); } })]),
+    ].filter(Boolean));
+    // the editor has to be seen: open the panel if it was folded away
+    if (sel) pal.classList.remove('min');
+    drawSwatch(sw, pat);
+  }
+
   const status = el('div', { class: 'pal-status' });
   const PAL_SUB = 'drag onto the fundus · or tap, then tap the spot';
   const palSub = el('span', { class: 'pal-sub', text: PAL_SUB });
@@ -6344,7 +6761,7 @@ root.RDHand = function (api) {
     el('button', { type: 'button', class: 'pal-btn pal-min', 'aria-label': 'Minimise the palette', title: 'Minimise', text: '–', onclick: () => { pal.classList.toggle('min'); } }),
     el('button', { type: 'button', class: 'pal-btn', 'aria-label': 'Close the palette', title: 'Close', text: '×', onclick: () => closePalette() }),
   ]);
-  pal.append(head, linHint, grid, moreBox, status);
+  pal.append(head, laserBox, linHint, grid, moreBox, status);
 
   function segRow(label, need, opts, value, onPick) {
     const row = el('div', { class: 'pal-row' + (need ? ' need' : '') }, [el('span', { class: 'pal-lab', text: label })]);
@@ -6390,6 +6807,7 @@ root.RDHand = function (api) {
     for (const f of sc.findings) {
       const H = hitInfo(f, sc);
       if (H && H.pts) pts.push(...H.pts);
+      else if (H && H.line) pts.push(...H.line.filter((_, i) => i % 6 === 0));
       else if (H && H.span) { pts.push(atR(H.rEnd, H.span[0]), atR(H.rEnd, H.span[1]), atR(H.rEnd, RD.midHour(H.span[0], H.span[1]))); }
     }
     return pts;
@@ -6398,7 +6816,7 @@ root.RDHand = function (api) {
   function palRect(corner) {
     const W = rect().width || G.SIZE, u = G.SIZE / W;
     // the palette's full size, even while it is tucked away during placement
-    if (!pal.classList.contains('tucked') && !pal.classList.contains('min') && pal.offsetHeight > 60) palFull = [pal.offsetWidth, pal.offsetHeight];
+    if (!pal.classList.contains('tucked') && !pal.classList.contains('min') && !pal.classList.contains('laser-only') && pal.offsetHeight > 60) palFull = [pal.offsetWidth, pal.offsetHeight];
     const pw = (palFull ? palFull[0] : pal.offsetWidth) * u, ph = (palFull ? palFull[1] : pal.offsetHeight) * u, m = 8 * u, H = G.SIZE / 2;
     const x0 = corner[0] ? H - m - pw : -H + m, y0 = corner[1] ? H - m - ph : -H + m;
     return [x0, y0, x0 + pw, y0 + ph];
@@ -6411,6 +6829,7 @@ root.RDHand = function (api) {
       sum += 0.25 + (F && F(x, y) < 0 ? 1 : 0);
     }
     for (const q of pts) if (q[0] > x0 - 10 && q[0] < x1 + 10 && q[1] > y0 - 10 && q[1] < y1 + 10) sum += 40;
+    if (!corner[0] && corner[1] && !rdBar.hidden) sum += 30;          // keep clear of the Redraw / Add buttons
     return sum;
   }
   let palCorner = null, palFull = null;
@@ -6451,9 +6870,55 @@ root.RDHand = function (api) {
   }
   fab.addEventListener('click', () => openPalette());
 
+  /* --------------- Redraw / Add detachment: the only ways to trace once one is drawn --------------- */
+  const icRedraw = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/></svg>';
+  const icAdd = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
+  const btnRedraw = el('button', { type: 'button', class: 'rd-btn', 'aria-pressed': 'false', title: 'Scrap the detachment and trace it again' });
+  btnRedraw.innerHTML = icRedraw + '<span>Redraw</span>';
+  const btnAdd = el('button', { type: 'button', class: 'rd-btn', 'aria-pressed': 'false', title: 'Trace another, separate detachment' });
+  btnAdd.innerHTML = icAdd + '<span>Add detachment</span>';
+  const rdBar = el('div', { class: 'rd-bar', role: 'group', 'aria-label': 'Detachment', hidden: true }, [btnRedraw, btnAdd]);
+  stage.append(rdBar);
+  function setTraceMode(m) {
+    if (phase !== 'idle' && phase !== 'armed') cancel();
+    disarm(true);
+    if (selected != null) select(null);
+    traceMode = traceMode === m ? null : m;
+    renderRdBar(); idleHint(); drawInk();
+  }
+  btnRedraw.addEventListener('click', () => setTraceMode('redraw'));
+  btnAdd.addEventListener('click', () => setTraceMode('add'));
+  function renderRdBar() {
+    const show = active() && !!RD.mainRd(api.getScene());
+    rdBar.hidden = !show;
+    if (!show && traceMode) traceMode = null;
+    btnRedraw.setAttribute('aria-pressed', String(traceMode === 'redraw'));
+    btnAdd.setAttribute('aria-pressed', String(traceMode === 'add'));
+    btnRedraw.querySelector('span').textContent = RD.rdsOf(api.getScene()).length > 1 ? 'Redraw all' : 'Redraw';
+  }
+  function flashBar() { rdBar.classList.remove('flash'); void rdBar.offsetWidth; rdBar.classList.add('flash'); }
+
+  /* --------------- drawing is off: a tap on the chart offers to turn it on --------------- */
+  let askDismissed = false, busyAtDown = false;
+  const askBox = el('div', { class: 'draw-ask', role: 'dialog', 'aria-label': 'Draw on the chart?', hidden: true }, [
+    el('strong', { text: 'Draw on the chart?' }),
+    el('span', { text: 'Trace the detachment and place tears, laser and more with your finger or mouse.' }),
+    el('div', { class: 'da-actions' }, [
+      el('button', { type: 'button', class: 'glass small', text: 'Yes, start drawing', onclick: () => { askBox.hidden = true; setOn(true); } }),
+      el('button', { type: 'button', class: 'btn-line', text: 'Not now', onclick: () => { askBox.hidden = true; askDismissed = true; } }),
+    ]),
+  ]);
+  stage.append(askBox);
+  chart.addEventListener('pointerdown', () => { busyAtDown = !!(api.busy && api.busy()); }, { capture: true });
+  chart.addEventListener('click', () => {
+    if (on || askDismissed || busyAtDown || api.getView() !== 'fundus') return;
+    askBox.hidden = false;
+  });
+
   /* ------------------------------- mode -------------------------------- */
   function setOn(v, quiet) {
     on = !!v;
+    if (on) askBox.hidden = true;
     btn.setAttribute('aria-pressed', String(on));
     if (!on) { cancel(); pal.hidden = true; select(null); }
     api.setPref('hand', on);
@@ -6489,10 +6954,11 @@ root.RDHand = function (api) {
     }
     else {
       fab.hidden = !pal.hidden;
-      if (!pal.hidden) { renderStatus(); placePalette(false); }
+      if (!pal.hidden) { renderStatus(); renderLaserOpts(); placePalette(false); }
       if (phase === 'idle') idleHint();
     }
     if (selected != null && !api.getScene().findings.some(f => f.id === selected)) select(null);
+    renderRdBar();
     drawInk();
   }
 
@@ -6500,6 +6966,53 @@ root.RDHand = function (api) {
   setOn(want == null ? !!(window.matchMedia && window.matchMedia('(pointer: fine)').matches) : want, true);
   return { sync, drawInk, setOn, isOn: () => on, openPalette };
 };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* R/D versions and what changed, newest first. The first entry is the version that runs.
+   Numbering: a new feature goes up a step (1.2 → 1.3); fixes and small touches add a third number
+   (1.3 → 1.3.1). Version 2 only when the owner decides a release is big enough for it.
+   Every published update adds an entry here (tools/publish.sh refuses to publish the same version twice). */
+(function (root) {
+'use strict';
+const CHANGELOG = [
+  { v: '1.3', date: '2026-10-12', title: 'Easier drawing, a size lever, traced laser, update notes', items: [
+    'Tapping the chart while drawing is off asks whether to start drawing.',
+    'Once a detachment is drawn it stays put: a stray drag no longer starts a new one. Use Redraw to trace it again, or Add detachment for another.',
+    'Tears, holes, tufts, paving stones, star folds, vitreous haemorrhage, laser spots and library findings can be resized: tap one and slide the lever beside it up to enlarge or down to shrink. Large and small tears and holes are named in the note.',
+    'Laser can be traced exactly where you want it: pick Laser, choose the pattern — 1 to 5 rows, confluent or spaced, and the gap in burn widths — then drag along the fundus. Tap a break to laser around it in the same pattern; keep going for more lines, and tap Done when finished. Selecting a laser later lets you change its pattern.',
+    'Version numbers, this update list, and a short note the first time a new version opens.',
+  ] },
+  { v: '1.2', date: '2026-10-11', title: 'Scleral buckle guide; breaks first', items: [
+    'Scleral buckle guide: for the breaks drawn, the configuration the evidence supports (buckle alone, or with vitrectomy), the elements, placement and what to expect, with each point tagged by its level of evidence.',
+    'Element guide to bands, tires, sponges and sleeves, with cross-sections.',
+    'Outlining a detachment by hand opens the panel on the breaks, and the Lincoff zone is shaded while a break is placed.',
+  ] },
+  { v: '1.1.1', date: '2026-10-11', title: 'Fundus vessels', items: [
+    'Disc vessels emerge at the nasal edge of the cup and line up with the retinal vessels; stray straight nasal vessels removed.',
+  ] },
+  { v: '1.1', date: '2026-10-11', title: 'Tumours and naevi', items: [
+    'Size in disc diameters or mm, thickness, elevation (drawn raised), shape, orange pigment, drusen, subretinal fluid and distance from the disc or fovea — by voice, typing, or the editor in the findings list.',
+  ] },
+  { v: '1.0.1', date: '2026-10-11', title: 'Fixes', items: [
+    'Opens on a clean chart.',
+    'Clear during a teaching review asks what to clear, so review marks no longer linger.',
+  ] },
+  { v: '1.0', date: '2026-10-11', title: 'First release on the web', items: [
+    'Retinal detachment drawing by voice, typing or hand in the standard colour code, with macular status, Lincoff analysis, evidence-based repair options, a 226-entry pathology library and an automatically written clinical note.',
+    'Teaching review: send a drawing for review by link and get the corrections back.',
+    'Works offline and installs as an app.',
+  ] },
+];
+/* compare "1.2.1" with "1.3": negative, zero or positive */
+function cmpVersion(a, b) {
+  const A = String(a).split('.').map(Number), B = String(b).split('.').map(Number);
+  for (let i = 0; i < Math.max(A.length, B.length); i++) { const d = (A[i] || 0) - (B[i] || 0); if (d) return d; }
+  return 0;
+}
+const API = { CHANGELOG, VERSION: CHANGELOG[0].v, cmpVersion };
+if (typeof module !== 'undefined' && module.exports) module.exports = API; else root.RDChangelog = API;
 })(typeof window !== 'undefined' ? window : globalThis);
 
 </script>
@@ -6525,6 +7038,13 @@ const store = {
   get(k) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } },
 };
+
+/* versions: which one this browser last ran (read before anything is saved, so a first visit is known) */
+const CL = window.RDChangelog || { CHANGELOG: [], VERSION: '', cmpVersion: () => 0 };
+const SEEN_KEY = 'rdraw.seenVersion';
+const LEGACY_VERSION = '1.2';     // browsers that used R/D before version notes existed ran 1.2 or earlier
+const seenVersion = store.get(SEEN_KEY);
+const usedBefore = ['rdraw.prefs', 'rdraw.scene.v2', 'rdraw.review.v1'].some(k => store.get(k) != null);
 
 /* ------------------------------ state -------------------------------- */
 const prefs = Object.assign({ eye: 'OS', claude: true }, store.get('rdraw.prefs') || {});
@@ -7689,7 +8209,71 @@ if (window.RDHand) {
     announce(chips, notes) { renderLive({ chips, unknown: [], warnings: [] }, { committed: true, notes }); },
     setMeta,
     getPref: (k) => prefs[k], setPref(k, v) { prefs[k] = v; save(); },
+    busy: () => commentArm,
   });
+}
+
+/* --------------------------- versions and updates --------------------------- */
+const fmtDay = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${d} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][m - 1]} ${y}`; };
+function openUpdates() {
+  const d = $('#updates'); if (!d) return;
+  d.open = true;
+  d.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function renderUpdates() {
+  if (!CL.VERSION) return;
+  const link = $('#verLink');
+  if (link) { link.textContent = `v${CL.VERSION}`; link.title = `Version ${CL.VERSION} — see what changed`; link.addEventListener('click', (e) => { e.preventDefault(); openUpdates(); }); }
+  const cnt = $('#verCount'); if (cnt) cnt.textContent = `Version ${CL.VERSION}`;
+  const list = $('#updatesList'); if (!list) return;
+  list.replaceChildren();
+  for (const r of CL.CHANGELOG) {
+    list.append(el('li', {}, [
+      el('div', { class: 'up-h' }, [el('strong', { text: `Version ${r.v}` }), el('span', { class: 'up-t', text: r.title }), el('time', { class: 'up-d', datetime: r.date, text: fmtDay(r.date) })]),
+      el('ul', {}, r.items.map(t => el('li', { text: t }))),
+    ]));
+  }
+}
+/* the first time a new version opens in a browser that used an older one: say what changed */
+function showWhatsNew(since) {
+  const news = CL.CHANGELOG.filter(r => CL.cmpVersion(r.v, since) > 0);
+  const box = $('#whatsNew');
+  if (!news.length || !box) return;
+  const items = [];
+  for (const r of news.slice(0, 3)) for (const t of r.items) items.push(el('li', {}, news.length > 1 ? [el('strong', { text: `${r.v}: ` }), t] : [t]));
+  box.replaceChildren(
+    el('div', { class: 'wn-head' }, [el('span', { class: 'wn-badge', text: 'Updated' }), el('h2', { id: 'wnH', text: `R/D is now version ${CL.VERSION}` }), el('time', { class: 'up-d', datetime: news[0].date, text: fmtDay(news[0].date) })]),
+    el('ul', { class: 'wn-list' }, items),
+    el('div', { class: 'wn-actions' }, [
+      el('button', { type: 'button', class: 'glass small', text: 'Got it', onclick: () => { box.hidden = true; } }),
+      el('button', { type: 'button', class: 'btn-line', text: 'All updates', onclick: () => { box.hidden = true; openUpdates(); } }),
+    ]),
+  );
+  box.hidden = false;
+}
+/* a page left open while a newer version is published: offer to load it (the site only) */
+let lastVersionCheck = 0;
+async function checkForUpdate(force) {
+  if (!/^https?:$/.test(location.protocol) || !CL.VERSION || !window.fetch) return;
+  if (!force && Date.now() - lastVersionCheck < 15 * 60 * 1000) return;
+  lastVersionCheck = Date.now();
+  try {
+    const res = await fetch(`version.json?t=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const j = await res.json();
+    if (!j || typeof j.version !== 'string' || !/^[0-9.]{1,12}$/.test(j.version) || CL.cmpVersion(j.version, CL.VERSION) <= 0) return;
+    const bar = $('#updateBar');
+    bar.replaceChildren(el('span', { text: `Version ${j.version} of R/D is available.` }), el('button', { type: 'button', class: 'glass small', text: 'Refresh to update', onclick: () => location.reload() }), el('button', { type: 'button', class: 'ub-x', 'aria-label': 'Not now', text: '×', onclick: () => { bar.hidden = true; } }));
+    bar.hidden = false;
+  } catch (e) { /* offline, or not served from the site */ }
+}
+renderUpdates();
+if (CL.VERSION) {
+  const since = seenVersion || (usedBefore ? LEGACY_VERSION : null);
+  if (since && CL.cmpVersion(CL.VERSION, since) > 0) showWhatsNew(since);
+  store.set(SEEN_KEY, CL.VERSION);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkForUpdate(); });
+  setTimeout(() => checkForUpdate(true), 4000);
 }
 
 // re-render when web fonts arrive so chart labels use them
