@@ -1269,16 +1269,17 @@ function findingTitle(f, eye) {
   switch (f.type) {
     case 'cat': { const sz = isTumor(CAT[f.key]) ? tumorSize(f, true) : ''; return `${catName(CAT[f.key])} · ${sz ? sz + ' · ' : ''}${catLocText(f, eye || 'OS', true)}`; }
     case 'rd': { const w = CAUSE_SHORT[f.cause] || 'RD'; return f.total ? (f.cause === 'exudative' ? 'Total exudative RD' : 'Total RD') : (f.ring ? `${w} · 360°` : f.island && spanHours(f.start, f.end) >= 12 ? `${w} · posterior, not to the ora` : `${w} ${fmtHour(f.start)} → ${fmtHour(f.end)} · ${fmtSpan(spanHours(f.start, f.end))}${f.island ? ' · not to the ora' : ''}`) + (f.depth && f.depth !== 'normal' ? ' · ' + f.depth : ''); }
-    case 'hst': return `${f.size && f.size < 1 ? 'Small h' : f.size > 1 ? 'Large h' : 'H'}orseshoe tear · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
+    case 'hst': return `${sizeWord(f) ? cap(sizeWord(f)) + ' h' : 'H'}orseshoe tear · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
     case 'grt': return `Giant tear ${r(f.start, f.end)} · ${fmtSpan(spanHours(f.start, f.end))}`;
     case 'dia': return `Dialysis ${r(f.start, f.end)}`;
-    case 'oph': return `Operculated hole · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
-    case 'hole': return `Atrophic hole · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
+    case 'oph': return `${sizeWord(f) ? cap(sizeWord(f)) + ' o' : 'O'}perculated hole · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
+    case 'hole': return `${sizeWord(f) ? cap(sizeWord(f)) + ' a' : 'A'}trophic hole · ${fmtHour(f.hour)}${f.cuff ? ' · cuff of SRF' : ''}`;
     case 'lat': return `Lattice ${r(f.start, f.end)}` + (f.pigmented ? ' · pigmented' : '') + (f.holes ? ' · with holes' : '') + (f.tear ? ' · with tractional tear' : '');
     case 'pav': return `Paving stone · ${fmtHour(f.hour)}`;
     case 'tuft': return `Tuft · ${fmtHour(f.hour)}`;
     case 'pvr': return `PVR ${f.grade || 'C'}${(f.grade || 'C') === 'C' ? (f.loc || 'P') : ''}${f.extent ? ' · ' + fmtSpan(f.extent) : ''}${f.hours ? ' · star fold ' + f.hours.map(fmtHour).join(', ') : ''}`;
-    case 'laser': return f.around ? 'Laser around breaks' : f.target ? 'Laser around a break' : f.full || (f.start != null && spanHours(f.start, f.end) >= 12) ? 'Laser 360°' : f.hour ? `Laser · ${fmtHour(f.hour)}` : `Laser ${r(f.start, f.end)}`;
+    case 'laser': if (Array.isArray(f.line) && f.line.length > 1) { const L = lineSpan(f.line); return L.len >= 11.5 ? 'Laser line · 360°' : L.len < 0.25 ? `Laser line · ${fmtHour(L.s)}` : `Laser line · ${fmtHour(L.s)}–${fmtHour(L.e)}`; }
+      return f.around ? 'Laser around breaks' : f.target ? 'Laser around a break' : f.full || (f.start != null && spanHours(f.start, f.end) >= 12) ? 'Laser 360°' : f.hour ? `Laser · ${fmtHour(f.hour)}` : `Laser ${r(f.start, f.end)}`;
     case 'cryo': return f.around ? 'Cryo around breaks' : f.target ? 'Cryo around a break' : f.hour ? `Cryo · ${fmtHour(f.hour)}` : `Cryo ${r(f.start, f.end)}`;
     case 'vh': return `${f.fresh ? 'Fresh blood in vitreous' : 'Vitreous hemorrhage'} · ${fmtHour(f.hour)}`;
     case 'buckle': return (f.encircling ? 'Encircling band' : f.radial ? `Radial buckle element · ${fmtHour(f.hour)}` : f.onBand ? `Segment on the band ${r(f.start, f.end)}` : `Segmental buckle ${r(f.start, f.end)}`) + (BUCKLE_EL[f.el] ? ` · ${f.el}` : '');
@@ -1304,6 +1305,7 @@ function mainRd(scene) {
 }
 function findingHour(f) {
   if (f.hour != null) return f.hour;
+  if (Array.isArray(f.line) && f.line.length) { const m = f.line[Math.floor(f.line.length / 2)]; return angleToHour(Math.atan2(m[1], m[0])); }
   if (f.start != null) return f.total ? 12 : midHour(f.start, f.end);
   if (f.hours && f.hours.length) return f.hours[0];
   return null;
@@ -1707,6 +1709,26 @@ function resamplePath(p, step) {
     out.push([p[i - 1][0] + (p[i][0] - p[i - 1][0]) * t, p[i - 1][1] + (p[i][1] - p[i - 1][1]) * t]);
   }
   out.push(p[p.length - 1]);
+  return out;
+}
+/* a laser line traced by hand: the clock hours it covers, and where its spots go (three staggered rows,
+   as for laser drawn along an arc) */
+function lineSpan(line) {
+  const hs = line.map(q => mod(angleToHour(Math.atan2(q[1], q[0])), 12)).sort((a, b) => a - b);
+  if (!hs.length) return null;
+  let gap = -1, gi = 0;
+  for (let i = 0; i < hs.length; i++) { const g = (i === hs.length - 1 ? hs[0] + 12 : hs[i + 1]) - hs[i]; if (g > gap) { gap = g; gi = i; } }
+  return { s: normHour(Math.round(hs[(gi + 1) % hs.length] * 4) / 4), e: normHour(Math.round(hs[gi] * 4) / 4), len: 12 - gap };
+}
+function laserLineSpots(line) {
+  const step = 6.5, P = resamplePath(line, step), out = [];
+  for (let i = 0; i < P.length; i++) {
+    const a = P[Math.max(0, i - 1)], b = P[Math.min(P.length - 1, i + 1)];
+    let tx = b[0] - a[0], ty = b[1] - a[1]; const L = Math.hypot(tx, ty) || 1; tx /= L; ty /= L;
+    out.push(P[i]);
+    if (i === P.length - 1) break;
+    for (const o of [-7, 7]) out.push([P[i][0] - ty * o + tx * step / 2, P[i][1] + tx * o + ty * step / 2]);
+  }
   return out;
 }
 function smoothPath(raw, passes) {
@@ -2165,6 +2187,16 @@ function breakInZone(b, zz) {
  * ------------------------------------------------------------------ */
 function listJoin(a) { return a.length <= 1 ? (a[0] || '') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]; }
 function hourList(hs) { return listJoin(hs.map(h => fmtHour(h))) + ' o’clock'; }
+/* breaks drawn larger or smaller than usual (by voice, or by dragging the size handle) */
+function sizeWord(f) { return !f || !f.size ? '' : f.size < 0.85 ? 'small' : f.size >= 1.25 ? 'large' : ''; }
+/* “Large horseshoe tear at 12 o’clock”, “2 horseshoe tears at 11 (large) and 1 o’clock” */
+function sizedBreaks(items, noun, plural, counted) {
+  const w = items.map(sizeWord), same = w.every(x => x === w[0]);
+  if (items.length === 1) return `${cap((w[0] ? w[0] + ' ' : '') + noun)} at ${hourList([items[0].hour])}`;
+  const head = counted ? `${items.length} ` : '';
+  if (same) return cap(`${head}${w[0] ? w[0] + ' ' : ''}${plural}`) + ` at ${hourList(items.map(f => f.hour))}`;
+  return cap(`${head}${plural}`) + ` at ${listJoin(items.map((f, i) => fmtHour(f.hour) + (w[i] ? ` (${w[i]})` : '')))} o’clock`;
+}
 
 function clinicalNote(scene) {
   const eyeTxt = scene.eye === 'OD' ? 'OD (right eye)' : 'OS (left eye)';
@@ -2189,11 +2221,11 @@ function clinicalNote(scene) {
   }
   const pts = (type) => F.filter(f => f.type === type);
   const hsts = pts('hst');
-  if (hsts.length) lines.push(`${hsts.length === 1 ? 'Horseshoe tear' : hsts.length + ' horseshoe tears'} at ${hourList(hsts.map(f => f.hour))}${hsts.some(f => f.rolled) ? ', rolled edges' : ''}${hsts.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
+  if (hsts.length) lines.push(`${sizedBreaks(hsts, 'horseshoe tear', 'horseshoe tears', true)}${hsts.some(f => f.rolled) ? ', rolled edges' : ''}${hsts.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
   for (const g of pts('grt')) lines.push(`Giant retinal tear from ${fmtHour(g.start)} to ${fmtHour(g.end)} o’clock (${fmtSpan(spanHours(g.start, g.end))}).`);
   for (const d of pts('dia')) lines.push(`Retinal dialysis from ${fmtHour(d.start)} to ${fmtHour(d.end)} o’clock.`);
-  const oph = pts('oph'); if (oph.length) lines.push(`Operculated hole${oph.length > 1 ? 's' : ''} at ${hourList(oph.map(f => f.hour))}${oph.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
-  const hol = pts('hole'); if (hol.length) lines.push(`Atrophic hole${hol.length > 1 ? 's' : ''} at ${hourList(hol.map(f => f.hour))}${hol.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
+  const oph = pts('oph'); if (oph.length) lines.push(`${sizedBreaks(oph, 'operculated hole', 'operculated holes')}${oph.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
+  const hol = pts('hole'); if (hol.length) lines.push(`${sizedBreaks(hol, 'atrophic hole', 'atrophic holes')}${hol.some(f => f.cuff) ? ', with a cuff of subretinal fluid' : ''}.`);
   const lat = pts('lat');
   if (lat.length) lines.push(`Lattice degeneration ${listJoin(lat.map(l => `${fmtHour(l.start)}–${fmtHour(l.end)}`))} o’clock${lat.some(l => l.pigmented) ? ', pigmented' : ''}${lat.some(l => l.holes) ? ', with atrophic holes' : ''}${lat.some(l => l.tear) ? ', with a tractional tear at its margin' : ''}.`);
   const pav = pts('pav'); if (pav.length) lines.push(`Paving-stone degeneration at ${hourList(pav.map(f => f.hour))}.`);
@@ -2254,6 +2286,10 @@ function laserText(items, all, word) {
   if (part.length) parts.push(listJoin(part.map(a => `${fmtHour(a.start)}–${fmtHour(a.end)}`)) + ' o’clock');
   const spots = items.filter(x => x.hour != null && !x.target);
   if (spots.length) parts.push('at ' + hourList(spots.map(s => s.hour)));
+  const drawn = items.filter(x => Array.isArray(x.line) && x.line.length > 1).map(x => lineSpan(x.line));
+  const spanTxt = (L) => L.len >= 11.5 ? '360°' : L.len < 0.25 ? `at ${fmtHour(L.s)} o’clock` : `from ${fmtHour(L.s)} to ${fmtHour(L.e)} o’clock`;
+  if (drawn.length === 1) parts.push(`along a drawn line ${drawn[0].len >= 11.5 ? 'all round (360°)' : spanTxt(drawn[0])}`);
+  else if (drawn.length) parts.push(`along drawn lines (${listJoin(drawn.map(L => L.len >= 11.5 ? '360°' : L.len < 0.25 ? fmtHour(L.s) : fmtHour(L.s) + '–' + fmtHour(L.e)))} o’clock)`);
   return `${word} ${parts.join('; ')}.`;
 }
 
@@ -2537,6 +2573,7 @@ function findingAnchor(f, scene) {
       const t = f.target != null && scene ? scene.findings.find(x => x.id === f.target) : null;
       if (t) { const p = findingAnchor(t, scene); return [p[0] + 16, p[1] + 16]; }
       if (f.hour != null) return at(f.r != null ? f.r : G.TEAR_R, f.hour);
+      if (Array.isArray(f.line) && f.line.length) return f.line[Math.floor(f.line.length / 2)].slice(0, 2);
       if (f.start != null) return at(G.R_ORA - 50, midHour(f.start, f.end));
       return at(G.R_ORA - 50, 12);
     }
@@ -2574,6 +2611,7 @@ function diffScenes(a, b) {
       const d0 = tumorFeatures(o, true).join(', '), d1 = tumorFeatures(f, true).join(', ');
       if (d0 !== d1) parts.push(d0 && d1 ? `${d0} → ${d1}` : d1 ? `now ${d1}` : `no longer described as ${d0}`);
     }
+    if ((o.size || 1) !== (f.size || 1) && t0 === t1) parts.push(`${t1} ${(f.size || 1) > (o.size || 1) ? 'enlarged' : 'made smaller'}`);
     if (!parts.length) {
       const p0 = findingAnchor(o, a), p1 = findingAnchor(f, b);
       parts.push(p0 && p1 && Math.hypot(p0[0] - p1[0], p0[1] - p1[1]) > 6 ? `${t1} moved` : `${t1} adjusted`);
@@ -2603,7 +2641,7 @@ function sanitizeFinding(f) {
   const seed = numIn(f.seed, 0, 4294967295); if (seed != null) g.seed = Math.round(seed);
   for (const k of ['hour', 'start', 'end']) { const h = numIn(f[k], 0.0001, 12.9999); if (h != null) g[k] = normHour(h); }
   const r = numIn(f.r, 0, 400); if (r != null) g.r = r;
-  const size = numIn(f.size, 0.5, 2); if (size != null) g.size = size;
+  const size = numIn(f.size, 0.4, 3); if (size != null) g.size = size;
   const ext = f.extent; if (typeof ext === 'number') { const e = numIn(ext, 0, 12); if (e != null) g.extent = e; } else if (own(EXTENT_R, ext)) g.extent = ext;
   const count = numIn(f.count, 1, 12); if (count != null) g.count = Math.round(count);
   const tgt = numIn(f.target, 1, 1e6); if (tgt != null) g.target = Math.round(tgt);
@@ -2612,6 +2650,11 @@ function sanitizeFinding(f) {
   if (Array.isArray(f.hours)) g.hours = f.hours.slice(0, 24).map(h => numIn(h, 0.0001, 12.9999)).filter(h => h != null).map(normHour);
   if (f.type === 'buckle') { if (f.radial === true) g.radial = true; if (f.onBand === true) g.onBand = true; if (f.ant === true) g.ant = true; if (own(BUCKLE_EL, f.el)) g.el = f.el; }
   if (Array.isArray(f.pts) && f.type === 'pvr') g.pts = f.pts.slice(0, 12).map(pt2).filter(Boolean);
+  if (Array.isArray(f.line) && (f.type === 'laser' || f.type === 'cryo')) {
+    let ln = f.line.slice(0, 3000).map(pt2).filter(Boolean);
+    if (ln.length > 400) ln = resamplePath(ln, pathLength(ln) / 380).map(round1);
+    if (ln.length >= 2 && pathLength(ln) >= 6) g.line = ln;
+  }
   if (f.type === 'cat') {
     if (!own(CAT, f.key)) return null;
     g.key = f.key;
@@ -2647,7 +2690,7 @@ function sanitizeScene(s) {
     if (g && !seen.has(g.id)) { seen.add(g.id); out.findings.push(g); }
   }
   for (const f of out.findings) if (f.target != null && !seen.has(f.target)) delete f.target;
-  out.findings = out.findings.filter(f => !((f.type === 'laser' || f.type === 'cryo') && f.target == null && f.hour == null && f.start == null && !f.around));
+  out.findings = out.findings.filter(f => !((f.type === 'laser' || f.type === 'cryo') && f.target == null && f.hour == null && f.start == null && !f.around && !f.line));
   if (own(PVD_TEXT, s.pvd)) out.pvd = s.pvd;
   if (own(LENS_TEXT, s.lens)) out.lens = s.lens;
   out.lincoff = s.lincoff === true;
@@ -2683,7 +2726,7 @@ const API = {
   CATALOG, CAT, GROUPS, catPlace, catLocText, catName, POSTERIOR_SITES, SITE_TEXT, SITES, QUAD_NAMES, stage1,
   prepareStroke, pathOptions, pickPathSide, rdFromPath, pathShape, pathField, pathAgrees, PVD_TEXT, LENS_TEXT, repairOptions, REPAIR_REFS, PROCS,
   DISC_RECIPES, QUAD_RECIPES, siteAt, findingAnchor, diffScenes, sanitizeScene, sanitizeReview,
-  breakPoints, hourSpread, BUCKLE_EL,
+  breakPoints, hourSpread, BUCKLE_EL, lineSpan, laserLineSpots, sizeWord,
   isTumor, MELANOCYTIC, TUM_KEYS, DD_UNITS, MM_PER_DD, ELEV_TEXT, SHAPE_TEXT, SRF_TEXT, SRF_SHORT, toDD, fmtNum, tumorSize, tumorRadii, tumorLevel, tumorFeatures, ellipseR, cleanTumor,
 };
 if (typeof module !== 'undefined' && module.exports) module.exports = API;

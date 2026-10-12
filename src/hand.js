@@ -73,7 +73,14 @@ root.RDHand = function (api) {
       sideArrows(g, u);
     }
     if (placingBreak() && !api.getScene().lincoff) lincoffZone(g, u);
-    if (hover && (phase === 'armed' || phase === 'placing' || phase === 'dragNew')) crosshair(g, hover, u);
+    if (phase === 'lasering' && stroke.length > 1) {
+      for (const [x, y] of RD.laserLineSpots(stroke)) {
+        if (Math.hypot(x, y) > G.R_ORA - 3) continue;
+        g.fillStyle = 'rgba(176,138,96,0.45)'; g.beginPath(); g.arc(x, y, 3.1, 0, Math.PI * 2); g.fill();
+        g.fillStyle = '#3A2E28'; g.beginPath(); g.arc(x, y, 1.7, 0, Math.PI * 2); g.fill();
+      }
+    }
+    if (hover && (phase === 'armed' || phase === 'placing' || phase === 'dragNew' || (phase === 'lasering' && stroke.length < 3))) crosshair(g, hover, u);
     if (phase === 'spanning' && drag) spanPreview(g, u);
     if (selected != null && !(drag && drag.off)) handles(g, u);
     if (drag && drag.off && drag.at) offMarker(g, drag.at, u);
@@ -96,6 +103,16 @@ root.RDHand = function (api) {
     const zz = z.zones[0], [lx, ly] = atR(G.R_EQ - 72, zz.kind === 'triangle' ? 12 : RD.midHour(zz.from, zz.to));
     pill(g, lx, ly, 'Lincoff zone', u, '#B5711A');
   }
+  function distToLine(p, pts) {
+    let best = Infinity;
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i], vx = b[0] - a[0], vy = b[1] - a[1], L = vx * vx + vy * vy || 1;
+      const t = clamp(((p[0] - a[0]) * vx + (p[1] - a[1]) * vy) / L, 0, 1);
+      best = Math.min(best, Math.hypot(p[0] - a[0] - t * vx, p[1] - a[1] - t * vy));
+    }
+    return best;
+  }
+  const inOra = (q) => { const r = Math.hypot(q[0], q[1]), lim = G.R_ORA - 4; const k = r > lim ? lim / r : 1; return [Math.round(q[0] * k * 10) / 10, Math.round(q[1] * k * 10) / 10]; };
   function line(g, pts, closed) { g.beginPath(); g.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) g.lineTo(pts[i][0], pts[i][1]); if (closed) g.closePath(); }
   function pill(g, x, y, text, u, color) {
     g.font = `700 ${12.5 * u}px "Atkinson Hyperlegible", system-ui, sans-serif`;
@@ -165,6 +182,29 @@ root.RDHand = function (api) {
       else if (!drag) { const t = RD.tumorSize(f, true) || 'drag the edge to size'; pill(g, c[0], c[1] - H.tum.ry - 22 * u, t, u, '#9A4E1C'); }
       return;
     }
+    if (H && H.line) {
+      g.save(); g.setLineDash([5 * u, 4 * u]); g.strokeStyle = 'rgba(224,118,58,0.85)'; g.lineWidth = 2 * u;
+      line(g, H.line); g.stroke(); g.restore();
+      const m = H.line[Math.floor(H.line.length / 2)];
+      if (!drag) pill(g, m[0], m[1] - 24 * u, 'drag to move · off the chart to remove', u, '#9A4E1C');
+      return;
+    }
+    const SH = sizeHandle(f, sc);
+    if (SH) {
+      g.setLineDash([5 * u, 4 * u]); g.strokeStyle = 'rgba(224,118,58,0.8)'; g.lineWidth = 1.6 * u;
+      g.beginPath(); g.arc(SH.c[0], SH.c[1], SH.ext + 3 * u, 0, Math.PI * 2); g.stroke(); g.setLineDash([]);
+      const [hx, hy] = SH.hp;
+      g.fillStyle = '#FFFFFF'; g.strokeStyle = '#E0763A'; g.lineWidth = 2.2 * u;
+      g.beginPath(); g.arc(hx, hy, 8 * u, 0, Math.PI * 2); g.fill(); g.stroke();
+      // a small diagonal double arrow: drag out or in
+      const a = 3.6 * u;
+      g.strokeStyle = '#C2571F'; g.lineWidth = 1.6 * u; g.lineCap = 'round';
+      g.beginPath(); g.moveTo(hx - a, hy + a); g.lineTo(hx + a, hy - a);
+      g.moveTo(hx + a, hy - a); g.lineTo(hx + a - 2.6 * u, hy - a); g.moveTo(hx + a, hy - a); g.lineTo(hx + a, hy - a + 2.6 * u);
+      g.moveTo(hx - a, hy + a); g.lineTo(hx - a + 2.6 * u, hy + a); g.moveTo(hx - a, hy + a); g.lineTo(hx - a, hy + a - 2.6 * u); g.stroke();
+      if (drag && drag.end === 'size') pill(g, SH.c[0], SH.c[1] - SH.ext - 24 * u, sizeText(f), u, '#9A4E1C');
+      return;
+    }
     if (!H || !H.span) return;
     for (const h of H.span) {
       const c = atR(H.rEnd, h);
@@ -203,10 +243,12 @@ root.RDHand = function (api) {
   /* ------------------------------ hit testing --------------------------- */
   function hitInfo(f, sc) {
     switch (f.type) {
-      case 'hst': case 'hole': case 'oph': case 'tuft': case 'pav': return { pts: [atR(RD.radiusFor(f), f.hour)], r: 18 };
-      case 'laser': case 'cryo': return f.hour != null && !f.target ? { pts: [atR(f.r != null ? f.r : G.TEAR_R, f.hour)], r: 26 } : null;
-      case 'vh': return { pts: [atR(f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12, f.hour)], r: 40 };
-      case 'pvr': { const pts = Array.isArray(f.pts) ? f.pts : (f.hours || []).map(h => atR(G.R_EQ - 34, h)); return pts.length === 1 ? { pts, r: 18 } : null; }
+      case 'hst': case 'hole': case 'oph': case 'tuft': case 'pav': return { pts: [atR(RD.radiusFor(f), f.hour)], r: 18 * Math.max(1, f.size || 1) };
+      case 'laser': case 'cryo':
+        if (Array.isArray(f.line) && f.line.length > 1) return { line: f.line, r: 12 };
+        return f.hour != null && !f.target ? { pts: [atR(f.r != null ? f.r : G.TEAR_R, f.hour)], r: 26 * Math.max(1, f.size || 1) } : null;
+      case 'vh': return { pts: [atR(f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12, f.hour)], r: 40 * Math.max(1, f.size || 1) };
+      case 'pvr': { const pts = Array.isArray(f.pts) ? f.pts : (f.hours || []).map(h => atR(G.R_EQ - 34, h)); return pts.length === 1 ? { pts, r: 18 * Math.max(1, f.size || 1) } : null; }
       case 'lat': { const rL = f.r != null ? f.r : f.radial === 'post' ? G.R_EQ - 12 : G.LATTICE_R; return { span: [f.start, f.end], r0: rL - 18, r1: rL + 18, rEnd: rL }; }
       case 'grt': case 'dia': return { span: [f.start, f.end], r0: G.R_ORA - 52, r1: G.R_ORA + 8, rEnd: G.R_ORA - 22 };
       case 'cat': {
@@ -218,9 +260,46 @@ root.RDHand = function (api) {
     }
     return null;
   }
+  /* a finding drawn at one spot can be made larger or smaller with a handle on its edge */
+  const SIZE_MIN = 0.5;
+  const sizeMax = (f) => f.type === 'cat' ? 3 : f.type === 'vh' ? 2 : 2.5;
+  function extentOf(f, H) {
+    const s = f.size || 1;
+    switch (f.type) {
+      case 'hst': return 16 * s;
+      case 'hole': return 5 * s + 3;
+      case 'oph': return 15 * s;
+      case 'tuft': return 6 * s + 2;
+      case 'pav': return 13 * s;
+      case 'pvr': return 15 * s;
+      case 'vh': return 44 * s;
+      case 'laser': case 'cryo': return 22 * s;
+      case 'cat': return H.r;
+    }
+    return H.r;
+  }
+  function sizeHandle(f, sc) {
+    if (!f || f.type === 'rd') return null;
+    const H = hitInfo(f, sc);
+    if (!H || !H.pts || H.tum || H.pts.length !== 1) return null;
+    if (f.type === 'pvr' && (f.grade || 'C') !== 'C') return null;
+    const u = unit(), c = H.pts[0], ext = Math.max(extentOf(f, H), 7 * u);
+    const d = ext + 7 * u, hp = [c[0] + d * Math.SQRT1_2, c[1] - d * Math.SQRT1_2];
+    return { c, ext, hp };
+  }
+  function sizeText(f) {
+    const s = f.size || 1;
+    if (['hst', 'hole', 'oph'].includes(f.type)) return s < 0.85 ? 'Small' : s >= 1.25 ? 'Large' : 'Medium';
+    return s < 0.85 ? 'Smaller than usual' : s >= 1.25 ? (s >= 1.9 ? 'Much larger' : 'Larger than usual') : 'Usual size';
+  }
   function hitTest(p) {
     const sc = api.getScene(), u = unit(), r = Math.hypot(p[0], p[1]), h = hourOf(p);
     let best = null, bs = Infinity;
+    // the selected finding's size handle comes first
+    if (selected != null) {
+      const sf = sc.findings.find(x => x.id === selected), SH = sizeHandle(sf, sc);
+      if (SH && dist(p, SH.hp) < 14 * u) return { f: sf, end: 'size', c: SH.c };
+    }
     for (const f of sc.findings) {
       const H = hitInfo(f, sc);
       if (!H) continue;
@@ -232,6 +311,9 @@ root.RDHand = function (api) {
         else if (d < Math.max(er, 14 * u) && d / Math.max(er, 14 * u) < bs) { bs = d / Math.max(er, 14 * u); best = { f }; }
       } else if (H.pts) {
         for (const c of H.pts) { const rr = Math.max(H.r, 14 * u), d = dist(p, c); if (d < rr && d / rr < bs) { bs = d / rr; best = { f }; } }
+      } else if (H.line) {
+        const rr = Math.max(H.r, 12 * u), d = distToLine(p, H.line);
+        if (d < rr && 0.9 * d / rr < bs) { bs = 0.9 * d / rr; best = { f }; }
       } else {
         for (const [end, hh] of [['start', H.span[0]], ['end', H.span[1]]]) {
           const c = atR(H.rEnd, hh), rr = 13 * u + 4, d = dist(p, c);
@@ -257,6 +339,13 @@ root.RDHand = function (api) {
     gStart = p;
     if (phase === 'side') { phase = 'swiping'; updateSwipe(p); return; }
     if (phase === 'armed') {
+      if (armed.kind === 'laser') {
+        // laser: a tap treats the break under it; a drag traces the laser exactly where it goes
+        phase = 'lasering'; stroke = [p]; hover = p;
+        setHint('Trace where the laser goes — lift to finish', true);
+        drawInk();
+        return;
+      }
       if (SPAN[armed.kind]) {
         const rEnd = armed.kind === 'lat' ? clamp(Math.hypot(p[0], p[1]), G.R_EQ - 60, G.R_ORA - 16) : G.R_ORA - 22;
         drag = { h0: hourOf(p), h1: hourOf(p), p0: p, moved: 0, rEnd, cw: true, span: null };
@@ -268,9 +357,9 @@ root.RDHand = function (api) {
     const hit = hitTest(p);
     if (hit) {
       select(hit.f.id);
-      drag = { id: hit.f.id, end: hit.end || null, p0: p, at: p, orig: RD.clone(hit.f), moved: 0, off: false };
+      drag = { id: hit.f.id, end: hit.end || null, p0: p, at: p, orig: RD.clone(hit.f), moved: 0, off: false, c: hit.c || null };
       phase = hit.end ? 'resizing' : 'moving';
-      setHint(hit.end === 'rim' ? 'Drag the edge to resize' : hit.end ? 'Drag the end to resize' : 'Drag off the chart to remove');
+      setHint(hit.end === 'rim' || hit.end === 'size' ? 'Drag out to enlarge, in to shrink' : hit.end ? 'Drag the end to resize' : 'Drag off the chart to remove');
       drawInk();
       return;
     }
@@ -296,6 +385,11 @@ root.RDHand = function (api) {
       for (const e of (evs.length ? evs : [ev])) { const q = toChart(e); if (dist(q, stroke[stroke.length - 1]) > 0.8 * unit()) stroke.push(q); }
       drawInk();
     } else if (phase === 'swiping') updateSwipe(p);
+    else if (phase === 'lasering') {
+      const evs = typeof ev.getCoalescedEvents === 'function' ? ev.getCoalescedEvents() : [];
+      for (const e of (evs.length ? evs : [ev])) { const q = toChart(e); if (dist(q, stroke[stroke.length - 1]) > 0.8 * unit()) stroke.push(q); }
+      hover = p; drawInk();
+    }
     else if (phase === 'placing') { hover = p; drawInk(); }
     else if (phase === 'spanning') { updateSpan(p); drawInk(); }
     else if (phase === 'moving' || phase === 'resizing') moveDrag(p);
@@ -311,6 +405,7 @@ root.RDHand = function (api) {
       const c = RD.pickPathSide(prep, gStart, p);
       commitRd(c);
     } else if (phase === 'placing') { placeAt(armed, p); }
+    else if (phase === 'lasering') finishLaser(p);
     else if (phase === 'spanning') { updateSpan(p); placeSpan(); }
     else if (phase === 'moving' || phase === 'resizing') endDrag(p);
   };
@@ -372,6 +467,12 @@ root.RDHand = function (api) {
       else { f.base = next; f.bu = 'dd'; }
       return;     // a lesion placed “2 DD from the disc” keeps that margin and grows away from it
     }
+    if (d.end === 'size') {
+      const k = dist(p, d.c) / Math.max(6, dist(d.p0, d.c));
+      const v = Math.round(clamp((o.size || 1) * k, SIZE_MIN, sizeMax(o)) * 20) / 20;
+      if (Math.abs(v - 1) < 0.001) delete f.size; else f.size = v;
+      return;
+    }
     if (d.end) {
       const hh = qh(hourOf(p));
       if (d.end === 'start') f.start = hh; else f.end = hh;
@@ -390,6 +491,9 @@ root.RDHand = function (api) {
       }
       case 'grt': case 'dia': f.start = qh(o.start + dh); f.end = qh(o.end + dh); break;
       case 'pvr': f.pts = [[Math.round(p[0]), Math.round(p[1])]]; f.hours = [qh(h)]; if ((f.grade || 'C') === 'C') f.loc = r > G.R_EQ ? 'A' : 'P'; break;
+      case 'laser': case 'cryo':
+        if (Array.isArray(o.line)) { const dx = p[0] - d.p0[0], dy = p[1] - d.p0[1]; f.line = o.line.map(q => inOra([q[0] + dx, q[1] + dy])); break; }
+        f.hour = +h.toFixed(3); f.r = Math.round(clamp(r, 14, G.R_ORA - 6)); break;
       case 'cat': {
         const E = RD.CAT[f.key];
         if (RD.isTumor(E)) {
@@ -508,6 +612,21 @@ root.RDHand = function (api) {
     disarm();
     idleHint(); drawInk();
   }
+  /* a traced laser line: thinned to points about 3 units apart, kept inside the ora */
+  function finishLaser(p) {
+    const pts = stroke, item = armed;
+    stroke = [];
+    const len = pts.reduce((s, q, i) => i ? s + dist(q, pts[i - 1]) : 0, 0);
+    if (len < 12 * unit()) { placeAt(item, p); return; }
+    hover = null; phase = 'idle';
+    let line = [pts[0]];
+    for (const q of pts.slice(1)) if (dist(q, line[line.length - 1]) >= 3) line.push(q);
+    if (line.length < 2) line.push(pts[pts.length - 1]);
+    if (line.length > 380) { const k = line.length / 380; line = Array.from({ length: 380 }, (_, i) => line[Math.min(line.length - 1, Math.round(i * k))]); }
+    addFinding({ type: 'laser', line: line.map(inOra) });
+    disarm();
+    idleHint(); drawInk();
+  }
   function updateSpan(p) {
     drag.h1 = hourOf(p);
     drag.moved = Math.max(drag.moved, dist(p, drag.p0));
@@ -553,7 +672,7 @@ root.RDHand = function (api) {
     phase = 'armed';
     if (!pal.classList.contains('docked')) { pal.classList.add('tucked'); palSub.textContent = `Placing: ${item.label.toLowerCase()}`; }
     if (selected != null) select(null);
-    setHint(SPAN[item.kind] ? `Tap, or drag along the fundus, to place the ${item.label.toLowerCase()}` : `Tap the fundus to place the ${item.label.toLowerCase()}`, true);
+    setHint(item.kind === 'laser' ? 'Tap a break to laser around it — or drag to trace the laser exactly' : SPAN[item.kind] ? `Tap, or drag along the fundus, to place the ${item.label.toLowerCase()}` : `Tap the fundus to place the ${item.label.toLowerCase()}`, true);
     drawInk();
   }
   function disarm(quiet) {
@@ -731,6 +850,7 @@ root.RDHand = function (api) {
     for (const f of sc.findings) {
       const H = hitInfo(f, sc);
       if (H && H.pts) pts.push(...H.pts);
+      else if (H && H.line) pts.push(...H.line.filter((_, i) => i % 6 === 0));
       else if (H && H.span) { pts.push(atR(H.rEnd, H.span[0]), atR(H.rEnd, H.span[1]), atR(H.rEnd, RD.midHour(H.span[0], H.span[1]))); }
     }
     return pts;

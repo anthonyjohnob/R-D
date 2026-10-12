@@ -572,20 +572,21 @@ function drawPaving(ctx, f, geo) {
   const r = RD.radiusFor(f);
   const [cx, cy] = at(r, f.hour);
   const det = isDetached(geo, cx, cy);
-  const rr = RD.mulberry32(f.seed || 9);
+  const rr = RD.mulberry32(f.seed || 9), s = f.size || 1, L = 8 * s;
   for (let i = 0; i < 4; i++) {
-    const x = cx + (rr() - 0.5) * 22, y = cy + (rr() - 0.5) * 14, rad = 3.5 + rr() * 2.8;
+    const x = cx + (rr() - 0.5) * 22 * s, y = cy + (rr() - 0.5) * 14 * s, rad = (3.5 + rr() * 2.8) * s;
     const p = new Path2D(); p.arc(x, y, rad, 0, TAU);
     ctx.save(); ctx.clip(p); ctx.strokeStyle = C.red; ctx.lineWidth = 0.7;
-    for (let d = -8; d <= 8; d += 2.4) { ctx.beginPath(); ctx.moveTo(x + d - 8, y - 8); ctx.lineTo(x + d + 8, y + 8); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x + d + 8, y - 8); ctx.lineTo(x + d - 8, y + 8); ctx.stroke(); }
+    for (let d = -L; d <= L; d += 2.4) { ctx.beginPath(); ctx.moveTo(x + d - L, y - L); ctx.lineTo(x + d + L, y + L); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x + d + L, y - L); ctx.lineTo(x + d - L, y + L); ctx.stroke(); }
     ctx.restore();
     ctx.strokeStyle = det ? C.brown : C.black; ctx.lineWidth = 1.1; ctx.stroke(p);
   }
 }
 function drawTuft(ctx, f) {
+  const s = f.size || 1;
   ctx.save(); local(ctx, RD.radiusFor(f), f.hour);
-  ctx.strokeStyle = C.blue; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
-  for (const dx of [-3, 0, 3]) { ctx.beginPath(); ctx.moveTo(dx, -4); ctx.lineTo(dx * 0.6, 4); ctx.stroke(); }
+  ctx.strokeStyle = C.blue; ctx.lineWidth = 1.6 * Math.sqrt(s); ctx.lineCap = 'round';
+  for (const dx of [-3, 0, 3]) { ctx.beginPath(); ctx.moveTo(dx * s, -4 * s); ctx.lineTo(dx * 0.6 * s, 4 * s); ctx.stroke(); }
   ctx.restore();
 }
 
@@ -626,6 +627,7 @@ function drawPVR(ctx, f, geo, scene) {
   for (const [cx, cy] of pvrCenters(f, geo, scene)) {
     ctx.save();
     ctx.translate(cx, cy);
+    ctx.scale(f.size || 1, f.size || 1);
     const rays = 7 + Math.floor(rr() * 3);
     ctx.strokeStyle = '#1D4C9C'; ctx.lineCap = 'round';
     for (let i = 0; i < rays; i++) {
@@ -652,6 +654,8 @@ function treatmentAround(ctx, f, scene, kind) {
       ctx.fillStyle = 'rgba(70,52,40,0.45)'; ctx.beginPath(); ctx.ellipse(x, y, 4.2 * s, 3 * s, x * 0.03, 0, TAU); ctx.fill();
     }
   };
+  // laser traced by hand: three staggered rows of burns along the drawn line
+  if (Array.isArray(f.line) && f.line.length > 1) { for (const [x, y] of RD.laserLineSpots(f.line)) spot(x, y, 1); return; }
   if (target && target.hour != null) {
     const s = target.size || 1;
     const [cx, cy] = at(RD.radiusFor(target), target.hour);
@@ -662,7 +666,7 @@ function treatmentAround(ctx, f, scene, kind) {
   let s, e;
   if (target && target.start != null) { s = target.start - 0.25; e = target.end + 0.25; }
   else if (f.start != null) { s = f.start; e = f.end; }
-  else if (f.hour != null) { const [cx, cy] = at(f.r != null ? f.r : G.TEAR_R, f.hour); for (const rad of [14, 20]) { const n = Math.round(rad * TAU / 6.5); for (let i = 0; i < n; i++) { const a = i / n * TAU; spot(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad, 1); } } return; }
+  else if (f.hour != null) { const [cx, cy] = at(f.r != null ? f.r : G.TEAR_R, f.hour), sz = f.size || 1; for (const rad of [14 * sz, 20 * sz]) { const n = Math.round(rad * TAU / 6.5); for (let i = 0; i < n; i++) { const a = i / n * TAU; spot(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad, 1); } } return; }
   else return;
   const span = RD.spanHours(s, e);
   const base = target ? G.R_ORA - 58 : G.R_ORA - 44;
@@ -674,19 +678,20 @@ function treatmentAround(ctx, f, scene, kind) {
 
 function drawVH(ctx, f) {
   const rr = RD.mulberry32(f.seed || 13);
-  const n = f.density === 'dense' ? 640 : f.density === 'mild' ? 160 : 340;
+  const s = f.size || 1;
+  const n = Math.round((f.density === 'dense' ? 640 : f.density === 'mild' ? 160 : 340) * Math.min(2.2, Math.max(0.6, s)));
   const center = RD.hourToAngle(f.hour);
   const rc = f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12;
   for (let i = 0; i < n; i++) {
     const u = (rr() + rr() + rr() - 1.5) / 1.5, v = (rr() + rr() + rr() - 1.5) / 1.5;
-    const a = center + u * 0.85, r = rc + v * 78;
+    const a = center + u * 0.85 * s, r = rc + v * 78 * s;
     const x = Math.cos(a) * r, y = Math.sin(a) * r;
     if (Math.hypot(x, y) > G.R_ORA - 2) continue;
     ctx.fillStyle = f.fresh ? `rgba(206,52,44,${0.25 + rr() * 0.45})` : `rgba(46,140,80,${0.22 + rr() * 0.4})`;
     ctx.beginPath(); ctx.arc(x, y, 0.7 + rr() * 1.3, 0, TAU); ctx.fill();
   }
   for (let i = 0; i < (f.density === 'dense' ? 7 : 3); i++) {
-    const a = center + (rr() - 0.5) * 0.9, r = rc + (rr() - 0.5) * 70;
+    const a = center + (rr() - 0.5) * 0.9 * s, r = rc + (rr() - 0.5) * 70 * s;
     ctx.fillStyle = f.fresh ? 'rgba(190,40,36,0.32)' : 'rgba(40,120,70,0.28)'; ctx.beginPath(); ctx.ellipse(Math.cos(a) * r, Math.sin(a) * r, 7 + rr() * 6, 4 + rr() * 3, a, 0, TAU); ctx.fill();
     if (f.fresh) { ctx.strokeStyle = 'rgba(46,140,80,0.7)'; ctx.lineWidth = 0.8; ctx.stroke(); }
   }
@@ -806,11 +811,15 @@ function drawHighlight(ctx, scene, id, scale) {
   } else if (f.start != null) {
     const rL = f.type === 'lat' && f.r != null ? f.r : null;
     ctx.stroke(rL ? arcPath(rL - 18, rL + 18, f.start - 0.1, f.end + 0.1) : arcPath(G.R_ORA - 60, G.R_ORA + 6, f.start - 0.1, f.end + 0.1));
+  } else if (Array.isArray(f.line) && f.line.length > 1) {
+    ctx.lineWidth = 3 / k; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath(); ctx.moveTo(f.line[0][0], f.line[0][1]); for (const q of f.line.slice(1)) ctx.lineTo(q[0], q[1]);
+    ctx.save(); ctx.strokeStyle = 'rgba(240,127,99,0.25)'; ctx.lineWidth = 26 / k; ctx.setLineDash([]); ctx.stroke(); ctx.restore();
   } else {
     const h = RD.findingHour(f.target ? scene.findings.find(x => x.id === f.target) || f : f);
     const pts = f.type === 'pvr' && Array.isArray(f.pts) ? f.pts : null;
-    if (pts) for (const [x, y] of pts) { ctx.beginPath(); ctx.arc(x, y, 22, 0, TAU); ctx.stroke(); }
-    else if (h != null) { const [x, y] = at(f.type === 'pvr' ? G.R_EQ - 34 : f.type === 'vh' ? (f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12) : RD.radiusFor(f), h); ctx.beginPath(); ctx.arc(x, y, f.type === 'vh' ? 48 : 22, 0, TAU); ctx.stroke(); }
+    if (pts) for (const [x, y] of pts) { ctx.beginPath(); ctx.arc(x, y, 22 * Math.max(1, f.size || 1), 0, TAU); ctx.stroke(); }
+    else if (h != null) { const [x, y] = at(f.type === 'pvr' ? G.R_EQ - 34 : f.type === 'vh' ? (f.r != null ? f.r : (G.R_EQ + G.R_ORA) / 2 - 12) : RD.radiusFor(f), h); ctx.beginPath(); ctx.arc(x, y, (f.type === 'vh' ? 48 : 22) * Math.max(1, f.size || 1), 0, TAU); ctx.stroke(); }
     else if (f.encircling) { ctx.beginPath(); ctx.arc(0, 0, G.R_ORA - 26, 0, TAU); ctx.stroke(); }
   }
   ctx.restore();

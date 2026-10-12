@@ -11,6 +11,7 @@ parts = {
     '/*@@RENDER@@*/': (src / 'render.js').read_text(),
     '/*@@RENDERCAT@@*/': (src / 'render-cat.js').read_text(),
     '/*@@BUCKLE@@*/': (src / 'buckle.js').read_text(),
+    '/*@@CHANGELOG@@*/': (src / 'changelog.js').read_text(),
     '/*@@HAND@@*/': (src / 'hand.js').read_text(),
     '/*@@APP@@*/': (src / 'app.js').read_text(),
 }
@@ -19,7 +20,7 @@ for k, v in parts.items():
     page = page.replace(k, v)
 template = page                      # still holds the site placeholder
 page = page.replace('<!--@@SITE_EXTRA@@-->\n', '')
-assert '</script' not in ''.join(parts[k] for k in ('/*@@CATALOG@@*/', '/*@@CORE@@*/', '/*@@RENDER@@*/', '/*@@RENDERCAT@@*/', '/*@@BUCKLE@@*/', '/*@@HAND@@*/', '/*@@APP@@*/'))
+assert '</script' not in ''.join(parts[k] for k in ('/*@@CATALOG@@*/', '/*@@CORE@@*/', '/*@@RENDER@@*/', '/*@@RENDERCAT@@*/', '/*@@BUCKLE@@*/', '/*@@CHANGELOG@@*/', '/*@@HAND@@*/', '/*@@APP@@*/'))
 out = root / 'dist'
 (out / 'artifact').mkdir(parents=True, exist_ok=True)
 (out / 'artifact' / 'R-D.html').write_text(page)
@@ -63,6 +64,12 @@ shell = ['./', 'manifest.webmanifest'] + [f'{d}/{x.name}' for d in ('fonts', 'ic
 version = hashlib.sha256(''.join((site / f).read_bytes().hex()[:4000] for f in ['index.html']).encode() + index.encode()).hexdigest()[:10]
 (site / 'sw.js').write_text((site_src / 'sw.js').read_text().replace('@@VERSION@@', version).replace('@@SHELL@@', json.dumps(shell)))
 (site / '.nojekyll').write_text('')
+# the running version, for pages already open to notice a newer one (never cached by the service worker)
+import re as _re
+_cl = (src / 'changelog.js').read_text()
+_m = _re.search(r"\{ v: '([0-9.]+)', date: '([0-9-]+)'", _cl)
+assert _m, 'changelog.js: first entry needs v and date'
+(site / 'version.json').write_text(json.dumps({'version': _m.group(1), 'date': _m.group(2)}) + '\n')
 (site / 'README.txt').write_text('''R/D website — deploy this folder as it is (static files, no server code).
 
 Netlify: go to app.netlify.com/drop and drag this folder onto the page; sign in (free) to keep the site.
@@ -72,4 +79,4 @@ GitHub Pages: put these files in a repository, then Settings → Pages → Deplo
 It must be served over https for dictation, offline use and "Add to Home Screen" to work.
 Everything runs in the visitor's browser; nothing is uploaded or tracked.
 ''')
-print('site', len(index), 'bytes; version', version, '; files', sum(1 for _ in site.rglob('*') if _.is_file()))
+print('site', len(index), 'bytes; R/D', _m.group(1), '; cache', version, '; files', sum(1 for _ in site.rglob('*') if _.is_file()))

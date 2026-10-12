@@ -20,6 +20,13 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } },
 };
 
+/* versions: which one this browser last ran (read before anything is saved, so a first visit is known) */
+const CL = window.RDChangelog || { CHANGELOG: [], VERSION: '', cmpVersion: () => 0 };
+const SEEN_KEY = 'rdraw.seenVersion';
+const LEGACY_VERSION = '1.2';     // browsers that used R/D before version notes existed ran 1.2 or earlier
+const seenVersion = store.get(SEEN_KEY);
+const usedBefore = ['rdraw.prefs', 'rdraw.scene.v2', 'rdraw.review.v1'].some(k => store.get(k) != null);
+
 /* ------------------------------ state -------------------------------- */
 const prefs = Object.assign({ eye: 'OS', claude: true }, store.get('rdraw.prefs') || {});
 let view = 'fundus';          // 'fundus' | 'pole'
@@ -1184,6 +1191,69 @@ if (window.RDHand) {
     setMeta,
     getPref: (k) => prefs[k], setPref(k, v) { prefs[k] = v; save(); },
   });
+}
+
+/* --------------------------- versions and updates --------------------------- */
+const fmtDay = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${d} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][m - 1]} ${y}`; };
+function openUpdates() {
+  const d = $('#updates'); if (!d) return;
+  d.open = true;
+  d.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function renderUpdates() {
+  if (!CL.VERSION) return;
+  const link = $('#verLink');
+  if (link) { link.textContent = `v${CL.VERSION}`; link.title = `Version ${CL.VERSION} — see what changed`; link.addEventListener('click', (e) => { e.preventDefault(); openUpdates(); }); }
+  const cnt = $('#verCount'); if (cnt) cnt.textContent = `Version ${CL.VERSION}`;
+  const list = $('#updatesList'); if (!list) return;
+  list.replaceChildren();
+  for (const r of CL.CHANGELOG) {
+    list.append(el('li', {}, [
+      el('div', { class: 'up-h' }, [el('strong', { text: `Version ${r.v}` }), el('span', { class: 'up-t', text: r.title }), el('time', { class: 'up-d', datetime: r.date, text: fmtDay(r.date) })]),
+      el('ul', {}, r.items.map(t => el('li', { text: t }))),
+    ]));
+  }
+}
+/* the first time a new version opens in a browser that used an older one: say what changed */
+function showWhatsNew(since) {
+  const news = CL.CHANGELOG.filter(r => CL.cmpVersion(r.v, since) > 0);
+  const box = $('#whatsNew');
+  if (!news.length || !box) return;
+  const items = [];
+  for (const r of news.slice(0, 3)) for (const t of r.items) items.push(el('li', {}, news.length > 1 ? [el('strong', { text: `${r.v}: ` }), t] : [t]));
+  box.replaceChildren(
+    el('div', { class: 'wn-head' }, [el('span', { class: 'wn-badge', text: 'Updated' }), el('h2', { id: 'wnH', text: `R/D is now version ${CL.VERSION}` }), el('time', { class: 'up-d', datetime: news[0].date, text: fmtDay(news[0].date) })]),
+    el('ul', { class: 'wn-list' }, items),
+    el('div', { class: 'wn-actions' }, [
+      el('button', { type: 'button', class: 'glass small', text: 'Got it', onclick: () => { box.hidden = true; } }),
+      el('button', { type: 'button', class: 'btn-line', text: 'All updates', onclick: () => { box.hidden = true; openUpdates(); } }),
+    ]),
+  );
+  box.hidden = false;
+}
+/* a page left open while a newer version is published: offer to load it (the site only) */
+let lastVersionCheck = 0;
+async function checkForUpdate(force) {
+  if (!/^https?:$/.test(location.protocol) || !CL.VERSION || !window.fetch) return;
+  if (!force && Date.now() - lastVersionCheck < 15 * 60 * 1000) return;
+  lastVersionCheck = Date.now();
+  try {
+    const res = await fetch(`version.json?t=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) return;
+    const j = await res.json();
+    if (!j || typeof j.version !== 'string' || !/^[0-9.]{1,12}$/.test(j.version) || CL.cmpVersion(j.version, CL.VERSION) <= 0) return;
+    const bar = $('#updateBar');
+    bar.replaceChildren(el('span', { text: `Version ${j.version} of R/D is available.` }), el('button', { type: 'button', class: 'glass small', text: 'Refresh to update', onclick: () => location.reload() }), el('button', { type: 'button', class: 'ub-x', 'aria-label': 'Not now', text: '×', onclick: () => { bar.hidden = true; } }));
+    bar.hidden = false;
+  } catch (e) { /* offline, or not served from the site */ }
+}
+renderUpdates();
+if (CL.VERSION) {
+  const since = seenVersion || (usedBefore ? LEGACY_VERSION : null);
+  if (since && CL.cmpVersion(CL.VERSION, since) > 0) showWhatsNew(since);
+  store.set(SEEN_KEY, CL.VERSION);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkForUpdate(); });
+  setTimeout(() => checkForUpdate(true), 4000);
 }
 
 // re-render when web fonts arrive so chart labels use them

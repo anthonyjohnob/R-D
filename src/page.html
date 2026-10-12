@@ -11,7 +11,7 @@
   <header class="top">
     <div class="brand">
       <!--@@LOGO@@-->
-      <p class="tag">Retinal detachment mapping, spoken, typed or drawn</p>
+      <p class="tag">Retinal detachment mapping, spoken, typed or drawn <a class="ver" id="verLink" href="#updates" aria-label="Version and updates"></a></p>
     </div>
     <div class="eye-switch" role="radiogroup" aria-label="Eye being drawn">
       <button type="button" role="radio" data-eye="OD" aria-checked="false">OD <span>right eye</span></button>
@@ -20,6 +20,8 @@
   </header>
 
   <p class="intended" id="intended"><strong>For education and documentation by eye-care professionals.</strong> Not medical advice: R/D does not diagnose, treat or replace your examination and judgement, and it is not for patients making decisions about their own care.</p>
+
+  <section class="whatsnew" id="whatsNew" aria-labelledby="wnH" hidden></section>
 
   <main class="layout">
     <section class="chart-card" aria-label="Fundus chart">
@@ -168,6 +170,10 @@
         </div>
       </details>
 
+      <details class="card" id="updates">
+        <summary><h2>Updates</h2><span class="count" id="verCount"></span></summary>
+        <ol class="updates" id="updatesList"></ol>
+      </details>
       <details class="card">
         <summary><h2>Clinical basis</h2></summary>
         <ol class="refs">
@@ -192,6 +198,7 @@
   </main>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<div class="update-bar" id="updateBar" role="status" hidden></div>
 <span class="sr" id="srStatus" aria-live="polite"></span>
 
 <script>
@@ -211,6 +218,9 @@
 </script>
 <script>
 /*@@HAND@@*/
+</script>
+<script>
+/*@@CHANGELOG@@*/
 </script>
 <script>
 /*@@APP@@*/

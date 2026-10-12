@@ -53,7 +53,7 @@ try:
         pg.locator('#stage').screenshot(path='scratch/br_armed.png')
         pg.mouse.click(x, y); pg.wait_for_timeout(300)
         check('tear placed', titles(pg) == ['RD 10 → 2 · 4 clock hours', 'Horseshoe tear · 12:30'], titles(pg))
-        check('zone cleared after placing', ink_amber(pg) == 0)
+        n_after = ink_amber(pg); check('zone cleared after placing (only the size handle left)', n_after < 60, n_after)
         check('then “Add findings”, no Lincoff hint', pg.text_content('#palette .pal-head strong') == 'Add findings' and pg.is_hidden('#palette .pal-lin'))
         check('chart hint back to editing', 'Trace to redraw' in pg.inner_text('#inkHint'))
         # a non-break tile does not shade the zone
