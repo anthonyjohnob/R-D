@@ -14,7 +14,7 @@ const CHANGELOG = [
     'Tapping a finding opens its editor under the chart, with a size stepper as well as the lever, so the chart is never covered.',
     'Clear, save, share and the clinical note are one tap from the top bar; the laser pattern folds to one line once you start tracing.',
     'On a computer the tools sit in a rail on the left and panels open on the right. The classic layout is still in the ⋯ menu.',
-    'Recording a PVD draws it, in the vitreous green: the detached posterior hyaloid as a dashed line in front of the posterior pole, with a Weiss ring in front of the disc when it is complete, or still attached at the disc when it is partial.',
+    'Recording a complete PVD draws a Weiss ring, in the vitreous green, just in front of the disc.',
     'Half past twelve reads 12.5 in the clock-hour boxes, not 0.5.',
   ] },
   { v: '1.3', date: '2026-10-12', title: 'Easier drawing, a size lever, traced laser, update notes', items: [

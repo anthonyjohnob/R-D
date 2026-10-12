@@ -399,9 +399,7 @@ const RECIPE = {
     for (const q of v) { ctx.strokeStyle = GRN; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(q[0] * 0.55 + P.x * 0.45, q[1] * 0.55 + P.y * 0.45); ctx.stroke(); }
   },
   pvd(ctx, f, P, E, st, scene) {
-    RECIPE.weiss(ctx, f, P, E, st, scene);
-    ctx.strokeStyle = hexA(GRN, 0.7); ctx.lineWidth = 1.3; ctx.setLineDash([7, 5]);
-    ctx.stroke(circle(-RD.discCenter(scene.eye)[0] * 0.15, 0, 128)); ctx.setLineDash([]);
+    RECIPE.weiss(ctx, f, P, E, st, scene);          // the Weiss ring alone: no dashed hyaloid line
   },
   weiss(ctx, f, P, E, st, scene) {
     const [dx, dy] = RD.discCenter(scene.eye), x = dx * 0.86, y = dy - 9;
