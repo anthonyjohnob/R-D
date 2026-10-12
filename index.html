@@ -336,7 +336,20 @@ a.glass { text-decoration: none; }
 .rep-opt.t-less, .rep-opt.t-pending { background: var(--surface); }
 .rep-h { display: flex; gap: 10px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
 .rep-h strong { font-size: 15.5px; }
-.rep-tier { font-size: 11.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.rep-tier { font-size: 11.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); display: inline-flex; align-items: center; gap: 4px; }
+.rep-tier svg { flex: none; }
+.rep-name { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.rep-tally { font: 600 12px var(--font-mono); color: var(--muted); }
+.rep-tally .tl-pro { color: var(--ok); }
+.rep-tally .tl-con { color: var(--warn); }
+.rep-lean { display: flex; gap: 11px; align-items: flex-start; margin: 2px 0 10px; padding: 11px 13px; border-radius: 13px; background: color-mix(in srgb, var(--ok) 9%, var(--surface)); border: 1px solid color-mix(in srgb, var(--ok) 35%, var(--line)); }
+.rep-lean.none { background: var(--surface-2); border-color: var(--line); }
+.rep-lean p { margin: 0; font-size: 15px; line-height: 1.45; }
+.rep-lean-k { font: 600 11px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ok); margin-bottom: 2px; }
+.rep-lean.none .rep-lean-k { color: var(--muted); }
+.rep-lean .rep-lean-sub { margin-top: 4px; font-size: 12.5px; color: var(--muted); }
+.rep-lean-ic { width: 32px; height: 32px; flex: none; border-radius: 999px; display: grid; place-items: center; background: var(--ok); color: #fff; margin-top: 2px; }
+.rep-lean-ic svg { width: 17px; height: 17px; }
 .t-favoured .rep-tier { color: var(--ok); }
 .t-less .rep-tier, .t-pending .rep-tier { color: var(--warn); }
 .rep-why { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 5px; font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
@@ -518,6 +531,237 @@ details.card[open] > summary::after { content: "–"; }
 .draw-ask span { color: var(--ink-2); font-size: 14px; line-height: 1.4; }
 .da-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 4px; }
 
+/* ======================= Simple layout (shell.js), modelled on C/D 2.0 ======================= */
+body.simple { overflow-x: hidden; --sel-bg: #FFF1DC; --sel-line: #E4A13E; --sel-ink: #7A4A0B; --dock-h: 150px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body.simple { --sel-bg: #3A2A12; --sel-line: #E4A13E; --sel-ink: #FFD9A0; } }
+body.simple .app { max-width: none; padding: 0; }
+body.simple .chart-card { position: static; background: transparent; border: 0; box-shadow: none; padding: 0; }
+body.simple .chart-tools, body.simple .view-row, body.simple .chart-wrap { padding: 0; }
+body.simple .chart-tools, body.simple .view-row, body.simple .cmd-box, body.simple .command > label, body.simple .cmd-actions, body.simple #handBtn { display: none !important; }
+body.simple #chart { border-radius: 18px; box-shadow: 0 0 0 1px var(--line); background: var(--surface); }
+#sApp { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+#sTop { position: sticky; top: 0; z-index: 20; height: 56px; padding: 0 6px 0 12px; padding-top: env(safe-area-inset-top, 0px); display: flex; align-items: center; gap: 4px; background: color-mix(in srgb, var(--bg) 92%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+#sTop .s-logo { height: 38px; width: auto; display: block; flex: none; }
+#sTop .s-gap { flex: 1; }
+#sTop .eye-switch { box-shadow: none; padding: 3px; margin-right: 2px; }
+#sTop .eye-switch button { padding: 6px 12px; font-size: 14px; }
+#sTop .eye-switch button span { display: none; }
+.s-icon { width: 44px; height: 44px; border: 0; background: transparent; border-radius: 12px; display: grid; place-items: center; color: var(--ink); cursor: pointer; flex: none; }
+.s-icon svg { width: 22px; height: 22px; }
+.s-icon:hover { background: var(--chip-bg); }
+.s-clear { color: var(--red-lo); }
+.s-clear:disabled { color: var(--muted); opacity: .45; cursor: default; }
+
+#sMain { flex: 1; width: 100%; max-width: 660px; margin: 0 auto; padding: 0 8px calc(var(--dock-h) + 24px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; }
+.s-fab { position: absolute; left: 10px; bottom: 12px; z-index: 2; width: 46px; height: 46px; padding: 0 !important; border-radius: 999px !important; display: grid !important; place-items: center; background: color-mix(in srgb, var(--surface) 92%, transparent) !important; border: 1px solid var(--line) !important; box-shadow: 0 2px 10px rgba(19, 50, 79, .12); }
+.s-fab .lbl { display: none !important; }
+.s-fab svg { width: 20px !important; height: 20px !important; }
+#sEmpty { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); width: max-content; max-width: calc(100% - 130px); text-align: center; pointer-events: none; font-size: 14px; color: var(--ink-2); background: color-mix(in srgb, var(--surface) 92%, transparent); border-radius: 999px; padding: 7px 14px; box-shadow: 0 1px 6px rgba(19, 50, 79, .08); }
+#sEmpty b { color: var(--chip-rd); }
+
+#sStrip { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 2px; -webkit-overflow-scrolling: touch; }
+#sStrip::-webkit-scrollbar { display: none; }
+.s-chip { flex: none; height: 38px; padding: 0 13px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 700 14px var(--font-ui); cursor: pointer; white-space: nowrap; }
+.s-chip.quiet { color: var(--muted); border-style: dashed; }
+.s-chip.warn { background: var(--warn-bg); color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, var(--line)); }
+.s-chip.ok { background: color-mix(in srgb, var(--ok) 12%, var(--surface)); color: var(--ok); border-color: color-mix(in srgb, var(--ok) 35%, var(--line)); }
+.s-chip.accent { background: var(--chip-bg); color: var(--navy); border-color: color-mix(in srgb, var(--navy) 35%, var(--line)); }
+
+body.simple .command { padding: 0; border: 0; background: transparent; gap: 6px; }
+.s-cmd { position: relative; display: flex; align-items: center; }
+body.simple #cmd { width: 100%; min-height: 50px; height: 50px; max-height: 140px; resize: none; padding: 13px 98px 13px 16px; border-radius: 14px; font-size: 16px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; line-height: 1.4; }
+body.simple #mic, body.simple #go { position: absolute; top: 50%; transform: translateY(-50%); min-height: 0; width: 40px; height: 40px; padding: 0; border-radius: 11px; justify-content: center; border: 0; box-shadow: none; text-shadow: none; }
+body.simple #mic { right: 50px; background: var(--chip-bg); color: var(--navy); }
+body.simple #mic[aria-pressed="true"] { background: linear-gradient(180deg, var(--red-hi), var(--red-lo)); color: #fff; }
+body.simple #go { right: 6px; }
+body.simple #mic::before, body.simple #go::before { display: none; }
+body.simple #mic svg, body.simple #go svg { width: 20px; height: 20px; }
+body.simple #live { padding: 0 4px; }
+
+#sDock { position: fixed; z-index: 15; left: 0; right: 0; bottom: 0; padding: 10px 12px calc(12px + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-radius: 22px 22px 0 0; box-shadow: 0 -8px 26px rgba(19, 50, 79, .08); border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; transition: transform .22s ease; }
+#sDock > * { width: 100%; max-width: 636px; margin: 0 auto; box-sizing: border-box; }
+body.sheet-open #sDock { transform: translateY(110%); }
+.s-primary { display: flex; gap: 8px; }
+.s-trace { flex: 1; height: 54px; border: 0; border-radius: 15px; background: linear-gradient(180deg, var(--red-hi), var(--red-lo)); color: #fff; font: 700 17px var(--font-ui); display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 6px 16px rgba(222, 66, 57, .26); }
+.s-trace svg { width: 20px; height: 20px; }
+.s-trace[hidden] { display: none; }
+.s-trace.s-half { font-size: 15px; height: 50px; }
+.s-trace.s-alt { background: var(--surface); color: var(--navy); border: 1.5px solid var(--line); box-shadow: none; }
+.s-trace:disabled, .s-tools button:disabled { opacity: .4; cursor: default; }
+.s-tools { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; }
+.s-tools button { height: 60px; border: 0; background: transparent; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font: 700 11.5px var(--font-ui); color: var(--ink-2); cursor: pointer; }
+.s-tools button canvas { width: 28px; height: 28px; border-radius: 7px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .s-tools button canvas, :root:not([data-theme="light"]) .s-ed-h canvas, :root:not([data-theme="light"]) .s-rd-h canvas { background: #FFFDF8; } }
+:root[data-theme="dark"] .s-tools button canvas, :root[data-theme="dark"] .s-ed-h canvas, :root[data-theme="dark"] .s-rd-h canvas { background: #FFFDF8; }
+.s-tools button[aria-pressed="true"] { background: var(--sel-bg); color: var(--sel-ink); box-shadow: inset 0 0 0 1.5px var(--sel-line); }
+.s-tools .s-more { background: var(--chip-bg); color: var(--navy); }
+.s-tools .s-more svg { width: 20px; height: 20px; }
+@keyframes sGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 122, 95, 0); } 50% { box-shadow: 0 0 0 6px rgba(239, 122, 95, .45); } }
+.glow, .s-next { animation: sGlow 1.6s ease-in-out infinite; }
+.s-tools button.glow { background: color-mix(in srgb, var(--chip-break) 9%, var(--surface)); }
+@media (prefers-reduced-motion: reduce) { .glow, .s-next { animation: none; box-shadow: 0 0 0 3px rgba(239, 122, 95, .5); } }
+/* the step hint sits in the dock, in place of the big button */
+#sDock .ink-hint { position: static; transform: none; width: 100%; max-width: 636px; justify-content: space-between; padding: 10px 8px 10px 16px; border-radius: 15px; font-size: 15px; min-height: 54px; pointer-events: auto; background: var(--ink); color: var(--bg); }
+#sDock .ink-hint:not([hidden]) ~ .s-primary { display: none; }
+#sDock .ink-hint button { padding: 8px 12px; font-size: 14px; background: color-mix(in srgb, var(--bg) 22%, transparent); color: var(--bg); }
+.s-laser:not(:has(.pal-laser:not([hidden]))) { display: none; }
+.s-laser .pal-laser { margin: 0; }
+.s-laser.folded .pal-laser { display: none; }
+.s-laser .pal-note, .s-laser .pal-done { display: none; }      /* the dock's hint says the same, and has the Done button */
+.s-laser-sum { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 12px; margin-bottom: 6px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface-2, var(--surface)); color: var(--ink); font: 600 14px var(--font-ui); cursor: pointer; text-align: left; }
+.s-laser-sum[hidden] { display: none; }
+.s-laser-sum .ls-k { font: 600 11px var(--font-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.s-laser-sum .ls-v { flex: 1; min-width: 0; }
+.s-laser-sum .ls-c { color: var(--navy); font-weight: 700; }
+.s-laser:not(.folded) .s-laser-sum { display: none; }
+
+#sScrim, #sClearScrim { position: fixed; inset: 0; z-index: 25; background: rgba(10, 24, 40, .32); }
+#sClearScrim { z-index: 44; background: rgba(40, 8, 6, .42); }
+#sApp .sheet { position: fixed; z-index: 30; left: 0; right: 0; bottom: 0; max-height: 82vh; max-height: 82dvh; overflow-y: auto; overscroll-behavior: contain; background: var(--surface); border-radius: 24px 24px 0 0; box-shadow: 0 -12px 34px rgba(19, 50, 79, .16); padding: 0 14px calc(18px + env(safe-area-inset-bottom, 0px)); box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; transform: translateY(105%); visibility: hidden; transition: transform .24s ease, visibility 0s linear .24s; }
+#sApp .sheet.open { transform: none; visibility: visible; transition: transform .24s ease; }
+#sApp .sheet > * { width: 100%; max-width: 640px; margin-inline: auto; box-sizing: border-box; }
+#sApp .sheet.below { max-height: none; top: 50vh; border-radius: 20px 20px 0 0; box-shadow: 0 -10px 28px rgba(19, 50, 79, .14); }
+.sh-grab { width: 40px !important; height: 5px; border-radius: 3px; background: var(--line); margin: 8px auto 0 !important; flex: none; }
+.sh-head { display: flex; align-items: center; position: sticky; top: 0; background: var(--surface); padding: 2px 0 4px; z-index: 1; gap: 8px; }
+.sh-head h3 { flex: 1; margin: 0; font-size: 21px; display: flex; align-items: center; gap: 8px; }
+.sh-close { border: 0; background: transparent; color: var(--navy); font: 700 15px var(--font-ui); padding: 10px 6px; cursor: pointer; }
+#sApp .sheet .card { border: 0; padding: 4px 2px; background: transparent; box-shadow: none; }
+#sApp .sheet .card-head { margin-bottom: 6px; }
+#sApp #shLincoff .card-head, #sApp #shRepair .card-head, #sApp #shBuckle .card-head { display: none; }
+/* the chart is never covered: a panel below it starts where it ends, and the chart shrinks a little on short phones */
+@media (max-width: 999px) {
+  body.below-open { overflow: hidden; }
+  body.below-open .stage { max-width: max(250px, calc(100dvh - 56px - 300px)); margin-inline: auto; width: 100%; }
+}
+
+.s-grid3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.s-grid3 > button { min-height: 78px; border: 1px solid var(--line); background: var(--surface); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; padding: 8px 6px; font: 700 13.5px var(--font-ui); color: var(--ink); cursor: pointer; text-align: center; }
+.s-grid3 svg { width: 22px; height: 22px; color: var(--navy); }
+.s-grid3 > button[aria-pressed="true"] { background: var(--sel-bg); border-color: var(--sel-line); color: var(--sel-ink); }
+body.simple .pal-tiles .pal-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+body.simple .pal-tiles .pal-tile { min-height: 70px; font-size: 12.5px; border-radius: 12px; }
+body.simple .pal-tiles .pal-tile canvas { width: 32px !important; height: 32px !important; }
+body.simple .pal-tiles .pal-sec { margin-top: 4px; }
+.s-more-body .pal-more { margin-top: 10px; }
+.s-more-body .pal-more input { font-size: 16px; padding: 10px 12px; }
+.s-more-body .pal-results { max-height: none; }
+
+/* the guide, the editor, PVD and lens */
+.flow { border: 1.5px solid color-mix(in srgb, var(--navy) 40%, var(--line)); background: var(--chip-bg); border-radius: 16px; padding: 12px 14px; display: grid; gap: 10px; }
+.flow-step { font: 600 12px var(--font-mono); color: var(--navy); letter-spacing: .04em; text-transform: uppercase; }
+.flow h3 { margin: 2px 0 0; font-size: 18px; line-height: 1.25; }
+.flow p { margin: 0; font-size: 14px; color: var(--ink-2); }
+.flow-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.flow-opts button { min-width: 58px; min-height: 46px; padding: 6px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--surface); font-weight: 700; font-size: 16px; cursor: pointer; color: var(--ink); }
+.flow-opts button:hover { border-color: var(--focus); }
+.flow-opts button[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: var(--surface); }
+.flow-acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.flow-next { border: 0; border-radius: 12px; padding: 10px 16px; min-height: 44px; font-weight: 700; font-size: 15px; cursor: pointer; color: #fff; background: linear-gradient(180deg, var(--red-hi), var(--red-lo)); }
+.flow-skip { border: 0; background: transparent; color: var(--muted); font-weight: 700; cursor: pointer; padding: 8px; }
+.s-q { display: grid; gap: 6px; }
+.s-ql { margin: 0; font-size: 13px; font-weight: 700; color: var(--muted); }
+.s-edit, .s-detach, .s-ask { display: grid; gap: 12px; }
+.s-ed-h, .s-rd-h { display: flex; align-items: center; gap: 10px; }
+.s-ed-h canvas, .s-rd-h canvas { width: 30px; height: 30px; flex: none; }
+.s-ed-t { flex: 1; min-width: 0; }
+.s-ed-t strong, .s-rd-h strong { font-size: 17px; }
+.s-sub { color: var(--muted); font-size: 13px; }
+.mini.danger { color: var(--red-lo); }
+.s-ed-h .mini { min-height: 36px; padding: 4px 12px; }
+.bs-row { display: flex; align-items: stretch; border: 1.5px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; height: 52px; }
+.bs-row button { width: 56px; flex: none; border: 0; background: transparent; font-size: 26px; font-weight: 700; color: var(--navy); cursor: pointer; }
+.bs-row button:active { background: var(--chip-bg); }
+.bs-row output { flex: 1; display: grid; place-items: center; font: 600 16px var(--font-mono); color: var(--ink); }
+.s-size { display: grid; gap: 6px; }
+.s-tip { margin: 0; font-size: 13px; color: var(--muted); }
+#sApp .f-edit { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+#sApp .f-edit select, #sApp .f-edit input { min-height: 40px; font-size: 15px; }
+#sApp .f-edit input[type="number"] { width: 5.2em; }
+.s-acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.s-rd { display: grid; gap: 8px; padding-bottom: 10px; border-bottom: 1px solid var(--line-2); }
+.s-laser-edit:empty { display: none; }
+
+/* when the drawing is done: big, plain actions */
+#sActs { display: grid; gap: 6px; border-radius: 18px; transition: box-shadow .3s; }
+#sActs[hidden] { display: none; }
+.s-acts-h { margin: 0 4px; font: 600 11.5px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.s-acts-g { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.s-acts-g[data-n="3"] .s-act:not([hidden]) { grid-column: auto; }
+.s-acts-g[data-n="3"] .s-act.a-surg { grid-column: 1 / -1; }
+.s-acts-g[data-n="1"] .s-act { grid-column: 1 / -1; }
+.s-act { min-height: 56px; display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 15px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; text-align: left; font-family: var(--font-ui); }
+.s-act[hidden] { display: none; }
+.s-act .sa-ic { width: 34px; height: 34px; flex: none; border-radius: 10px; display: grid; place-items: center; background: var(--chip-bg); color: var(--navy); }
+.s-act .sa-ic svg { width: 21px; height: 21px; }
+.s-act .sa-t { display: grid; min-width: 0; line-height: 1.2; }
+.s-act b { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.s-act small { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 520px) { .s-act small { display: none; } .s-acts-g[data-n="3"] .s-act.a-surg small, .s-acts-g[data-n="1"] .s-act small { display: block; } }
+.s-act.a-surg { background: var(--navy); border-color: var(--navy); color: #fff; }
+.s-act.a-surg .sa-ic { background: rgba(255, 255, 255, .16); color: #fff; }
+.s-act.a-surg small { color: rgba(255, 255, 255, .78); }
+.s-act.a-rev .sa-ic { background: linear-gradient(180deg, var(--red-hi), var(--red-lo)); color: #fff; }
+.s-act.a-buckle .sa-ic { background: color-mix(in srgb, #7A5536 16%, var(--surface)); color: #7A5536; }
+.s-act:hover { border-color: var(--focus); }
+#sActs.lit .s-act { animation: sGlow 1.6s ease-in-out 3; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .s-act.a-surg { background: #2C5A86; border-color: #2C5A86; } :root:not([data-theme="light"]) .s-act.a-buckle .sa-ic { color: #E2B48C; } }
+:root[data-theme="dark"] .s-act.a-surg { background: #2C5A86; border-color: #2C5A86; }
+
+/* clear: confirmed on a red card */
+.s-confirm { position: fixed; z-index: 45; left: 12px; right: 12px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); max-width: 480px; margin: 0 auto; padding: 18px; border-radius: 20px; display: grid; gap: 14px; background: var(--surface); border: 2px solid var(--red-lo); box-shadow: 0 16px 44px rgba(120, 20, 10, .35); }
+.s-confirm[hidden] { display: none; }
+.s-confirm .cc-text { display: grid; gap: 4px; }
+.s-confirm .cc-text b { font-size: 20px; }
+.s-confirm .cc-text span { color: var(--ink-2); }
+.s-confirm .acts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.s-confirm .acts button { min-height: 52px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; }
+.s-confirm .cc-yes { background: var(--red-lo); color: #fff; border: 0; }
+.s-confirm .cc-no { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+
+/* what's new, toasts and the update bar sit clear of the dock */
+body.simple .whatsnew:not([hidden]) { position: fixed; z-index: 47; left: 12px; right: 12px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); max-width: 520px; max-height: min(80vh, 640px); overflow-y: auto; margin: 0 auto; box-shadow: 0 16px 44px rgba(19, 50, 79, .3); }
+body.simple .toast { bottom: calc(var(--dock-h) + 18px + env(safe-area-inset-bottom, 0px)); }
+body.simple .update-bar { bottom: calc(var(--dock-h) + 18px + env(safe-area-inset-bottom, 0px)); }
+body.simple .review-bar { margin-bottom: 8px; }
+
+/* a computer: tools as a left rail, panels on the right */
+@media (min-width: 1000px) {
+  #sApp { padding-left: 112px; }
+  #sDock { top: 56px; bottom: auto; right: auto; width: 112px; height: calc(100vh - 56px); border-radius: 0; border-top: 0; border-right: 1px solid var(--line); box-shadow: none; padding: 14px 10px; justify-content: flex-start; }
+  #sDock > * { max-width: none; }
+  body.sheet-open #sDock { transform: none; }
+  .s-primary { flex-direction: column; }
+  .s-trace { height: 78px; flex-direction: column; gap: 6px; font-size: 13px; text-align: center; padding: 6px; }
+  .s-trace.s-half { height: 64px; font-size: 12.5px; }
+  .s-tools { grid-template-columns: 1fr; }
+  .s-tools button { height: 64px; }
+  #sDock .ink-hint { position: fixed; top: 62px; left: calc(112px + (100vw - 112px) / 2); transform: translateX(-50%); width: max-content; max-width: min(620px, calc(100vw - 160px)); min-height: 0; z-index: 16; }
+  body.sheet-open #sDock .ink-hint { left: calc(112px + (100vw - 112px - 440px) / 2); max-width: min(560px, calc(100vw - 600px)); }
+  #sDock .ink-hint:not([hidden]) ~ .s-primary { display: flex; }
+  #sMain { padding: 58px 0 28px; max-width: min(760px, max(460px, calc(100vh - 236px))); }
+  .s-laser { position: fixed; right: 16px; top: 72px; width: 300px !important; z-index: 16; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 10px; box-shadow: 0 10px 30px rgba(19, 50, 79, .12); }
+  .s-laser.folded { padding: 0; border: 0; box-shadow: none; background: transparent; }
+  .s-laser-sum { margin-bottom: 0; box-shadow: 0 6px 18px rgba(19, 50, 79, .1); }
+  body.sheet-open .s-laser { display: none; }
+  .sh-grab { display: none; }
+  #sTop #sActs { display: flex; align-items: center; gap: 8px; margin-left: 18px; border-radius: 14px; }
+  #sTop #sActs[hidden] { display: none; }
+  #sTop .s-acts-h { display: none; }
+  #sTop .s-acts-g { display: flex; gap: 8px; }
+  #sTop .s-act { min-height: 42px; padding: 4px 14px 4px 5px; border-radius: 12px; gap: 8px; }
+  #sTop .s-act .sa-ic { width: 32px; height: 32px; border-radius: 9px; }
+  #sTop .s-act .sa-ic svg { width: 18px; height: 18px; }
+  #sTop .s-act b { font-size: 14px; white-space: nowrap; }
+  #sTop .s-act small { display: none; }
+  #sTop { gap: 6px; }
+  #sApp .sheet, #sApp .sheet.below { left: auto; top: 56px !important; width: 440px; max-height: none; height: calc(100vh - 56px); border-radius: 0; border-left: 1px solid var(--line); box-shadow: -10px 0 30px rgba(19, 50, 79, .08); transform: translateX(105%); }
+  #sApp .sheet.open { transform: none; }
+  body.sheet-open #sMain { margin-right: 440px; margin-left: auto; }
+  .s-confirm { top: 50%; bottom: auto; transform: translateY(-50%); }
+  body.simple .toast, body.simple .update-bar { bottom: 24px; left: calc(112px + (100vw - 112px) / 2); }
+}
+@media (prefers-reduced-motion: reduce) { #sApp .sheet, #sDock { transition: none !important; } }
+
 </style>
 </head>
 <body>
@@ -636,7 +880,7 @@ details.card[open] > summary::after { content: "–"; }
       </div>
 
       <section class="card" id="repairCard" aria-labelledby="repH">
-        <div class="card-head"><h2 id="repH">Repair options: what the evidence says</h2><span class="count">education</span></div>
+        <div class="card-head"><h2 id="repH">Surgical options: what the evidence says</h2><span class="count">education</span></div>
         <div id="repair"></div>
       </section>
 
@@ -696,7 +940,7 @@ details.card[open] > summary::after { content: "–"; }
             <li>Elevation: <code>flat</code> · <code>minimally elevated</code> · <code>elevated</code> · <code>moderately elevated</code> · <code>markedly elevated</code> · <code>dome shaped</code> · <code>mushroom</code> or <code>collar button</code>. Fluid: <code>trace SRF</code> · <code>SRF</code> · <code>extensive SRF</code> · <code>no SRF</code>. Say it again later to update: <code>the nevus has orange pigment</code>.</li>
             <li>Drawn to scale against the disc. Elevation has no colour code, so R/D shows it as relief — shading, contour lines and a shadow that grow with the grade — and writes the size and thickness beside the lesion. Drusen are yellow stipple, subretinal fluid blue, orange pigment orange. Drawing by hand, drag a tumour’s edge to resize it.</li>
           </ul></div>
-          <div><h3>Vitreous and lens (for the repair options)</h3><ul>
+          <div><h3>Vitreous and lens (for the surgical options)</h3><ul>
             <li><code>complete PVD</code> · <code>partial PVD</code> · <code>Weiss ring</code> · <code>no PVD</code> · <code>attached hyaloid</code></li>
             <li><code>phakic</code> · <code>pseudophakic</code> · <code>PCIOL</code> · <code>s/p cataract surgery</code> · <code>aphakic</code> · <code>NS cataract</code></li>
           </ul></div>
@@ -759,7 +1003,7 @@ details.card[open] > summary::after { content: "–"; }
           </ul></div>
         </div>
       </details>
-      <p class="foot">R/D is a drawing, documentation and education aid for eye-care professionals; it is not medical advice and does not diagnose or treat. Lincoff zones are probabilities from a 1971 series and do not replace a full indented examination. Repair options summarise published trials and cohorts for education and are not a treatment recommendation for any patient. Library definitions summarise the cited literature and are not diagnostic criteria.</p>
+      <p class="foot">R/D is a drawing, documentation and education aid for eye-care professionals; it is not medical advice and does not diagnose or treat. Lincoff zones are probabilities from a 1971 series and do not replace a full indented examination. Surgical options summarise published trials and cohorts for education and are not a treatment recommendation for any patient. Library definitions summarise the cited literature and are not diagnostic criteria.</p>
     </section>
   </main>
 </div>
@@ -4474,6 +4718,23 @@ function geometryFor(scene) {
   return geo;
 }
 
+/* A complete PVD recorded for the eye (scene.pvd) is drawn as a Weiss ring in the vitreous green, just in front of the
+   disc; a partial PVD is recorded in the note but not drawn. u scales strokes for the pole view. */
+const GRN = '#2E9A55';
+function drawPVD(ctx, scene, u) {
+  if (scene.pvd !== 'complete' && scene.pvd !== 'yes') return;
+  // a PVD or Weiss ring placed from the library is already drawn by its own recipe
+  if (scene.findings.some(f => f.type === 'cat' && (f.key === 'posterior_vitreous_detachment' || f.key === 'weiss_ring'))) return;
+  u = u || 1;
+  const [dx] = RD.discCenter(scene.eye), x = dx * 0.86, y = -9;
+  ctx.save();
+  ctx.strokeStyle = GRN; ctx.lineCap = 'round';
+  // an irregular, slightly open ring
+  ctx.lineWidth = 2.5 * u; ctx.beginPath(); ctx.ellipse(x, y, 12, 9, 0.3, 0.35, TAU - 0.25); ctx.stroke();
+  ctx.lineWidth = 1.5 * u; ctx.beginPath(); ctx.ellipse(x + 0.6, y + 0.4, 8.6, 6.1, 0.45, 1.2, 4.2); ctx.stroke();
+  ctx.restore();
+}
+
 /* magnified posterior pole: disc, macula and arcades at ~2.2× the main chart */
 const POLE_HALF = 110;
 function poleCenter(eye) { return [RD.discCenter(eye)[0] * 0.24, 0]; }
@@ -4514,6 +4775,7 @@ function renderPole(canvas, scene, opts) {
     const vit = { ...scene, findings: scene.findings.filter(f => f.type === 'cat' && !['gas', 'oil', 'pvd'].includes((RD.CAT[f.key] || {}).r)) };
     CR.drawLayer(ctx, vit, geo, 'vitreous');
   }
+  drawPVD(ctx, scene, (S / 420) / k);
   ctx.save();
   ctx.strokeStyle = C.macula; ctx.lineWidth = 0.6; ctx.setLineDash([2.5, 2]);
   ctx.beginPath(); ctx.arc(0, 0, G.R_MAC, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
@@ -4579,6 +4841,7 @@ function render(canvas, scene, opts) {
   for (const f of F) if (f.type === 'hole') drawHole(ctx, f, geo, false);
   for (const f of F) if (f.type === 'pvr') drawPVR(ctx, f, geo, scene);
   if (CR) CR.drawLayer(ctx, scene, geo, 'vitreous');
+  drawPVD(ctx, scene, 1);
   for (const f of F) if (f.type === 'vh') drawVH(ctx, f);
   drawMacula(ctx, geo);
   drawBuckleLabels(ctx, scene, ts);
@@ -5013,9 +5276,7 @@ const RECIPE = {
     for (const q of v) { ctx.strokeStyle = GRN; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(P.x, P.y); ctx.lineTo(q[0] * 0.55 + P.x * 0.45, q[1] * 0.55 + P.y * 0.45); ctx.stroke(); }
   },
   pvd(ctx, f, P, E, st, scene) {
-    RECIPE.weiss(ctx, f, P, E, st, scene);
-    ctx.strokeStyle = hexA(GRN, 0.7); ctx.lineWidth = 1.3; ctx.setLineDash([7, 5]);
-    ctx.stroke(circle(-RD.discCenter(scene.eye)[0] * 0.15, 0, 128)); ctx.setLineDash([]);
+    RECIPE.weiss(ctx, f, P, E, st, scene);          // the Weiss ring alone: no dashed hyaloid line
   },
   weiss(ctx, f, P, E, st, scene) {
     const [dx, dy] = RD.discCenter(scene.eye), x = dx * 0.86, y = dy - 9;
@@ -5846,6 +6107,9 @@ root.RDHand = function (api) {
   const el = api.el;
   const $ = (s) => document.querySelector(s);
   const chart = $('#chart'), ink = $('#ink'), stage = $('#stage'), hint = $('#inkHint'), pal = $('#palette'), fab = $('#palFab'), btn = $('#handBtn');
+  // the simple layout (shell.js) hosts the tools, hints and panels itself, and is told when things change
+  const SH = api.shell || null;
+  const tell = (k, ...a) => { if (SH && typeof SH[k] === 'function') SH[k](...a); };
 
   // breaks first: once a detachment is outlined, finding its break is the next job
   const BREAK_TILES = [
@@ -6068,16 +6332,23 @@ root.RDHand = function (api) {
   }
 
   /* -------------------------------- hints ------------------------------- */
-  function setHint(text, cancel) {
-    hint.hidden = !text;
+  function setHint(text, cancel, important) {
+    hint.hidden = !text || (!!SH && !cancel && !important);
     hint.querySelector('.t').textContent = text || '';
     hint.querySelector('button').hidden = !cancel;
+    hint.querySelector('button').textContent = typeof cancel === 'string' ? cancel : 'Cancel';
+    tell('onHint');
   }
   function idleHint() {
     if (!active()) { setHint(''); return; }
     const sc = api.getScene(), hasRd = !!RD.mainRd(sc);
-    const needBreak = hasRd && !pal.hidden && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
-    if (traceMode) { setHint(traceMode === 'redraw' ? 'Trace the new border, ora to ora — it replaces the old one' : 'Trace the next detachment’s border, ora to ora', true); return; }
+    const needBreak = hasRd && (!!SH || !pal.hidden) && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
+    if (traceMode) { setHint(traceMode === 'redraw' ? 'Trace the new border, ora to ora — it replaces the old one' : hasRd ? 'Trace the next detachment’s border, ora to ora' : 'Step 1 of 4 · Trace the posterior border, from the ora round to the ora', true); return; }
+    if (SH) {
+      const z = needBreak ? RD.lincoff(sc) : null;
+      setHint(needBreak ? `Step 2 of 4 · Add the break — Tear or Hole${z ? ` · look ${z.zoneText.replace(' o’clock', '')} first (Lincoff)` : ''}` : '', false, needBreak);
+      return;
+    }
     setHint(needBreak ? `Now add the break${pal.classList.contains('docked') ? ' — pick one below' : ' — pick one in the panel'}` : hasRd ? 'Drag a finding to move it · off the chart to remove' : 'Trace the detachment’s border, ora to ora');
   }
   function cancel() {
@@ -6187,9 +6458,11 @@ root.RDHand = function (api) {
     return best;
   }
   function select(id) {
+    const changed = selected !== id;
     selected = id;
     api.setHighlight(id);
     renderLaserOpts();
+    if (changed) tell('onSelect', id);
   }
 
   /* ------------------------------ pointer input ------------------------- */
@@ -6265,8 +6538,8 @@ root.RDHand = function (api) {
     else if (phase === 'moving' || phase === 'resizing') moveDrag(p);
     else if (phase === 'locked' && !lockShown && dist(p, gStart) > 12 * unit()) {
       lockShown = true;
-      setHint('The detachment is locked — tap Redraw or Add detachment to draw another');
-      flashBar();
+      if (SH) { api.toast('The detachment is locked — tap Redraw or Add detachment to draw another'); tell('onLock'); }
+      else { setHint('The detachment is locked — tap Redraw or Add detachment to draw another', false, true); flashBar(); }
     }
   });
   const finish = (ev) => {
@@ -6326,7 +6599,7 @@ root.RDHand = function (api) {
     const f = out.added[0];
     phase = 'idle'; prep = null; choice = null;
     api.announce([RD.describeAction({ op: 'add', f }, out.scene.eye)].filter(Boolean), out.notes);
-    openPalette('rd');
+    if (SH) tell('onRd'); else openPalette('rd');
     idleHint(); drawInk();
   }
 
@@ -6510,7 +6783,7 @@ root.RDHand = function (api) {
     }
     if (selected != null) select(null);
     renderLaserOpts();
-    setHint('Trace more laser, or tap a break — Done when finished', true);
+    setHint('Trace more laser, or tap a break — Done when finished', 'Done');
     drawInk();
   }
   function updateSpan(p) {
@@ -6559,6 +6832,7 @@ root.RDHand = function (api) {
     if (!pal.classList.contains('docked')) { pal.classList.add('tucked'); palSub.textContent = `Placing: ${item.label.toLowerCase()}`; }
     if (selected != null) select(null);
     renderLaserOpts();
+    tell('onArm');
     setHint(item.kind === 'laser' ? 'Tap a break to laser around it — or drag to trace the laser exactly' : SPAN[item.kind] ? `Tap, or drag along the fundus, to place the ${item.label.toLowerCase()}` : `Tap the fundus to place the ${item.label.toLowerCase()}`, true);
     drawInk();
   }
@@ -6572,6 +6846,7 @@ root.RDHand = function (api) {
     hover = null;
     if (phase === 'armed' || phase === 'placing' || phase === 'spanning' || phase === 'lasering') phase = 'idle';
     renderLaserOpts();
+    tell('onArm');
     if (!quiet) drawInk();
   }
   /* a tile can be tapped (arm, then tap the fundus) or dragged straight onto the fundus */
@@ -6640,11 +6915,13 @@ root.RDHand = function (api) {
   }
 
   let moreTile = null;
+  const tileByKind = {};
   const tileGrid = (tiles, aria, cls) => {
     const gr = el('div', { class: 'pal-grid' + (cls ? ' ' + cls : ''), role: 'toolbar', 'aria-label': aria });
     for (const [kind, label, short] of tiles) {
       const tile = el('button', { type: 'button', class: 'pal-tile', 'aria-pressed': 'false', 'aria-label': label, title: kind === 'more' ? 'Search the pathology library' : `${label}: drag onto the fundus, or tap then tap the spot` }, [tileIcon(kind), el('span', { text: short, 'aria-hidden': 'true' })]);
       wireTile(tile, { kind, label });
+      tileByKind[kind] = { tile, label };
       if (kind === 'more') moreTile = tile;
       gr.append(tile);
     }
@@ -6847,6 +7124,7 @@ root.RDHand = function (api) {
     if (cornerScore(best, sc, null, pts) >= 40) pal.classList.add('min');
   }
   function openPalette(why) {
+    if (SH) return;
     renderStatus();
     pal.hidden = false;
     pal.classList.remove('min');
@@ -6885,13 +7163,14 @@ root.RDHand = function (api) {
     if (selected != null) select(null);
     traceMode = traceMode === m ? null : m;
     renderRdBar(); idleHint(); drawInk();
+    tell('onArm');
   }
   btnRedraw.addEventListener('click', () => setTraceMode('redraw'));
   btnAdd.addEventListener('click', () => setTraceMode('add'));
   function renderRdBar() {
     const show = active() && !!RD.mainRd(api.getScene());
-    rdBar.hidden = !show;
-    if (!show && traceMode) traceMode = null;
+    rdBar.hidden = !show || !!SH;
+    if (traceMode && (!active() || (!show && traceMode === 'redraw'))) traceMode = null;     // 'add' with nothing drawn yet is the first trace
     btnRedraw.setAttribute('aria-pressed', String(traceMode === 'redraw'));
     btnAdd.setAttribute('aria-pressed', String(traceMode === 'add'));
     btnRedraw.querySelector('span').textContent = RD.rdsOf(api.getScene()).length > 1 ? 'Redraw all' : 'Redraw';
@@ -6911,7 +7190,7 @@ root.RDHand = function (api) {
   stage.append(askBox);
   chart.addEventListener('pointerdown', () => { busyAtDown = !!(api.busy && api.busy()); }, { capture: true });
   chart.addEventListener('click', () => {
-    if (on || askDismissed || busyAtDown || api.getView() !== 'fundus') return;
+    if (SH || on || askDismissed || busyAtDown || api.getView() !== 'fundus') return;
     askBox.hidden = false;
   });
 
@@ -6952,6 +7231,11 @@ root.RDHand = function (api) {
       if (phase !== 'idle' || armed || prep || drag) cancel();
       pal.hidden = true; fab.hidden = true; setHint('');
     }
+    else if (SH) {
+      pal.hidden = true; fab.hidden = true;
+      renderLaserOpts();
+      if (phase === 'idle') idleHint();
+    }
     else {
       fab.hidden = !pal.hidden;
       if (!pal.hidden) { renderStatus(); renderLaserOpts(); placePalette(false); }
@@ -6964,19 +7248,514 @@ root.RDHand = function (api) {
 
   const want = api.getPref('hand');
   setOn(want == null ? !!(window.matchMedia && window.matchMedia('(pointer: fine)').matches) : want, true);
-  return { sync, drawInk, setOn, isOn: () => on, openPalette };
+  return {
+    sync, drawInk, setOn, isOn: () => on, openPalette,
+    // for the simple layout
+    armKind(kind) { const t = tileByKind[kind]; if (!t) return; if (!on) setOn(true, true); arm({ kind, label: t.label }, t.tile); },
+    stop() { cancel(); },
+    armedKind: () => (armed ? armed.kind : null),
+    traceMode: () => traceMode,
+    laserPattern: () => Object.assign({}, laserOpt),
+    setTraceMode,
+    selectedId: () => selected,
+    select(id) { select(id); drawInk(); },
+    toggleMore,
+    parts: { laserBox, grid, moreBox, linHint },
+  };
+};
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+/* R/D simple layout (modelled on C/D 2.0): the chart fills the top of the screen; a strip under it sums up the
+   eye; a dock at the bottom holds one big action and the everyday tools; everything else opens in panels that
+   slide up (beside the chart on a computer). It rearranges the classic page's own elements, so every feature keeps
+   working, and the guide carries on by itself: trace → break → PVD → lens → repair options.
+   ?classic (or the ⋯ menu) brings back the classic layout. */
+(function (root) {
+'use strict';
+root.RDShell = function (X, H) {
+  const { el, $, RD, hand } = X;
+  const $$ = (s) => [...document.querySelectorAll(s)];
+  document.body.classList.add('simple');
+  const svg = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+  const IC = {
+    trash: svg('<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/>'),
+    share: svg('<path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>'),
+    more: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg>',
+    trace: svg('<path d="M3 20c3-1 4.5-3.5 7-3.5 2 0 2 2 4 2s3.5-1.5 4.5-3"/><path d="m14.5 4.5 3 3L9 16l-4 1 1-4Z"/>'),
+    redraw: svg('<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4.5h4.5"/>'),
+    plus: svg('<path d="M12 5v14M5 12h14"/>'),
+    go: svg('<path d="M5 12h14M13 6l6 6-6 6"/>'),
+    mic: svg('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>'),
+    dl: svg('<path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/>'),
+    copy: svg('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>'),
+    redo: svg('<path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>'),
+    find: svg('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>'),
+    pole: svg('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2M12 18.5v2"/>'),
+    layout: svg('<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>'),
+    review: svg('<path d="M4 5h16v11H8l-4 4Z"/><path d="M8 9h8M8 12h5"/>'),
+    scale: svg('<path d="M12 4v16M8 20h8M5 7h14M12 4l0 3"/><path d="M5 7 2.5 13a2.6 2.6 0 0 0 5 0Z"/><path d="M19 7l-2.5 6a2.6 2.6 0 0 0 5 0Z"/>'),
+    ring: svg('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><path d="M12 3.5v3M12 17.5v3"/>'),
+  };
+  const iconBtn = (id, label, ic, cls) => { const b = el('button', { type: 'button', class: 's-icon' + (cls ? ' ' + cls : ''), id, 'aria-label': label, title: label }); b.innerHTML = ic; return b; };
+  const scene = () => X.getScene();
+
+  /* ------------------------------ header ------------------------------ */
+  const app = $('.app'), top = $('.top'), layout = $('.layout'), card = $('.chart-card'), stage = $('#stage'), consoleCol = $('.console');
+  const sApp = el('div', { id: 'sApp' });
+  app.append(sApp);
+  const sTop = el('header', { id: 'sTop' });
+  const logo = top.querySelector('.brand svg'); if (logo) logo.classList.add('s-logo');
+  const eye = top.querySelector('.eye-switch');
+  const clearBtn = iconBtn('sClearBtn', 'Clear the drawing', IC.trash, 's-clear');
+  const shareBtn = iconBtn('sShareBtn', 'Save, copy or send for review', IC.share);
+  const menuBtn = iconBtn('sMenuBtn', 'More', IC.more);
+  sTop.append(logo || el('strong', { text: 'R/D' }), el('span', { class: 's-gap' }), eye, clearBtn, shareBtn, menuBtn);
+
+  /* -------------------- main: chart, summary strip, describe line -------------------- */
+  const sMain = el('main', { id: 'sMain' });
+  sApp.append(sTop, sMain);            // in the document straight away, so the elements moved into it can still be found
+  const undoBtn = $('#undo'); undoBtn.classList.add('s-fab'); stage.append(undoBtn);
+  const empty = el('div', { id: 'sEmpty', hidden: true }); empty.innerHTML = '<b>Trace the detachment</b> to begin, or describe it below.';
+  stage.append(empty);
+  const strip = el('div', { id: 'sStrip', role: 'group', 'aria-label': 'Summary of the eye' });
+  const cmdCard = $('.command'), cmd = $('#cmd'), mic = $('#mic'), go = $('#go');
+  cmd.setAttribute('rows', '1'); cmd.setAttribute('placeholder', 'Describe: RRD 10–2, HST at 12');
+  // the describe line grows with what is typed and shrinks back when it is sent
+  const fitCmd = () => { cmd.style.height = ''; if (cmd.value) cmd.style.height = Math.min(140, cmd.scrollHeight + 2) + 'px'; };
+  cmd.addEventListener('input', () => { fitCmd(); syncDock(); });
+  cmd.addEventListener('keydown', () => setTimeout(fitCmd, 0));
+  go.addEventListener('click', () => setTimeout(fitCmd, 0));
+  const micLabel = $('#micLabel');
+  mic.innerHTML = IC.mic; if (micLabel) { micLabel.classList.add('sr'); mic.append(micLabel); }
+  mic.setAttribute('aria-label', 'Dictate');
+  go.innerHTML = IC.go; go.setAttribute('aria-label', 'Draw it');
+  cmdCard.prepend(el('div', { class: 's-cmd' }, [cmd, mic, go]));
+  sMain.append(card, strip, cmdCard);
+
+  /* when the drawing is done: the surgical options, the buckle guide, the PNG and the review link, big and in reach.
+     Under the summary on a phone; in the top bar on a computer. */
+  const acts = el('section', { id: 'sActs', 'aria-label': 'Next steps', hidden: true });
+  const actsHead = el('p', { class: 's-acts-h', text: 'Drawing done — next' });
+  const actsGrid = el('div', { class: 's-acts-g' });
+  const actBtn = (k, ic, label, sub, fn) => { const b = el('button', { type: 'button', class: 's-act a-' + k, 'data-k': k }); b.innerHTML = `<span class="sa-ic">${ic}</span><span class="sa-t"><b>${label}</b><small>${sub}</small></span>`; b.addEventListener('click', fn); return b; };
+  const toCard = (id, cardSel) => { showSheet(id); const c = $(cardSel); if (c) setTimeout(() => c.scrollIntoView({ block: 'start', behavior: 'smooth' }), 280); };
+  const aSurg = actBtn('surg', IC.scale, 'Surgical options', 'Where the evidence leans', () => showSheet('shRepair'));
+  const aBuckle = actBtn('buckle', IC.ring, 'Buckle guide', 'Elements and placement', () => showSheet('shBuckle'));
+  const aPng = actBtn('png', IC.dl, 'Save PNG', 'Download the drawing', () => X.exportPNG());
+  const aRev = actBtn('rev', IC.review, 'Send for review', 'A link for a fellow or attending', () => toCard('shShare', '#reviewCard'));
+  actsGrid.append(aSurg, aBuckle, aPng, aRev);
+  acts.append(actsHead, actsGrid);
+  sMain.insertBefore(acts, cmdCard);
+
+  /* ------------------------------ the dock ------------------------------ */
+  const dock = el('nav', { id: 'sDock', 'aria-label': 'Draw' });
+  const laserSlot = el('div', { class: 's-laser' });
+  const hintEl = $('#inkHint');
+  const primary = el('div', { class: 's-primary' });
+  const traceBtn = el('button', { type: 'button', class: 's-trace', id: 'sTrace' }); traceBtn.innerHTML = IC.trace + '<span>Trace the detachment</span>';
+  const redrawBtn = el('button', { type: 'button', class: 's-trace s-half', id: 'sRedraw' }); redrawBtn.innerHTML = IC.redraw + '<span>Redraw</span>';
+  const addRdBtn = el('button', { type: 'button', class: 's-trace s-half s-alt', id: 'sAddRd' }); addRdBtn.innerHTML = IC.plus + '<span>Add detachment</span>';
+  const backBtn = el('button', { type: 'button', class: 's-trace s-alt', id: 'sBack', hidden: true }); backBtn.innerHTML = svg('<path d="M19 12H5M11 6l-6 6 6 6"/>') + '<span>Back to the fundus</span>';
+  backBtn.addEventListener('click', () => X.setView('fundus'));
+  primary.append(traceBtn, redrawBtn, addRdBtn, backBtn);
+  const tools = el('div', { class: 's-tools' });
+  const TOOLS = [['hst', 'Tear'], ['hole', 'Hole'], ['lat', 'Lattice'], ['laser', 'Laser']];
+  for (const [k, name] of TOOLS) {
+    const b = el('button', { type: 'button', 'data-k': k, 'aria-pressed': 'false', title: name }, [X.iconFor({ type: k, grade: 'C' }), el('span', { text: name })]);
+    b.addEventListener('click', () => { if (hand.armedKind() === k) hand.stop(); else { showSheet(null); hand.armKind(k); } });
+    tools.append(b);
+  }
+  const moreBtn = el('button', { type: 'button', class: 's-more', 'aria-label': 'All findings' }); moreBtn.innerHTML = IC.plus + '<span>More</span>';
+  tools.append(moreBtn);
+  dock.append(laserSlot, hintEl, primary, tools);
+  traceBtn.addEventListener('click', () => { showSheet(null); hand.setTraceMode('add'); });
+  redrawBtn.addEventListener('click', () => { showSheet(null); hand.setTraceMode('redraw'); });
+  addRdBtn.addEventListener('click', () => { showSheet(null); hand.setTraceMode('add'); });
+
+  /* ------------------------------ panels ------------------------------ */
+  const sheet = (id, title, kids, opts) => {
+    const s = el('section', { class: 'sheet' + (opts && opts.below ? ' below' : ''), id, 'aria-label': title || 'Panel' });
+    s.append(el('div', { class: 'sh-grab', 'aria-hidden': 'true' }));
+    if (title) {
+      const h = el('div', { class: 'sh-head' }, [el('h3', { text: title }), el('button', { type: 'button', class: 'sh-close', text: 'Done', onclick: () => closeSheet() })]);
+      s.append(h);
+    }
+    for (const k of kids) if (k) s.append(k);
+    return s;
+  };
+  // the guide and the editor sit below the chart, so the chart is never covered
+  const guideBody = el('div', { class: 's-guide' });
+  const shGuide = sheet('shGuide', '', [guideBody], { below: true });
+  const editBody = el('div', { class: 's-edit' });
+  const shEdit = sheet('shEdit', '', [editBody], { below: true });
+  // every finding, and the library search
+  const parts = hand.parts;
+  const moreBody = el('div', { class: 's-more-body' }, [parts.grid, parts.moreBox]);
+  parts.moreBox.hidden = false;
+  const shMore = sheet('shMore', 'Add a finding', [moreBody]);
+  const detachBody = el('div', { class: 's-detach' });
+  const shDetach = sheet('shDetach', 'Detachment', [detachBody]);
+  const askBody = el('div', { class: 's-ask' });
+  const shAsk = sheet('shAsk', 'PVD and lens', [askBody]);
+  const shLincoff = sheet('shLincoff', 'Where is the primary break?', [$('#lincoffCard')]);
+  const shRepair = sheet('shRepair', 'Surgical options', [$('#repairCard')]);
+  const shBuckle = sheet('shBuckle', 'Scleral buckle guide', [$('#buckleCard')]);
+  const shareGrid = el('div', { class: 's-grid3' });
+  const gridBtn = (ic, label, fn, id) => { const b = el('button', { type: 'button', id: id || null }); b.innerHTML = ic + `<span>${label}</span>`; b.addEventListener('click', fn); return b; };
+  shareGrid.append(
+    gridBtn(IC.dl, 'Save PNG', () => { X.exportPNG(); }, 'sSavePng'),
+    gridBtn(IC.copy, 'Copy note', (e) => { X.copyNote(); const s = e.currentTarget.querySelector('span'); s.textContent = 'Copied'; setTimeout(() => { s.textContent = 'Copy note'; }, 1400); }),
+  );
+  const shShare = sheet('shShare', 'Save and share', [shareGrid, $('#reviewCard')]);
+  const menuGrid = el('div', { class: 's-grid3 s-menu' });
+  const lincoffToggle = gridBtn(IC.find, 'Lincoff zone', () => { X.toggleLincoff(); }, 'sLincoffBtn');
+  const poleToggle = gridBtn(IC.pole, 'Posterior pole', () => { X.setView(X.getView() === 'pole' ? 'fundus' : 'pole'); closeSheet(); }, 'sPoleBtn');
+  menuGrid.append(
+    gridBtn(IC.redo, 'Redo', () => { X.redo(); }, 'sRedoBtn'),
+    lincoffToggle, poleToggle,
+    gridBtn(IC.layout, 'Classic layout', () => { X.prefs.layout = 'classic'; X.save(); location.reload(); }),
+  );
+  const noteCard = $('#note').closest('.card'), findCard = $('#findings').closest('.card');
+  const menuKids = [menuGrid, noteCard, findCard, ...[...consoleCol.children].filter(n => n !== cmdCard && n !== noteCard && n !== findCard), $('#chartFoot'), $('#intended')];
+  const shMenu = sheet('shMenu', 'More', menuKids);
+  const ver = $('#verLink'); if (ver) shMenu.querySelector('.sh-head h3').append(' ', ver);
+
+  /* clear: one tap from the header, confirmed on a red card */
+  const clearCard = el('div', { class: 's-confirm', id: 'sClearCard', role: 'alertdialog', 'aria-labelledby': 'sClearH', hidden: true }, [
+    el('div', { class: 'cc-text' }, [el('b', { id: 'sClearH', text: 'Clear the drawing?' }), el('span', { text: 'Everything on the chart is removed. Undo brings it back.' })]),
+    el('div', { class: 'acts' }, [
+      el('button', { type: 'button', class: 'cc-yes', text: 'Clear', onclick: () => { clearCard.hidden = true; clearScrim.hidden = true; $('#clear').click(); } }),
+      el('button', { type: 'button', class: 'cc-no', text: 'Keep', onclick: () => { clearCard.hidden = true; clearScrim.hidden = true; } }),
+    ]),
+  ]);
+  const scrim = el('div', { id: 'sScrim', hidden: true });
+  const clearScrim = el('div', { id: 'sClearScrim', hidden: true });
+  clearScrim.addEventListener('click', () => { clearCard.hidden = true; clearScrim.hidden = true; });
+  clearBtn.addEventListener('click', () => { showSheet(null); clearCard.hidden = false; clearScrim.hidden = false; setTimeout(() => clearCard.querySelector('.cc-no').focus({ preventScroll: true }), 30); });
+  sApp.append(sTop, sMain, dock, scrim, clearScrim, clearCard, shGuide, shEdit, shMore, shDetach, shAsk, shLincoff, shRepair, shBuckle, shShare, shMenu);
+  top.hidden = true; layout.hidden = true;
+  const wn = $('#whatsNew'); if (wn) sApp.append(wn);
+
+  /* ------------------------------ panel manager ------------------------------ */
+  let openId = null;
+  const desk = () => matchMedia('(min-width: 1000px)').matches;
+  const isBelow = (id) => id === 'shGuide' || id === 'shEdit';
+  function placeBelow() {
+    const s = openId && isBelow(openId) ? $('#' + openId) : null;
+    if (!s) return;
+    if (desk()) { s.style.top = ''; return; }
+    const r = stage.getBoundingClientRect();
+    s.style.top = Math.round(Math.max(r.bottom, 160) + 6) + 'px';
+  }
+  new ResizeObserver(() => placeBelow()).observe(stage);
+  window.addEventListener('scroll', () => { if (openId && isBelow(openId) && !desk() && window.scrollY) window.scrollTo(0, 0); }, { passive: true });
+  function showSheet(id) {
+    openId = id || null;
+    if (id && isBelow(id)) { window.scrollTo(0, 0); }
+    for (const s of $$('#sApp .sheet')) s.classList.toggle('open', s.id === id);
+    document.body.classList.toggle('sheet-open', !!id);
+    document.body.classList.toggle('below-open', !!id && isBelow(id));
+    scrim.hidden = !id || isBelow(id) || desk();
+    if (id && !isBelow(id)) $('#' + id).scrollTop = 0;
+    if (id && isBelow(id)) { placeBelow(); requestAnimationFrame(placeBelow); }
+    placeLaser();
+  }
+  function closeSheet() {
+    const was = openId;
+    if (was === 'shEdit' && hand.selectedId() != null) { hand.select(null); return; }      // onSelect closes it
+    showSheet(null);
+    syncGuide();
+  }
+  scrim.addEventListener('click', closeSheet);
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!clearCard.hidden) { clearCard.hidden = true; clearScrim.hidden = true; return; }
+    if (openId && !isBelow(openId)) closeSheet();
+  });
+  shareBtn.addEventListener('click', () => showSheet(openId === 'shShare' ? null : 'shShare'));
+  menuBtn.addEventListener('click', () => showSheet(openId === 'shMenu' ? null : 'shMenu'));
+  moreBtn.addEventListener('click', () => { hand.stop(); showSheet('shMore'); });
+  // picking a finding in the panel hands control back to the chart
+  parts.grid.addEventListener('click', (e) => { const t = e.target.closest('.pal-tile'); if (t && t.getAttribute('aria-label') !== 'Other findings') setTimeout(() => showSheet(null), 0); });
+  parts.moreBox.addEventListener('click', (e) => { if (e.target.closest('.pal-res')) setTimeout(() => showSheet(null), 0); });
+  findCard.addEventListener('click', (e) => { if (e.target.closest('.f-title')) setTimeout(closeSheet, 0); });
+  // the version chip and "All updates" open the update list in the menu
+  const toUpdates = () => { showSheet('shMenu'); const u = $('#updates'); if (u) { u.open = true; setTimeout(() => u.scrollIntoView({ block: 'start', behavior: 'smooth' }), 280); } };
+  if (ver) ver.addEventListener('click', (e) => { e.preventDefault(); toUpdates(); });
+  if (wn) wn.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && /All updates/.test(b.textContent)) setTimeout(toUpdates, 0); });
+
+  /* the laser pattern lives in the dock while laser is picked, and in the editor when a laser is selected.
+     In the dock it folds to one line as soon as the chart is touched, so the whole fundus stays in view. */
+  const laserSum = el('button', { type: 'button', class: 's-laser-sum', 'aria-expanded': 'true' });
+  laserSlot.append(laserSum);
+  laserSum.addEventListener('click', () => { laserSlot.classList.toggle('folded'); syncLaserSum(); });
+  stage.addEventListener('pointerdown', () => { if (hand.armedKind() === 'laser') { laserSlot.classList.add('folded'); syncLaserSum(); } }, true);
+  function syncLaserSum() {
+    const p = hand.laserPattern ? hand.laserPattern() : null;
+    const folded = laserSlot.classList.contains('folded');
+    laserSum.setAttribute('aria-expanded', String(!folded));
+    laserSum.innerHTML = `<span class="ls-k">Laser</span><span class="ls-v">${p ? RD.laserPatternText(p) : ''}</span><span class="ls-c">${folded ? 'Change' : 'Fold'}</span>`;
+    laserSum.hidden = hand.armedKind() !== 'laser';
+  }
+  function placeLaser() {
+    const box = parts.laserBox;
+    const editingLaser = openId === 'shEdit' && (() => { const f = scene().findings.find(x => x.id === hand.selectedId()); return f && f.type === 'laser'; })();
+    const target = editingLaser ? editBody.querySelector('.s-laser-edit') : laserSlot;
+    if (target && box.parentNode !== target) target.append(box);
+    syncLaserSum();
+  }
+  parts.laserBox.addEventListener('click', () => setTimeout(syncLaserSum, 0));
+
+  /* ------------------------------ the dock's state ------------------------------ */
+  function needBreak() {
+    const sc = scene(), rd = RD.mainRd(sc);
+    return !!rd && rd.cause !== 'exudative' && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
+  }
+  function syncDock() {
+    const sc = scene(), hasRd = !!RD.mainRd(sc), armed = hand.armedKind(), tm = hand.traceMode(), pole = X.getView() !== 'fundus';
+    traceBtn.hidden = hasRd || pole; redrawBtn.hidden = !hasRd || pole; addRdBtn.hidden = !hasRd || pole; backBtn.hidden = !pole;
+    redrawBtn.querySelector('span').textContent = RD.rdsOf(sc).length > 1 ? 'Redraw all' : 'Redraw';
+    traceBtn.classList.toggle('glow', !hasRd && !tm && !armed);
+    const nb = needBreak() && !armed && !tm;
+    for (const b of tools.querySelectorAll('[data-k]')) {
+      b.setAttribute('aria-pressed', String(armed === b.dataset.k));
+      b.classList.toggle('glow', nb && (b.dataset.k === 'hst' || b.dataset.k === 'hole'));
+      b.disabled = pole;
+    }
+    traceBtn.disabled = redrawBtn.disabled = addRdBtn.disabled = moreBtn.disabled = pole;
+    dock.classList.toggle('pole', pole);
+    empty.hidden = !!sc.findings.length || !!armed || !!tm || pole || !hintEl.hidden || !!cmd.value.trim();
+  }
+
+  /* ------------------------------ the summary strip ------------------------------ */
+  const PVD_SHORT = { complete: 'PVD complete', partial: 'PVD partial', none: 'No PVD', yes: 'PVD' };
+  const LENS_SHORT = { phakic: 'Phakic', pseudo: 'Pseudophakic', aphakic: 'Aphakic' };
+  function chip(text, cls, onClick, title) { const b = el('button', { type: 'button', class: 's-chip' + (cls ? ' ' + cls : ''), title: title || null, text }); b.addEventListener('click', onClick); strip.append(b); return b; }
+  function renderStrip() {
+    strip.replaceChildren();
+    const sc = scene(), rd = RD.mainRd(sc), rv = X.getReview();
+    if (rv) chip('Teaching review', 'accent', () => showSheet('shShare'));
+    if (rd) {
+      const n = RD.rdsOf(sc).length;
+      const mac = rd.total ? 'macula off' : (RD.macText(rd.macula, rd.fovea) || 'macula ?');
+      chip(`${n > 1 ? n + ' detachments' : rd.total ? 'Total RD' : 'RD ' + RD.fmtHour(rd.start) + '–' + RD.fmtHour(rd.end)} · ${mac}`, /\?/.test(mac) ? 'quiet' : '', openDetach);
+      if (rd.cause !== 'exudative') {
+        const both = !!(sc.pvd && sc.lens);
+        chip(`${sc.pvd ? PVD_SHORT[sc.pvd] || 'PVD' : 'PVD ?'} · ${sc.lens ? LENS_SHORT[sc.lens] : 'lens ?'}`, both ? '' : 'quiet', openAsk);
+        const z = RD.lincoff(sc);
+        if (z) chip(`Lincoff ${z.rule} · ${z.zones.map(q => RD.fmtHour(q.from) + '–' + RD.fmtHour(q.to)).join(', ')}`, z.breaks ? (z.consistent ? 'ok' : 'warn') : '', () => showSheet('shLincoff'), z.title);
+      }
+    }
+    const pc = chip(X.getView() === 'pole' ? '← Fundus' : 'Posterior pole', 'quiet', () => X.setView(X.getView() === 'pole' ? 'fundus' : 'pole'));
+    if (X.getView() === 'pole') { strip.prepend(pc); strip.scrollLeft = 0; }
+  }
+
+  /* ------------------------------ PVD and lens ------------------------------ */
+  function openAsk() { renderAsk(); showSheet('shAsk'); }
+  function renderAsk() {
+    const sc = scene();
+    askBody.replaceChildren(
+      bigChoice('Is there a posterior vitreous detachment?', X.PVD_OPTS.map(([v, t]) => [v, t.replace(' PVD', '')]), sc.pvd === 'yes' ? 'complete' : sc.pvd, v => X.setMeta({ pvd: v })),
+      bigChoice('Lens status', X.LENS_OPTS, sc.lens, v => X.setMeta({ lens: v })),
+    );
+  }
+  function bigChoice(q, opts, value, pick) {
+    const row = el('div', { class: 'flow-opts' });
+    for (const [v, t] of opts) row.append(el('button', { type: 'button', class: 'word', 'aria-pressed': String(value === v), text: t, onclick: () => pick(value === v ? null : v) }));
+    return el('div', { class: 's-q' }, [el('p', { class: 's-ql', text: q }), row]);
+  }
+
+  /* ------------------------------ the detachment ------------------------------ */
+  function openDetach() { renderDetach(); showSheet('shDetach'); }
+  function renderDetach() {
+    const sc = scene();
+    const rds = RD.rdsOf(sc);
+    const kids = [];
+    for (const rd of rds) kids.push(el('div', { class: 's-rd' }, [el('div', { class: 's-rd-h' }, [X.iconFor(rd), el('div', {}, [el('strong', { text: RD.findingTitle(rd, sc.eye) }), el('div', { class: 's-sub', text: X.findingSub(rd) })])]), X.buildEditor(rd)]));
+    kids.push(el('div', { class: 's-acts' }, [
+      el('button', { type: 'button', class: 'btn-line', text: rds.length > 1 ? 'Redraw all' : 'Redraw by hand', onclick: () => { showSheet(null); hand.setTraceMode('redraw'); } }),
+      el('button', { type: 'button', class: 'btn-line', text: 'Add a detachment', onclick: () => { showSheet(null); hand.setTraceMode('add'); } }),
+    ]));
+    detachBody.replaceChildren(...kids);
+  }
+
+  /* ------------------------------ editing one finding ------------------------------ */
+  const SIZEABLE = new Set(['hst', 'hole', 'oph', 'tuft', 'pav', 'vh']);
+  function sizeable(f) {
+    if (SIZEABLE.has(f.type)) return true;
+    if (f.type === 'pvr') return (f.grade || 'C') === 'C' && ((f.pts && f.pts.length === 1) || (f.hours && f.hours.length === 1));
+    if (f.type === 'laser' || f.type === 'cryo') return f.hour != null && !f.target && !f.line;
+    if (f.type === 'cat') { const P = RD.catPlace(f, scene().eye); return !!P && !P.tum && !P.span && !(f.count > 1); }
+    return false;
+  }
+  const sizeWord = (f) => { const s = f.size || 1; return ['hst', 'hole', 'oph'].includes(f.type) ? (s < 0.85 ? 'Small' : s >= 1.25 ? 'Large' : 'Medium') : (s < 0.85 ? 'Smaller' : s >= 1.25 ? 'Larger' : 'Usual size'); };
+  function setSize(f, d) {
+    const max = f.type === 'cat' ? 3 : f.type === 'vh' ? 2 : 2.5;
+    const v = Math.round(Math.max(0.5, Math.min(max, (f.size || 1) + d)) * 20) / 20;
+    X.editScene(f.id, (x) => { if (Math.abs(v - 1) < 0.001) delete x.size; else x.size = v; });
+  }
+  function renderEdit() {
+    const sc = scene(), id = hand.selectedId(), f = sc.findings.find(x => x.id === id);
+    if (!f) return;
+    const act = document.activeElement;
+    if (act && editBody.contains(act) && /INPUT|SELECT|TEXTAREA/.test(act.tagName)) return;     // never re-render under the cursor
+    const kids = [];
+    const [tName, ...tRest] = RD.findingTitle(f, sc.eye).split(' · ');
+    kids.push(el('div', { class: 's-ed-h' }, [X.iconFor(f), el('div', { class: 's-ed-t' }, [el('strong', { text: tName }), el('div', { class: 's-sub', text: [tRest.join(' · '), X.findingSub(f)].filter(Boolean).join(' · ') })]),
+      el('button', { type: 'button', class: 'mini danger', text: 'Delete', onclick: () => {
+        const next = RD.clone(scene()); next.findings = next.findings.filter(x => x.id !== f.id && x.target !== f.id);
+        hand.select(null); X.commit(next); X.toast(`Removed ${RD.findingTitle(f, sc.eye).split(' · ')[0].toLowerCase()} — Undo brings it back`);
+      } }),
+      el('button', { type: 'button', class: 'mini', text: 'Done', onclick: () => hand.select(null) })]));
+    if (sizeable(f)) {
+      kids.push(el('div', { class: 's-size' }, [el('span', { class: 's-ql', text: 'Size' }),
+        el('div', { class: 'bs-row' }, [
+          el('button', { type: 'button', 'aria-label': 'Smaller', text: '−', onclick: () => setSize(f, -0.1) }),
+          el('output', { text: sizeWord(f) + ((f.size || 1) !== 1 ? ` · ${Math.round((f.size || 1) * 100)}%` : '') }),
+          el('button', { type: 'button', 'aria-label': 'Larger', text: '+', onclick: () => setSize(f, 0.1) }),
+        ])]));
+    }
+    if (f.type === 'laser') kids.push(el('div', { class: 's-laser-edit' }));
+    const ed = X.buildEditor(f, { noSize: true });
+    if (ed.childNodes.length) kids.push(ed);
+    kids.push(el('p', { class: 's-tip', text: f.type === 'lat' || f.type === 'grt' || f.type === 'dia' ? 'On the chart: drag it to move, drag an end to resize, drag it off to remove.' : sizeable(f) ? 'On the chart: drag it to move, slide the lever beside it to resize, drag it off to remove.' : 'On the chart: drag it to move, or off the chart to remove.' }));
+    editBody.replaceChildren(...kids);
+    placeLaser();
+  }
+
+  /* ------------------------------ the guide ------------------------------ */
+  // skipped steps belong to the drawing: Redraw keeps them, Undo after Clear brings them back with the detachment,
+  // and a new drawing on a cleared chart starts the guide afresh
+  const skips = new Map();
+  let skipKey = null, skipCur = new Set(), emptied = false;
+  const skip = { has: (k) => skipSet().has(k), add: (k) => skipSet().add(k) };
+  function skipSet() {
+    const rd = RD.mainRd(scene());
+    if (rd && rd.id !== skipKey) { if (emptied) skipCur = skips.get(rd.id) || new Set(); skips.set(rd.id, skipCur); skipKey = rd.id; }
+    if (rd) emptied = false;
+    return skipCur;
+  }
+  function guideStep() {
+    const sc = scene(), rd = RD.mainRd(sc);
+    if (X.getReview() || !rd || rd.cause === 'exudative') return null;
+    if (!sc.findings.some(f => RD.BREAK_TYPES.has(f.type))) return null;          // step 2 is the dock's hint
+    if (!sc.pvd && !skip.has('pvd')) return 'pvd';
+    if (!sc.lens && !skip.has('lens')) return 'lens';
+    return null;
+  }
+  function renderGuide(step) {
+    const sc = scene();
+    const head = (n, title) => el('div', { class: 'flow-head' }, [el('div', {}, [el('div', { class: 'flow-step', text: `Step ${n} of 4` }), el('h3', { text: title })])]);
+    const later = el('button', { type: 'button', class: 'flow-skip', text: 'Later', onclick: () => { skip.add('pvd'); skip.add('lens'); showSheet(null); syncActs(); } });
+    let kids;
+    if (step === 'pvd') kids = [head(3, 'Is there a posterior vitreous detachment?'), el('p', { text: 'It changes which repairs the evidence favours.' }),
+      el('div', { class: 'flow-opts' }, X.PVD_OPTS.map(([v, t]) => el('button', { type: 'button', class: 'word', text: t.replace(' PVD', ''), onclick: () => X.setMeta({ pvd: v }) }))),
+      el('div', { class: 'flow-acts' }, [el('button', { type: 'button', class: 'flow-skip', text: 'Not known — skip', onclick: () => { skip.add('pvd'); syncGuide(true); } }), later])];
+    else if (step === 'lens') kids = [head(4, 'Lens status?'), el('p', { text: 'Phakic and pseudophakic eyes did differently in the repair trials.' }),
+      el('div', { class: 'flow-opts' }, X.LENS_OPTS.map(([v, t]) => el('button', { type: 'button', class: 'word', text: t, onclick: () => X.setMeta({ lens: v }) }))),
+      el('div', { class: 'flow-acts' }, [el('button', { type: 'button', class: 'flow-skip', text: 'Skip', onclick: () => { skip.add('lens'); syncGuide(true); } }), later])];
+    guideBody.replaceChildren(el('div', { class: 'flow' }, kids));
+  }
+  let guideShown = null;
+  function syncGuide(force) {
+    const busy = hand.armedKind() || hand.traceMode() || hand.selectedId() != null || (openId && openId !== 'shGuide') || X.getView() !== 'fundus' || !clearCard.hidden;
+    const st = busy ? null : guideStep();
+    if (st) { if (force || st !== guideShown || openId !== 'shGuide') renderGuide(st); guideShown = st; if (openId !== 'shGuide') showSheet('shGuide'); }
+    else { guideShown = null; if (openId === 'shGuide') showSheet(null); }
+  }
+
+  /* ------------------------------ hooks from hand.js ------------------------------ */
+  H.onHint = () => syncDock();
+  H.onArm = () => { if (hand.armedKind() !== 'laser') laserSlot.classList.remove('folded'); syncDock(); if ((hand.armedKind() || hand.traceMode()) && openId) showSheet(null); placeLaser(); if (!hand.armedKind() && !hand.traceMode()) syncGuide(); };
+  H.onSelect = (id) => {
+    if (id != null) { renderEdit(); showSheet('shEdit'); }
+    else if (openId === 'shEdit') { showSheet(null); syncGuide(); }
+  };
+  H.onRd = () => syncDock();
+  let lockT = 0;
+  H.onLock = () => { for (const b of [redrawBtn, addRdBtn]) b.classList.add('glow'); clearTimeout(lockT); lockT = setTimeout(() => { for (const b of [redrawBtn, addRdBtn]) b.classList.remove('glow'); }, 3200); };
+
+  /* everything is drawn by hand on the fundus: no switch to look for */
+  hand.setOn(true, true);
+
+  /* the actions: shown once the drawing is done, and lit up for a moment when it gets there */
+  function drawingDone() {
+    const sc = scene();
+    if (!sc.findings.length) return false;
+    const rd = RD.mainRd(sc);
+    return !rd || rd.cause === 'exudative' || sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
+  }
+  let wasDone = false, glowT = 0;
+  function syncActs() {
+    const sc = scene(), done = drawingDone(), rv = X.getReview();
+    acts.hidden = !done && !rv;
+    const O = RD.repairOptions(sc);
+    aSurg.hidden = O.state !== 'ok';
+    const BK = root.RDBuckle, P = BK ? BK.plan(sc) : null;
+    aBuckle.hidden = !(sc.findings.some(f => f.type === 'buckle') || (P && P.state === 'ok' && (P.cand.sb || P.cand.ppvsb)));
+    const reviewer = rv && rv.role === 'reviewer';
+    aRev.querySelector('b').textContent = reviewer ? 'Send back' : rv ? 'Review' : 'Send for review';
+    aRev.querySelector('small').textContent = reviewer ? 'Your corrections, as a link' : rv ? 'Changes and comments' : 'A link for a fellow or attending';
+    actsGrid.dataset.n = String([aSurg, aBuckle, aPng, aRev].filter(b => !b.hidden).length);
+    // lit when the drawing is done and the guide has finished asking
+    const ready = done && openId !== 'shGuide';
+    if (ready && !wasDone) { acts.classList.add('lit'); clearTimeout(glowT); glowT = setTimeout(() => acts.classList.remove('lit'), 5200); }
+    if (!done) acts.classList.remove('lit');
+    wasDone = ready || (done && wasDone);
+    if (!done) wasDone = false;
+  }
+  function placeActs() {
+    const want = desk() ? sTop : sMain;
+    if (acts.parentNode === want) return;
+    if (want === sTop) sTop.insertBefore(acts, sTop.querySelector('.s-gap')); else sMain.insertBefore(acts, cmdCard);
+  }
+  matchMedia('(min-width: 1000px)').addEventListener('change', placeActs);
+
+  function sync() {
+    if (!scene().findings.length) emptied = true;
+    renderStrip();
+    syncDock();
+    const sc = scene();
+    clearBtn.disabled = !sc.findings.length && !sc.pvd && !sc.lens;
+    lincoffToggle.setAttribute('aria-pressed', String(!!sc.lincoff));
+    poleToggle.querySelector('span').textContent = X.getView() === 'pole' ? 'Fundus view' : 'Posterior pole';
+    if (openId === 'shEdit') { if (hand.selectedId() == null || !sc.findings.some(f => f.id === hand.selectedId())) showSheet(null); else renderEdit(); }
+    if (openId === 'shAsk') renderAsk();
+    if (openId === 'shDetach') { if (RD.rdsOf(sc).length) renderDetach(); else showSheet(null); }
+    syncGuide();
+    syncActs();
+    placeLaser();
+  }
+  window.addEventListener('resize', () => { scrim.hidden = !openId || isBelow(openId) || desk(); placeBelow(); });
+  placeActs();
+  sync();
+  return { sync, showSheet };
 };
 })(typeof window !== 'undefined' ? window : globalThis);
 
 </script>
 <script>
 /* R/D versions and what changed, newest first. The first entry is the version that runs.
-   Numbering: a new feature goes up a step (1.2 → 1.3); fixes and small touches add a third number
-   (1.3 → 1.3.1). Version 2 only when the owner decides a release is big enough for it.
+   Numbering: a new feature goes up a step (2.0 → 2.1); fixes and small touches add a third number
+   (2.1 → 2.1.1). A new major version (3.0) only when the owner decides a release is big enough for it.
    Every published update adds an entry here (tools/publish.sh refuses to publish the same version twice). */
 (function (root) {
 'use strict';
 const CHANGELOG = [
+  { v: '2.0', date: '2026-10-12', title: 'Version 2: a simpler layout, made for phones', items: [
+    'The chart fills the top of the screen. Under it, a strip sums up the eye — detachment, PVD and lens, repair options, Lincoff zone, buckle guide — and any chip opens its details.',
+    'A dock at the bottom holds one big button (Trace the detachment, then Redraw and Add detachment) and the everyday tools: Tear, Hole, Lattice, Laser and More for everything else.',
+    'A guide carries on by itself: trace the detachment, add the break (the tools to use glow), then record PVD and lens. Any step can be skipped.',
+    'Once the drawing is done, four big buttons light up under the summary (in the top bar on a computer): Surgical options, Buckle guide (when a buckle is among the options), Save PNG and Send for review.',
+    'Surgical options describe the evidence rather than a choice: a summary of where the published studies lean for an eye like this one, then each operation labelled most evidence for, some or mixed evidence, evidence leans against, or outside the trial criteria — with a count of the findings for and against.',
+    'Tapping a finding opens its editor under the chart, with a size stepper as well as the lever, so the chart is never covered.',
+    'Clear, save, share and the clinical note are one tap from the top bar; the laser pattern folds to one line once you start tracing.',
+    'On a computer the tools sit in a rail on the left and panels open on the right. The classic layout is still in the ⋯ menu.',
+    'Recording a complete PVD draws a Weiss ring, in the vitreous green, just in front of the disc.',
+    'Half past twelve reads 12.5 in the clock-hour boxes, not 0.5.',
+  ] },
   { v: '1.3', date: '2026-10-12', title: 'Easier drawing, a size lever, traced laser, update notes', items: [
     'Tapping the chart while drawing is off asks whether to start drawing.',
     'Once a detachment is drawn it stays put: a stray drag no longer starts a new one. Use Redraw to trace it again, or Add detachment for another.',
@@ -7065,6 +7844,7 @@ let review = null, commentArm = false, lastLink = null, draftCase = '', clearAsk
   scene = r.c;
 })();
 let hand = null;
+let shell = null;          // the simple layout (shell.js), unless the classic layout was chosen
 let sample = null, downloads = null;
 const canvas = $('#chart');
 const input = $('#cmd');
@@ -7100,7 +7880,7 @@ function draw() {
     if (hand) hand.drawInk();
   });
 }
-function renderAll() { draw(); renderFindings(); renderNote(); renderLincoff(); renderRepair(); renderBuckle(); renderEye(); renderTools(); renderKey(); renderReviewBar(); renderReview(); if (hand) hand.sync(); }
+function renderAll() { draw(); renderFindings(); renderNote(); renderLincoff(); renderRepair(); renderBuckle(); renderEye(); renderTools(); renderKey(); renderReviewBar(); renderReview(); if (hand) hand.sync(); if (shell) shell.sync(); }
 
 function renderEye() {
   document.querySelectorAll('.eye-switch button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.eye === scene.eye)));
@@ -7121,6 +7901,7 @@ function setView(v) {
   view = v; highlight = null;
   renderTools(); draw();
   if (hand) hand.sync();
+  if (shell) shell.sync();
 }
 
 /* findings list with inline editing */
@@ -7149,8 +7930,9 @@ function editScene(id, fn) {
   commit(next);
 }
 function hourInput(label, value, onChange) {
-  const i = el('input', { type: 'number', min: '0.5', max: '12', step: '0.5', value: String(value) });
-  i.addEventListener('change', () => { const v = parseFloat(i.value); if (isFinite(v) && v > 0 && v <= 12.99) onChange(RD.normHour(v)); else i.value = String(value); });
+  const shown = value != null && value < 1 ? value + 12 : value;        // half past twelve reads 12.5, not 0.5
+  const i = el('input', { type: 'number', min: '0.5', max: '12.5', step: '0.5', value: String(shown), 'aria-label': label + ' (o’clock)' });
+  i.addEventListener('change', () => { const v = parseFloat(i.value); if (isFinite(v) && v > 0 && v <= 12.99) onChange(RD.normHour(v)); else i.value = String(shown); });
   return el('label', {}, [label, i]);
 }
 function select(label, opts, value, onChange) {
@@ -7253,6 +8035,44 @@ function iconFor(f) {
   }
   return c;
 }
+/* the controls that edit one finding: in the findings list, and in the simple layout's edit panel */
+function buildEditor(f, opts) {
+  opts = opts || {};
+  const edit = el('div', { class: 'f-edit' });
+  if (f.type === 'rd') {
+    if (!f.total) {
+      const unpath = (x) => { delete x.path; delete x.ring; delete x.island; delete x.aroundFovea; };
+      edit.append(hourInput('From', f.start, v => editScene(f.id, x => { x.start = v; unpath(x); })));
+      edit.append(hourInput('to', f.end, v => editScene(f.id, x => { x.end = v; unpath(x); })));
+      edit.append(select('Macular status', STATUS_OPTS, statusKey(f), v => editScene(f.id, x => {
+        [x.macula, x.fovea] = STATUS_SET[v];
+        // the chart must show what the record says: a drawn border that disagrees gives way to the standard outline
+        if (x.path && !RD.pathAgrees(x)) { unpath(x); toast('Switched to the standard outline to match the macular status — Undo restores your drawing'); }
+      })));
+      if (f.path) edit.append(el('button', { type: 'button', class: 'mini', text: 'Use standard shape', title: 'Replace the hand-drawn border with R/D’s standard outline for these clock hours and macular status', onclick: () => editScene(f.id, unpath) }));
+    }
+    edit.append(select('Height', [['shallow', 'Shallow'], ['normal', 'Standard'], ['bullous', 'Bullous']], f.depth || 'normal', v => editScene(f.id, x => { x.depth = v; })));
+    const cb = el('input', { type: 'checkbox', checked: !!f.chronic });
+    cb.addEventListener('change', () => editScene(f.id, x => { x.chronic = cb.checked; }));
+    edit.append(el('label', {}, [cb, 'Chronic']));
+  } else if (f.hour != null) {
+    edit.append(hourInput('At', f.hour, v => editScene(f.id, x => { x.hour = v; })));
+    if (!opts.noSize && (f.type === 'hst' || f.type === 'oph' || f.type === 'hole')) edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
+  } else if (f.start != null && !f.total) {
+    edit.append(hourInput('From', f.start, v => editScene(f.id, x => { x.start = v; })));
+    edit.append(hourInput('to', f.end, v => editScene(f.id, x => { x.end = v; })));
+  }
+  if (f.type === 'cat') {
+    const P = RD.catPlace(f, scene.eye);
+    edit.append(select('Where', SITE_OPTS, f.site || '', v => editScene(f.id, x => { if (v) x.site = v; else delete x.site; })));
+    if (f.hour == null && f.start == null && P && !P.span) edit.append(hourInput('Clock', +(P.h || 12).toFixed(2), v => editScene(f.id, x => { x.hour = v; })));
+    if (P && P.tum) for (const c of tumorControls(f, P.E)) edit.append(c);
+    else if (!opts.noSize) edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
+    if (P && P.post && view !== 'pole') edit.append(el('button', { type: 'button', class: 'mini', text: 'View enlarged', onclick: () => setView('pole') }));
+  }
+  if (f.type === 'pvr') edit.append(select('PVR grade', [['A', 'Grade A'], ['B', 'Grade B'], ['C', 'Grade C']], f.grade || 'C', v => editScene(f.id, x => { x.grade = v; })));
+  return edit;
+}
 function renderFindings() {
   const list = $('#findings');
   list.replaceChildren();
@@ -7260,39 +8080,7 @@ function renderFindings() {
   $('#count').textContent = items.length ? `${items.length} item${items.length > 1 ? 's' : ''}` : '';
   if (!items.length) { list.append(el('li', { class: 'empty', text: 'Nothing drawn yet. Type or dictate a finding.' })); return; }
   for (const f of items) {
-    const edit = el('div', { class: 'f-edit' });
-    if (f.type === 'rd') {
-      if (!f.total) {
-        const unpath = (x) => { delete x.path; delete x.ring; delete x.island; delete x.aroundFovea; };
-        edit.append(hourInput('From', f.start, v => editScene(f.id, x => { x.start = v; unpath(x); })));
-        edit.append(hourInput('to', f.end, v => editScene(f.id, x => { x.end = v; unpath(x); })));
-        edit.append(select('Macular status', STATUS_OPTS, statusKey(f), v => editScene(f.id, x => {
-          [x.macula, x.fovea] = STATUS_SET[v];
-          // the chart must show what the record says: a drawn border that disagrees gives way to the standard outline
-          if (x.path && !RD.pathAgrees(x)) { unpath(x); toast('Switched to the standard outline to match the macular status — Undo restores your drawing'); }
-        })));
-        if (f.path) edit.append(el('button', { type: 'button', class: 'mini', text: 'Use standard shape', title: 'Replace the hand-drawn border with R/D’s standard outline for these clock hours and macular status', onclick: () => editScene(f.id, unpath) }));
-      }
-      edit.append(select('Height', [['shallow', 'Shallow'], ['normal', 'Standard'], ['bullous', 'Bullous']], f.depth || 'normal', v => editScene(f.id, x => { x.depth = v; })));
-      const cb = el('input', { type: 'checkbox', checked: !!f.chronic });
-      cb.addEventListener('change', () => editScene(f.id, x => { x.chronic = cb.checked; }));
-      edit.append(el('label', {}, [cb, 'Chronic']));
-    } else if (f.hour != null) {
-      edit.append(hourInput('At', f.hour, v => editScene(f.id, x => { x.hour = v; })));
-      if (f.type === 'hst' || f.type === 'oph' || f.type === 'hole') edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
-    } else if (f.start != null && !f.total) {
-      edit.append(hourInput('From', f.start, v => editScene(f.id, x => { x.start = v; })));
-      edit.append(hourInput('to', f.end, v => editScene(f.id, x => { x.end = v; })));
-    }
-    if (f.type === 'cat') {
-      const P = RD.catPlace(f, scene.eye);
-      edit.append(select('Where', SITE_OPTS, f.site || '', v => editScene(f.id, x => { if (v) x.site = v; else delete x.site; })));
-      if (f.hour == null && f.start == null && P && !P.span) edit.append(hourInput('Clock', +(P.h || 12).toFixed(2), v => editScene(f.id, x => { x.hour = v; })));
-      if (P && P.tum) for (const c of tumorControls(f, P.E)) edit.append(c);
-      else edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
-      if (P && P.post && view !== 'pole') edit.append(el('button', { type: 'button', class: 'mini', text: 'View enlarged', onclick: () => setView('pole') }));
-    }
-    if (f.type === 'pvr') edit.append(select('PVR grade', [['A', 'Grade A'], ['B', 'Grade B'], ['C', 'Grade C']], f.grade || 'C', v => editScene(f.id, x => { x.grade = v; })));
+    const edit = buildEditor(f);
     const li = el('li', { class: 'f', tabindex: '0' }, [
       iconFor(f),
       el('div', {}, [el('div', { class: 'f-title', text: RD.findingTitle(f, scene.eye) }), el('div', { class: 'f-sub', text: findingSub(f) }), edit.childNodes.length ? edit : null]),
@@ -7358,7 +8146,7 @@ function renderLive(parsed, opts) {
   if (opts.thinking) live.append(el('div', { class: 'msg', text: 'Asking Claude to interpret this phrasing…' }));
   if (!parsed.chips.length && !opts.thinking && opts.committed) live.append(el('div', { class: 'msg warn', text: 'Nothing to draw from that. Try “RRD from 10 to 2 macula off with a tear at 12”.' }));
   // a detachment is on the chart but the vitreous status is not: ask for it here, where the clinician is working
-  if (opts.committed && RD.mainRd(scene) && !scene.pvd && RD.mainRd(scene).cause !== 'exudative') live.append(askRow('Is there a posterior vitreous detachment?', true, PVD_OPTS, null, v => setMeta({ pvd: v }), 'ask'));
+  if (opts.committed && !document.body.classList.contains('simple') && RD.mainRd(scene) && !scene.pvd && RD.mainRd(scene).cause !== 'exudative') live.append(askRow('Is there a posterior vitreous detachment?', true, PVD_OPTS, null, v => setMeta({ pvd: v }), 'ask'));
 }
 const PVD_OPTS = [['complete', 'Complete PVD'], ['partial', 'Partial PVD'], ['none', 'No PVD']];
 const LENS_OPTS = [['phakic', 'Phakic'], ['pseudo', 'Pseudophakic'], ['aphakic', 'Aphakic']];
@@ -7375,13 +8163,29 @@ function setMeta(m) {
 }
 
 /* ------------------------------ repair options -------------------------- */
-const TIER_TEXT = { favoured: 'Best supported', consider: 'Also reasonable', less: 'Less supported', pending: 'Needs the break located' };
+/* How each option is labelled. R/D summarises where the published evidence leans for an eye like the one drawn; it
+   never tells the reader what to do, so the labels describe the evidence, not the choice. */
+const THUMB = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H3V10z"/><path d="M7 10l4-8a3 3 0 0 1 3 3v4h5.5a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 18.1 21H7"/></svg>';
+function evidenceLabel(o) {
+  const pro = o.why.filter(y => y.sign > 0).length, con = o.why.filter(y => y.sign < 0).length;
+  if (o.pending) return 'Needs the break located';
+  if (o.excluded) return 'Outside the trial criteria';
+  if (o.tier === 'favoured') return 'Most evidence for';
+  if (o.tier === 'less') return 'Evidence leans against';
+  return pro && con ? 'Mixed evidence' : pro ? 'Some evidence for' : con ? 'Mixed evidence' : 'No specific evidence';
+}
+function evidenceTally(o) {
+  if (o.excluded) return null;
+  const pro = o.why.filter(y => y.sign > 0).length, con = o.why.filter(y => y.sign < 0).length;
+  if (!pro && !con) return null;
+  return el('span', { class: 'rep-tally' }, [pro ? el('span', { class: 'tl-pro', text: `${pro} for` }) : null, pro && con ? ' · ' : null, con ? el('span', { class: 'tl-con', text: `${con} against` }) : null]);
+}
 function renderRepair() {
   const box = $('#repair');
   if (!box) return;
   box.replaceChildren();
   const O = RD.repairOptions(scene);
-  if (O.state === 'none') { box.append(el('p', { class: 'lin-text', text: 'Draw or describe a detachment to see repair options weighed against the published evidence.' })); return; }
+  if (O.state === 'none') { box.append(el('p', { class: 'lin-text', text: 'Draw or describe a detachment to see the surgical options weighed against the published evidence.' })); return; }
   if (O.state === 'exudative') { box.append(el('p', { class: 'lin-text', text: 'This detachment is recorded as exudative: treatment targets the cause, and the rhegmatogenous repair trials do not apply.' })); return; }
   if (!prefs.hcpAck) {
     // intended for clinicians only: the summary stays closed until the viewer confirms they are one
@@ -7391,6 +8195,13 @@ function renderRepair() {
     ]));
     return;
   }
+  // where the evidence leans, in one line, before the detail
+  const lean = O.options.filter(o => o.tier === 'favoured' && !o.excluded);
+  const ic = el('span', { class: 'rep-lean-ic' }); ic.innerHTML = THUMB;
+  const leanText = lean.length
+    ? el('p', {}, ['In eyes like this one, the published studies give the most support to ', ...lean.flatMap((o, i) => [i ? (i === lean.length - 1 ? ' and ' : ', ') : null, el('strong', { text: o.name[0].toLowerCase() + o.name.slice(1) })]).filter(Boolean), '.'])
+    : el('p', { text: scene.pvd && scene.lens ? 'For what is recorded, no single operation stands out in the published studies.' : 'For what is recorded so far, no single operation stands out — PVD and lens status sharpen this.' });
+  box.append(el('div', { class: 'rep-lean' + (lean.length ? '' : ' none') }, [lean.length ? ic : null, el('div', {}, [el('div', { class: 'rep-lean-k', text: 'Where the evidence leans' }), leanText, el('p', { class: 'rep-lean-sub', text: 'A summary of what published trials and cohorts found — not advice for this patient.' })])]));
   box.append(el('div', { class: 'rep-ask' }, [
     askRow(scene.pvd ? 'Posterior vitreous detachment' : 'Is there a posterior vitreous detachment?', O.ask.pvd, PVD_OPTS.map(([v, t]) => [v, t.replace(' PVD', '')]), scene.pvd === 'yes' ? 'complete' : scene.pvd, v => setMeta({ pvd: v })),
     askRow(scene.lens ? 'Lens' : 'Lens status?', O.ask.lens, LENS_OPTS, scene.lens, v => setMeta({ lens: v })),
@@ -7404,8 +8215,8 @@ function renderRepair() {
   const cite = (refs) => el('span', { class: 'rep-refs' }, refs.map(k => el('a', { href: 'https://doi.org/' + O.refs[k].doi, target: '_blank', rel: 'noopener', title: O.refs[k].cite, text: String(num(k)) })));
   const list = el('ol', { class: 'rep-list' });
   for (const o of O.options) {
-    const label = o.excluded && !o.pending ? 'Not a candidate here' : TIER_TEXT[o.tier];
-    const li = el('li', { class: 'rep-opt t-' + o.tier }, [el('div', { class: 'rep-h' }, [el('strong', { text: o.name }), el('span', { class: 'rep-tier', text: label })])]);
+    const tierEl = el('span', { class: 'rep-tier' }); if (o.tier === 'favoured' && !o.excluded) tierEl.innerHTML = THUMB + ' '; tierEl.append(evidenceLabel(o));
+    const li = el('li', { class: 'rep-opt t-' + o.tier }, [el('div', { class: 'rep-h' }, [el('div', { class: 'rep-name' }, [el('strong', { text: o.name }), evidenceTally(o)]), tierEl])]);
     if (o.why.length) {
       const w = el('ul', { class: 'rep-why' });
       for (const y of o.why) w.append(el('li', { class: y.sign > 0 ? 'pro' : y.sign < 0 ? 'con' : 'neu' }, [y.t, ' ', cite(y.refs)]));
@@ -7464,7 +8275,7 @@ function renderBuckle() {
   card.hidden = P.state !== 'ok';
   box.replaceChildren();
   if (P.state !== 'ok') return;
-  if (!prefs.hcpAck) { box.append(el('p', { class: 'lin-text', text: 'Open the repair options above (for eye-care professionals and trainees) to see the buckle guide.' })); return; }
+  if (!prefs.hcpAck) { box.append(el('p', { class: 'lin-text', text: 'Open the surgical options (for eye-care professionals and trainees) to see the buckle guide.' })); return; }
   const order = [];
   const num = (k) => { let i = order.indexOf(k); if (i < 0) { order.push(k); i = order.length - 1; } return i + 1; };
   const cite = (refs) => el('span', { class: 'rep-refs' }, (refs || []).map(k => { const r = P.refs[k]; return el('a', { href: r.doi ? 'https://doi.org/' + r.doi : r.url || `https://pubmed.ncbi.nlm.nih.gov/${r.pmid}/`, target: '_blank', rel: 'noopener', title: r.cite, text: String(num(k)) }); }));
@@ -7474,7 +8285,7 @@ function renderBuckle() {
 
   const tabs = [['sb', 'Buckle alone'], ['ppvsb', 'Vitrectomy + buckle']].filter(([k]) => P.cand[k]);
   if (!tabs.length) {
-    box.append(el('p', { class: 'lin-text', text: 'A buckle is not among the better-supported options for this drawing (see Repair options above). The element guide below still applies if you choose one.' }));
+    box.append(el('p', { class: 'lin-text', text: 'The published studies give a buckle little support for this drawing (see the surgical options). The element guide below still applies if one is used.' }));
   } else {
     const rank = { favoured: 0, consider: 1 };
     if (!buckleTab || !P.cand[buckleTab]) buckleTab = tabs.slice().sort((a, b) => rank[P.tiers[a[0]]] - rank[P.tiers[b[0]]])[0][0];
@@ -7499,7 +8310,7 @@ function renderBuckle() {
     };
     const addBtn = (draw) => el('button', { type: 'button', class: 'glass small', text: 'Add to drawing', onclick: () => { bucklePreviewKey = null; commit(BK.applyPlan(scene, draw)); toast('Buckle added to the drawing — Undo removes it'); } });
     const conf = [el('p', { class: 'bk-title' }, [el('strong', { text: S.title })]), el('p', { class: 'bk-sum', text: S.summary })];
-    if (S.why.length) conf.push(el('p', { class: 'bk-sub', text: buckleTab === 'ppvsb' ? 'For adding the band' : 'Why' }), list(S.why, null, 'pro'));
+    if (S.why.length) conf.push(el('p', { class: 'bk-sub', text: buckleTab === 'ppvsb' ? 'Evidence for adding the band' : 'Evidence for it' }), list(S.why, null, 'pro'));
     if (S.against && S.against.length) conf.push(el('p', { class: 'bk-sub', text: 'Against, or no benefit shown' }), list(S.against, null, 'con'));
     if (S.alts && S.alts.length) { conf.push(el('p', { class: 'bk-sub', text: 'Alternatives' })); const u = el('ul', { class: 'rep-why bk-list' }); for (const a of S.alts) u.append(el('li', { class: 'neu' }, [el('strong', { text: a.name + ': ' }), a.t, ' ', tag(a.lv), ' ', cite(a.refs)])); conf.push(u); }
     if (S.draw && S.draw.length) conf.push(el('div', { class: 'rv-actions bk-actions' }, [showBtn(S.draw, 'Show on chart', buckleTab), S.drawAlt ? showBtn(S.drawAlt, 'Show the segmental option', buckleTab + '-alt') : null, addBtn(S.draw)]));
@@ -8023,7 +8834,7 @@ const CODE = [
   ['#D8423A', 'Red', 'retinal arteries, haemorrhage, the inside of full-thickness breaks'],
   ['#2C66C4', 'Blue', 'detached retina (including subretinal fluid around a tumour), veins, outlines of breaks, lattice in detached retina, tufts and meridional folds (short lines)'],
   ['#E0AA10', 'Yellow', 'exudate, retinal oedema and ischaemic whitening, drusen (stippled, also over a naevus) and other deposits'],
-  ['#2E9A55', 'Green', 'opacities in the media: vitreous haemorrhage, membranes, foreign bodies; green outline around red = blood in the vitreous'],
+  ['#2E9A55', 'Green', 'opacities in the media: vitreous haemorrhage, membranes, foreign bodies; green outline around red = blood in the vitreous; a Weiss ring in front of the disc when a complete PVD is recorded'],
   ['#8A5A33', 'Brown', 'choroidal detachment, uveal pigment (naevus, melanoma), RPE changes'],
   ['#25282C', 'Black', 'lattice in attached retina, retinal pigment, the ora next to detached retina, treatment scars'],
   ['#7E4FC0', 'Purple', 'flat neovascularisation (NVE, NVD, CNV)'],
@@ -8198,19 +9009,35 @@ canvas.addEventListener('pointerdown', (e) => {
   const tas = document.querySelectorAll('#review .rv-cm textarea'); if (tas.length) tas[tas.length - 1].focus();
 }, { capture: true });
 
+// the simple layout, unless the classic one is asked for (?classic, or chosen in the menu)
+const SHELL_ON = !!window.RDShell && !window.__rdClassic && !/[?&]classic\b/.test(location.search) && prefs.layout !== 'classic';
+const shellHooks = SHELL_ON ? {} : null;
+
 // drawing by hand on the chart (hand.js)
 if (window.RDHand) {
   hand = window.RDHand({
+    shell: shellHooks,
     el, iconFor, toast,
     getScene: () => scene, getView: () => (review && review.view === 'original' ? 'original' : view), commit,
     setPreview(s, text) { previewScene = s || null; previewText = s ? (text || null) : null; draw(); },
     setHighlight(id) { highlight = id; draw(); },
     libSearch: (q) => libSearch(q, ''),
-    announce(chips, notes) { renderLive({ chips, unknown: [], warnings: [] }, { committed: true, notes }); },
+    announce(chips, notes) { if (SHELL_ON) { renderLive(notes && notes.length ? { chips: [], unknown: [], warnings: [] } : null, { notes }); return; } renderLive({ chips, unknown: [], warnings: [] }, { committed: true, notes }); },
     setMeta,
     getPref: (k) => prefs[k], setPref(k, v) { prefs[k] = v; save(); },
     busy: () => commentArm,
   });
+}
+if (SHELL_ON && hand) {
+  shell = window.RDShell({
+    el, $, RD, hand, toast, iconFor, findingSub, buildEditor, editScene, setMeta, askRow, PVD_OPTS, LENS_OPTS,
+    getScene: () => scene, commit, undo, redo, setView, getView: () => view, getReview: () => review,
+    prefs, save, exportPNG, copyNote, toggleLincoff, renderAll,
+  }, shellHooks);
+} else if (window.RDShell) {
+  // the classic layout, chosen in the menu: a way back to the simple one
+  const back = el('button', { type: 'button', class: 'tool', text: 'Simple layout', title: 'Switch to the simple, chart-first layout', onclick: () => { delete prefs.layout; save(); location.reload(); } });
+  if (prefs.layout === 'classic') $('.chart-tools').append(back);
 }
 
 /* --------------------------- versions and updates --------------------------- */
@@ -8254,7 +9081,7 @@ function showWhatsNew(since) {
 /* a page left open while a newer version is published: offer to load it (the site only) */
 let lastVersionCheck = 0;
 async function checkForUpdate(force) {
-  if (!/^https?:$/.test(location.protocol) || !CL.VERSION || !window.fetch) return;
+  if (!/^https?:$/.test(location.protocol) || !CL.VERSION || !window.fetch || navigator.onLine === false) return;
   if (!force && Date.now() - lastVersionCheck < 15 * 60 * 1000) return;
   lastVersionCheck = Date.now();
   try {
