@@ -637,15 +637,43 @@ function drawDisc(ctx, eye) {
   ctx.fillStyle = g; ctx.beginPath(); ctx.arc(dx, dy, R, 0, TAU); ctx.fill();
   ctx.strokeStyle = C.discRim; ctx.lineWidth = 1.3; ctx.stroke();
   const tx = eye === 'OD' ? -1 : 1;
-  ctx.fillStyle = C.cup; ctx.beginPath(); ctx.ellipse(dx + tx * 2, dy, R * 0.42, R * 0.46, 0, 0, TAU); ctx.fill();
-  // vessel trunks emerging from the cup
-  ctx.save(); ctx.beginPath(); ctx.arc(dx, dy, R - 0.5, 0, TAU); ctx.clip();
-  for (const [k, ang] of [['a', -1.25], ['v', -1.6], ['a', 1.25], ['v', 1.6], ['a', -2.0], ['v', -2.25], ['a', 2.0], ['v', 2.25]]) {
-    const a = eye === 'OD' ? Math.PI - ang : ang;
-    ctx.strokeStyle = k === 'a' ? C.artery : C.vein; ctx.lineWidth = k === 'a' ? 1.8 : 2.3;
-    ctx.beginPath(); ctx.moveTo(dx + tx * 1, dy); ctx.lineTo(dx + Math.cos(a) * R * 1.1, dy + Math.sin(a) * R * 1.1); ctx.stroke();
+  ctx.fillStyle = C.cup; ctx.beginPath(); ctx.ellipse(dx + tx * 2.6, dy, R * 0.44, R * 0.47, 0, 0, TAU); ctx.fill();
+  // The central artery and vein appear at the nasal edge of the cup, each divides into a superior and an
+  // inferior trunk, and every trunk runs to the rim exactly where its retinal vessel leaves the disc,
+  // meeting it in the same direction.
+  const base = dx - tx * R * 0.12;
+  ctx.save(); ctx.beginPath(); ctx.arc(dx, dy, R + 1.2, 0, TAU); ctx.clip();
+  ctx.lineCap = 'round';
+  for (const kind of ['v', 'a']) {
+    const ox = base + tx * (kind === 'v' ? 0.75 : -0.75), w = kind === 'a' ? 1.9 : 2.5;
+    ctx.strokeStyle = kind === 'a' ? C.artery : C.vein; ctx.lineWidth = w;
+    ctx.beginPath(); ctx.moveTo(ox, dy - 1.5); ctx.lineTo(ox, dy + 1.5); ctx.stroke();     // the central trunk, end-on
+    for (const v of discExits(eye).filter(e => e.k === kind)) {
+      const sy = Math.sign(v.e[1] - dy) || 1, oy = dy + sy * 1.5;
+      const L = Math.hypot(v.e[0] - ox, v.e[1] - oy);
+      const end = [v.e[0] + v.u[0] * 1.6, v.e[1] + v.u[1] * 1.6];
+      ctx.beginPath(); ctx.moveTo(ox, oy);
+      ctx.bezierCurveTo(ox, oy + sy * L * 0.42, v.e[0] - v.u[0] * L * 0.38, v.e[1] - v.u[1] * L * 0.38, end[0], end[1]);
+      ctx.stroke();
+    }
   }
   ctx.restore();
+}
+/* where each main retinal vessel crosses the disc margin, and its direction there */
+const exitCache = {};
+function discExits(eye) {
+  if (exitCache[eye]) return exitCache[eye];
+  const [dx, dy] = RD.discCenter(eye), R = G.DISC_R, out = [];
+  for (const v of vesselPaths(eye).filter(v => v.w === 1)) {
+    const P = v.pts, i = P.findIndex(p => Math.hypot(p[0] - dx, p[1] - dy) >= R);
+    if (i < 1) continue;
+    const a = P[i - 1], b = P[i], ra = Math.hypot(a[0] - dx, a[1] - dy), rb = Math.hypot(b[0] - dx, b[1] - dy);
+    const t = (R - ra) / ((rb - ra) || 1), e = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+    const c = P[Math.min(P.length - 1, i + 2)];
+    let ux = c[0] - e[0], uy = c[1] - e[1]; const l = Math.hypot(ux, uy) || 1;
+    out.push({ k: v.k, e, u: [ux / l, uy / l] });
+  }
+  return (exitCache[eye] = out);
 }
 function drawMacula(ctx, geo) {
   ctx.save();
