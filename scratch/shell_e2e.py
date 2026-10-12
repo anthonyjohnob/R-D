@@ -1,0 +1,219 @@
+"""The simple layout (shell.js), the default since 1.4: phone and computer. The guide from trace to repair options,
+the dock, the summary strip, the edit panel under the chart, laser folding, clear, the pole view, typing, the
+classic layout switch and the update note."""
+import json, math, subprocess, time
+from playwright.sync_api import sync_playwright
+srv = subprocess.Popen(['python3', '-m', 'http.server', '8779', '--bind', '127.0.0.1'], cwd='dist/site', stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+time.sleep(1)
+URL = 'http://127.0.0.1:8779/'
+VER = json.load(open('dist/site/version.json'))['version']
+errs, fails = [], []
+def check(name, cond, extra=''):
+    print(('PASS ' if cond else 'FAIL ') + name + (f'  [{extra}]' if extra else ''))
+    if not cond: fails.append(name)
+def watch(pg, tag):
+    pg.on('pageerror', lambda e: errs.append(f'{tag} PAGEERROR {e}'))
+    pg.on('console', lambda m: errs.append(f'{tag} {m.type}: {m.text}') if m.type in ('error', 'warning') else None)
+def chart_pt(pg, r, h):
+    box = pg.evaluate("() => { const b = document.querySelector('#chart').getBoundingClientRect(); return [b.left, b.top, b.width]; }")
+    a = math.radians(h * 30 - 90); x, y = r * math.cos(a), r * math.sin(a)
+    return box[0] + (x + 410) / 820 * box[2], box[1] + (y + 410) / 820 * box[2]
+def arc_stroke(h0, h1, rmin, n=50):
+    span = (h1 - h0) % 12
+    return [(312 - (312 - rmin) * math.sin(math.pi * i / n) ** 0.8, h0 + span * i / n) for i in range(n + 1)]
+def path(pg, pts, steps=2):
+    x, y = chart_pt(pg, *pts[0]); pg.mouse.move(x, y); pg.mouse.down()
+    for q in pts[1:]: x, y = chart_pt(pg, *q); pg.mouse.move(x, y, steps=steps)
+    pg.mouse.up(); pg.wait_for_timeout(250)
+def tap(pg, r, h): x, y = chart_pt(pg, r, h); pg.mouse.click(x, y); pg.wait_for_timeout(350)
+def scene(pg): return pg.evaluate("() => JSON.parse(localStorage.getItem('rdraw.scene.v2'))") or {'findings': []}
+def types(pg): return [f['type'] for f in scene(pg)['findings']]
+def visible(pg, sel): return pg.evaluate("(s) => { const e = document.querySelector(s); if (!e) return false; const r = e.getBoundingClientRect(); const st = getComputedStyle(e); return r.width > 0 && r.height > 0 && st.visibility !== 'hidden' && st.display !== 'none' && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth; }", sel)
+def rect(pg, sel): return pg.evaluate("(s) => { const r = document.querySelector(s).getBoundingClientRect(); return { l: r.left, t: r.top, r: r.right, b: r.bottom, w: r.width, h: r.height }; }", sel)
+def strip(pg): return pg.evaluate("() => [...document.querySelectorAll('#sStrip .s-chip')].map(e => e.textContent)")
+def hint(pg): return pg.evaluate("() => { const h = document.querySelector('#inkHint'); return h && !h.hidden ? h.querySelector('.t').textContent : ''; }")
+def open_sheet(pg): return pg.evaluate("() => (document.querySelector('#sApp .sheet.open') || {}).id || null")
+def no_hscroll(pg): return pg.evaluate("() => document.documentElement.scrollWidth <= innerWidth + 1")
+
+try:
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        # ------------------------------------------------ phone ------------------------------------------------
+        ctx = b.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, device_scale_factor=2)
+        pg = ctx.new_page(); watch(pg, 'phone')
+        pg.goto(URL); pg.wait_for_timeout(900)
+        check('simple layout is the default', pg.evaluate("() => document.body.classList.contains('simple')"))
+        check('classic header and columns hidden', pg.is_hidden('.top') and pg.is_hidden('.layout'))
+        check('opens with the big Trace button, glowing', visible(pg, '#sTrace') and pg.evaluate("() => document.querySelector('#sTrace').classList.contains('glow')"))
+        check('dock tools: Tear, Hole, Lattice, Laser, More', pg.evaluate("() => [...document.querySelectorAll('#sDock .s-tools button')].map(b => b.textContent.trim())") == ['Tear', 'Hole', 'Lattice', 'Laser', 'More'])
+        check('empty-chart prompt shown', visible(pg, '#sEmpty'))
+        check('no horizontal scroll', no_hscroll(pg))
+        check('chart, strip and describe line above the dock', rect(pg, '.s-cmd')['b'] <= rect(pg, '#sDock')['t'] + 1, (rect(pg, '.s-cmd')['b'], rect(pg, '#sDock')['t']))
+        check('clear is off on an empty chart', pg.is_disabled('#sClearBtn'))
+        # step 1: the Trace button
+        pg.click('#sTrace'); pg.wait_for_timeout(200)
+        check('Trace: step 1 hint with Cancel', hint(pg).startswith('Step 1 of 5') and pg.is_visible('#inkHint button:has-text("Cancel")'), hint(pg))
+        check('Trace: empty prompt gives way', not visible(pg, '#sEmpty'))
+        pg.click('#inkHint button'); pg.wait_for_timeout(200)
+        check('Cancel: back to the Trace button', hint(pg) == '' and visible(pg, '#sTrace'))
+        # tracing straight on the chart works too
+        path(pg, arc_stroke(10, 2, 120)); tap(pg, 250, 12)
+        check('traced: one detachment', types(pg).count('rd') == 1, types(pg))
+        check('strip: RD chip with macular status', any(c.startswith('RD 10–2') for c in strip(pg)), strip(pg))
+        check('strip: PVD and lens unknown, in one chip', 'PVD ? · lens ?' in strip(pg), strip(pg))
+        check('step 2 hint in the dock', hint(pg).startswith('Step 2 of 5') and 'Tear or Hole' in hint(pg), hint(pg))
+        check('Tear and Hole glow', pg.evaluate("() => ['hst', 'hole'].every(k => document.querySelector(`#sDock [data-k=${k}]`).classList.contains('glow')) && !document.querySelector('#sDock [data-k=lat]').classList.contains('glow')"))
+        # the detachment is locked
+        path(pg, arc_stroke(4, 8, 150))
+        check('locked: a second drag draws nothing', types(pg).count('rd') == 1, types(pg))
+        check('locked: a note says how to draw another', 'locked' in (pg.text_content('#toast') or ''), pg.text_content('#toast'))
+        # step 2: the tear, and its editor under the chart
+        pg.click('#sDock [data-k="hst"]'); pg.wait_for_timeout(200)
+        check('Tear picked: pressed, placing hint', pg.get_attribute('#sDock [data-k="hst"]', 'aria-pressed') == 'true' and 'horseshoe tear' in hint(pg), hint(pg))
+        tap(pg, 262, 12.5)
+        check('tear placed', 'hst' in types(pg), types(pg))
+        check('editor opens under the chart', open_sheet(pg) == 'shEdit' and rect(pg, '#shEdit')['t'] >= rect(pg, '#stage')['b'] - 1, (open_sheet(pg), rect(pg, '#shEdit')['t'], rect(pg, '#stage')['b']))
+        check('editor: name, Delete, Done', pg.text_content('#shEdit .s-ed-t strong') == 'Horseshoe tear' and pg.is_visible('#shEdit .mini:has-text("Delete")'))
+        check('editor: clock hour reads 12.5', pg.input_value('#shEdit .f-edit input[type=number]') == '12.5', pg.input_value('#shEdit .f-edit input[type=number]'))
+        pg.click('#shEdit .bs-row button[aria-label="Larger"]'); pg.wait_for_timeout(200); pg.click('#shEdit .bs-row button[aria-label="Larger"]'); pg.wait_for_timeout(200)
+        sz = [f for f in scene(pg)['findings'] if f['type'] == 'hst'][0].get('size')
+        check('size stepper enlarges the tear', sz and abs(sz - 1.2) < 0.01, sz)
+        check('stepper shows the size', '120%' in pg.text_content('#shEdit .bs-row output'), pg.text_content('#shEdit .bs-row output'))
+        check('lever drawn beside the tear', pg.evaluate("() => !!(window.RDHand && window.RDHand.lever)"))
+        pg.click('#shEdit .mini:has-text("Done")'); pg.wait_for_timeout(350)
+        # steps 3–5: the guide
+        check('step 3: PVD question', open_sheet(pg) == 'shGuide' and 'Step 3 of 5' in pg.text_content('#shGuide'), open_sheet(pg))
+        pg.click('#shGuide .flow-opts button:has-text("Complete")'); pg.wait_for_timeout(300)
+        check('PVD recorded', scene(pg).get('pvd') == 'complete', scene(pg).get('pvd'))
+        check('step 4: lens', 'Step 4 of 5' in pg.text_content('#shGuide'))
+        pg.click('#shGuide .flow-opts button:has-text("Phakic")'); pg.wait_for_timeout(300)
+        check('lens recorded', scene(pg).get('lens') == 'phakic')
+        check('step 5: repair options offered', 'Step 5 of 5' in pg.text_content('#shGuide') and pg.is_visible('#shGuide .flow-next'))
+        pg.click('#shGuide .flow-next'); pg.wait_for_timeout(400)
+        check('repair options open', open_sheet(pg) == 'shRepair' and pg.is_visible('#repairCard'))
+        pg.click('#shRepair .sh-close'); pg.wait_for_timeout(300)
+        check('guide done: nothing open', open_sheet(pg) is None, open_sheet(pg))
+        st = strip(pg)
+        check('strip: PVD and lens, repair, Lincoff', 'PVD complete · Phakic' in st and 'Repair options' in st and any(c.startswith('Lincoff') for c in st), st)
+        check('dock: Redraw and Add detachment', visible(pg, '#sRedraw') and visible(pg, '#sAddRd') and not visible(pg, '#sTrace'))
+        # laser: the pattern in the dock, folding once tracing starts
+        pg.click('#sDock [data-k="laser"]'); pg.wait_for_timeout(250)
+        check('laser: pattern panel in the dock', visible(pg, '#sDock .s-laser .pal-laser'))
+        pg.click('#sDock .pal-laser .pal-row:has-text("Rows") button:has-text("2")'); pg.wait_for_timeout(150)
+        path(pg, [(250, 3 + i * 0.05) for i in range(40)])
+        lz = [f for f in scene(pg)['findings'] if f['type'] == 'laser']
+        check('laser line traced with 2 rows', len(lz) == 1 and lz[0].get('rows') == 2, lz)
+        check('laser: panel folds to one line', not visible(pg, '#sDock .s-laser .pal-laser') and '2 rows' in pg.text_content('#sDock .s-laser-sum'), pg.text_content('#sDock .s-laser-sum'))
+        check('laser: hint button reads Done', pg.text_content('#inkHint button') == 'Done')
+        pg.click('#sDock .s-laser-sum'); pg.wait_for_timeout(150)
+        check('laser: Change opens the pattern again', visible(pg, '#sDock .s-laser .pal-laser'))
+        pg.click('#inkHint button'); pg.wait_for_timeout(200)
+        check('laser: Done ends it', pg.get_attribute('#sDock [data-k="laser"]', 'aria-pressed') == 'false' and not visible(pg, '#sDock .s-laser'))
+        # More: every finding
+        pg.click('#sDock .s-more'); pg.wait_for_timeout(350)
+        check('More opens every finding', open_sheet(pg) == 'shMore' and pg.locator('#shMore .pal-tile').count() >= 10, pg.locator('#shMore .pal-tile').count())
+        pg.click('#shMore .pal-tile[aria-label^="Tuft"], #shMore .pal-tile:has-text("Tuft")'); pg.wait_for_timeout(300)
+        check('picking one closes the panel and arms it', open_sheet(pg) is None and 'tuft' in hint(pg).lower(), (open_sheet(pg), hint(pg)))
+        pg.click('#inkHint button'); pg.wait_for_timeout(150)
+        # header: share, menu
+        pg.click('#sShareBtn'); pg.wait_for_timeout(350)
+        check('share: save, copy, review', open_sheet(pg) == 'shShare' and pg.is_visible('#sSavePng') and pg.is_visible('#shShare #reviewCard'))
+        with pg.expect_download() as dl: pg.click('#sSavePng')
+        check('Save PNG downloads the drawing', dl.value.suggested_filename.endswith('.png'), dl.value.suggested_filename)
+        pg.click('#shShare .sh-close'); pg.wait_for_timeout(300)
+        pg.click('#sMenuBtn'); pg.wait_for_timeout(350)
+        check('menu: the clinical note', open_sheet(pg) == 'shMenu' and 'Horseshoe tear' in pg.text_content('#note'), pg.text_content('#note')[:80])
+        check('menu: version chip', ('v' + VER) in pg.text_content('#shMenu .sh-head'))
+        pg.click('#shMenu .sh-close'); pg.wait_for_timeout(300)
+        # strip chips open their panels
+        pg.click('#sStrip .s-chip >> nth=0'); pg.wait_for_timeout(300)
+        check('RD chip opens the detachment', open_sheet(pg) == 'shDetach' and pg.is_visible('#shDetach select'))
+        pg.click('#shDetach .sh-close'); pg.wait_for_timeout(300)
+        pg.click('#sStrip .s-chip:has-text("PVD complete")'); pg.wait_for_timeout(300)
+        check('PVD chip opens PVD and lens', open_sheet(pg) == 'shAsk' and pg.get_attribute('#shAsk button:has-text("Complete")', 'aria-pressed') == 'true')
+        pg.keyboard.press('Escape'); pg.wait_for_timeout(300)
+        check('Escape closes a panel', open_sheet(pg) is None)
+        # clear, confirmed; undo brings it back
+        n0 = len(scene(pg)['findings'])
+        pg.click('#sClearBtn'); pg.wait_for_timeout(200)
+        check('clear asks first', pg.is_visible('#sClearCard'))
+        pg.click('#sClearCard .cc-no'); pg.wait_for_timeout(150)
+        check('Keep keeps everything', len(scene(pg)['findings']) == n0)
+        pg.click('#sClearBtn'); pg.wait_for_timeout(150); pg.click('#sClearCard .cc-yes'); pg.wait_for_timeout(300)
+        check('Clear empties the chart', len(scene(pg)['findings']) == 0 and visible(pg, '#sTrace'))
+        pg.click('#undo'); pg.wait_for_timeout(300)
+        check('Undo brings it back', len(scene(pg)['findings']) == n0, len(scene(pg)['findings']))
+        # posterior pole
+        pg.click('#sStrip .s-chip:has-text("Posterior pole")'); pg.wait_for_timeout(300)
+        check('pole view: chip and dock offer the way back', strip(pg)[0] == '← Fundus' and visible(pg, '#sBack') and pg.is_disabled('#sDock [data-k="hst"]'), strip(pg)[:2])
+        pg.click('#sBack'); pg.wait_for_timeout(300)
+        check('back to the fundus', 'Posterior pole' in strip(pg) and not visible(pg, '#sBack'))
+        # typing
+        pg.click('#sClearBtn'); pg.wait_for_timeout(150); pg.click('#sClearCard .cc-yes'); pg.wait_for_timeout(300)
+        pg.fill('#cmd', 'RRD from 9 to 3 macula off with a horseshoe tear at 1'); pg.wait_for_timeout(300)
+        check('typing: preview, prompt hidden', not visible(pg, '#sEmpty') and pg.is_visible('#live .chips'))
+        check('typing: describe line grows', rect(pg, '#cmd')['h'] > 52, rect(pg, '#cmd')['h'])
+        pg.press('#cmd', 'Enter'); pg.wait_for_timeout(500)
+        check('typed: drawn', sorted(types(pg)) == ['hst', 'rd'], types(pg))
+        check('typed: no duplicate PVD question under the describe line', pg.locator('#live .ask').count() == 0)
+        check('typed: guide asks for PVD', open_sheet(pg) == 'shGuide' and 'Step 3 of 5' in pg.text_content('#shGuide'))
+        check('describe line shrinks back', rect(pg, '#cmd')['h'] <= 52, rect(pg, '#cmd')['h'])
+        pg.click('#shGuide .flow-skip:has-text("Later")'); pg.wait_for_timeout(300)
+        check('Later puts the guide away', open_sheet(pg) is None)
+        check('phone: no horizontal scroll', no_hscroll(pg))
+        pg.screenshot(path='scratch/sh_phone.png')
+        # the classic layout, and back
+        pg.click('#sMenuBtn'); pg.wait_for_timeout(300)
+        pg.click('#shMenu button:has-text("Classic layout")'); pg.wait_for_timeout(1200)
+        check('classic layout from the menu', not pg.evaluate("() => document.body.classList.contains('simple')") and pg.is_visible('.top'))
+        pg.click('button:has-text("Simple layout")'); pg.wait_for_timeout(1200)
+        check('and back to the simple layout', pg.evaluate("() => document.body.classList.contains('simple')"))
+        ctx.close()
+
+        # ------------------------------ the update note, in the simple layout ------------------------------
+        ctx = b.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True)
+        ctx.add_init_script("if (!sessionStorage.getItem('seeded')) { localStorage.setItem('rdraw.seenVersion', JSON.stringify('1.3')); sessionStorage.setItem('seeded', '1'); }")
+        pg = ctx.new_page(); watch(pg, 'note')
+        pg.goto(URL); pg.wait_for_timeout(900)
+        check('update note shown, in view, over the dock', visible(pg, '#whatsNew') and pg.evaluate("() => +getComputedStyle(document.querySelector('#whatsNew')).zIndex > +getComputedStyle(document.querySelector('#sDock')).zIndex") and f'version {VER}' in pg.text_content('#whatsNew h2'))
+        pg.screenshot(path='scratch/sh_note.png')
+        pg.click('#whatsNew button:has-text("All updates")'); pg.wait_for_timeout(600)
+        check('All updates opens the list in the menu', open_sheet(pg) == 'shMenu' and pg.evaluate("() => document.querySelector('#updates').open"))
+        ctx.close()
+
+        # ------------------------------------------------ computer ------------------------------------------------
+        ctx = b.new_context(viewport={'width': 1366, 'height': 860})
+        pg = ctx.new_page(); watch(pg, 'desktop')
+        pg.goto(URL); pg.wait_for_timeout(900)
+        d = rect(pg, '#sDock')
+        check('computer: tools in a left rail', d['l'] == 0 and d['w'] < 140 and d['h'] > 600, d)
+        check('computer: chart, strip and describe line fit the window', rect(pg, '.s-cmd')['b'] <= 860, rect(pg, '.s-cmd'))
+        path(pg, arc_stroke(10, 2, 120)); tap(pg, 250, 12)
+        check('computer: traced', types(pg).count('rd') == 1)
+        check('computer: hint on top, Redraw still in the rail', visible(pg, '#inkHint') and visible(pg, '#sRedraw') and rect(pg, '#inkHint')['t'] < rect(pg, '#stage')['t'])
+        pg.click('#sDock [data-k="hst"]'); pg.wait_for_timeout(150); tap(pg, 262, 12.5)
+        e = rect(pg, '#shEdit')
+        check('computer: editor opens on the right', open_sheet(pg) == 'shEdit' and e['l'] >= 1366 - 441 and e['r'] <= 1367, e)
+        check('computer: chart not covered by the panel', rect(pg, '#stage')['r'] <= e['l'] + 1, (rect(pg, '#stage'), e))
+        pg.click('#shEdit .mini:has-text("Done")'); pg.wait_for_timeout(300)
+        check('computer: guide on the right', open_sheet(pg) == 'shGuide' and rect(pg, '#shGuide')['l'] >= 1366 - 441)
+        pg.click('#sDock [data-k="laser"]'); pg.wait_for_timeout(250)
+        check('computer: laser pattern beside the chart', visible(pg, '.s-laser .pal-laser') and rect(pg, '.s-laser')['l'] > rect(pg, '#stage')['l'])
+        check('computer: no horizontal scroll', no_hscroll(pg))
+        pg.screenshot(path='scratch/sh_desktop.png')
+        ctx.close()
+
+        # ------------------------------------------------ dark ------------------------------------------------
+        ctx = b.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, color_scheme='dark')
+        pg = ctx.new_page(); watch(pg, 'dark')
+        pg.goto(URL); pg.wait_for_timeout(800)
+        path(pg, arc_stroke(10, 2, 120)); tap(pg, 250, 12)
+        bg = pg.evaluate("() => getComputedStyle(document.querySelector('#sDock [data-k=lat] canvas')).backgroundColor")
+        check('dark: tool icons on a light tile', bg not in ('rgba(0, 0, 0, 0)', 'transparent'), bg)
+        pg.screenshot(path='scratch/sh_dark.png')
+        ctx.close()
+        b.close()
+finally:
+    srv.terminate()
+print('\n'.join(errs) or 'no console errors')
+print('ALL PASS' if not fails and not errs else f'{len(fails)} FAILED')

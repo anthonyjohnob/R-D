@@ -17,6 +17,7 @@ python3 scratch/tumor_e2e.py | tee /dev/stderr | grep -q '^ALL PASS$'
 python3 scratch/buckle_e2e.py | tee /dev/stderr | grep -q '^ALL PASS$'
 python3 scratch/breaks_e2e.py | tee /dev/stderr | grep -q '^ALL PASS$'
 python3 scratch/handtools_e2e.py | tee /dev/stderr | grep -q '^ALL PASS$'
+python3 scratch/shell_e2e.py | tee /dev/stderr | grep -q '^ALL PASS$'
 
 if [ ! -d "$pages/.git" ]; then
   git clone --branch main https://github.com/anthonyjohnob/R-D "$pages"

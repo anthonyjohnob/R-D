@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 """Tumours on the served website: dictation, the findings-list editor, hand move and edge-resize, both views,
 phone layout, and a teaching-review round trip that carries tumour details."""
 import subprocess, time, math

@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 """Outlining a detachment opens the panel on the breaks: title, Lincoff hint, break tiles first, the Lincoff zone shaded
 while a break is placed, back to "Add findings" once a break is drawn, and the phone panel scrolled into view."""
 import math, subprocess, time

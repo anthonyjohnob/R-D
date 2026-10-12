@@ -13,6 +13,7 @@ parts = {
     '/*@@BUCKLE@@*/': (src / 'buckle.js').read_text(),
     '/*@@CHANGELOG@@*/': (src / 'changelog.js').read_text(),
     '/*@@HAND@@*/': (src / 'hand.js').read_text(),
+    '/*@@UISHELL@@*/': (src / 'shell.js').read_text(),
     '/*@@APP@@*/': (src / 'app.js').read_text(),
 }
 for k, v in parts.items():
@@ -20,7 +21,7 @@ for k, v in parts.items():
     page = page.replace(k, v)
 template = page                      # still holds the site placeholder
 page = page.replace('<!--@@SITE_EXTRA@@-->\n', '')
-assert '</script' not in ''.join(parts[k] for k in ('/*@@CATALOG@@*/', '/*@@CORE@@*/', '/*@@RENDER@@*/', '/*@@RENDERCAT@@*/', '/*@@BUCKLE@@*/', '/*@@CHANGELOG@@*/', '/*@@HAND@@*/', '/*@@APP@@*/'))
+assert '</script' not in ''.join(parts[k] for k in ('/*@@CATALOG@@*/', '/*@@CORE@@*/', '/*@@RENDER@@*/', '/*@@RENDERCAT@@*/', '/*@@BUCKLE@@*/', '/*@@CHANGELOG@@*/', '/*@@HAND@@*/', '/*@@UISHELL@@*/', '/*@@APP@@*/'))
 out = root / 'dist'
 (out / 'artifact').mkdir(parents=True, exist_ok=True)
 (out / 'artifact' / 'R-D.html').write_text(page)

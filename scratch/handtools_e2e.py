@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 """Resizing spot findings by hand, tracing laser, and versions: the update list, the note on the first load of a
 new version, and the bar offered when a newer version is published while the page is open."""
 import json, math, subprocess, time
@@ -66,7 +67,7 @@ try:
         pg.goto(URL); pg.wait_for_timeout(700)
         check('earlier user: update note shown', pg.is_visible('#whatsNew') and f'version {VER}' in pg.text_content('#whatsNew h2'), pg.text_content('#whatsNew') if pg.is_visible('#whatsNew') else '')
         n_items = pg.evaluate("() => document.querySelectorAll('#whatsNew .wn-list li').length")
-        n_new = pg.evaluate("() => RDChangelog.CHANGELOG[0].items.length")
+        n_new = pg.evaluate("() => RDChangelog.CHANGELOG.filter(r => RDChangelog.cmpVersion(r.v, '1.2') > 0).slice(0, 3).reduce((n, r) => n + r.items.length, 0)")
         check('note lists only what is new', n_items == n_new, (n_items, n_new))
         pg.screenshot(path='scratch/ht_whatsnew.png', clip={'x': 0, 'y': 0, 'width': 1360, 'height': 520})
         pg.click('#whatsNew button:has-text("Got it")'); pg.wait_for_timeout(150)
@@ -80,7 +81,8 @@ try:
         pg = ctx.new_page(); watch(pg, 'v1.1')
         pg.goto(URL); pg.wait_for_timeout(700)
         labels = pg.evaluate("() => [...document.querySelectorAll('#whatsNew .wn-list li strong')].map(e => e.textContent)")
-        check('from 1.1: items labelled by version', labels[:1] == [f'{VER}: '] and '1.1.1: ' in labels and '1.1: ' not in labels, labels)
+        want = pg.evaluate("() => RDChangelog.CHANGELOG.filter(r => RDChangelog.cmpVersion(r.v, '1.1') > 0).slice(0, 3).map(r => r.v + ': ')")
+        check('from 1.1: items labelled by version, newest three', labels[:1] == [f'{VER}: '] and sorted(set(labels)) == sorted(want) and '1.1: ' not in labels, labels)
         pg.click('#whatsNew button:has-text("All updates")'); pg.wait_for_timeout(400)
         check('All updates opens the list', pg.evaluate("() => document.querySelector('#updates').open"))
         ctx.close()

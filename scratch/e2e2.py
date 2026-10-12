@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 from playwright.sync_api import sync_playwright
 import json
 URL='file:///home/claude/rdraw/dist/R-D.html'

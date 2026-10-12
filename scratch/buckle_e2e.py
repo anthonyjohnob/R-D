@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 """Scleral buckle guide on the served website: hidden until there is a detachment, gated with the repair options,
 tabs, Show on chart (preview only), Add to drawing + Undo, the element library, citations, a teaching-review round trip
 carrying buckle elements, and the phone layout in dark mode."""

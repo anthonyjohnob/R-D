@@ -46,6 +46,7 @@ let review = null, commentArm = false, lastLink = null, draftCase = '', clearAsk
   scene = r.c;
 })();
 let hand = null;
+let shell = null;          // the simple layout (shell.js), unless the classic layout was chosen
 let sample = null, downloads = null;
 const canvas = $('#chart');
 const input = $('#cmd');
@@ -81,7 +82,7 @@ function draw() {
     if (hand) hand.drawInk();
   });
 }
-function renderAll() { draw(); renderFindings(); renderNote(); renderLincoff(); renderRepair(); renderBuckle(); renderEye(); renderTools(); renderKey(); renderReviewBar(); renderReview(); if (hand) hand.sync(); }
+function renderAll() { draw(); renderFindings(); renderNote(); renderLincoff(); renderRepair(); renderBuckle(); renderEye(); renderTools(); renderKey(); renderReviewBar(); renderReview(); if (hand) hand.sync(); if (shell) shell.sync(); }
 
 function renderEye() {
   document.querySelectorAll('.eye-switch button').forEach(b => b.setAttribute('aria-checked', String(b.dataset.eye === scene.eye)));
@@ -102,6 +103,7 @@ function setView(v) {
   view = v; highlight = null;
   renderTools(); draw();
   if (hand) hand.sync();
+  if (shell) shell.sync();
 }
 
 /* findings list with inline editing */
@@ -130,8 +132,9 @@ function editScene(id, fn) {
   commit(next);
 }
 function hourInput(label, value, onChange) {
-  const i = el('input', { type: 'number', min: '0.5', max: '12', step: '0.5', value: String(value) });
-  i.addEventListener('change', () => { const v = parseFloat(i.value); if (isFinite(v) && v > 0 && v <= 12.99) onChange(RD.normHour(v)); else i.value = String(value); });
+  const shown = value != null && value < 1 ? value + 12 : value;        // half past twelve reads 12.5, not 0.5
+  const i = el('input', { type: 'number', min: '0.5', max: '12.5', step: '0.5', value: String(shown), 'aria-label': label + ' (o’clock)' });
+  i.addEventListener('change', () => { const v = parseFloat(i.value); if (isFinite(v) && v > 0 && v <= 12.99) onChange(RD.normHour(v)); else i.value = String(shown); });
   return el('label', {}, [label, i]);
 }
 function select(label, opts, value, onChange) {
@@ -234,6 +237,44 @@ function iconFor(f) {
   }
   return c;
 }
+/* the controls that edit one finding: in the findings list, and in the simple layout's edit panel */
+function buildEditor(f, opts) {
+  opts = opts || {};
+  const edit = el('div', { class: 'f-edit' });
+  if (f.type === 'rd') {
+    if (!f.total) {
+      const unpath = (x) => { delete x.path; delete x.ring; delete x.island; delete x.aroundFovea; };
+      edit.append(hourInput('From', f.start, v => editScene(f.id, x => { x.start = v; unpath(x); })));
+      edit.append(hourInput('to', f.end, v => editScene(f.id, x => { x.end = v; unpath(x); })));
+      edit.append(select('Macular status', STATUS_OPTS, statusKey(f), v => editScene(f.id, x => {
+        [x.macula, x.fovea] = STATUS_SET[v];
+        // the chart must show what the record says: a drawn border that disagrees gives way to the standard outline
+        if (x.path && !RD.pathAgrees(x)) { unpath(x); toast('Switched to the standard outline to match the macular status — Undo restores your drawing'); }
+      })));
+      if (f.path) edit.append(el('button', { type: 'button', class: 'mini', text: 'Use standard shape', title: 'Replace the hand-drawn border with R/D’s standard outline for these clock hours and macular status', onclick: () => editScene(f.id, unpath) }));
+    }
+    edit.append(select('Height', [['shallow', 'Shallow'], ['normal', 'Standard'], ['bullous', 'Bullous']], f.depth || 'normal', v => editScene(f.id, x => { x.depth = v; })));
+    const cb = el('input', { type: 'checkbox', checked: !!f.chronic });
+    cb.addEventListener('change', () => editScene(f.id, x => { x.chronic = cb.checked; }));
+    edit.append(el('label', {}, [cb, 'Chronic']));
+  } else if (f.hour != null) {
+    edit.append(hourInput('At', f.hour, v => editScene(f.id, x => { x.hour = v; })));
+    if (!opts.noSize && (f.type === 'hst' || f.type === 'oph' || f.type === 'hole')) edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
+  } else if (f.start != null && !f.total) {
+    edit.append(hourInput('From', f.start, v => editScene(f.id, x => { x.start = v; })));
+    edit.append(hourInput('to', f.end, v => editScene(f.id, x => { x.end = v; })));
+  }
+  if (f.type === 'cat') {
+    const P = RD.catPlace(f, scene.eye);
+    edit.append(select('Where', SITE_OPTS, f.site || '', v => editScene(f.id, x => { if (v) x.site = v; else delete x.site; })));
+    if (f.hour == null && f.start == null && P && !P.span) edit.append(hourInput('Clock', +(P.h || 12).toFixed(2), v => editScene(f.id, x => { x.hour = v; })));
+    if (P && P.tum) for (const c of tumorControls(f, P.E)) edit.append(c);
+    else if (!opts.noSize) edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
+    if (P && P.post && view !== 'pole') edit.append(el('button', { type: 'button', class: 'mini', text: 'View enlarged', onclick: () => setView('pole') }));
+  }
+  if (f.type === 'pvr') edit.append(select('PVR grade', [['A', 'Grade A'], ['B', 'Grade B'], ['C', 'Grade C']], f.grade || 'C', v => editScene(f.id, x => { x.grade = v; })));
+  return edit;
+}
 function renderFindings() {
   const list = $('#findings');
   list.replaceChildren();
@@ -241,39 +282,7 @@ function renderFindings() {
   $('#count').textContent = items.length ? `${items.length} item${items.length > 1 ? 's' : ''}` : '';
   if (!items.length) { list.append(el('li', { class: 'empty', text: 'Nothing drawn yet. Type or dictate a finding.' })); return; }
   for (const f of items) {
-    const edit = el('div', { class: 'f-edit' });
-    if (f.type === 'rd') {
-      if (!f.total) {
-        const unpath = (x) => { delete x.path; delete x.ring; delete x.island; delete x.aroundFovea; };
-        edit.append(hourInput('From', f.start, v => editScene(f.id, x => { x.start = v; unpath(x); })));
-        edit.append(hourInput('to', f.end, v => editScene(f.id, x => { x.end = v; unpath(x); })));
-        edit.append(select('Macular status', STATUS_OPTS, statusKey(f), v => editScene(f.id, x => {
-          [x.macula, x.fovea] = STATUS_SET[v];
-          // the chart must show what the record says: a drawn border that disagrees gives way to the standard outline
-          if (x.path && !RD.pathAgrees(x)) { unpath(x); toast('Switched to the standard outline to match the macular status — Undo restores your drawing'); }
-        })));
-        if (f.path) edit.append(el('button', { type: 'button', class: 'mini', text: 'Use standard shape', title: 'Replace the hand-drawn border with R/D’s standard outline for these clock hours and macular status', onclick: () => editScene(f.id, unpath) }));
-      }
-      edit.append(select('Height', [['shallow', 'Shallow'], ['normal', 'Standard'], ['bullous', 'Bullous']], f.depth || 'normal', v => editScene(f.id, x => { x.depth = v; })));
-      const cb = el('input', { type: 'checkbox', checked: !!f.chronic });
-      cb.addEventListener('change', () => editScene(f.id, x => { x.chronic = cb.checked; }));
-      edit.append(el('label', {}, [cb, 'Chronic']));
-    } else if (f.hour != null) {
-      edit.append(hourInput('At', f.hour, v => editScene(f.id, x => { x.hour = v; })));
-      if (f.type === 'hst' || f.type === 'oph' || f.type === 'hole') edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
-    } else if (f.start != null && !f.total) {
-      edit.append(hourInput('From', f.start, v => editScene(f.id, x => { x.start = v; })));
-      edit.append(hourInput('to', f.end, v => editScene(f.id, x => { x.end = v; })));
-    }
-    if (f.type === 'cat') {
-      const P = RD.catPlace(f, scene.eye);
-      edit.append(select('Where', SITE_OPTS, f.site || '', v => editScene(f.id, x => { if (v) x.site = v; else delete x.site; })));
-      if (f.hour == null && f.start == null && P && !P.span) edit.append(hourInput('Clock', +(P.h || 12).toFixed(2), v => editScene(f.id, x => { x.hour = v; })));
-      if (P && P.tum) for (const c of tumorControls(f, P.E)) edit.append(c);
-      else edit.append(select('Size', [['0.72', 'Small'], ['1', 'Medium'], ['1.45', 'Large']], String(f.size || 1), v => editScene(f.id, x => { x.size = parseFloat(v); })));
-      if (P && P.post && view !== 'pole') edit.append(el('button', { type: 'button', class: 'mini', text: 'View enlarged', onclick: () => setView('pole') }));
-    }
-    if (f.type === 'pvr') edit.append(select('PVR grade', [['A', 'Grade A'], ['B', 'Grade B'], ['C', 'Grade C']], f.grade || 'C', v => editScene(f.id, x => { x.grade = v; })));
+    const edit = buildEditor(f);
     const li = el('li', { class: 'f', tabindex: '0' }, [
       iconFor(f),
       el('div', {}, [el('div', { class: 'f-title', text: RD.findingTitle(f, scene.eye) }), el('div', { class: 'f-sub', text: findingSub(f) }), edit.childNodes.length ? edit : null]),
@@ -339,7 +348,7 @@ function renderLive(parsed, opts) {
   if (opts.thinking) live.append(el('div', { class: 'msg', text: 'Asking Claude to interpret this phrasing…' }));
   if (!parsed.chips.length && !opts.thinking && opts.committed) live.append(el('div', { class: 'msg warn', text: 'Nothing to draw from that. Try “RRD from 10 to 2 macula off with a tear at 12”.' }));
   // a detachment is on the chart but the vitreous status is not: ask for it here, where the clinician is working
-  if (opts.committed && RD.mainRd(scene) && !scene.pvd && RD.mainRd(scene).cause !== 'exudative') live.append(askRow('Is there a posterior vitreous detachment?', true, PVD_OPTS, null, v => setMeta({ pvd: v }), 'ask'));
+  if (opts.committed && !document.body.classList.contains('simple') && RD.mainRd(scene) && !scene.pvd && RD.mainRd(scene).cause !== 'exudative') live.append(askRow('Is there a posterior vitreous detachment?', true, PVD_OPTS, null, v => setMeta({ pvd: v }), 'ask'));
 }
 const PVD_OPTS = [['complete', 'Complete PVD'], ['partial', 'Partial PVD'], ['none', 'No PVD']];
 const LENS_OPTS = [['phakic', 'Phakic'], ['pseudo', 'Pseudophakic'], ['aphakic', 'Aphakic']];
@@ -1179,19 +1188,35 @@ canvas.addEventListener('pointerdown', (e) => {
   const tas = document.querySelectorAll('#review .rv-cm textarea'); if (tas.length) tas[tas.length - 1].focus();
 }, { capture: true });
 
+// the simple layout, unless the classic one is asked for (?classic, or chosen in the menu)
+const SHELL_ON = !!window.RDShell && !window.__rdClassic && !/[?&]classic\b/.test(location.search) && prefs.layout !== 'classic';
+const shellHooks = SHELL_ON ? {} : null;
+
 // drawing by hand on the chart (hand.js)
 if (window.RDHand) {
   hand = window.RDHand({
+    shell: shellHooks,
     el, iconFor, toast,
     getScene: () => scene, getView: () => (review && review.view === 'original' ? 'original' : view), commit,
     setPreview(s, text) { previewScene = s || null; previewText = s ? (text || null) : null; draw(); },
     setHighlight(id) { highlight = id; draw(); },
     libSearch: (q) => libSearch(q, ''),
-    announce(chips, notes) { renderLive({ chips, unknown: [], warnings: [] }, { committed: true, notes }); },
+    announce(chips, notes) { if (SHELL_ON) { renderLive(notes && notes.length ? { chips: [], unknown: [], warnings: [] } : null, { notes }); return; } renderLive({ chips, unknown: [], warnings: [] }, { committed: true, notes }); },
     setMeta,
     getPref: (k) => prefs[k], setPref(k, v) { prefs[k] = v; save(); },
     busy: () => commentArm,
   });
+}
+if (SHELL_ON && hand) {
+  shell = window.RDShell({
+    el, $, RD, hand, toast, iconFor, findingSub, buildEditor, editScene, setMeta, askRow, PVD_OPTS, LENS_OPTS,
+    getScene: () => scene, commit, undo, redo, setView, getView: () => view, getReview: () => review,
+    prefs, save, exportPNG, copyNote, toggleLincoff, renderAll,
+  }, shellHooks);
+} else if (window.RDShell) {
+  // the classic layout, chosen in the menu: a way back to the simple one
+  const back = el('button', { type: 'button', class: 'tool', text: 'Simple layout', title: 'Switch to the simple, chart-first layout', onclick: () => { delete prefs.layout; save(); location.reload(); } });
+  if (prefs.layout === 'classic') $('.chart-tools').append(back);
 }
 
 /* --------------------------- versions and updates --------------------------- */
@@ -1235,7 +1260,7 @@ function showWhatsNew(since) {
 /* a page left open while a newer version is published: offer to load it (the site only) */
 let lastVersionCheck = 0;
 async function checkForUpdate(force) {
-  if (!/^https?:$/.test(location.protocol) || !CL.VERSION || !window.fetch) return;
+  if (!/^https?:$/.test(location.protocol) || !CL.VERSION || !window.fetch || navigator.onLine === false) return;
   if (!force && Date.now() - lastVersionCheck < 15 * 60 * 1000) return;
   lastVersionCheck = Date.now();
   try {

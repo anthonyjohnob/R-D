@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 """Drive the hand-drawing UI like a clinician would: mouse on desktop, touch on a phone."""
 from playwright.sync_api import sync_playwright
 import math, json, sys

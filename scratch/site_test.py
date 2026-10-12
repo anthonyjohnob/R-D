@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 """Serve dist/site over http and check: no third-party requests, service worker, offline reload, manifest, on-device dictation path."""
 import subprocess, time, math, json
 from playwright.sync_api import sync_playwright

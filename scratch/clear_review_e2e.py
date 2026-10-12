@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 """Clear while a teaching review is open: it asks what to clear, and 'Clear and close' leaves a clean chart (no review marks)."""
 import subprocess, time
 from playwright.sync_api import sync_playwright

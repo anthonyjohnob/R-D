@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 """Reviewer repros: lingering preview after arming a tile; armed tile surviving the pole view; touch scroll in pole view."""
 from playwright.sync_api import sync_playwright
 import math

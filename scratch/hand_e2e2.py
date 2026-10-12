@@ -1,3 +1,4 @@
+import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import _classic  # noqa: E402,F401
 """Second pass: touch drag-and-drop from the docked palette, library search drops, Esc, pole view, dark mode, export."""
 from playwright.sync_api import sync_playwright
 import math

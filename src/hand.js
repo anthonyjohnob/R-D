@@ -11,6 +11,9 @@ root.RDHand = function (api) {
   const el = api.el;
   const $ = (s) => document.querySelector(s);
   const chart = $('#chart'), ink = $('#ink'), stage = $('#stage'), hint = $('#inkHint'), pal = $('#palette'), fab = $('#palFab'), btn = $('#handBtn');
+  // the simple layout (shell.js) hosts the tools, hints and panels itself, and is told when things change
+  const SH = api.shell || null;
+  const tell = (k, ...a) => { if (SH && typeof SH[k] === 'function') SH[k](...a); };
 
   // breaks first: once a detachment is outlined, finding its break is the next job
   const BREAK_TILES = [
@@ -233,16 +236,23 @@ root.RDHand = function (api) {
   }
 
   /* -------------------------------- hints ------------------------------- */
-  function setHint(text, cancel) {
-    hint.hidden = !text;
+  function setHint(text, cancel, important) {
+    hint.hidden = !text || (!!SH && !cancel && !important);
     hint.querySelector('.t').textContent = text || '';
     hint.querySelector('button').hidden = !cancel;
+    hint.querySelector('button').textContent = typeof cancel === 'string' ? cancel : 'Cancel';
+    tell('onHint');
   }
   function idleHint() {
     if (!active()) { setHint(''); return; }
     const sc = api.getScene(), hasRd = !!RD.mainRd(sc);
-    const needBreak = hasRd && !pal.hidden && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
-    if (traceMode) { setHint(traceMode === 'redraw' ? 'Trace the new border, ora to ora — it replaces the old one' : 'Trace the next detachment’s border, ora to ora', true); return; }
+    const needBreak = hasRd && (!!SH || !pal.hidden) && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
+    if (traceMode) { setHint(traceMode === 'redraw' ? 'Trace the new border, ora to ora — it replaces the old one' : hasRd ? 'Trace the next detachment’s border, ora to ora' : 'Step 1 of 5 · Trace the posterior border, from the ora round to the ora', true); return; }
+    if (SH) {
+      const z = needBreak ? RD.lincoff(sc) : null;
+      setHint(needBreak ? `Step 2 of 5 · Add the break — Tear or Hole${z ? ` · look ${z.zoneText.replace(' o’clock', '')} first (Lincoff)` : ''}` : '', false, needBreak);
+      return;
+    }
     setHint(needBreak ? `Now add the break${pal.classList.contains('docked') ? ' — pick one below' : ' — pick one in the panel'}` : hasRd ? 'Drag a finding to move it · off the chart to remove' : 'Trace the detachment’s border, ora to ora');
   }
   function cancel() {
@@ -352,9 +362,11 @@ root.RDHand = function (api) {
     return best;
   }
   function select(id) {
+    const changed = selected !== id;
     selected = id;
     api.setHighlight(id);
     renderLaserOpts();
+    if (changed) tell('onSelect', id);
   }
 
   /* ------------------------------ pointer input ------------------------- */
@@ -430,8 +442,8 @@ root.RDHand = function (api) {
     else if (phase === 'moving' || phase === 'resizing') moveDrag(p);
     else if (phase === 'locked' && !lockShown && dist(p, gStart) > 12 * unit()) {
       lockShown = true;
-      setHint('The detachment is locked — tap Redraw or Add detachment to draw another');
-      flashBar();
+      if (SH) { api.toast('The detachment is locked — tap Redraw or Add detachment to draw another'); tell('onLock'); }
+      else { setHint('The detachment is locked — tap Redraw or Add detachment to draw another', false, true); flashBar(); }
     }
   });
   const finish = (ev) => {
@@ -491,7 +503,7 @@ root.RDHand = function (api) {
     const f = out.added[0];
     phase = 'idle'; prep = null; choice = null;
     api.announce([RD.describeAction({ op: 'add', f }, out.scene.eye)].filter(Boolean), out.notes);
-    openPalette('rd');
+    if (SH) tell('onRd'); else openPalette('rd');
     idleHint(); drawInk();
   }
 
@@ -675,7 +687,7 @@ root.RDHand = function (api) {
     }
     if (selected != null) select(null);
     renderLaserOpts();
-    setHint('Trace more laser, or tap a break — Done when finished', true);
+    setHint('Trace more laser, or tap a break — Done when finished', 'Done');
     drawInk();
   }
   function updateSpan(p) {
@@ -724,6 +736,7 @@ root.RDHand = function (api) {
     if (!pal.classList.contains('docked')) { pal.classList.add('tucked'); palSub.textContent = `Placing: ${item.label.toLowerCase()}`; }
     if (selected != null) select(null);
     renderLaserOpts();
+    tell('onArm');
     setHint(item.kind === 'laser' ? 'Tap a break to laser around it — or drag to trace the laser exactly' : SPAN[item.kind] ? `Tap, or drag along the fundus, to place the ${item.label.toLowerCase()}` : `Tap the fundus to place the ${item.label.toLowerCase()}`, true);
     drawInk();
   }
@@ -737,6 +750,7 @@ root.RDHand = function (api) {
     hover = null;
     if (phase === 'armed' || phase === 'placing' || phase === 'spanning' || phase === 'lasering') phase = 'idle';
     renderLaserOpts();
+    tell('onArm');
     if (!quiet) drawInk();
   }
   /* a tile can be tapped (arm, then tap the fundus) or dragged straight onto the fundus */
@@ -805,11 +819,13 @@ root.RDHand = function (api) {
   }
 
   let moreTile = null;
+  const tileByKind = {};
   const tileGrid = (tiles, aria, cls) => {
     const gr = el('div', { class: 'pal-grid' + (cls ? ' ' + cls : ''), role: 'toolbar', 'aria-label': aria });
     for (const [kind, label, short] of tiles) {
       const tile = el('button', { type: 'button', class: 'pal-tile', 'aria-pressed': 'false', 'aria-label': label, title: kind === 'more' ? 'Search the pathology library' : `${label}: drag onto the fundus, or tap then tap the spot` }, [tileIcon(kind), el('span', { text: short, 'aria-hidden': 'true' })]);
       wireTile(tile, { kind, label });
+      tileByKind[kind] = { tile, label };
       if (kind === 'more') moreTile = tile;
       gr.append(tile);
     }
@@ -1012,6 +1028,7 @@ root.RDHand = function (api) {
     if (cornerScore(best, sc, null, pts) >= 40) pal.classList.add('min');
   }
   function openPalette(why) {
+    if (SH) return;
     renderStatus();
     pal.hidden = false;
     pal.classList.remove('min');
@@ -1050,13 +1067,14 @@ root.RDHand = function (api) {
     if (selected != null) select(null);
     traceMode = traceMode === m ? null : m;
     renderRdBar(); idleHint(); drawInk();
+    tell('onArm');
   }
   btnRedraw.addEventListener('click', () => setTraceMode('redraw'));
   btnAdd.addEventListener('click', () => setTraceMode('add'));
   function renderRdBar() {
     const show = active() && !!RD.mainRd(api.getScene());
-    rdBar.hidden = !show;
-    if (!show && traceMode) traceMode = null;
+    rdBar.hidden = !show || !!SH;
+    if (traceMode && (!active() || (!show && traceMode === 'redraw'))) traceMode = null;     // 'add' with nothing drawn yet is the first trace
     btnRedraw.setAttribute('aria-pressed', String(traceMode === 'redraw'));
     btnAdd.setAttribute('aria-pressed', String(traceMode === 'add'));
     btnRedraw.querySelector('span').textContent = RD.rdsOf(api.getScene()).length > 1 ? 'Redraw all' : 'Redraw';
@@ -1076,7 +1094,7 @@ root.RDHand = function (api) {
   stage.append(askBox);
   chart.addEventListener('pointerdown', () => { busyAtDown = !!(api.busy && api.busy()); }, { capture: true });
   chart.addEventListener('click', () => {
-    if (on || askDismissed || busyAtDown || api.getView() !== 'fundus') return;
+    if (SH || on || askDismissed || busyAtDown || api.getView() !== 'fundus') return;
     askBox.hidden = false;
   });
 
@@ -1117,6 +1135,11 @@ root.RDHand = function (api) {
       if (phase !== 'idle' || armed || prep || drag) cancel();
       pal.hidden = true; fab.hidden = true; setHint('');
     }
+    else if (SH) {
+      pal.hidden = true; fab.hidden = true;
+      renderLaserOpts();
+      if (phase === 'idle') idleHint();
+    }
     else {
       fab.hidden = !pal.hidden;
       if (!pal.hidden) { renderStatus(); renderLaserOpts(); placePalette(false); }
@@ -1129,6 +1152,19 @@ root.RDHand = function (api) {
 
   const want = api.getPref('hand');
   setOn(want == null ? !!(window.matchMedia && window.matchMedia('(pointer: fine)').matches) : want, true);
-  return { sync, drawInk, setOn, isOn: () => on, openPalette };
+  return {
+    sync, drawInk, setOn, isOn: () => on, openPalette,
+    // for the simple layout
+    armKind(kind) { const t = tileByKind[kind]; if (!t) return; if (!on) setOn(true, true); arm({ kind, label: t.label }, t.tile); },
+    stop() { cancel(); },
+    armedKind: () => (armed ? armed.kind : null),
+    traceMode: () => traceMode,
+    laserPattern: () => Object.assign({}, laserOpt),
+    setTraceMode,
+    selectedId: () => selected,
+    select(id) { select(id); drawInk(); },
+    toggleMore,
+    parts: { laserBox, grid, moreBox, linHint },
+  };
 };
 })(typeof window !== 'undefined' ? window : globalThis);

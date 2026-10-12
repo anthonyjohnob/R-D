@@ -5,6 +5,15 @@
 (function (root) {
 'use strict';
 const CHANGELOG = [
+  { v: '1.4', date: '2026-10-12', title: 'A simpler layout, made for phones', items: [
+    'The chart fills the top of the screen. Under it, a strip sums up the eye — detachment, PVD and lens, repair options, Lincoff zone, buckle guide — and any chip opens its details.',
+    'A dock at the bottom holds one big button (Trace the detachment, then Redraw and Add detachment) and the everyday tools: Tear, Hole, Lattice, Laser and More for everything else.',
+    'A guide carries on by itself: trace the detachment, add the break (the tools to use glow), record PVD and lens, then see the repair options. Any step can be skipped.',
+    'Tapping a finding opens its editor under the chart, with a size stepper as well as the lever, so the chart is never covered.',
+    'Clear, save, share and the clinical note are one tap from the top bar; the laser pattern folds to one line once you start tracing.',
+    'On a computer the tools sit in a rail on the left and panels open on the right. The classic layout is still in the ⋯ menu.',
+    'Half past twelve reads 12.5 in the clock-hour boxes, not 0.5.',
+  ] },
   { v: '1.3', date: '2026-10-12', title: 'Easier drawing, a size lever, traced laser, update notes', items: [
     'Tapping the chart while drawing is off asks whether to start drawing.',
     'Once a detachment is drawn it stays put: a stray drag no longer starts a new one. Use Redraw to trace it again, or Add detachment for another.',
