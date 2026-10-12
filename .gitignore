@@ -15,6 +15,7 @@ scratch/*
 !scratch/clear_review_e2e.py
 !scratch/tumor_e2e.py
 !scratch/buckle_e2e.py
+!scratch/breaks_e2e.py
 !scratch/site_test.py
 !scratch/rtest.py
 !scratch/e2e.py

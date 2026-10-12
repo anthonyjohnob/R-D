@@ -12,11 +12,15 @@ root.RDHand = function (api) {
   const $ = (s) => document.querySelector(s);
   const chart = $('#chart'), ink = $('#ink'), stage = $('#stage'), hint = $('#inkHint'), pal = $('#palette'), fab = $('#palFab'), btn = $('#handBtn');
 
-  const TILES = [
-    ['hst', 'Horseshoe tear', 'Tear'], ['hole', 'Atrophic hole', 'Hole'], ['oph', 'Operculated hole', 'Operc. hole'], ['lat', 'Lattice', 'Lattice'], ['grt', 'Giant retinal tear', 'Giant tear'],
-    ['dia', 'Dialysis', 'Dialysis'], ['tuft', 'Tuft', 'Tuft'], ['pav', 'Paving stone', 'Paving'], ['pvr', 'PVR star fold', 'Star fold'], ['vh', 'Vitreous haemorrhage', 'VH'],
+  // breaks first: once a detachment is outlined, finding its break is the next job
+  const BREAK_TILES = [
+    ['hst', 'Horseshoe tear', 'Tear'], ['hole', 'Atrophic hole', 'Hole'], ['oph', 'Operculated hole', 'Operc. hole'], ['dia', 'Dialysis', 'Dialysis'], ['grt', 'Giant retinal tear', 'Giant tear'],
+  ];
+  const OTHER_TILES = [
+    ['lat', 'Lattice', 'Lattice'], ['tuft', 'Tuft', 'Tuft'], ['pav', 'Paving stone', 'Paving'], ['pvr', 'PVR star fold', 'Star fold'], ['vh', 'Vitreous haemorrhage', 'VH'],
     ['laser', 'Laser', 'Laser'], ['cryo', 'Cryo', 'Cryo'], ['more', 'Other findings', 'More…'],
   ];
+  const BREAK_KINDS = new Set(BREAK_TILES.map(t => t[0]));
   const SPAN = { lat: 1, grt: 3, dia: 1.5 };          // default extent in clock hours when tapped rather than dragged
   const SITE_SHORT = { disc: 'disc', ppa: 'peripapillary', fovea: 'fovea', parafovea: 'parafovea', macula: 'macula', pole: 'posterior pole', mid: 'mid-periphery', equator: 'equator', periphery: 'periphery', ora: 'ora', pars_plana: 'pars plana' };
 
@@ -31,6 +35,7 @@ root.RDHand = function (api) {
   let hover = null;
   let ghost = null;
   let palPlaced = false;
+  let ghostKind = null;
 
   /* ------------------------------ geometry ------------------------------ */
   const rect = () => chart.getBoundingClientRect();
@@ -67,10 +72,29 @@ root.RDHand = function (api) {
       line(g, prep.pts, prep.closed); g.setLineDash([8 * u, 6 * u]); g.strokeStyle = '#2C66C4'; g.lineWidth = 2.8 * u; g.stroke(); g.setLineDash([]);
       sideArrows(g, u);
     }
+    if (placingBreak() && !api.getScene().lincoff) lincoffZone(g, u);
     if (hover && (phase === 'armed' || phase === 'placing' || phase === 'dragNew')) crosshair(g, hover, u);
     if (phase === 'spanning' && drag) spanPreview(g, u);
     if (selected != null && !(drag && drag.off)) handles(g, u);
     if (drag && drag.off && drag.at) offMarker(g, drag.at, u);
+  }
+  /* while a break is being placed, shade where Lincoff's rules put the primary break */
+  function placingBreak() {
+    const k = phase === 'dragNew' ? ghostKind : armed ? armed.kind : null;
+    return !!k && BREAK_KINDS.has(k);
+  }
+  function lincoffZone(g, u) {
+    const z = RD.lincoff(api.getScene());
+    if (!z) return;
+    for (const zz of z.zones) {
+      const p = new Path2D(), a1 = RD.hourToAngle(zz.from), a2 = a1 + RD.spanHours(zz.from, zz.to) * Math.PI / 6;
+      if (zz.kind === 'triangle') { const T = RD.lincoffTriangle(); p.moveTo(T.apex[0], T.apex[1]); p.lineTo(T.a[0], T.a[1]); p.arc(0, 0, T.rb, a1, a2); p.closePath(); }
+      else { p.arc(0, 0, G.R_ORA - 2, a1, a2); p.arc(0, 0, G.R_EQ - 40, a2, a1, true); p.closePath(); }
+      g.fillStyle = 'rgba(232,160,48,0.16)'; g.fill(p);
+      g.save(); g.setLineDash([6 * u, 4 * u]); g.strokeStyle = 'rgba(214,140,30,0.85)'; g.lineWidth = 1.8 * u; g.stroke(p); g.restore();
+    }
+    const zz = z.zones[0], [lx, ly] = atR(G.R_EQ - 72, zz.kind === 'triangle' ? 12 : RD.midHour(zz.from, zz.to));
+    pill(g, lx, ly, 'Lincoff zone', u, '#B5711A');
   }
   function line(g, pts, closed) { g.beginPath(); g.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) g.lineTo(pts[i][0], pts[i][1]); if (closed) g.closePath(); }
   function pill(g, x, y, text, u, color) {
@@ -163,8 +187,9 @@ root.RDHand = function (api) {
   }
   function idleHint() {
     if (!active()) { setHint(''); return; }
-    const hasRd = !!RD.mainRd(api.getScene());
-    setHint(hasRd ? 'Trace to redraw · drag to move · drag off to remove' : 'Trace the detachment’s border, ora to ora');
+    const sc = api.getScene(), hasRd = !!RD.mainRd(sc);
+    const needBreak = hasRd && !pal.hidden && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
+    setHint(needBreak ? `Now add the break${pal.classList.contains('docked') ? ' — pick one below' : ' — pick one in the panel'}` : hasRd ? 'Trace to redraw · drag to move · drag off to remove' : 'Trace the detachment’s border, ora to ora');
   }
   function cancel() {
     if (phase === 'side' || phase === 'swiping') { prep = null; choice = null; api.setPreview(null); }
@@ -327,7 +352,7 @@ root.RDHand = function (api) {
     const f = out.added[0];
     phase = 'idle'; prep = null; choice = null;
     api.announce([RD.describeAction({ op: 'add', f }, out.scene.eye)].filter(Boolean), out.notes);
-    openPalette();
+    openPalette('rd');
     idleHint(); drawInk();
   }
 
@@ -572,6 +597,7 @@ root.RDHand = function (api) {
     clearSide();
     disarm(true);
     ghost = el('div', { class: 'pal-ghost', 'aria-hidden': 'true' }, [tileIcon(item.kind, item.E)]);
+    ghostKind = item.kind;
     ghost.dataset.touch = e.pointerType === 'touch' ? '1' : '';
     document.body.append(ghost);
     pal.classList.add('fade');
@@ -590,7 +616,7 @@ root.RDHand = function (api) {
   }
   function dropGhost(item, e) {
     if (ghost) ghost.remove();
-    ghost = null;
+    ghost = null; ghostKind = null;
     pal.classList.remove('fade');
     const p = hover;
     hover = null; phase = 'idle';
@@ -606,12 +632,22 @@ root.RDHand = function (api) {
     idleHint(); drawInk();
   }
 
-  const grid = el('div', { class: 'pal-grid', role: 'toolbar', 'aria-label': 'Findings to place' });
-  for (const [kind, label, short] of TILES) {
-    const tile = el('button', { type: 'button', class: 'pal-tile', 'aria-pressed': 'false', 'aria-label': label, title: kind === 'more' ? 'Search the pathology library' : `${label}: drag onto the fundus, or tap then tap the spot` }, [tileIcon(kind), el('span', { text: short, 'aria-hidden': 'true' })]);
-    wireTile(tile, { kind, label });
-    grid.append(tile);
-  }
+  let moreTile = null;
+  const tileGrid = (tiles, aria, cls) => {
+    const gr = el('div', { class: 'pal-grid' + (cls ? ' ' + cls : ''), role: 'toolbar', 'aria-label': aria });
+    for (const [kind, label, short] of tiles) {
+      const tile = el('button', { type: 'button', class: 'pal-tile', 'aria-pressed': 'false', 'aria-label': label, title: kind === 'more' ? 'Search the pathology library' : `${label}: drag onto the fundus, or tap then tap the spot` }, [tileIcon(kind), el('span', { text: short, 'aria-hidden': 'true' })]);
+      wireTile(tile, { kind, label });
+      if (kind === 'more') moreTile = tile;
+      gr.append(tile);
+    }
+    return gr;
+  };
+  const linHint = el('p', { class: 'pal-lin', hidden: true });
+  const grid = el('div', { class: 'pal-tiles' }, [
+    el('div', { class: 'pal-sec pal-sec-brk', text: 'Breaks' }), tileGrid(BREAK_TILES, 'Breaks to place', 'pal-breaks'),
+    el('div', { class: 'pal-sec', text: 'Other findings' }), tileGrid(OTHER_TILES, 'Other findings to place'),
+  ]);
   const moreBox = el('div', { class: 'pal-more', hidden: true });
   const moreIn = el('input', { type: 'search', placeholder: 'Search — nevus, CNV, drusen…', 'aria-label': 'Search the pathology library', autocomplete: 'off', spellcheck: 'false' });
   const moreList = el('ul', { class: 'pal-results' });
@@ -635,21 +671,21 @@ root.RDHand = function (api) {
   moreIn.addEventListener('input', () => { clearTimeout(moreTimer); moreTimer = setTimeout(renderMore, 120); });
   function toggleMore() {
     moreBox.hidden = !moreBox.hidden;
-    const t = grid.querySelector('.pal-tile:last-child');
-    if (t) t.setAttribute('aria-pressed', String(!moreBox.hidden));
+    if (moreTile) moreTile.setAttribute('aria-pressed', String(!moreBox.hidden));
     if (!moreBox.hidden) { renderMore(); moreIn.focus(); }
   }
 
   const status = el('div', { class: 'pal-status' });
   const PAL_SUB = 'drag onto the fundus · or tap, then tap the spot';
   const palSub = el('span', { class: 'pal-sub', text: PAL_SUB });
+  const palTitle = el('strong', { text: 'Add findings' });
   const head = el('div', { class: 'pal-head' }, [
-    el('strong', { text: 'Add findings' }),
+    palTitle,
     palSub,
     el('button', { type: 'button', class: 'pal-btn pal-min', 'aria-label': 'Minimise the palette', title: 'Minimise', text: '–', onclick: () => { pal.classList.toggle('min'); } }),
     el('button', { type: 'button', class: 'pal-btn', 'aria-label': 'Close the palette', title: 'Close', text: '×', onclick: () => closePalette() }),
   ]);
-  pal.append(head, grid, moreBox, status);
+  pal.append(head, linHint, grid, moreBox, status);
 
   function segRow(label, need, opts, value, onPick) {
     const row = el('div', { class: 'pal-row' + (need ? ' need' : '') }, [el('span', { class: 'pal-lab', text: label })]);
@@ -661,6 +697,13 @@ root.RDHand = function (api) {
   function renderStatus() {
     // the palette asks only what the drawing still needs: the PVD (lens status is asked in the repair card)
     const sc = api.getScene();
+    // a detachment with no break yet: lead with the breaks, and say where Lincoff's rules look first
+    const needBreak = !!RD.mainRd(sc) && !sc.findings.some(f => RD.BREAK_TYPES.has(f.type));
+    palTitle.textContent = needBreak ? 'Add the breaks' : 'Add findings';
+    pal.classList.toggle('need-break', needBreak);
+    const z = needBreak ? RD.lincoff(sc) : null;
+    linHint.hidden = !z;
+    if (z) linHint.replaceChildren(el('strong', { text: `Lincoff rule ${z.rule}:` }), ` search ${z.zoneText.replace(' o’clock', '')} first`);
     status.replaceChildren();
     status.hidden = !!sc.pvd || !RD.mainRd(sc);
     if (status.hidden) return;
@@ -725,7 +768,7 @@ root.RDHand = function (api) {
     // every corner holds something: shrink to the header rather than hide a drawn finding
     if (cornerScore(best, sc, null, pts) >= 40) pal.classList.add('min');
   }
-  function openPalette() {
+  function openPalette(why) {
     renderStatus();
     pal.hidden = false;
     pal.classList.remove('min');
@@ -734,6 +777,11 @@ root.RDHand = function (api) {
     pal.classList.toggle('docked', narrow);
     if (narrow) Object.assign(pal.style, { left: '', right: '', top: '', bottom: '' });
     else placePalette(true);
+    // just outlined a detachment: on a phone the panel sits under the chart, so bring the breaks into view
+    if (why === 'rd') {
+      if (narrow) requestAnimationFrame(() => { try { pal.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) { pal.scrollIntoView(false); } });
+      else pal.classList.remove('min');
+    }
   }
   function closePalette() {
     pal.hidden = true;
@@ -742,7 +790,7 @@ root.RDHand = function (api) {
     if (phase === 'armed') phase = 'idle';
     sync();
   }
-  fab.addEventListener('click', () => openPalette(null));
+  fab.addEventListener('click', () => openPalette());
 
   /* ------------------------------- mode -------------------------------- */
   function setOn(v, quiet) {
