@@ -2633,11 +2633,46 @@ function findingAnchor(f, scene) {
   }
   return null;
 }
+/* Where the detachment's extent at the ora differs between drawing a (the resident's) and b (the corrected one):
+   clock-hour ranges detached only in b (more) and only in a (less), sampled just inside the ora. Slivers under a
+   quarter of an hour, which a redrawn border always leaves, are ignored. */
+function rdExtentDelta(a, b) {
+  const ga = rdsOf(a).length ? rdGeometry(a) : null, gb = rdsOf(b).length ? rdGeometry(b) : null;
+  const N = 96, R = G.R_ORA - 6;
+  const inA = [], inB = [];
+  for (let i = 0; i < N; i++) {
+    const [x, y] = polar(R, hourToAngle(i / N * 12));
+    inA.push(!!ga && ga.F(x, y) < 0); inB.push(!!gb && gb.F(x, y) < 0);
+  }
+  const runs = (flag) => {
+    const on = flag.map(Boolean);
+    if (on.every(Boolean)) return [[12, 12, 12]];
+    const out = [];
+    const start = on.findIndex((v, i) => !v && on[(i + 1) % N]);     // begin just after a gap so wrap-around runs stay whole
+    if (start < 0) return out;
+    let run = null;
+    for (let k = 1; k <= N; k++) {
+      const i = (start + k) % N;
+      if (on[i]) { if (!run) run = [i, i]; else run[1] = i; }
+      else if (run) { out.push(run); run = null; }
+    }
+    if (run) out.push(run);
+    return out.map(([i0, i1]) => { const n = mod(i1 - i0, N) + 1; return [normHour(i0 / N * 12), normHour((i1 + 1) / N * 12), n / N * 12]; }).filter(r => r[2] >= 0.25);
+  };
+  return { more: runs(inB.map((v, i) => v && !inA[i])), less: runs(inA.map((v, i) => v && !inB[i])) };
+}
+const fmtRange = (r) => r[2] >= 12 ? 'all round' : `${fmtHour(Math.round(r[0] * 2) / 2)}–${fmtHour(Math.round(r[1] * 2) / 2)}`;
 /* what changed from drawing a (the resident's) to drawing b (the corrected one) */
 const DIFF_SKIP = new Set(['id', 'seed']);
 function sameFinding(x, y) {
   const norm = (f) => { const o = {}; for (const k of Object.keys(f).sort()) if (!DIFF_SKIP.has(k) && f[k] !== undefined && f[k] !== null && f[k] !== false) o[k] = f[k]; return JSON.stringify(o); };
   return norm(x) === norm(y);
+}
+function rdOverlapHours(x, y) {
+  if (x.start == null || y.start == null) return 1;           // posterior or ring detachments: assume the same one
+  let n = 0;
+  for (let k = 0; k < 48; k++) { const h = x.start + spanHours(x.start, x.end) * (k + 0.5) / 48; if (inSpan(h, y.start, y.end)) n++; }
+  return n / 48 * spanHours(x.start, x.end);
 }
 function diffScenes(a, b) {
   const out = [];
@@ -2668,9 +2703,42 @@ function diffScenes(a, b) {
       const p0 = findingAnchor(o, a), p1 = findingAnchor(f, b);
       parts.push(p0 && p1 && Math.hypot(p0[0] - p1[0], p0[1] - p1[1]) > 6 ? `${t1} moved` : `${t1} adjusted`);
     }
-    out.push({ kind: 'changed', id, type: f.type, text: parts.join('; '), at: findingAnchor(f, b), from: findingAnchor(o, a) });
+    const ch = { kind: 'changed', id, type: f.type, text: parts.join('; '), at: findingAnchor(f, b), from: findingAnchor(o, a) };
+    if (f.type === 'rd') { const m0 = o.total ? 'macula off' : macText(o.macula, o.fovea), m1 = f.total ? 'macula off' : macText(f.macula, f.fovea); if (m0 !== m1) ch.mac = [m0, m1]; }
+    out.push(ch);
   }
   for (const [id, f] of A) if (!B.has(id)) out.push({ kind: 'removed', id, type: f.type, text: findingTitle(f, a.eye), at: findingAnchor(f, a) });
+  // a detachment the reviewer redrew is the same detachment, corrected: one change, not a removal and an addition
+  const addedRd = out.filter(d => d.kind === 'added' && d.type === 'rd'), removedRd = out.filter(d => d.kind === 'removed' && d.type === 'rd');
+  for (const r of removedRd) {
+    const o = A.get(r.id);
+    let best = null, bestOv = 0;
+    for (const d of addedRd) {
+      if (d.paired) continue;
+      const f = B.get(d.id), ov = (o.total || f.total) ? 12 : rdOverlapHours(o, f);
+      if (ov > bestOv) { bestOv = ov; best = d; }
+    }
+    if (!best) continue;
+    best.paired = true; r.paired = true;
+    const f = B.get(best.id), t0 = findingTitle(o, a.eye), t1 = findingTitle(f, b.eye);
+    const parts = [t0 !== t1 ? `${t0} → ${t1}` : 'border redrawn'];
+    const m0 = o.total ? 'macula off' : macText(o.macula, o.fovea), m1 = f.total ? 'macula off' : macText(f.macula, f.fovea);
+    if (m0 !== m1) parts.push(`${m0 || 'macular status not recorded'} → ${m1 || 'macular status not recorded'}`);
+    out.push({ kind: 'changed', id: best.id, type: 'rd', text: parts.join('; '), at: findingAnchor(f, b), from: findingAnchor(o, a), mac: m0 !== m1 ? [m0, m1] : null });
+  }
+  for (let i = out.length - 1; i >= 0; i--) if (out[i].paired) out.splice(i, 1);
+  // how the extent changed, in clock hours at the ora
+  const rdCh = out.find(d => d.type === 'rd' && d.kind === 'changed');
+  if (rdCh || (rdsOf(a).length && rdsOf(b).length && out.some(d => d.type === 'rd'))) {
+    const ext = rdExtentDelta(a, b);
+    if (rdCh && (ext.more.length || ext.less.length)) {
+      rdCh.extent = ext;
+      const bits = [];
+      if (ext.more.length) bits.push(`detached further at ${ext.more.map(fmtRange).join(' and ')}`);
+      if (ext.less.length) bits.push(`not detached at ${ext.less.map(fmtRange).join(' and ')}`);
+      rdCh.text += '; ' + bits.join('; ');
+    }
+  }
   const meta = (k, T) => { if ((a[k] || null) !== (b[k] || null)) out.push({ kind: 'changed', what: k, text: `${k === 'pvd' ? 'PVD' : 'Lens'}: ${T[a[k]] || 'not recorded'} → ${T[b[k]] || 'not recorded'}` }); };
   meta('pvd', PVD_TEXT); meta('lens', LENS_TEXT);
   return out;
@@ -2781,7 +2849,7 @@ const API = {
   lincoff, lincoffTriangle, clinicalNote, sanitizeActions, EXTENT_R,
   CATALOG, CAT, GROUPS, catPlace, catLocText, catName, POSTERIOR_SITES, SITE_TEXT, SITES, QUAD_NAMES, stage1,
   prepareStroke, pathOptions, pickPathSide, rdFromPath, pathShape, pathField, pathAgrees, PVD_TEXT, LENS_TEXT, repairOptions, REPAIR_REFS, PROCS,
-  DISC_RECIPES, QUAD_RECIPES, siteAt, findingAnchor, diffScenes, sanitizeScene, sanitizeReview,
+  DISC_RECIPES, QUAD_RECIPES, siteAt, findingAnchor, diffScenes, rdExtentDelta, fmtRange, sanitizeScene, sanitizeReview,
   breakPoints, hourSpread, BUCKLE_EL, lineSpan, laserLineSpots, laserRings, laserPattern, laserPatternText, LASER_GAPS, BURN_D, sizeWord,
   isTumor, MELANOCYTIC, TUM_KEYS, DD_UNITS, MM_PER_DD, ELEV_TEXT, SHAPE_TEXT, SRF_TEXT, SRF_SHORT, toDD, fmtNum, tumorSize, tumorRadii, tumorLevel, tumorFeatures, ellipseR, cleanTumor,
 };

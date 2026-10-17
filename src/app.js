@@ -80,6 +80,7 @@ function draw() {
     try { R.render(canvas, shown, { preview: !!previewScene || showOriginal, previewText: label, highlight, textScale, view, review: reviewOverlay(showOriginal) }); }
     catch (e) { console.error(e); }
     if (hand) hand.drawInk();
+    syncFx();
   });
 }
 function renderAll() { draw(); renderFindings(); renderNote(); renderLincoff(); renderRepair(); renderBuckle(); renderEye(); renderTools(); renderKey(); renderReviewBar(); renderReview(); if (hand) hand.sync(); if (shell) shell.sync(); }
@@ -870,12 +871,46 @@ function exitReview(keep) {
 function reviewOverlay(showOriginal) {
   if (!review || view !== 'fundus') return null;
   const pins = review.cm.map((c, i) => ({ n: i + 1, at: c.at }));
-  if (showOriginal) return { pins };
-  let diff = RD.diffScenes(review.o, scene);
-  const ghost = diff.some(d => d.type === 'rd') && RD.rdsOf(review.o).length ? review.o : null;
-  // the dashed ghost already shows how the detachment changed; a ring on it would only crowd the breaks
-  if (ghost) diff = diff.filter(d => !(d.type === 'rd' && d.kind === 'changed'));
-  return { diff, pins, ghost };
+  // the corrections are marked on either drawing: on the corrected one, and on the original as what to look again at
+  return { diff: RD.diffScenes(review.o, scene), pins, other: showOriginal ? scene : review.o, mode: showOriginal ? 'original' : 'corrected', role: review.role };
+}
+/* where a change sits on the chart: the finding, or for a detachment the first stretch whose extent changed */
+function changeSpot(d) {
+  if (d.type === 'rd' && d.extent) {
+    const r = d.extent.more[0] || d.extent.less[0];
+    if (r) { const a = RD.hourToAngle(r[2] >= 12 ? 12 : RD.midHour(r[0], r[1])), R = RD.G.R_ORA - 20; return [R * Math.cos(a), R * Math.sin(a)]; }
+  }
+  return d.at || null;
+}
+/* a pulse over the chart that draws the eye to what was missed: on opening a review, and on picking a change */
+let fxKey = '';
+function fxLayer() {
+  let fx = $('#rvFx');
+  if (!fx) { fx = el('div', { id: 'rvFx', 'aria-hidden': 'true' }); canvas.parentNode.append(fx); }
+  fx.style.left = canvas.offsetLeft + 'px'; fx.style.top = canvas.offsetTop + 'px';
+  fx.style.width = canvas.offsetWidth + 'px'; fx.style.height = canvas.offsetHeight + 'px';
+  return fx;
+}
+function pulseAt(pts, cls) {
+  const fx = fxLayer();
+  fx.replaceChildren(...pts.map(([x, y]) => el('span', { class: 'rv-pulse' + (cls ? ' ' + cls : ''), style: `left:${(x + RD.G.SIZE / 2) / RD.G.SIZE * 100}%;top:${(y + RD.G.SIZE / 2) / RD.G.SIZE * 100}%` })));
+}
+function syncFx() {
+  const rv = review && view === 'fundus' && !previewScene ? RD.diffScenes(review.o, scene) : [];
+  const pts = rv.filter(d => d.kind === 'added' || (d.type === 'rd' && d.extent && d.extent.more.length)).map(changeSpot).filter(Boolean);
+  const key = review ? review.t + ':' + JSON.stringify(pts) : '';
+  if (key === fxKey) return;
+  fxKey = key;
+  if (!pts.length) { const fx = $('#rvFx'); if (fx) fx.replaceChildren(); return; }
+  pulseAt(pts);
+}
+function focusChange(d) {
+  if (shell) shell.showSheet(null);
+  if (view !== 'fundus') setView('fundus');
+  const p = changeSpot(d);
+  if (!p) return;
+  if (d.id && d.kind !== 'removed') { highlight = d.id; draw(); setTimeout(() => { if (highlight === d.id) { highlight = null; draw(); } }, 1800); }
+  requestAnimationFrame(() => pulseAt([p], d.kind === 'removed' ? 'k-removed' : d.kind === 'changed' ? 'k-changed' : ''));
 }
 function fmtWhen(t) { return t ? new Date(t).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : ''; }
 function linkField(url) {
@@ -896,6 +931,7 @@ function openLinkBox() {
   return el('details', { class: 'rv-open' }, [el('summary', { text: 'Received a review link?' }), el('div', { class: 'rv-fields' }, [inp, el('button', { type: 'button', class: 'btn-line', text: 'Open', onclick: go })])]);
 }
 const KIND_TEXT = { added: 'Added', removed: 'Removed', changed: 'Changed' };
+const KIND_TEXT_RES = { added: 'Missed', removed: 'Removed', changed: 'Corrected' };
 // Clear during a review asks what to clear: emptying the corrected drawing on its own would leave every original
 // finding marked as removed (red rings, dashed outline) — right for a reviewer redrawing from scratch, puzzling otherwise.
 function askClear() { clearAsk = true; commentArm = false; review.view = 'changes'; renderAll(); }
@@ -925,6 +961,14 @@ function renderReviewBar() {
   const seg = el('div', { class: 'seg rb-seg', role: 'group', 'aria-label': 'Which drawing to show' });
   for (const [v, t] of [['changes', 'Corrected'], ['original', isRev ? 'Original' : 'Mine']]) seg.append(el('button', { type: 'button', 'aria-pressed': String(review.view === v), text: t, onclick: () => { review.view = v; commentArm = false; renderAll(); } }));
   bar.append(seg);
+  const showingOrig = review.view === 'original';
+  const key = el('div', { class: 'rb-key', 'aria-label': 'What the marks mean' }, [
+    el('span', { class: 'kk k-added' }, [el('i'), isRev ? 'Added' : 'Missed']),
+    el('span', { class: 'kk k-removed' }, [el('i'), 'Removed']),
+    el('span', { class: 'kk k-changed' }, [el('i'), isRev ? 'Changed' : 'Corrected']),
+    el('span', { class: 'kk ' + (showingOrig ? 'k-dash-add' : 'k-dash') }, [el('i'), showingOrig ? 'Corrected border' : isRev ? 'Original border' : 'Your border']),
+  ]);
+  bar.append(key);
   if (isRev) bar.append(el('button', { type: 'button', class: 'mini', 'aria-pressed': String(commentArm), text: commentArm ? 'Cancel comment' : '+ Comment', onclick: () => { commentArm = !commentArm; review.view = 'changes'; if (view !== 'fundus') setView('fundus'); renderAll(); } }));
 }
 let exitConfirm = 0;
@@ -963,7 +1007,8 @@ function renderReview() {
   box.append(el('h3', { class: 'rv-h', text: 'Changes' }));
   const ul = el('ul', { class: 'rv-list' });
   for (const d of diff) {
-    const li = el('li', { class: 'rv-ch k-' + d.kind }, [el('span', { class: 'rv-kind', text: KIND_TEXT[d.kind] }), el('span', { text: d.text })]);
+    const li = el('li', { class: 'rv-ch k-' + d.kind + (changeSpot(d) ? ' go' : ''), tabindex: changeSpot(d) ? '0' : null, title: changeSpot(d) ? 'Show it on the chart' : null }, [el('span', { class: 'rv-kind', text: (isRev ? KIND_TEXT : KIND_TEXT_RES)[d.kind] }), el('span', { text: d.text })]);
+    if (changeSpot(d)) { li.addEventListener('click', () => focusChange(d)); li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); focusChange(d); } }); }
     if (d.id && d.kind !== 'removed') {
       li.addEventListener('mouseenter', () => { highlight = d.id; draw(); });
       li.addEventListener('mouseleave', () => { highlight = null; draw(); });

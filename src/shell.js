@@ -432,7 +432,7 @@ root.RDShell = function (X, H) {
     actsGrid.dataset.n = String([aSurg, aBuckle, aPng, aRev].filter(b => !b.hidden).length);
     // lit when the drawing is done and the guide has finished asking
     const ready = done && openId !== 'shGuide';
-    if (ready && !wasDone) { acts.classList.add('lit'); clearTimeout(glowT); glowT = setTimeout(() => acts.classList.remove('lit'), 5200); }
+    if (ready && !wasDone) { acts.classList.add('lit'); acts.dataset.lit = String(Date.now()); clearTimeout(glowT); glowT = setTimeout(() => acts.classList.remove('lit'), 5200); }
     if (!done) acts.classList.remove('lit');
     wasDone = ready || (done && wasDone);
     if (!done) wasDone = false;

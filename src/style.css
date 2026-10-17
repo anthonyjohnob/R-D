@@ -279,7 +279,26 @@ a.glass { text-decoration: none; }
 .rv-list, .rv-cms { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .rv-ch { display: flex; gap: 8px; align-items: baseline; padding: 7px 10px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line-2); font-size: 14px; }
 .rv-kind { flex: none; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; border-radius: 6px; padding: 1px 6px; color: #fff; }
-.k-added .rv-kind { background: #2F8A4E; } .k-removed .rv-kind { background: #C8382F; } .k-changed .rv-kind { background: #C77A12; }
+.k-added .rv-kind { background: #D61F69; } .k-removed .rv-kind { background: #4A5866; } .k-changed .rv-kind { background: #C77A12; }
+.rv-ch.go { cursor: pointer; }
+.rv-ch.go:hover, .rv-ch.go:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.rv-ch.k-added { border-left: 4px solid #D61F69; }
+/* what the review marks mean */
+.rb-key { flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; color: var(--ink-2); }
+.rb-key .kk { display: inline-flex; align-items: center; gap: 5px; }
+.rb-key i { width: 14px; height: 10px; border-radius: 3px; display: inline-block; }
+.rb-key .k-added i { background: repeating-linear-gradient(45deg, #D61F69 0 2px, rgba(214,31,105,.18) 2px 5px); box-shadow: inset 0 0 0 1.5px #D61F69; }
+.rb-key .k-removed i { background: repeating-linear-gradient(-45deg, #4A5866 0 2px, rgba(74,88,102,.15) 2px 5px); box-shadow: inset 0 0 0 1.5px #4A5866; }
+.rb-key .k-changed i { background: #C77A12; border-radius: 50%; width: 10px; }
+.rb-key .k-dash i, .rb-key .k-dash-add i { height: 0; border-top: 2.5px dashed #4A5866; border-radius: 0; width: 18px; }
+.rb-key .k-dash-add i { border-top-color: #D61F69; }
+/* a pulse over the chart where something was missed */
+#rvFx { position: absolute; pointer-events: none; z-index: 3; }
+.rv-pulse { position: absolute; width: 13%; aspect-ratio: 1; border-radius: 50%; border: 3px solid #D61F69; box-shadow: 0 0 0 3px rgba(255,255,255,.6); transform: translate(-50%, -50%) scale(.4); opacity: 0; animation: rvPulse 1.4s ease-out 4; }
+.rv-pulse.k-removed { border-color: #4A5866; }
+.rv-pulse.k-changed { border-color: #C77A12; }
+@keyframes rvPulse { 0% { transform: translate(-50%, -50%) scale(.45); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(1.6); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .rv-pulse { animation: none; opacity: 1; transform: translate(-50%, -50%) scale(1); } }
 .rv-cm { padding: 8px 10px; border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line-2); display: grid; gap: 6px; }
 .rv-cm p { margin: 0; font-size: 14px; }
 .rv-cm-h { display: flex; align-items: center; gap: 8px; }

@@ -5,6 +5,13 @@
 (function (root) {
 'use strict';
 const CHANGELOG = [
+  { v: '2.1', date: '2026-10-17', title: 'Clearer teaching review', items: [
+    'The detachment is compared region by region: what the reviewer added is hatched in magenta, what they took away is hatched in slate, and the other drawing’s border is dashed over it, with the clock hours labelled on the chart (“Missed 8–10”, “Not detached 2–4”).',
+    'A missed tear, or anything else the reviewer added, glows with a heavy magenta ring and a label, and pulses when the review opens.',
+    'A redrawn detachment is one correction in the list, saying where it is detached further or not detached and how the macular status changed.',
+    'The marks show on your own drawing too (“Missed tear here”), a key under the review bar explains them, and tapping a change in the list shows it on the chart.',
+    'Review marks use colours outside the clinical colour code — magenta, slate and amber — so a correction is never mistaken for a finding.',
+  ] },
   { v: '2.0', date: '2026-10-12', title: 'Version 2: a simpler layout, made for phones', items: [
     'The chart fills the top of the screen. Under it, a strip sums up the eye — detachment, PVD and lens, repair options, Lincoff zone, buckle guide — and any chip opens its details.',
     'A dock at the bottom holds one big button (Trace the detachment, then Redraw and Add detachment) and the everyday tools: Tear, Hole, Lattice, Laser and More for everything else.',

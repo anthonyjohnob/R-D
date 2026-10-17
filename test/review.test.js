@@ -52,5 +52,28 @@ const cms = RD.sanitizeReview({ v: 1, o: a, cm: [{ at: [1, 2], text: 'x'.repeat(
 ok(cms.length === 1 && cms[0].text.length === 1000 && cms[0].f === 2, 'comments: placed ones kept, clipped; others dropped');
 ok(RD.sanitizeScene(a).nextId === a.nextId, 'next id carried so new findings never collide');
 
+/* a redrawn detachment is one correction, with its extent compared at the ora */
+{
+  const r0 = RD.emptyScene('OS'); r0.findings = [{ id: 1, type: 'rd', start: 10, end: 2, macula: 'on' }, { id: 2, type: 'hst', hour: 12 }];
+  const r1 = RD.emptyScene('OS'); r1.findings = [{ id: 7, type: 'rd', start: 8, end: 3, macula: 'off' }, { id: 2, type: 'hst', hour: 12 }, { id: 8, type: 'hst', hour: 2.5 }];
+  const dd = RD.diffScenes(r0, r1);
+  const rdc = dd.filter(x => x.type === 'rd');
+  ok(rdc.length === 1 && rdc[0].kind === 'changed', 'redrawn detachment: one change, not a removal and an addition', JSON.stringify(dd.map(x => [x.kind, x.type])));
+  ok(rdc[0].extent && rdc[0].extent.more.map(RD.fmtRange).join(',') === '2–3,8–10' && !rdc[0].extent.less.length, 'extent: detached further at 2–3 and 8–10', JSON.stringify(rdc[0].extent));
+  ok(/detached further at 2–3 and 8–10/.test(rdc[0].text) && /macula on → macula off/.test(rdc[0].text), 'the change says where and the macula', rdc[0].text);
+  ok(rdc[0].mac && rdc[0].mac[1] === 'macula off', 'macular change carried for the chart label');
+  ok(dd.some(x => x.kind === 'added' && x.type === 'hst' && x.at), 'the missed tear is an addition with a place on the chart');
+  const back = RD.diffScenes(r1, r0).find(x => x.type === 'rd');
+  ok(back.extent.less.map(RD.fmtRange).join(',') === '2–3,8–10' && !back.extent.more.length, 'the other way round: not detached at 2–3 and 8–10', JSON.stringify(back.extent));
+  const same = RD.clone(r0); same.findings[0] = Object.assign({}, same.findings[0], { id: 9 });
+  const sd = RD.diffScenes(r0, same);
+  ok(sd.length === 1 && sd[0].kind === 'changed' && sd[0].text === 'border redrawn' && !sd[0].extent, 'redrawn to the same extent: just “border redrawn”', JSON.stringify(sd));
+  const two = RD.emptyScene('OS'); two.findings = [{ id: 1, type: 'rd', start: 10, end: 2, macula: 'on' }, { id: 5, type: 'rd', start: 5, end: 7, macula: 'on' }];
+  const td = RD.diffScenes(r0, two).filter(x => x.type === 'rd');
+  ok(td.some(x => x.kind === 'added') && !td.some(x => x.kind === 'removed'), 'a second, separate detachment stays an addition', JSON.stringify(td.map(x => x.kind)));
+  const all = RD.rdExtentDelta(r0, Object.assign(RD.emptyScene('OS'), { findings: [{ id: 3, type: 'rd', total: true }] }));
+  ok(all.more.length >= 1 && all.more.reduce((n, r) => n + r[2], 0) >= 7.5, 'a total detachment covers the rest of the clock', JSON.stringify(all));
+}
+
 console.log(`review: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

@@ -832,43 +832,137 @@ function drawHighlight(ctx, scene, id, scale) {
 /* corrections over the chart: the resident's detachment border as a dashed ghost, a ring on every
    change (green added, red removed, amber changed, with an arrow when something moved) and numbered
    comment pins. Drawn in chart coordinates, in the reviewer's colours rather than the fundus code. */
-const REV = { added: '#2F8A4E', removed: '#C8382F', changed: '#C77A12', ghost: 'rgba(104,78,160,0.9)', pin: '#E0603F' };
-function drawReview(ctx, rv) {
-  if (rv.ghost) {
-    const g = geometryFor(rv.ghost);
-    if (g) {
-      ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-      ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 4.5; for (const b of g.borders) ctx.stroke(pathFromPolyline(b.pts));
-      ctx.setLineDash([7, 5]); ctx.strokeStyle = REV.ghost; ctx.lineWidth = 2.2; for (const b of g.borders) ctx.stroke(pathFromPolyline(b.pts));
-      ctx.restore();
-    }
+/* Teaching review, drawn over the chart. Annotation colours sit outside the clinical colour code so a correction can
+   never be read as a finding: magenta for what the reviewer added (what the resident missed), slate for what was
+   taken away, amber for what moved or changed. The detachment's extent is compared region by region: the part only
+   the corrected drawing has is hatched magenta, the part only the original has is hatched slate, and the other
+   drawing's border is dashed over it. Missed findings get a glow, a heavy ring and a label. */
+const REV = { added: '#D61F69', removed: '#4A5866', changed: '#C77A12', pin: '#E0603F' };
+const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+const SHORT_NAME = { hst: 'tear', grt: 'giant tear', hole: 'hole', oph: 'operculated hole', dia: 'dialysis', lat: 'lattice', pav: 'paving stones', tuft: 'tuft', pvr: 'PVR', vh: 'haemorrhage', laser: 'laser', cryo: 'cryo', buckle: 'buckle', chd: 'choroidal', rd: 'detachment' };
+let revPlaced = [];
+function revTag(ctx, x, y, text, col, ts, opt) {
+  opt = opt || {};
+  ts = Math.max(ts, 1.3);                                        // labels stay readable on a large chart too
+  const fs = 12.5 * ts, padX = 7 * ts, h = fs + 9 * ts;
+  ctx.save();
+  ctx.font = '700 ' + fs + 'px ' + FONT_UI;
+  const w = ctx.measureText(text).width + padX * 2;
+  const lim = G.SIZE / 2 - 6;                                   // keep the whole label on the chart
+  const box = (cx, cy) => { const x0 = Math.max(-lim, Math.min(lim - w, cx - w / 2)), y0 = Math.max(-lim, Math.min(lim - h, cy - h / 2)); return { x: x0, y: y0, w, h }; };
+  const clash = (b) => revPlaced.some(q => b.x < q.x + q.w + 4 && q.x < b.x + b.w + 4 && b.y < q.y + q.h + 3 && q.y < b.y + b.h + 3);
+  // a label that would cover another one moves along the radius, then sideways
+  let b = box(x, y);
+  if (clash(b)) {
+    const r = Math.hypot(x, y) || 1, ux = x / r, uy = y / r;
+    const tries = [[-1, 0], [1, 0], [0, 1.25], [0, -1.25], [0, 2], [0, -2], [-2, 0], [-1, 1.25], [-1, -1.25], [-3, 0]];
+    for (const [k, side] of tries) { const c = box(x + ux * k * (h + 4) - uy * side * (h + 4), y + uy * k * (h + 4) + ux * side * (h + 4)); if (!clash(c)) { b = c; break; } }
   }
-  for (const d of rv.diff || []) {
-    if (!d.at) continue;
+  revPlaced.push(b);
+  const x0 = b.x, y0 = b.y;
+  ctx.shadowColor = 'rgba(0,0,0,0.22)'; ctx.shadowBlur = 5 * ts; ctx.shadowOffsetY = 1;
+  ctx.fillStyle = opt.outline ? '#FFFFFF' : col; roundRect(ctx, x0, y0, w, h, h / 2); ctx.fill();
+  ctx.shadowColor = 'transparent';
+  if (opt.outline) { ctx.strokeStyle = col; ctx.lineWidth = 1.8; ctx.setLineDash(opt.dash ? [4, 3] : []); ctx.stroke(); ctx.setLineDash([]); }
+  ctx.fillStyle = opt.outline ? col : '#FFFFFF'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(text, x0 + w / 2, y0 + h / 2 + 0.5 * ts);
+  ctx.restore();
+  return { x: x0, y: y0, w, h };
+}
+function hatchRegion(ctx, inside, outside, col, dir) {
+  if (!inside) return;
+  ctx.save();
+  ctx.clip(pathFromLoops(inside.loops), 'evenodd');
+  if (outside) { const p = pathFromLoops(outside.loops); p.rect(-G.SIZE, -G.SIZE, G.SIZE * 2, G.SIZE * 2); ctx.clip(p, 'evenodd'); }
+  ctx.fillStyle = rgba(col, 0.16); ctx.fillRect(-G.SIZE / 2, -G.SIZE / 2, G.SIZE, G.SIZE);
+  ctx.strokeStyle = rgba(col, 0.72); ctx.lineWidth = 2.4;
+  for (let d = -G.SIZE; d < G.SIZE; d += 10) { ctx.beginPath(); ctx.moveTo(d, -G.SIZE / 2); ctx.lineTo(d + dir * G.SIZE, G.SIZE / 2); ctx.stroke(); }
+  ctx.restore();
+}
+function strokeBorders(ctx, g, col, dash) {
+  if (!g) return;
+  ctx.save(); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 5.5; for (const b of g.borders) ctx.stroke(pathFromPolyline(b.pts));
+  ctx.setLineDash(dash); ctx.strokeStyle = col; ctx.lineWidth = 2.6; for (const b of g.borders) ctx.stroke(pathFromPolyline(b.pts));
+  ctx.restore();
+}
+/* where to put a label for a point: towards the centre for the periphery, outwards near the pole */
+function labelSpot(x, y, gap) {
+  const r = Math.hypot(x, y) || 1, ux = x / r, uy = y / r;
+  const toward = r > 150 ? -1 : 1;
+  return [x + ux * gap * toward, y + uy * gap * toward];
+}
+function drawReview(ctx, rv, geo, ts) {
+  ts = ts || 1;
+  revPlaced = [];
+  const showingOriginal = rv.mode === 'original', resident = rv.role === 'resident';
+  const W = resident ? { added: 'Missed', removed: 'Removed', more: 'Missed', less: 'Not detached', mac: 'Macula' } : { added: 'Added', removed: 'Removed', more: 'Added', less: 'Removed', mac: 'Macula' };
+  const diff = rv.diff || [];
+  // the detachment: what only one drawing has, hatched, with the other drawing's border dashed over it
+  if (rv.other && diff.some(d => d.type === 'rd')) {
+    const gOther = geometryFor(rv.other);
+    const gCorr = showingOriginal ? gOther : geo, gOrig = showingOriginal ? geo : gOther;
+    hatchRegion(ctx, gCorr, gOrig, REV.added, 1);
+    hatchRegion(ctx, gOrig, gCorr, REV.removed, -1);
+    if (showingOriginal) strokeBorders(ctx, gOther, REV.added, [8, 6]); else strokeBorders(ctx, gOther, REV.removed, [8, 6]);
+  }
+  // findings
+  for (const d of diff) {
+    if (d.type === 'rd' || !d.at) continue;
     const col = REV[d.kind] || REV.changed;
-    const [x, y] = d.at;
+    const pos = d.kind === 'changed' && showingOriginal && d.from ? d.from : d.at;
+    const [x, y] = pos;
+    revPlaced.push({ x: x - 26, y: y - 26, w: 52, h: 52 });
+    const name = SHORT_NAME[d.type] || (d.text || '').split(' · ')[0].toLowerCase();
     ctx.save();
-    if (d.kind === 'changed' && d.from && Math.hypot(d.from[0] - x, d.from[1] - y) > 8) {
-      const [fx, fy] = d.from, a = Math.atan2(y - fy, x - fx), len = Math.hypot(x - fx, y - fy);
-      const ex = x - Math.cos(a) * 19, ey = y - Math.sin(a) * 19;
-      ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.setLineDash([4, 4]);
-      ctx.beginPath(); ctx.moveTo(fx + Math.cos(a) * 6, fy + Math.sin(a) * 6); ctx.lineTo(ex, ey); ctx.stroke(); ctx.setLineDash([]);
-      if (len > 26) { ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(ex - Math.cos(a - 0.45) * 8, ey - Math.sin(a - 0.45) * 8); ctx.lineTo(ex - Math.cos(a + 0.45) * 8, ey - Math.sin(a + 0.45) * 8); ctx.closePath(); ctx.fill(); }
-      ctx.beginPath(); ctx.arc(fx, fy, 4, 0, TAU); ctx.strokeStyle = col; ctx.lineWidth = 1.4; ctx.stroke();
+    if (d.kind === 'added') {
+      // what the resident missed: a glow, a heavy ring, a label
+      if (!showingOriginal) { const g = ctx.createRadialGradient(x, y, 4, x, y, 44); g.addColorStop(0, rgba(col, 0.42)); g.addColorStop(1, rgba(col, 0)); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, 44, 0, TAU); ctx.fill(); }
+      ctx.strokeStyle = 'rgba(255,255,255,0.95)'; ctx.lineWidth = 8; ctx.beginPath(); ctx.arc(x, y, 24, 0, TAU); ctx.stroke();
+      ctx.strokeStyle = col; ctx.lineWidth = 3.6; if (showingOriginal) ctx.setLineDash([6, 4]);
+      ctx.beginPath(); ctx.arc(x, y, 24, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+      const [lx, ly] = labelSpot(x, y, 62);
+      const r = Math.hypot(lx - x, ly - y) || 1;
+      ctx.strokeStyle = col; ctx.lineWidth = 2.2; ctx.beginPath(); ctx.moveTo(x + (lx - x) / r * 25, y + (ly - y) / r * 25); ctx.lineTo(lx, ly); ctx.stroke();
+      revTag(ctx, lx, ly, `${W.added} ${name}${showingOriginal ? ' here' : ''}`, col, ts);
+    } else if (d.kind === 'removed') {
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(x, y, 20, 0, TAU); ctx.stroke();
+      ctx.strokeStyle = col; ctx.lineWidth = 2.6; if (!showingOriginal) ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.arc(x, y, 20, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+      const bx = x + 15, by = y - 15;
+      ctx.fillStyle = col; ctx.beginPath(); ctx.arc(bx, by, 8, 0, TAU); ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(bx - 3.4, by - 3.4); ctx.lineTo(bx + 3.4, by + 3.4); ctx.moveTo(bx + 3.4, by - 3.4); ctx.lineTo(bx - 3.4, by + 3.4); ctx.stroke();
+      const [lx, ly] = labelSpot(x, y, 56);
+      revTag(ctx, lx, ly, `${W.removed} ${name}`, col, ts, { outline: true, dash: true });
+    } else {
+      if (!showingOriginal && d.from && Math.hypot(d.from[0] - x, d.from[1] - y) > 8) {
+        const [fx, fy] = d.from, a = Math.atan2(y - fy, x - fx), len = Math.hypot(x - fx, y - fy);
+        const ex = x - Math.cos(a) * 21, ey = y - Math.sin(a) * 21;
+        ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+        ctx.beginPath(); ctx.moveTo(fx + Math.cos(a) * 6, fy + Math.sin(a) * 6); ctx.lineTo(ex, ey); ctx.stroke(); ctx.setLineDash([]);
+        if (len > 26) { ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(ex - Math.cos(a - 0.45) * 9, ey - Math.sin(a - 0.45) * 9); ctx.lineTo(ex - Math.cos(a + 0.45) * 9, ey - Math.sin(a + 0.45) * 9); ctx.closePath(); ctx.fill(); }
+        ctx.beginPath(); ctx.arc(fx, fy, 4.5, 0, TAU); ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.stroke();
+      }
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 6; ctx.beginPath(); ctx.arc(x, y, 20, 0, TAU); ctx.stroke();
+      ctx.strokeStyle = col; ctx.lineWidth = 2.8; ctx.beginPath(); ctx.arc(x, y, 20, 0, TAU); ctx.stroke();
+      const bx = x + 15, by = y - 15;
+      ctx.fillStyle = col; ctx.beginPath(); ctx.arc(bx, by, 8, 0, TAU); ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.9; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(bx - 3, by + 3); ctx.lineTo(bx + 3, by - 3); ctx.stroke();
     }
-    ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(x, y, 18, 0, TAU); ctx.stroke();
-    ctx.strokeStyle = col; ctx.lineWidth = 2.4;
-    if (d.kind === 'removed') ctx.setLineDash([5, 3.5]);
-    ctx.beginPath(); ctx.arc(x, y, 18, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
-    // badge: + added, − removed, ✎ changed
-    const bx = x + 13, by = y - 13;
-    ctx.fillStyle = col; ctx.beginPath(); ctx.arc(bx, by, 7.5, 0, TAU); ctx.fill();
-    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.8; ctx.lineCap = 'round'; ctx.beginPath();
-    if (d.kind === 'added') { ctx.moveTo(bx - 3.6, by); ctx.lineTo(bx + 3.6, by); ctx.moveTo(bx, by - 3.6); ctx.lineTo(bx, by + 3.6); }
-    else if (d.kind === 'removed') { ctx.moveTo(bx - 3.6, by); ctx.lineTo(bx + 3.6, by); }
-    else { ctx.moveTo(bx - 3, by + 3); ctx.lineTo(bx + 3, by - 3); }
-    ctx.stroke();
     ctx.restore();
+  }
+  // the detachment's labels, placed after the findings so they step around them
+  if (rv.other) {
+    for (const d of diff) {
+      if (d.type !== 'rd') continue;
+      if (d.extent) {
+        for (const r of d.extent.more) { const [x, y] = at((G.R_ORA + G.R_CB) / 2, r[2] >= 12 ? 12 : RD.midHour(r[0], r[1])); revTag(ctx, x, y, `${W.more} ${RD.fmtRange(r)}`, REV.added, ts); }
+        for (const r of d.extent.less) { const [x, y] = at((G.R_ORA + G.R_CB) / 2, r[2] >= 12 ? 12 : RD.midHour(r[0], r[1])); revTag(ctx, x, y, `${W.less} ${RD.fmtRange(r)}`, REV.removed, ts, { outline: true }); }
+      } else if (d.at && d.kind !== 'changed') {
+        const [x, y] = d.at; revTag(ctx, x, y, `${d.kind === 'added' ? W.added : W.removed} detachment`, d.kind === 'added' ? REV.added : REV.removed, ts, d.kind === 'added' ? null : { outline: true });
+      }
+      if (d.mac) revTag(ctx, 0, G.R_MAC + 26 * ts, `${W.mac}: ${d.mac[0] || 'not recorded'} → ${d.mac[1] || 'not recorded'}`.replace(/macula /g, ''), REV.changed, ts);
+    }
   }
   for (const p of rv.pins || []) {
     const [x, y] = p.at;
@@ -1031,7 +1125,7 @@ function render(canvas, scene, opts) {
   drawBuckleLabels(ctx, scene, ts);
   if (CR && CR.drawTumorLabels) CR.drawTumorLabels(ctx, scene, 11.5 * ts);
   if (scene.lincoff) drawLincoff(ctx, scene);
-  if (opts.review) drawReview(ctx, opts.review);
+  if (opts.review) drawReview(ctx, opts.review, geo, ts);
   if (opts.highlight) drawHighlight(ctx, scene, opts.highlight);
   // eye badge
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1053,6 +1147,6 @@ function render(canvas, scene, opts) {
   return geo;
 }
 
-const API = { render, vesselPaths, hasPosterior, _h: { at, arcPath, pathFromPolyline, pathFromLoops, roundRect, spline, strokeTapered, local, circlePath, C, FONT_UI } };
+const API = { render, vesselPaths, hasPosterior, REV, _h: { at, arcPath, pathFromPolyline, pathFromLoops, roundRect, spline, strokeTapered, local, circlePath, C, FONT_UI } };
 if (typeof module !== 'undefined' && module.exports) module.exports = API; else root.RDRender = API;
 })(typeof window !== 'undefined' ? window : globalThis);

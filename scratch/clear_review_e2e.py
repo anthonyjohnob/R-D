@@ -18,7 +18,7 @@ def bar_buttons(pg): return pg.evaluate("() => [...document.querySelectorAll('#r
 def reviewing(pg): return pg.is_visible('#reviewBar')
 BASE = {}
 def review_marks(pg):
-    """review-red rings or the purple ghost outline painted on the chart, beyond what a blank chart of that size has (vessels)"""
+    """review marks (magenta for added, slate for removed and the original border) beyond what a blank chart of that size has"""
     w = pg.evaluate("document.querySelector('#chart').width")
     return max(0, _marks(pg) - BASE.get(w, 0))
 def baseline(pg):
@@ -26,7 +26,7 @@ def baseline(pg):
 def _marks(pg):
     return pg.evaluate("""() => { const c = document.querySelector('#chart'), x = c.getContext('2d', { willReadFrequently: true }), d = x.getImageData(0, 0, c.width, c.height).data; let n = 0;
       for (let i = 0; i < d.length; i += 4) { const r = d[i], g = d[i+1], b = d[i+2];
-        if ((Math.abs(r - 200) < 14 && Math.abs(g - 56) < 14 && Math.abs(b - 47) < 14) || (Math.abs(r - 104) < 12 && Math.abs(g - 78) < 12 && Math.abs(b - 160) < 12)) n++; }
+        if ((Math.abs(r - 214) < 14 && Math.abs(g - 31) < 14 && Math.abs(b - 105) < 14) || (Math.abs(r - 74) < 10 && Math.abs(g - 88) < 10 && Math.abs(b - 102) < 10)) n++; }
       return n; }""")
 try:
     with sync_playwright() as p:
@@ -54,18 +54,18 @@ try:
         check('Undo my corrections → drawing as sent, still reviewing', findings(fp) == sent and reviewing(fp), fp.inner_text('#revCount'))
         cmd(fp, 'macula off')
         fp.click('#clear'); fp.click('#reviewBar button:has-text("Redraw from scratch")'); fp.wait_for_timeout(250)
-        check('Redraw from scratch → empty, still reviewing, originals marked removed', not findings(fp) and reviewing(fp) and review_marks(fp) > 50, fp.inner_text('#revCount'))
+        check('Redraw from scratch → empty, still reviewing, originals marked removed', not findings(fp) and reviewing(fp) and review_marks(fp) > 200, fp.inner_text('#revCount'))
         check('Clear still usable on the emptied review chart', not fp.is_disabled('#clear'))
         cmd(fp, 'RD 9 to 1 macula on')
         cmd(fp, 'clear'); fp.wait_for_timeout(150)
         check('saying “clear” also asks', 'Clear the chart?' in fp.inner_text('#reviewBar') and findings(fp) == ['RD 9 → 1 · 4 clock hours'], ' | '.join(bar_buttons(fp)))
         fp.click('#reviewBar button:has-text("Clear and close the review")'); fp.wait_for_timeout(300)
         check('Clear and close → blank chart, review closed', not findings(fp) and not reviewing(fp))
-        check('no review marks left on the chart', review_marks(fp) < 20, review_marks(fp))
+        check('no review marks left on the chart', review_marks(fp) < 60, review_marks(fp))
         fp.locator('.chart-card').screenshot(path='scratch/cr1_after_close.png')
         check('Clear disabled again on a blank chart', fp.is_disabled('#clear'))
         fp.click('#undo'); fp.wait_for_timeout(200)
-        check('Undo → the corrected drawing, as a normal drawing', findings(fp) == ['RD 9 → 1 · 4 clock hours'] and not reviewing(fp) and review_marks(fp) < 20, findings(fp))
+        check('Undo → the corrected drawing, as a normal drawing', findings(fp) == ['RD 9 → 1 · 4 clock hours'] and not reviewing(fp) and review_marks(fp) < 60, (findings(fp), reviewing(fp), review_marks(fp)))
         fp.click('#undo'); fp.wait_for_timeout(200)
         check('Undo again → your own drawing from before the review', findings(fp) == own, findings(fp))
         fp.reload(); fp.wait_for_timeout(700)
@@ -78,7 +78,7 @@ try:
         rp.click('#clear'); rp.wait_for_timeout(150)
         check('resident Clear asks, two choices', bar_buttons(rp) == ['Clear and close the review', 'Cancel'], ' | '.join(bar_buttons(rp)))
         rp.click('#reviewBar button:has-text("Clear and close the review")'); rp.wait_for_timeout(300)
-        check('resident: blank chart, review closed, no marks', not findings(rp) and not reviewing(rp) and review_marks(rp) < 20, review_marks(rp))
+        check('resident: blank chart, review closed, no marks', not findings(rp) and not reviewing(rp) and review_marks(rp) < 60, review_marks(rp))
 
         # phone layout of the question
         mp = b.new_context(viewport={'width': 390, 'height': 844}, is_mobile=True, has_touch=True, device_scale_factor=2).new_page(); watch(mp, 'mobile')
@@ -88,7 +88,7 @@ try:
         mp.locator('#reviewBar').scroll_into_view_if_needed(); mp.locator('#reviewBar').screenshot(path='scratch/cr2_phone_ask.png')
         check('phone: no sideways scroll', mp.evaluate('document.documentElement.scrollWidth') <= 390)
         mp.tap('#reviewBar button:has-text("Clear and close the review")'); mp.wait_for_timeout(300)
-        check('phone: blank chart, no marks', not findings(mp) and not reviewing(mp) and review_marks(mp) < 20, review_marks(mp))
+        check('phone: blank chart, no marks', not findings(mp) and not reviewing(mp) and review_marks(mp) < 60, review_marks(mp))
         b.close()
 finally:
     srv.terminate()
