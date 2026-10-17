@@ -35,4 +35,4 @@ cp -r dist/site/. "$pages"/
 rm -f "$pages/README.txt"
 git -C "$pages" add -A
 git -C "$pages" status --short
-echo "Ready: commit and push from $pages (author: anthonyjohnob noreply address)."
+echo "Ready: commit and push from $pages."
