@@ -5,6 +5,11 @@
 (function (root) {
 'use strict';
 const CHANGELOG = [
+  { v: '2.2', date: '2026-11-08', title: 'Anything else to add?', items: [
+    'After the first tear or hole, the guide asks whether there is anything else to add before moving on to PVD and lens: every break and finding is right there — another tear, a hole, lattice, or anything from the library — with a list of what is drawn so far.',
+    'Tap one, then tap the fundus (or drag it on); after each one the step comes back, until you tap “That’s all”. The guide is now five steps.',
+    'The Surgical options, Buckle guide, Save PNG and Send for review buttons wait until you have finished adding.',
+  ] },
   { v: '2.1', date: '2026-10-17', title: 'Clearer teaching review', items: [
     'The detachment is compared region by region: what the reviewer added is hatched in magenta, what they took away is hatched in slate, and the other drawing’s border is dashed over it, with the clock hours labelled on the chart (“Missed 8–10”, “Not detached 2–4”).',
     'A missed tear, or anything else the reviewer added, glows with a heavy magenta ring and a label, and pulses when the review opens.',

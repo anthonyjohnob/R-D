@@ -1,7 +1,7 @@
 /* R/D simple layout (modelled on C/D 2.0): the chart fills the top of the screen; a strip under it sums up the
    eye; a dock at the bottom holds one big action and the everyday tools; everything else opens in panels that
    slide up (beside the chart on a computer). It rearranges the classic page's own elements, so every feature keeps
-   working, and the guide carries on by itself: trace → break → PVD → lens → repair options.
+   working, and the guide carries on by itself: trace → break → anything else → PVD → lens.
    ?classic (or the ⋯ menu) brings back the classic layout. */
 (function (root) {
 'use strict';
@@ -183,6 +183,7 @@ root.RDShell = function (X, H) {
   new ResizeObserver(() => placeBelow()).observe(stage);
   window.addEventListener('scroll', () => { if (openId && isBelow(openId) && !desk() && window.scrollY) window.scrollTo(0, 0); }, { passive: true });
   function showSheet(id) {
+    if (id === 'shMore' && parts.grid.parentNode !== moreBody) moreBody.prepend(parts.grid);
     openId = id || null;
     if (id && isBelow(id)) { window.scrollTo(0, 0); }
     for (const s of $$('#sApp .sheet')) s.classList.toggle('open', s.id === id);
@@ -209,7 +210,12 @@ root.RDShell = function (X, H) {
   menuBtn.addEventListener('click', () => showSheet(openId === 'shMenu' ? null : 'shMenu'));
   moreBtn.addEventListener('click', () => { hand.stop(); showSheet('shMore'); });
   // picking a finding in the panel hands control back to the chart
-  parts.grid.addEventListener('click', (e) => { const t = e.target.closest('.pal-tile'); if (t && t.getAttribute('aria-label') !== 'Other findings') setTimeout(() => showSheet(null), 0); });
+  parts.grid.addEventListener('click', (e) => {
+    const t = e.target.closest('.pal-tile');
+    if (!t) return;
+    if (t.getAttribute('aria-label') !== 'Other findings') setTimeout(() => showSheet(null), 0);
+    else if (openId === 'shGuide') setTimeout(() => { showSheet('shMore'); const q = parts.moreBox.querySelector('input'); if (q) q.focus(); }, 0);   // the library needs room
+  });
   parts.moreBox.addEventListener('click', (e) => { if (e.target.closest('.pal-res')) setTimeout(() => showSheet(null), 0); });
   findCard.addEventListener('click', (e) => { if (e.target.closest('.f-title')) setTimeout(closeSheet, 0); });
   // the version chip and "All updates" open the update list in the menu
@@ -362,9 +368,13 @@ root.RDShell = function (X, H) {
   const skips = new Map();
   let skipKey = null, skipCur = new Set(), emptied = false;
   const skip = { has: (k) => skipSet().has(k), add: (k) => skipSet().add(k) };
+  // keyed by the detachment itself, not just its id: ids start again after a clear, so a new drawing can reuse one
+  const rdKey = (rd) => [rd.id, rd.start, rd.end, rd.total ? 1 : 0, rd.macula || '', (rd.pts || []).length].join(':');
   function skipSet() {
     const rd = RD.mainRd(scene());
-    if (rd && rd.id !== skipKey) { if (emptied) skipCur = skips.get(rd.id) || new Set(); skips.set(rd.id, skipCur); skipKey = rd.id; }
+    const k = rd ? rdKey(rd) : null;
+    if (rd && k !== skipKey) { if (emptied) skipCur = skips.get(k) || new Set(); skipKey = k; }
+    if (rd) skips.set(k, skipCur);
     if (rd) emptied = false;
     return skipCur;
   }
@@ -372,19 +382,29 @@ root.RDShell = function (X, H) {
     const sc = scene(), rd = RD.mainRd(sc);
     if (X.getReview() || !rd || rd.cause === 'exudative') return null;
     if (!sc.findings.some(f => RD.BREAK_TYPES.has(f.type))) return null;          // step 2 is the dock's hint
+    if (!skip.has('more')) return 'more';                                         // more breaks and findings before moving on
     if (!sc.pvd && !skip.has('pvd')) return 'pvd';
     if (!sc.lens && !skip.has('lens')) return 'lens';
     return null;
   }
   function renderGuide(step) {
     const sc = scene();
-    const head = (n, title) => el('div', { class: 'flow-head' }, [el('div', {}, [el('div', { class: 'flow-step', text: `Step ${n} of 4` }), el('h3', { text: title })])]);
-    const later = el('button', { type: 'button', class: 'flow-skip', text: 'Later', onclick: () => { skip.add('pvd'); skip.add('lens'); showSheet(null); syncActs(); } });
+    const head = (n, title) => el('div', { class: 'flow-head' }, [el('div', {}, [el('div', { class: 'flow-step', text: `Step ${n} of 5` }), el('h3', { text: title })])]);
+    const later = el('button', { type: 'button', class: 'flow-skip', text: 'Later', onclick: () => { skip.add('more'); skip.add('pvd'); skip.add('lens'); showSheet(null); syncActs(); } });
     let kids;
-    if (step === 'pvd') kids = [head(3, 'Is there a posterior vitreous detachment?'), el('p', { text: 'It changes which repairs the evidence favours.' }),
+    if (step === 'more') {
+      // every break and finding, right here: tap one and tap the fundus, or drag it on; the step comes back after each
+      const drawn = sc.findings.filter(f => f.type !== 'rd').map(f => RD.findingTitle(f, sc.eye));
+      kids = [head(3, 'Anything else to add?'),
+        el('p', { class: 'flow-so-far' }, [el('b', { text: 'So far: ' }), drawn.join(' · ')]),
+        el('div', { class: 'flow-acts' }, [el('button', { type: 'button', class: 'flow-next s-next', text: 'That’s all — next: PVD', onclick: () => { skip.add('more'); syncGuide(true); } }), later]),
+        el('p', { class: 'flow-or', text: 'Or add another tear or hole, lattice, or anything from the library — tap it, then tap the fundus:' }),
+        el('div', { class: 'flow-pal' }, [parts.grid])];
+    }
+    else if (step === 'pvd') kids = [head(4, 'Is there a posterior vitreous detachment?'), el('p', { text: 'It changes which repairs the evidence favours.' }),
       el('div', { class: 'flow-opts' }, X.PVD_OPTS.map(([v, t]) => el('button', { type: 'button', class: 'word', text: t.replace(' PVD', ''), onclick: () => X.setMeta({ pvd: v }) }))),
       el('div', { class: 'flow-acts' }, [el('button', { type: 'button', class: 'flow-skip', text: 'Not known — skip', onclick: () => { skip.add('pvd'); syncGuide(true); } }), later])];
-    else if (step === 'lens') kids = [head(4, 'Lens status?'), el('p', { text: 'Phakic and pseudophakic eyes did differently in the repair trials.' }),
+    else if (step === 'lens') kids = [head(5, 'Lens status?'), el('p', { text: 'Phakic and pseudophakic eyes did differently in the repair trials.' }),
       el('div', { class: 'flow-opts' }, X.LENS_OPTS.map(([v, t]) => el('button', { type: 'button', class: 'word', text: t, onclick: () => X.setMeta({ lens: v }) }))),
       el('div', { class: 'flow-acts' }, [el('button', { type: 'button', class: 'flow-skip', text: 'Skip', onclick: () => { skip.add('lens'); syncGuide(true); } }), later])];
     guideBody.replaceChildren(el('div', { class: 'flow' }, kids));
@@ -395,6 +415,7 @@ root.RDShell = function (X, H) {
     const st = busy ? null : guideStep();
     if (st) { if (force || st !== guideShown || openId !== 'shGuide') renderGuide(st); guideShown = st; if (openId !== 'shGuide') showSheet('shGuide'); }
     else { guideShown = null; if (openId === 'shGuide') showSheet(null); }
+    syncActs();
   }
 
   /* ------------------------------ hooks from hand.js ------------------------------ */
@@ -420,7 +441,9 @@ root.RDShell = function (X, H) {
   }
   let wasDone = false, glowT = 0;
   function syncActs() {
-    const sc = scene(), done = drawingDone(), rv = X.getReview();
+    const sc = scene(), rv = X.getReview();
+    const adding = guideStep() === 'more';                 // still adding findings: the drawing is not done yet
+    const done = drawingDone() && !adding;
     acts.hidden = !done && !rv;
     const O = RD.repairOptions(sc);
     aSurg.hidden = O.state !== 'ok';

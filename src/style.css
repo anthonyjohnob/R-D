@@ -635,6 +635,11 @@ body.simple .pal-tiles .pal-sec { margin-top: 4px; }
 .s-more-body .pal-results { max-height: none; }
 
 /* the guide, the editor, PVD and lens */
+.flow-so-far { font-size: 14px; color: var(--ink-2); }
+.flow-so-far b { color: var(--ink); }
+.flow-or { font-size: 14px; color: var(--ink-2); margin-top: 2px; }
+.flow-pal { margin: 0 -4px; }
+.flow-pal .pal-tiles .pal-tile { background: var(--surface); }
 .flow { border: 1.5px solid color-mix(in srgb, var(--navy) 40%, var(--line)); background: var(--chip-bg); border-radius: 16px; padding: 12px 14px; display: grid; gap: 10px; }
 .flow-step { font: 600 12px var(--font-mono); color: var(--navy); letter-spacing: .04em; text-transform: uppercase; }
 .flow h3 { margin: 2px 0 0; font-size: 18px; line-height: 1.25; }
